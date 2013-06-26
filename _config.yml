@@ -1,3 +1,4 @@
 name: RSF Docs
 pygments: true
-exclude: [layout.conf, generate-site.sh, static]
+source: static
+exclude: [layout.conf, generate-site.sh]
