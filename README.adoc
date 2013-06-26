@@ -7,6 +7,9 @@
 ----
 This repository holds the pages for RSF documentation. We are engaged in an effort to regenerate the old JSPWiki pages with http://www.methods.co.nz/asciidoc/[AsciiDoc] so that they may be maintained with standard version control.
 
+
+Building
+~~~~~~~~
 The build script assumes you have the prerequisites installed: asciidoc and git.
 
 ----
@@ -15,4 +18,14 @@ The build script assumes you have the prerequisites installed: asciidoc and git.
 
 The site pages will be created in the root directory from sources in `source`. Their layout is governed by `source/layout.conf`.
 
+AsciiDoc
+~~~~~~~~
+At first blush, AsciiDoc is just Yet Another Markup Language. There are some nice benefits to using it, however:
+
+. Like http://daringfireball.net/projects/markdown/[Markdown] -- a popular favorite -- it is human-readable plain text
+. It offers many more features than Markdown, such as tables, document meta-data, macros, and a variety of block types
+. In addition to HTML output, it supports PDF, DocBook, EPUB, and others
+
+Website
+~~~~~~~
 This system powers http://rsf.github.io
