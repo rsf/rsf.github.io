@@ -13,6 +13,6 @@ The build script assumes you have the prerequisites installed: asciidoc and git.
 ./generate-site.sh
 ----
 
-The site pages will be created in the `_site` directory. Their layout is governed by `layout.conf`.
+The site pages will be created in the `static` directory. Their layout is governed by `layout.conf`.
 
 This system powers http://rsf.github.io
