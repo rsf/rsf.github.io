@@ -1,0 +1,18 @@
+----
+    ____  _____ ______       __               
+   / __ \/ ___// ____/  ____/ /___  __________
+  / /_/ /\__ \/ /_     / __  / __ \/ ___/ ___/
+ / _, _/___/ / __/    / /_/ / /_/ / /__(__  ) 
+/_/ |_|/____/_/       \__,_/\____/\___/____/  
+----
+This repository holds the pages for RSF documentation. We are engaged in an effort to regenerate the old JSPWiki pages with http://www.methods.co.nz/asciidoc/[AsciiDoc] so that they may be maintained with standard version control.
+
+The build script assumes you have the prerequisites installed: asciidoc and git.
+
+----
+./generate-site.sh
+----
+
+The site pages will be created in the `_site` directory. Their layout is governed by `layout.conf`.
+
+This system powers http://rsf.github.io

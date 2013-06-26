@@ -1,0 +1,9 @@
+RSF -- Reasonable Server Faces
+==============================
+
+An archive of the RSF wiki is link:wiki/Wikib2ab.html[here.]
+
+Our goal is to rebuild the RSF documentation in a source format which can be maintained and published via GitHub.
+We're leaning toward http://www.methods.co.nz/asciidoc/[AsciiDoc] for the source format.
+
+See http://github.com/rsf for source code and project activity.
