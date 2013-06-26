@@ -1,0 +1,88 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!! RIFE templates
+[RIFE|http://rifers.org] is pleasant in many ways, and ranks as a &quot;very near miss&quot; - like [Tapestry], it is one of the enlightened applications which allows pure HTML templating, but also, like Tapestry misses fire in making the structure of the templates somewhat baffling and containing &quot;cryptic&quot; (i.e. hiding in the gaps of the HTML structure) information. For example, here is a RIFE template, taken from chapter 4 of the user guide:
+
+{{{
+&lt;html&gt;
+      &lt;head&gt;&lt;title&gt;Perform a guess&lt;/title&gt;&lt;/head&gt;
+      &lt;body&gt;
+        &lt;p&gt;Guess a number from 0 to 100&lt;/p&gt;
+        &lt;!--V 'warning'--&gt;&lt;!--/V--&gt;
+        &lt;!--B 'invalid'--&gt;
+        &lt;p&gt;&lt;font color=&quot;#990000&quot;&gt;The guess is invalid.&lt;/font&gt;&lt;/p&gt;
+        &lt;!--/B--&gt;
+        &lt;p&gt;&lt;i&gt;&lt;!--V 'indication'--&gt;&lt;!--/V--&gt;&lt;/i&gt;&lt;/p&gt;
+        &lt;!--B 'lower'--&gt;The answer is lower.&lt;!--/B--&gt;
+        &lt;!--B 'higher'--&gt;The answer is higher.&lt;!--/B--&gt;
+        &lt;form action=&quot;[!V 'SUBMISSION:FORM:perform_guess'/]&quot; method=&quot;post&quot;&gt;
+          &lt;!--V 'SUBMISSION:PARAMS:perform_guess'/--&gt;
+          &lt;input type=&quot;text&quot; name=&quot;guess&quot; 
+                 value=&quot;[!V 'PARAM:guess'][!/V]&quot; /&gt;&lt;br /&gt;
+          &lt;input type=&quot;submit&quot; value=&quot;Guess&quot; /&gt;&lt;br /&gt;
+        &lt;/form&gt;
+        &lt;script language=&quot;javascript&quot;&gt;document.forms[0].guess.focus();&lt;/script&gt;
+      &lt;/body&gt;
+    &lt;/html&gt;
+}}}
+
+As you can see, RIFE uses a slightly offputting syntax for encoding special information in HTML/XML comments. Not only that, but you can see from the form of some of the entries, e.g. {{[[!V 'SUBMISSION:FORM:perform_guess'/]]}} and {{[[!V 'PARAM:guess']]}} that there is clearly some EL-like scheme to allow these entries to refer into a data model, which forever couples this presentation file with the logical structure of the app. Another issue is that the nesting model of the comments does not seem to be tied to the tag structure of the document - the parser has a somewhat Velocity-like ignorance of the content between its special markup. This may give some extra expressive power in awkward situations, but probably allows too much scope for accidental creation of invalid templates. However, the simpler entries are slightly reminiscent of the IKAT scheme, e.g. the &quot;B&quot; comments play the role of peers of RSF &quot;leaf&quot; components - {{&lt;!--B 'lower'--&gt;The answer is lower.&lt;!--/B--&gt;}} might be rendered in RSF as {{&lt;div rsf:id=&quot;lower&quot;&gt;The answer is lower&lt;/div&gt;}}.
+
+As a general summary though, RIFE templates seem too fragile to be safely let loose in the hands of general HTML developers, and also do indeed couple presentation and logic together.
+
+!! RIFE ORM
+RIFE actually positions itself as a &quot;one-stop shop&quot; for web applications, in that it contains its own ORM infrastructure that could be seen to directly compete against standalone solutions such as Hibernate, JDO and IBatis. I haven't looked at the details, but this actually might be relatively nice - the syntax appears a &quot;genericised&quot;, type-safe rendering very close to the underlying SQL, e.g. 
+{{{
+   public void add(Friend friend)
+    throws DatabaseException
+    {
+      Insert insert = new Insert(getDatasource());
+      insert
+        .into(&quot;Friend&quot;)
+        .fieldsParameters(Friend.class);
+ 
+      DbPreparedStatement insert_stmt = getPreparedStatement(insert);
+      insert_stmt.setBean(friend);
+      insert_stmt.executeUpdate();
+    }
+}}}
+I always felt that Hibernate just did &quot;a little too much&quot;, and all one really wanted was a scheme, that, like this, simply automated the tedium of converting JDBCResultSets to and from POJOs, and abstracted over the obnoxious variety of SQL dialects. However, Hibernate proxying and laziness tricks do seem to offer powerful potential benefits in some scenarios...
+
+!! RIFE webapp
+
+RIFE falls down IMO in the global picture in being full of odd sorts of configuration files, and imposing dependence on the framework in too many parts of the code (Elements, Participants, etc.).
+e.g. this sort of code (taken from section 3.9 of the RIFE manual):
+
+{{{
+import com.uwyn.rife.engine.Element;
+    public class Guess extends Element {
+[[lines omitted]]
+      public void processElement()
+      {
+        Game game = Contest.getGame(getInput(&quot;gameid&quot;));
+        if (null == game)
+        {
+          exit(&quot;start&quot;);
+        }
+    
+        mTemplate = getHtmlTemplate(&quot;guess&quot;);
+[[lines omitted]]
+}}}
+firmly marks RIFE as one of the &quot;1st-generation&quot; &quot;beanless&quot; frameworks (in contrast to JSF and WebWorks). The {{getHtmlTemplate}} call marks a particularly egregious coupling. However, all this is moot in the face of the most marvellous invention, being ''[RIFE Continuations|RIFEContinuations]''. For code which implements a continuation it is quite acceptable to be coupled to a framework interface, since the code simply cannot function without framework support. Since the RIFE project has admirable unbundled its continuations library from the rest of its framework, and is being rapidly deployed throughout the community (WebWork announces support as of 9/2005). This part of the framework would also be a valuable and highly complementary asset to RSF.
+
+!!Comments
+Notes from Geert Bevin (Lead developer of RIFE) : RIFE is totally bean driven, but not solely so. This example is just one that doesn't use the bean-related features. Also, it supports both IoC and service lookup so that you can use what's the most appropriate for your situation. Templates (just like most things) can be injected through properties or looked up explicitly. This example just looks it up explicitly.
+
+Response from Antranig Basman : Thanks for the comments, and for dropping by, Geert. My point about the &quot;template&quot; issue is that whether injected or looked up, the manipulation of the template still marks a serious framework coupling since it is being done through direct coding. In general I find that one can't become any kind of RIFE citizen without at least becoming an &quot;Element&quot;, and even the &quot;bean-driven&quot; example, the &quot;Friends listing&quot; app doesn't contain any framework-free code - even the &quot;Friend&quot; &quot;bean&quot; implements the framework Validation interface. Also, IoC in RIFE seems not to be first-class yet - is there a more recent status summary than this page? [http://rifers.org/wiki/display/RIFE/Add+full+IoC+support]
+
+</pre>
+

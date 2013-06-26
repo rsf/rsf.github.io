@@ -1,0 +1,85 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!! Pure XHTML templating
+
+[RSF] provides pure XHTML templating to the developer and the designer. This is achieved using the [IKAT] renderer which can operate standalone or as an integral part of the RSF framework.
+
+!! Major Benefits
+* Truly pure XHTML - No custom tags or tag libraries to maintain or teach to your designers
+* Easy layout changes - Modifications to the page layout do not have to affect the Java source code!
+* Division of labor - User experience and web designers can create XHTML mockups which become the application
+* Designer focus - CSS and [AJAX] work seamlessly in the templates and can both be handled by the designer
+* Valid HTML - Pages are as accessible and well formatted as your templates
+* Reloadable templates - Templates can be changed and will reload automatically without webapp redeployment or server restarts
+
+!! Sample RSF-ized XHTML template
+
+{{{
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+     &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+&lt;html xmlns:rsf=&quot;http://ponder.org.uk/rsf&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;
+   &lt;title&gt;RSF sample&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+   &lt;h1 rsf:id=&quot;user-name&quot;&gt;Hello UserName&lt;/h1&gt;
+   &lt;span rsf:id=&quot;current-date&quot;&gt;Today is 1/1/2006&lt;/span&gt;&lt;br/&gt;
+   &lt;table&gt;
+      &lt;tr rsf:id=&quot;item-row:&quot;&gt;
+        &lt;td rsf:id=&quot;item-value&quot;&gt;item value here&lt;/td&gt;
+      &lt;/tr&gt;
+   &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+}}}
+
+* No custom tags, only 1 custom attribute, the __rsf:id__
+* Uses convention over configuration for rsf:ids
+** string indicates a standard rsf:id which causes dynamic information to be placed in a view (e.g. user-name)
+** string with &quot;:&quot; indicates a loop structure (i.e. branch container) (e.g. item-row:)
+** string preceded with &quot;scr=&quot; indicates a custom RSF processing action (e.g. scr=portal-matter)
+
+!! Benefits in depth
+
+! Truly pure XHTML
+* No custom tags or tag libraries to maintain or teach to your designers
+* Only 1 custom attribute, the __rsf:id__, which can be placed on any HTML tag
+** __NOTE:___ rsf:ids will NOT appear in the the HTML sent to the user, only in your functional templates
+* Custom DTD {{{ xmlns:rsf=&quot;http://ponder.org.uk/rsf&quot; }}} you can optionally use if you do not want to be warned about the rsf:id attributes by a validator
+
+! Easy layout changes
+* Modifications to the page layout do not have to affect the Java source code!
+* Designers can adjust the UI without developers having to get involved
+** As long as the data on the page remains consistent your designers can continue to do layout tweaks
+
+! Division of labor
+* User experience and web designers can create XHTML mockups which become the application
+* Developers take the mockups and turn them in a functional app by creating RSF producers to handle rendering logic and standard Java beans to handle processing
+* Designers can then update templates (possibly even while developers are working on the Java code)
+* The rsf:ids become a &quot;common laguage&quot; which the designers and developers use to refer to dynamic content
+
+! Designer focus
+* CSS and [AJAX] work seamlessly in the templates and can both be handled by the designer
+* Easy to modify template using Dreamweaver or your favorite HTML editor
+** No custom editing environments to learn or install
+
+! Valid HTML
+* RSF enforces properly formatted XML in templates and provides detailed messages which indicate where improperly formatted lines occur
+* Pages are as accessible and well formatted as your templates
+
+! Reloadable templates
+* Templates can be changed and will reload automatically without webapp redeployment or server restarts
+* Minor corrections to errors on pages can be made quickly and easily
+* Designers can adjust working apps in real time in response to user needs
+
+</pre>
+

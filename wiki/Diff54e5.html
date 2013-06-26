@@ -1,0 +1,965 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html id="top" xmlns="http://www.w3.org/1999/xhtml">
+
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=HibernateCookBook&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+    RSF Wiki: HibernateCookBook
+  </title>
+  
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" media="screen, projection, print" type="text/css"
+     href="templates/default/jspwiki.css"/>
+
+<link rel="stylesheet" type="text/css" media="print" 
+     href="templates/default/jspwiki_print.css" />
+<!-- INCLUDERESOURCES (stylesheet) -->
+
+<!-- INCLUDERESOURCES (inlinecss) -->
+
+
+
+<noscript>
+<style type="text/css">
+#hiddenmorepopup { display:block; }
+</style>
+</noscript>
+
+
+<script type="text/javascript" src="scripts/mootools.js"></script>
+<script type="text/javascript" src="scripts/prettify.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-common.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-commonstyles.js"></script>
+<!-- INCLUDERESOURCES (script) -->
+
+
+
+
+
+<meta name="wikiContext" content='diff' />
+<meta name="wikiBaseUrl" content='http://rsf.fluidproject.org/wiki/' />
+<meta name="wikiPageUrl" content='/wiki/Wiki.jsp?page=%23%24%25' />
+<meta name="wikiEditUrl" content='/wiki/Edit.jsp?page=HibernateCookBook' />
+<meta name="wikiJsonUrl" content='/wiki/JSON-RPC' />
+<meta name="wikiPageName" content='HibernateCookBook' />
+<meta name="wikiUserName" content='207.119.0.6' />
+<meta name="wikiTemplateUrl" content='/wiki/templates/default/' />
+<meta name="wikiApplicationName" content='RSF Wiki' />
+
+<script type="text/javascript">//<![CDATA[
+/* Localized javascript strings: LocalizedStrings[] */
+var LocalizedStrings = {
+"javascript.edit.allsections":"( All )",
+"javascript.slimbox.error":"<h2>Error</h2>There was a problem with your request.<br />Please try again",
+"javascript.slimbox.remoteRequest":"Remote Request {0} of {1}",
+"javascript.slimbox.close":"Close &#215;",
+"javascript.quick.edit":"[Edit]",
+"javascript.sort.descending":"Descending order. Click to reverse sort order",
+"javascript.expand":"Click to expand",
+"javascript.group.validName":"Please provide a valid name for the new Group",
+"javascript.slimbox.next":"Next&raquo;",
+"javascript.filter.all":"( All )",
+"javascript.edit.areyousure":"Without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.quick.edit.title":"Edit section {0}...",
+"javascript.slimbox.directLink":"Direct Link to the target",
+"javascript.prefs.areyousure":"Without clicking the Save User Preferences button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.sbox.clone.suffix":"-New",
+"javascript.slimbox.info":"Image {0} of {1}",
+"javascript.tip.default.title":"More...",
+"javascript.edit.resize":"Drag to resize the text area",
+"javascript.edit.findandreplace.nomatch":"No match found!",
+"javascript.sort.ascending":"Ascending order. Click to reverse sort order",
+"javascript.slimbox.close.title":"Close [Esc]",
+"javascript.edit.toolbar.makeSelection":"Please make first a selection.",
+"javascript.favs.hide":"Click to hide Favorites",
+"javascript.sectionediting.label":"Section Overview",
+"javascript.slimbox.previous":"&laquo;Previous",
+"javascript.favs.show":"Click to show Favorites",
+"javascript.collapse":"Click to collapse",
+"javascript.category.title":"Click to show category [{0}] ...",
+"javascript.sort.click":"Click to sort",
+"javascript.edit.startOfPage":"( Start of page )"
+};
+
+
+/* INCLUDERESOURCES (jsfunction) */
+
+//]]></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="search" href="Wiki702d.html?page=FindPage"
+    title='Search RSF Wiki' />
+<link rel="help"   href="Wikia3b7.html?page=TextFormattingRules"
+    title="Help" />
+
+ <link rel="start"  href="Wikib2ab.html?page=Main"
+    title="Front page" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki_print.css"
+    title="Print friendly" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki.css"
+    title="Standard" />
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+<link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  
+    <meta name="robots" content="noindex,nofollow" />
+  
+  
+    <meta name="robots" content="noindex,follow" />
+  
+</head>
+
+<body class="view">
+
+<div id="wikibody" class="fav-left">
+ 
+  
+
+
+
+
+
+
+<div id="header">
+
+  <div class="titlebox"></div>
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=HibernateCookBook" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=HibernateCookBook"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+
+  <div class="pagename">HibernateCookBook</div>
+
+  <div class="searchbox">
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Search.jsp"
+        class="wikiform"
+           id="searchForm" accept-charset="UTF-8">
+
+  <div style="position:relative">
+  <input onblur="if( this.value == '' ) { this.value = this.defaultValue }; return true; "
+        onfocus="if( this.value == this.defaultValue ) { this.value = ''}; return true; "
+           type="text" value="Quick Navigation"
+           name="query" id="query"
+           size="20" 
+      accesskey="f" />
+  <button type="submit"
+  		 name="searchSubmit" id="searchSubmit"
+  		value="Go!"
+  		title="Go!"></button>
+  </div>
+  <div id="searchboxMenu" style='visibility:hidden;'>
+    <div id="searchTools">
+      <a href="#" id='quickView' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Wiki.jsp?page=__PAGEHERE__','View the selected page' );"
+        title="View the selected page">view</a>
+      <a href="#" id='quickEdit' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__','Edit the selected page' );"
+        title="Edit the selected page">edit</a>
+      <a href="#" id='quickClone' class='action'	
+      onclick="return SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__', 'Clone the selected page', true );"
+        title="Clone the selected page">clone</a>
+      <a href="#" id="advancedSearch" class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Search.jsp?query=__PAGEHERE__','HibernateCookBook' )"
+        title="Advanced Search [ f ]">find</a>
+    </div>
+    <div id="searchResult" >
+	  Quick search
+      <span id="searchTarget" >(type ahead)</span>
+      <span id="searchSpin" class="spin" style="position:absolute;display:none;"></span>
+	  <div id="searchOutput" ></div>
+    </div>
+    <div id="recentSearches" style="display:none;">
+      Recent Searches
+      <span><a href="#" id="recentClear">(Clear)</a></span>
+    </div>
+  </div>
+
+</form></div>
+
+  <div class="breadcrumbs">Your trail:&nbsp;<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UserNameTag">UserNameTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ValueBinding">ValueBinding</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VariableTag">VariableTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VeryLazyBeans">VeryLazyBeans</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewID">ViewID</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewRender">ViewRender</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogEntryPlugin">WeblogEntryPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogPlugin">WeblogPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WikiFormsExampleText">WikiFormsExampleText</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=XPP">XPP</a></div>
+
+</div>
+
+  <div id="content">
+
+    <div id="page">
+      
+
+
+
+
+
+<div id="actionsTop" class="pageactions"> 
+  <ul>
+
+    
+    
+    
+
+    
+    <li id="morebutton">
+      <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=MoreMenu" class="action more">More...</a>
+    </li>
+
+  </ul>
+</div>
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="tabmenu">
+
+  
+
+  
+
+  
+  
+
+  
+
+  <a id="menu-pagecontent" href='http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook' accesskey="v" ><span class='accesskey'>V</span>iew</a>
+
+  <a id="menu-attach" accesskey="a" ><span class='accesskey'>A</span>ttach (1)</a>
+
+  
+  <a class="activetab" id="menu-info" accesskey="i" ><span class='accesskey'>I</span>nfo</a>
+
+  </div>
+<div class="tabs">
+
+  <div id="pagecontent" class="hidetab" >
+
+      
+  </div>
+
+
+  <div id="attach" class="hidetab" >
+
+    
+
+
+
+
+
+
+
+
+
+
+<div id="addattachment">
+<h3>Add new attachment</h3>
+
+
+<div class="formhelp">Only authorized users are allowed to upload new attachments.</div>
+
+</div>
+
+
+
+<h3>List of attachments</h3>
+
+  
+
+  
+
+  <div class="zebra-table"><div class="slimbox-img sortable">
+  <table class="wikitable">
+    <tr>
+      <th>Kind</th>
+      <th>Attachment Name</th>
+      <th>Size</th>
+      <th>Version</th>
+      <th>Date Modified</th>
+      <th>Author</th>
+      
+      <th class="changenote">Change note</th>
+    </tr>
+
+    
+    
+    <tr>
+      <td><div id="attach-png" class="attachtype">png</div></td>
+      <td><a class="attachment" href="http://rsf.fluidproject.org/wiki/attach/HibernateCookBook/MySQL-install.png" accesskey="" title="MySQL-install.png">MySQL-install.png</a></td>
+      <td style="white-space:nowrap;text-align:right;">
+        48.6&nbsp;kB
+      </td>
+      <td style="text-align:center;">
+        <a href="http://rsf.fluidproject.org/wiki/PageInfo.jsp?page=HibernateCookBook/MySQL-install.png" title="Attachment info and version history">1</a>
+      </td>
+	  <td style="white-space:nowrap;" sortvalue="Wed, 19 Jul 2006 09:36:21">
+	  19-Jul-2006 09:36
+	  </td>
+      <td><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=AntranigBasman">AntranigBasman</a></td>
+      
+      <td class="changenote">
+      
+      </td>
+    </tr>
+    
+
+  </table>
+  </div></div>
+
+
+
+  </div>
+
+
+  
+  <div id="info" >
+
+  <p>
+  This page (revision-1) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=HibernateCookBook&amp;r1=-1&amp;r2=1"
+        title="Show changes of last page update" >
+        11-Jan-2007 13:34
+      </a> by UnknownAuthor
+
+  
+  </p>
+
+  
+
+  
+  
+      <p>Only authorized users are allowed to rename pages.</p>
+  
+
+  
+  
+      <p>Only authorized users are allowed to delete pages.</p>
+  
+
+  <div class="collapsebox-closed" id="incomingLinks">
+  <h4>Incoming links</h4>
+    <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook" accesskey="" title="">HibernateCookBook</a>
+    <ul><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ActionResultInterpreter">ActionResultInterpreter</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_1">HibernateCookBook_1</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_2">HibernateCookBook_2</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_3">HibernateCookBook_3</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_4">HibernateCookBook_4</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Integrations">Integrations</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=NumberGuessing_3">NumberGuessing_3</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=OuterPageTemplates">OuterPageTemplates</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RSFPortlet">RSFPortlet</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Roadmap">Roadmap</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SampleRSFApps">SampleRSFApps</a>
+</li></ul>
+  </div>
+
+  <div class="collapsebox-closed" id="outgoingLinks">
+  <h4>Outgoing links</h4>
+    <div class="ReferredPagesPlugin">
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook" title="ReferredPagesPlugin: depth[1] include[.*] exclude[^$] format[compact]">HibernateCookBook</a>
+<ul>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ComponentProducer">ComponentProducer</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook/MySQL-install.png">HibernateCookBook/MySQL-install.png</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_1">HibernateCookBook_1</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_2">HibernateCookBook_2</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_3">HibernateCookBook_3</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_4">HibernateCookBook_4</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ScriptedVSCodedWebapps">ScriptedVSCodedWebapps</a></li>
+</ul>
+</div>
+
+  </div>
+
+  <div class="clearbox"></div>
+
+  
+  
+     
+
+
+
+
+
+
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Diff.jsp" method="get" accept-charset="UTF-8">
+<div class="collapsebox" id="diffcontent">
+  <h4>
+       <input type="hidden" name="page" value="HibernateCookBook" />
+       Difference between version <select id="r1" name="r1" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select> and <select id="r2" name="r2" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select>
+  </h4>
+
+  
+
+  <div class="diffbody">
+    <table class="diff" border="0" cellspacing="0" cellpadding="0">
+<tr><td class="diff">At line 1 added 150 lines</td></tr>
+<tr><td class="diffadd">The initial [rather lengthy|ScriptedVSCodedWebapps] introduction to this article examined the battle between the two major camps of webapp developers (which could be described as &quot;Scripted&quot; vs. &quot;Coded&quot;) in more depth than anybody who came here for a quick tutorial would be interested in. However, they would have gained from it the following points:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">* RSF aims to bridge the gap between the scripted and coded camps, allowing styles similar to scripted webapps to be used for simpler or early-stage projects, with a clear transition path to mature coded solutions.</td></tr>
+<tr><td class="diffadd">* In this tutorial we will demonstrate the full power of the Java open source community in the form of Spring, Hibernate and Maven brought to bear on the simple Ruby on Rails &quot;cookbook&quot; application, while seeing these sometimes uneasy partners cooperate seamlessly in an environment based on pure HTML templates and XML configuration files. In fact, this application will be implemented without %%(color:red) one single line of Java code %%. Yes, you heard that right!</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">This sample will follow the [&quot;Rolling with Ruby on Rails&quot;|http://www.onlamp.com/pub/a/onlamp/2005/01/20/rails.html?page=1] sample app, implementing the same functionality in a Java environment. Skip straight to [page 4|HibernateCookBook_4] to see the pure Java version of the app - the initial development uses the XML strategy for component definition.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The RSF SVN repository includes several versions of this project, which show off different styles of working with RSF.</td></tr>
+<tr><td class="diffadd">|Project name|Description</td></tr>
+<tr><td class="diffadd">|[HibernateCookbook-basic|https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernateCookbook/trunk/basic/]|Most basic project defining one entity (Recipe) together with static XML and HTML views. Suitable for copying to use as a &quot;base project&quot; for new RSF-Hibernate projects</td></tr>
+<tr><td class="diffadd">|[HibernateCookbook-xmlcategory|https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernateCookbook/trunk/xmlcategory/]|&quot;Completed&quot; project with the final functionality of the ROR project, using XML producers. Two entities, &quot;Recipe&quot; and &quot;Category&quot;, shows how to use RSF (HTML) selection controls to operate directly on a Hibernate bean model.</td></tr>
+<tr><td class="diffadd">|[HibernateCookbook-javacategory|https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernateCookbook/trunk/javacategory-code/]|A reworking of the finished &quot;category&quot; project, using pure Java ViewProducers rather than XML files, the path that might be taken for a more complex project. This project is actually factored into three Maven artifacts, category-datamodel, javacategory-code and javacategory-webapp - consult [page 5|HibernateCookBook_4] for details.</td></tr>
+<tr><td class="diffadd">|[HibernateCookbook-xsl|https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernateCookbook/trunk/javacategory/]|Shows the &quot;basic&quot; project, autogenerated from nothing but the Hibernate .hbm mapping files using XSL transforms. A suitable strategy to &quot;kick-start&quot; a project with a complex entity model, or where it is to be prototyped or maintained by non-developers. (TBA)</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">In fact, while the XML strategy for defining [view components|ComponentProducers] can offer crucial flexibility in some situations, it's imagined that the majority of RSF users will want to go with pure Java producers. XML producers and Java producers are generally in one-for-one correspondance - we will first generate the complete app using the XML style, and then on the final page rework it in a Java form that is more compact and efficient. Note that view producers will in general be the only dependence in application code on the RSF framework, and the fact that these generally define &quot;pure data&quot; that could equally well be represented in XML indicates that this is a very light kind of dependence.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!! First, choose a database</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Like the ROR example, we will begin by installing a database. We choose [MySQL|http://www.mysql.com/] since it is common in production environments, and is now quite straightforward to install. Other possibilities are Postgres, or for low-profile deployments there is Apache's excellent [Derby|http://db.apache.org/derby/] (formerly IBM Cloudscape). Hibernate has drivers for [all popular databases|http://www.hibernate.org/80.html], so take your pick.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The most recent version of MySQL at the time of writing was [5.0.18|http://dev.mysql.com/downloads/mysql/5.0.html] - we used the [Windows Essentials|http://dev.mysql.com/doc/refman/5.0/en/windows-installation.html] distribution. Using a different database is just a matter of changing Hibernate configuration files.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">[{Image src='HibernateCookBook/MySQL-install.png' align='center'}]</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The sample code for this project in [SVN|https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernateCookbook/trunk/basic/] assumes that the database was set up with an &quot;anonymous account&quot; option. </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">We use Hibernate together with Spring (naturally, for a Spring-based framework such as RSF), so instead of using Hibernate's property file syntax, we configure Hibernate using two beans in the application's ''applicationContext.xml'' file, being a ''dataSource'' specifying details of the database connection at the JDBC level, and the Hibernate ''sessionFactory''. </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The two beans required to connect to our default anonymous MySQL instance are reproduced below, taken from the full [applicationContext.xml|https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernateCookbook/trunk/basic/src/webapp/WEB-INF/applicationContext.xml]  file:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd"> &lt;!--  Configure the Hibernate SessionFactory bean with a basic data source</td></tr>
+<tr><td class="diffadd">    pointing at our database  --&gt;</td></tr>
+<tr><td class="diffadd">  &lt;bean id=&quot;dataSource&quot; class=&quot;org.apache.commons.dbcp.BasicDataSource&quot;</td></tr>
+<tr><td class="diffadd">    destroy-method=&quot;close&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;driverClassName&quot;&gt;</td></tr>
+<tr><td class="diffadd">      &lt;value&gt;com.mysql.jdbc.Driver&lt;/value&gt;</td></tr>
+<tr><td class="diffadd">    &lt;/property&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;url&quot;&gt;</td></tr>
+<tr><td class="diffadd">      &lt;value&gt;jdbc:mysql://localhost:3306/hibernatecookbook&lt;/value&gt;</td></tr>
+<tr><td class="diffadd">    &lt;/property&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;username&quot;&gt;</td></tr>
+<tr><td class="diffadd">      &lt;value&gt;&lt;/value&gt;</td></tr>
+<tr><td class="diffadd">    &lt;/property&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;password&quot;&gt;</td></tr>
+<tr><td class="diffadd">      &lt;value&gt;&lt;/value&gt;</td></tr>
+<tr><td class="diffadd">    &lt;/property&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/bean&gt;</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">  &lt;bean id=&quot;sessionFactory&quot;</td></tr>
+<tr><td class="diffadd">    class=&quot;org.springframework.orm.hibernate.LocalSessionFactoryBean&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;dataSource&quot;&gt;</td></tr>
+<tr><td class="diffadd">      &lt;ref bean=&quot;dataSource&quot; /&gt;</td></tr>
+<tr><td class="diffadd">    &lt;/property&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;mappingLocations&quot;&gt;</td></tr>
+<tr><td class="diffadd">      &lt;value&gt;classpath:conf/**.hbm.xml&lt;/value&gt;</td></tr>
+<tr><td class="diffadd">    &lt;/property&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;hibernateProperties&quot;&gt;</td></tr>
+<tr><td class="diffadd">      &lt;props&gt;</td></tr>
+<tr><td class="diffadd">        &lt;prop key=&quot;hibernate.dialect&quot;&gt;</td></tr>
+<tr><td class="diffadd">          net.sf.hibernate.dialect.MySQLDialect</td></tr>
+<tr><td class="diffadd">        &lt;/prop&gt;</td></tr>
+<tr><td class="diffadd">        &lt;prop key=&quot;hibernate.show_sql&quot;&gt;true&lt;/prop&gt;</td></tr>
+<tr><td class="diffadd">        &lt;!-- Always drop and recreate the database schema on startup --&gt;</td></tr>
+<tr><td class="diffadd">        &lt;prop key=&quot;hbm2ddl.auto&quot;&gt;update&lt;/prop&gt;</td></tr>
+<tr><td class="diffadd">      &lt;/props&gt;</td></tr>
+<tr><td class="diffadd">    &lt;/property&gt;</td></tr>
+<tr><td class="diffadd">    &lt;!-- Always drop and recreate the database schema on startup --&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;schemaUpdate&quot;&gt;&lt;value&gt;true&lt;/value&gt;&lt;/property&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/bean&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Deploying a Hibernate app requires a great deal more in the way of supporting libraries than a simple RSF app. Luckily, maven makes this easy - rather than figure this out from scratch, simply use the standard [project.xml|https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernateCookbook/trunk/basic/project.xml] file for our basic project which will automatically populate your Maven repository and deployed project with the correct jars. I have also usefully commented the purposes and requirers of each of the dependencies.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">We use Hibernate 2.x since the Hibernate 3.x toolset is still unstable (3.1 beta 4 at time of writing), and crucially is lacking support for Maven 1.x in the hbm2java task we will use in the next section.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!! In the beginning, there was the .hbm file</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">While the ROR version of this app is built directly on the database schema, we will take a step backwards in abstraction and take advantage of the considerable insulation and portability that Hibernate offers us. Moving your app to another database and environment is as easy as changing your Hibernate configuration file - putting first-class support for a vast plethora of second-level cache and Enterprise architectures and virtually every popular database dialect within easy reach. By comparison, ROR's &quot;ActiveRecord&quot; ORM solution while initially slick, is ultimately much more limited. While being &quot;configuration-free&quot; as ROR advertises brings startup time down to zero, later on in a project the lack of explicitness will bite with a vengeance - browse over to [The Persistence Showdown|http://www.theserverside.com/articles/article.tss?l=RailsHibernate] for a lowdown on the pros and cons. RSF is &quot;as configuration free&quot; as possible, but no more free than that. </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Anyone needing a quick start with Hibernate could consult this tutorial by [Michael Gloegl|http://www.gloegl.de/5.html], the ultimate reference of course being the [Hibernate documentation|http://www.hibernate.org/hib_docs/v3/reference/en/html/index.html].</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Hibernate is designed with a very broad range of workflows in mind, as regards specification and construction of the schema. The following [ONJava article|http://www.onjava.com/pub/a/onjava/2005/12/14/hibernate-class-generation-with-hbm2java.html] by John Ferguson Smart outlines a few of them - we will choose the last of those he mentions, based on using Hibernate's &quot;.hbm&quot; mapping file as the starting point and authoritative specification of our data model. This approach has many advantages, which Johnathan outlines in some detail.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The .hbm file will tie down once and for all the relationship between Java types and SQL, so let us write it with no further ado. If you are building this app from scratch, download, unpack and rename the &quot;HelloWorld&quot; app and type the following into {{/WEB-INF/cookbook.hbm.xml}} - </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">&lt;?xml version=&quot;1.0&quot;?&gt;</td></tr>
+<tr><td class="diffadd">&lt;!DOCTYPE hibernate-mapping PUBLIC</td></tr>
+<tr><td class="diffadd">  &quot;-//Hibernate/Hibernate Mapping DTD 2.0//EN&quot;</td></tr>
+<tr><td class="diffadd">  &quot;http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd&quot;&gt;</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">&lt;hibernate-mapping package=&quot;uk.org.ponder.rsf.cookbook&quot;&gt;</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">  &lt;class name=&quot;Recipe&quot; table=&quot;recipe&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;id name=&quot;id&quot; type=&quot;int&quot;&gt;</td></tr>
+<tr><td class="diffadd">      &lt;generator class=&quot;native&quot; /&gt;</td></tr>
+<tr><td class="diffadd">    &lt;/id&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;title&quot; type=&quot;string&quot; not-null=&quot;true&quot; length=&quot;255&quot; /&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;description&quot; type=&quot;string&quot; length=&quot;255&quot; /&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;date&quot; type=&quot;date&quot; /&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;instructions&quot; type=&quot;string&quot; /&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/class&gt;</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">&lt;/hibernate-mapping&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">This specifies the database schema that will be in effect by the time you reach figure 34 of [page 3|http://www.onlamp.com/pub/a/onlamp/2005/01/20/rails.html?page=3] of the ROR example, although in a somewhat more portable way.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The next step is to embody this schema at both ends - both as Java code and as a database table. Luckily, Hibernate comes supplied with tools to perform this automatically, making good on our promise of IDE-free development. The tool to automatically generate Java classes from {{.hbm}} is part of the standard Hibernate distribution called hbm2java, for which there is useful tutorial at [OnJava|http://www.onjava.com/pub/a/onjava/2005/12/14/hibernate-class-generation-with-hbm2java.html], which explains the basic idea. Ant is fully integrated with Maven 1.x, so we can invoke the hbm2java task with the following [maven.xml|https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernateCookbook/trunk/basic/maven.xml] definition:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  &lt;goal name=&quot;generate-hibernate-javamodel&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;j:set var=&quot;hibernate.cfg.xml&quot;</td></tr>
+<tr><td class="diffadd">      value=&quot;${basedir}/src/conf/hibernate.cfg.xml&quot; /&gt;</td></tr>
+<tr><td class="diffadd">    &lt;j:set var=&quot;generated.hbm&quot; value=&quot;${basedir}/src/conf/&quot; /&gt;</td></tr>
+<tr><td class="diffadd">    &lt;j:set var=&quot;generated.sources&quot;</td></tr>
+<tr><td class="diffadd">      value=&quot;${basedir}/src/generated-java/&quot; /&gt;</td></tr>
+<tr><td class="diffadd">    &lt;echo&gt;${generated.sources}&lt;/echo&gt;</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">    &lt;ant:taskdef name=&quot;hbm2java&quot;</td></tr>
+<tr><td class="diffadd">      classname=&quot;net.sf.hibernate.tool.hbm2java.Hbm2JavaTask&quot;</td></tr>
+<tr><td class="diffadd">      classpathref=&quot;maven.dependency.classpath&quot; /&gt;</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">    &lt;ant:hbm2java output=&quot;${generated.sources}&quot;&gt;</td></tr>
+<tr><td class="diffadd">      &lt;ant:fileset dir=&quot;${generated.hbm}&quot;&gt;</td></tr>
+<tr><td class="diffadd">        &lt;ant:include name=&quot;**/*.hbm.xml&quot; /&gt;</td></tr>
+<tr><td class="diffadd">      &lt;/ant:fileset&gt;</td></tr>
+<tr><td class="diffadd">    &lt;/ant:hbm2java&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/goal&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">This task is set up to read all hibernate mapping files from our {{conf}} directory and output corresponding .java files for each entity into the {{generated-java}} directory.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Invoke it using the command line</td></tr>
+<tr><td class="diffadd">%%( background-color: #ffc0c0; border: 1px dotted black; padding: 0.2em; )</td></tr>
+<tr><td class="diffadd">{{maven generate-hibernate-javamodel}}</td></tr>
+<tr><td class="diffadd">%%</td></tr>
+<tr><td class="diffadd">issued from the project root.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Voila!! The [only java code|https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernateCookbook/trunk/basic/src/generated-java/uk/org/ponder/rsf/cookbook/Recipe.java]  we will use in our project has just been automatically written for us.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Read on to see how we will generate our first views and templates.</td></tr>
+<tr><td class="diffadd">----</td></tr>
+<tr><td class="diffadd">Head   - Hibernate Cookbook\\</td></tr>
+<tr><td class="diffadd">Page 1 - [Query beans, templates and views|HibernateCookBook_1]\\</td></tr>
+<tr><td class="diffadd">Page 2 - [Switches, Replicators and transit beans|HibernateCookBook_2]\\</td></tr>
+<tr><td class="diffadd">Page 3 - [The main app - entity selectors and Javascript|HibernateCookBook_3]\\</td></tr>
+<tr><td class="diffadd">Page 4 - [Let's hear that one more time - this time in Java|HibernateCookBook_4]\\</td></tr>
+<tr><td class="diffadd">----</td></tr>
+</table>
+ 
+  </div>
+</div>
+</form>
+
+  
+  
+
+	
+    
+    
+
+    
+
+    <div class="zebra-table sortable table-filter">
+    <table class="wikitable" >
+      <tr>
+        <th>Version</th>
+        <th>Date Modified</th>
+        <th>Size</th>
+        <th>Author</th>
+        <th>Changes ...</th>
+        <th class='changenote'>Change note</th>
+      </tr>
+
+      
+      
+      <tr>
+        <td>
+          <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook&amp;version=-1" accesskey="" title="">
+            
+          </a>
+        </td>
+
+	    <td style="white-space:nowrap;" sortvalue="Thu, 11 Jan 2007 01:34:18">
+        11-Jan-2007 13:34
+        </td>
+        <td style="white-space:nowrap;text-align:right;">
+          
+          12.976&nbsp;kB
+        </td>
+        <td>UnknownAuthor</td>
+
+        <td>
+          
+
+          
+        </td>
+
+         <td class="changenote">
+           
+           
+         </td>
+
+      </tr>
+      
+      
+
+    </table>
+    </div>
+    
+    
+  </div>
+
+
+  <div style="clear:both;" ></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+<div id='actionsBottom' class="pageactions"> 
+    
+
+    <a href="#top" 
+      class="action quick2top" 
+      title="Go to top" >&laquo;</a>
+
+    
+       This page (revision-) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=HibernateCookBook&amp;r1=-1&amp;r2=1">11-Jan-2007 13:34</a> by UnknownAuthor
+    
+
+    
+
+   
+
+  
+
+   
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div id="favorites">
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=HibernateCookBook" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=HibernateCookBook"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+  
+  <div id="hiddenmorepopup">
+  <ul id="morepopup">
+     
+       	
+     
+       
+     
+    
+       
+     
+       <li>
+       
+       <a class="action rawpage wikipage" 
+               href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook&amp;skin=raw"
+              title="View Page Source">View Page Source
+       </a>
+       
+       
+       </li>
+      
+        
+  
+      
+      
+      
+
+      
+	  <li class='separator'>
+        <div id="moremenu" ></div>
+      </li>
+  </ul>
+  </div>
+  
+  
+
+  
+
+  
+
+  
+  <div class="leftmenu">
+    <p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main">Main page</a><br />
+<tt> </tt><i><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ThisWiki">About</a></i><br />
+</p><p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=GettingStarted">Getting Started</a><br />
+</p>
+<p><b>Documentation</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Developers">Developers</a><br />
+<tt>  </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Javadocs">Javadocs</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Designers">Designers</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SampleRSFApps">Sample RSF Apps</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Presentations">Presentations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Acronyms">Acronyms</a><br />
+</p>
+<p><b>Downloads</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CurrentCode">Current Release</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=TrunkCode">Trunk</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CodeDistributions">Distributions</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=OldCode">Old Versions</a><br />
+</p>
+<p><b>Community</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=QampA">Q&amp;A</a><br />
+<tt> </tt><a class="external" href="http://ponder.org.uk/rsf/">Forums</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=EmailLists">Mailing Lists</a><br />
+<tt> </tt><a class="external" href="http://www.caret.cam.ac.uk/jira/browse/RSF">Issue Tracker</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=People">People</a><br />
+</p>
+<p><b>Design</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Roadmap">Roadmap</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Integrations">Integrations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Concepts">Concepts</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Philosophy">Philosophy</a><br />
+</p>
+<div style="font-style:italic;font-size:0.8em;">
+<b>Pages</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=FindPage">Find</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RecentChanges">Recent Changes</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UnusedPages">Unused</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UndefinedPages">Undefined</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PageIndex">Index</a>
+</div>
+<p />
+    
+  </div>
+  
+  <div class="leftmenufooter">
+    <hr />
+<p><b>Referenced by</b><br />
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ActionResultInterpreter">ActionResultInterpre...</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_1">HibernateCookBook_1</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_2">HibernateCookBook_2</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_3">HibernateCookBook_3</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_4">HibernateCookBook_4</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Integrations">Integrations</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=NumberGuessing_3">NumberGuessing_3</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=OuterPageTemplates">OuterPageTemplates</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RSFPortlet">RSFPortlet</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Roadmap">Roadmap</a><br /><br /><a class='morelink' href='http://rsf.fluidproject.org/wiki/PageInfo.jsp?page=HibernateCookBook' >...and 1 more</a><br />
+</p>
+    
+  </div>
+
+  
+
+  
+  
+  <div class="wikiversion">JSPWiki v2.8.2
+  <span class="rssfeed">
+    
+  </span>
+  </div>  
+  
+</div>
+
+	<div class="clearbox"></div>
+  </div>
+
+  
+
+
+
+
+
+ 
+<div id="footer">
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  <div class="copyright"></div>
+
+  <div class="wikiversion">
+    JSPWiki v2.8.2
+  </div>
+
+  <div class="rssfeed">
+    
+  </div>
+
+</div>
+
+</div>
+
+</body>
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=HibernateCookBook&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:19 GMT -->
+</html>

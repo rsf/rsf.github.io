@@ -1,0 +1,34 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+RSF ''informal [flows|Flows]'' are a new feature in 0.6.2 which allows flow definitions to be built up &quot;collaboratively&quot; based on definitions provided in different views, rather than requiring them to be all specified in a centralised &quot;flow definition file&quot; as in [Spring Web Flow|SpringWebFlow].
+
+This was done by just a small extension to [JSF]s &quot;NavigationCase&quot; structure, to incorporate a third field representing the case's decision as to the ''flow condition'' of the current request.
+
+! FlowLite
+
+&quot;FlowLite&quot; is a term sometimes used for the subsystem within RSF which models a small subset of the [Spring Web Flow|SpringWebFlow] application system. This system was used as of RSF version 0.5 to construct the RSF [NumberGuessing] sample which demonstrates the portability of RSF applications with zero code changes to Portlet, Servlet and Sakai environments. Since version 0.7.2, RSF also features a full-scale integration with the official Spring Web Flow framework - this integration is entirely independent from the FlowLite subsystem.
+
+! Informal Flow Conditions
+
+At the moment, the following flow conditions results are supported, which are defined in RSF ARIResult
+
+|__FLOW_START__|A new flow will be started (with automatically allocated GUID) in the &quot;slow style&quot; - i.e. *NO* bean state will be propagated from the current request state, other than the flow ID itself. State propagation will start following from the ''next'' request.
+|__FLOW_FASTSTART__|A new flow will be started in the &quot;fast style&quot;, with full propagation of all current request state into the flow.
+|__PROPAGATE__|An existing flow will be continued (this will probably be merged with FLOW_FASTSTART, pending further analysis)
+|__FLOW_END__|The current flow will be terminated, and have its state moved into any &quot;end flow&quot; preservation strategies that are registered (for very-short-term preservation)
+|__FLOW_ONESTEP__|The combined effects of FLOW_FASTSTART and FLOW_END - a flow will be begun and immediately moved into the &quot;end flow&quot; condition. This achieves the effect that *would* have been possible had POST cycles been permitted to render results in RSF. Instead the state is stored in a unique token for very-short-term storage, and recovered in the following render cycle.
+|__FLOW_FORK__|Currently unimplemented. This would allow the &quot;forking&quot; of a flow scope, to support e.g. a new client browser being created viewing state from an existing flow. A feature of somewhat dubious use and UI value.
+
+The RSF [NavigationCaseReporter|NavigationCase] system has proved popular with users, since it allows both view contents, navigation and action interpretation to be centralised in a single definition. The informal flow concept cements this by allowing global flows to be built up, but only requiring local knowledge and decision-making. For environments where the flows themselves are first-class business realities and subject to the same specification and review process that RSF is expecting at the user interface level, the SWF approach to flow definition will be correct, since it allows flows to be reviewed and reused in a central location. However, in other cases, developers may prefer to use informal flows, especially where application logic is being auto-generated.
+
+</pre>
+

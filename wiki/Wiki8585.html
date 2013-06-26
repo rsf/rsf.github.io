@@ -1,0 +1,42 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Checks for permissions and includes the body if the user has the correct permissions for the given operation.
+
+This operation is still very basic, but will be expanded in the future.
+
+Available permissions are:
+
+* ''edit'': If the user may edit the current page.  If the current page is not editable for some reason (for instance, it is an older version, the user is not considered to have edit permission.
+
+----
+
+!Usage
+
+&lt;wiki:Permission permission=&quot;&lt;permission&gt;&quot;&gt;
+;:''HTML or JSP code''
+&lt;/wiki:Permission&gt;
+
+!Parameters
+
+;__permission__: The permission to request for.  See above for possible values.
+
+!Example
+{{{
+&lt;wiki:Permission permission=&quot;edit&quot;&gt;
+    &lt;wiki:EditLink&gt;Edit this page&lt;/wiki:EditLink&gt;
+&lt;/wiki:Permission&gt;
+}}}
+
+Displays the &quot;Edit this page&quot;-link only if the user has permission to edit the page. 
+
+</pre>
+

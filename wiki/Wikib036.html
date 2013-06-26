@@ -1,0 +1,672 @@
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html id="top" xmlns="http://www.w3.org/1999/xhtml">
+
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Wiki.jsp?page=SpringAPI by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:00:27 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+    RSF Wiki: SpringAPI
+  </title>
+  
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" media="screen, projection, print" type="text/css"
+     href="templates/default/jspwiki.css"/>
+
+<link rel="stylesheet" type="text/css" media="print" 
+     href="templates/default/jspwiki_print.css" />
+<!-- INCLUDERESOURCES (stylesheet) -->
+
+<!-- INCLUDERESOURCES (inlinecss) -->
+
+
+
+<noscript>
+<style type="text/css">
+#hiddenmorepopup { display:block; }
+</style>
+</noscript>
+
+
+<script type="text/javascript" src="scripts/mootools.js"></script>
+<script type="text/javascript" src="scripts/prettify.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-common.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-commonstyles.js"></script>
+<!-- INCLUDERESOURCES (script) -->
+
+
+
+
+
+<meta name="wikiContext" content='view' />
+<meta name="wikiBaseUrl" content='http://rsf.fluidproject.org/wiki/' />
+<meta name="wikiPageUrl" content='/wiki/Wiki.jsp?page=%23%24%25' />
+<meta name="wikiEditUrl" content='/wiki/Edit.jsp?page=SpringAPI' />
+<meta name="wikiJsonUrl" content='/wiki/JSON-RPC' />
+<meta name="wikiPageName" content='SpringAPI' />
+<meta name="wikiUserName" content='207.119.0.6' />
+<meta name="wikiTemplateUrl" content='/wiki/templates/default/' />
+<meta name="wikiApplicationName" content='RSF Wiki' />
+
+<script type="text/javascript">//<![CDATA[
+/* Localized javascript strings: LocalizedStrings[] */
+var LocalizedStrings = {
+"javascript.edit.allsections":"( All )",
+"javascript.slimbox.error":"<h2>Error</h2>There was a problem with your request.<br />Please try again",
+"javascript.slimbox.remoteRequest":"Remote Request {0} of {1}",
+"javascript.slimbox.close":"Close &#215;",
+"javascript.quick.edit":"[Edit]",
+"javascript.sort.descending":"Descending order. Click to reverse sort order",
+"javascript.expand":"Click to expand",
+"javascript.group.validName":"Please provide a valid name for the new Group",
+"javascript.slimbox.next":"Next&raquo;",
+"javascript.filter.all":"( All )",
+"javascript.edit.areyousure":"Without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.quick.edit.title":"Edit section {0}...",
+"javascript.slimbox.directLink":"Direct Link to the target",
+"javascript.prefs.areyousure":"Without clicking the Save User Preferences button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.sbox.clone.suffix":"-New",
+"javascript.slimbox.info":"Image {0} of {1}",
+"javascript.tip.default.title":"More...",
+"javascript.edit.resize":"Drag to resize the text area",
+"javascript.edit.findandreplace.nomatch":"No match found!",
+"javascript.sort.ascending":"Ascending order. Click to reverse sort order",
+"javascript.slimbox.close.title":"Close [Esc]",
+"javascript.edit.toolbar.makeSelection":"Please make first a selection.",
+"javascript.favs.hide":"Click to hide Favorites",
+"javascript.sectionediting.label":"Section Overview",
+"javascript.slimbox.previous":"&laquo;Previous",
+"javascript.favs.show":"Click to show Favorites",
+"javascript.collapse":"Click to collapse",
+"javascript.category.title":"Click to show category [{0}] ...",
+"javascript.sort.click":"Click to sort",
+"javascript.edit.startOfPage":"( Start of page )"
+};
+
+
+/* INCLUDERESOURCES (jsfunction) */
+
+//]]></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="search" href="Wiki702d.html?page=FindPage"
+    title='Search RSF Wiki' />
+<link rel="help"   href="Wikia3b7.html?page=TextFormattingRules"
+    title="Help" />
+
+ <link rel="start"  href="Wikib2ab.html?page=Main"
+    title="Front page" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki_print.css"
+    title="Print friendly" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki.css"
+    title="Standard" />
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+<link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  
+  
+</head>
+
+<body class="view">
+
+<div id="wikibody" class="fav-left">
+ 
+  
+
+
+
+
+
+
+<div id="header">
+
+  <div class="titlebox"></div>
+
+  <div class="applicationlogo" > 
+    <a href="Wikib2ab.html?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="Logina38c.html?redirect=SpringAPI" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="UserPreferencesa38c.html?redirect=SpringAPI"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+
+  <div class="pagename">SpringAPI</div>
+
+  <div class="searchbox">
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Search.jsp"
+        class="wikiform"
+           id="searchForm" accept-charset="UTF-8">
+
+  <div style="position:relative">
+  <input onblur="if( this.value == '' ) { this.value = this.defaultValue }; return true; "
+        onfocus="if( this.value == this.defaultValue ) { this.value = ''}; return true; "
+           type="text" value="Quick Navigation"
+           name="query" id="query"
+           size="20" 
+      accesskey="f" />
+  <button type="submit"
+  		 name="searchSubmit" id="searchSubmit"
+  		value="Go!"
+  		title="Go!"></button>
+  </div>
+  <div id="searchboxMenu" style='visibility:hidden;'>
+    <div id="searchTools">
+      <a href="#" id='quickView' class='action'
+      onclick="SearchBox.navigate( 'Wiki195c.html?page=__PAGEHERE__','View the selected page' );"
+        title="View the selected page">view</a>
+      <a href="#" id='quickEdit' class='action'
+      onclick="SearchBox.navigate( 'Logine830.html?page=__PAGEHERE__','Edit the selected page' );"
+        title="Edit the selected page">edit</a>
+      <a href="#" id='quickClone' class='action'	
+      onclick="return SearchBox.navigate( 'Logine830.html?page=__PAGEHERE__', 'Clone the selected page', true );"
+        title="Clone the selected page">clone</a>
+      <a href="#" id="advancedSearch" class='action'
+      onclick="SearchBox.navigate( 'Search136d.html?query=__PAGEHERE__','SpringAPI' )"
+        title="Advanced Search [ f ]">find</a>
+    </div>
+    <div id="searchResult" >
+	  Quick search
+      <span id="searchTarget" >(type ahead)</span>
+      <span id="searchSpin" class="spin" style="position:absolute;display:none;"></span>
+	  <div id="searchOutput" ></div>
+    </div>
+    <div id="recentSearches" style="display:none;">
+      Recent Searches
+      <span><a href="#" id="recentClear">(Clear)</a></span>
+    </div>
+  </div>
+
+</form></div>
+
+  <div class="breadcrumbs">Your trail:&nbsp;<a class="wikipage" href="Wikia880.html?page=SystemInfo">SystemInfo</a>, <a class="wikipage" href="Wiki7958.html?page=NamedHeadings">NamedHeadings</a>, <a class="wikipage" href="Wiki7f5c.html?page=WikiName">WikiName</a>, <a class="wikipage" href="Wiki8c3c.html?page=WikiVariables">WikiVariables</a>, <a class="wikipage" href="Wiki8e8b.html?page=WikiForms">WikiForms</a>, <a class="wikipage" href="Wikiabdd.html?page=JSF">JSF</a>, <a class="wikipage" href="Wiki0665.html?page=TemplateValidity">TemplateValidity</a>, <a class="wikipage" href="Wiki5ced.html?page=RightFirstTime">RightFirstTime</a>, <a class="wikipage" href="Wikid989.html?page=Javascript">Javascript</a>, <a class="wikipage" href="Wikia36a.html?page=RSAC">RSAC</a></div>
+
+</div>
+
+  <div id="content">
+
+    <div id="page">
+      
+
+
+
+
+
+<div id="actionsTop" class="pageactions"> 
+  <ul>
+
+    
+    
+    
+
+    
+    <li id="morebutton">
+      <a href="Wiki81b4.html?page=MoreMenu" class="action more">More...</a>
+    </li>
+
+  </ul>
+</div>
+
+      
+
+
+
+
+
+
+
+
+<div class="tabmenu">
+
+  
+
+  
+
+  
+  
+  
+    
+  
+    
+  
+
+
+
+  <a class="activetab" id="menu-pagecontent" accesskey="v" ><span class='accesskey'>V</span>iew</a>
+
+  
+
+  
+  <a id="menu-attach" accesskey="a" ><span class='accesskey'>A</span>ttach</a>
+  
+    
+  <a id="menu-info" href='PageInfob036.html?page=SpringAPI' accesskey="i" ><span class='accesskey'>I</span>nfo</a>
+    
+  
+
+</div>
+<div class="tabs">
+
+  <div id="pagecontent" >
+
+    
+
+
+
+
+
+
+
+
+
+
+
+<p>Part of the API of RSF is defined traditionally, in terms of public methods and interfaces. However, RSF also exposes what could be called a <i>Spring API</i> - that is, a set of named beans (of types determined by RSF interfaces) that application developers may (or sometimes must) define in their Spring configuration files.
+</p><p><a class="wikipage" href="Wikiada1.html?page=SpringFramework">Spring Framework</a> is a marvellous framework whose purpose is to <i>manage the transport of dependencies</i> from one part of an application to another. This capability is sometimes also called <a class="createpage" href="Logina50c.html?page=IoC" title="Create &quot;IoC&quot;">&quot;Inversion of Control&quot;</a>. Instead of being manually copied around from object to object, your dependencies are declared in a static configuration file, in Spring, called an <i>application context</i> file. At context startup time, these dependencies will be <i>autowired</i> based on a topological sorting of the bean graph defined in the configuration file.
+</p>
+<p>RSF is organised from a set of several such files, some specifying beans with application lifetimes, others with <a class="wikipage" href="Wikia650.html?page=RequestScopeBeans">request scope</a> lifetimes. The location of these files are configured in context parameters in the application's web.xml file - apart from the standard RSF core files, an application may define an arbitrary number of such files in arbitrary locations. However, the default RSF configuration gives some standard names to these files.
+</p>
+<p />
+<table class="wikitable" border="1"><tr class="odd"><td>Scope</td><td>RSF Core</td><td>&quot;Blank&quot; Definitions</td><td>Default Application File</td></tr>
+<tr><td>Application Scope</td><td> classpath:conf/<a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/conf/rsf-config.xml">rsf-config.xml</a><img class="outlink" src="images/out.png" alt="" /></td><td>classpath:conf/<a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/conf/blank-applicationContext.xml">blank-applicationContext.xml</a><img class="outlink" src="images/out.png" alt="" /></td><td>/WEB-INF/applicationContext.xml</td></tr>
+<tr class="odd"><td>Request Scope</td><td>classpath:conf/<a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/conf/rsf-requestscope-config.xml">rsf-requestscope-config.xml</a><img class="outlink" src="images/out.png" alt="" /></td><td>classpath:conf/<a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/conf/blank-requestContext.xml">blank-requestContext.xml</a><img class="outlink" src="images/out.png" alt="" /></td><td>/WEB-INF/requestContext.xml</td></tr>
+</table><p>These configuration files are defined <i>inside</i> the JARs defining the RSF framework - in general, an RSF &quot;module&quot; (such as <a class="wikipage" href="Wiki1f75.html?page=RSFHibernate">RSFHibernate</a>, or <a class="wikipage" href="Wiki0435.html?page=SakaiRSF">SakaiRSF</a> will also be packaged as a self-contained Spring-configured library of this sort, and will add to the list of files to mention in <tt>web.xml</tt>. 
+</p>
+<p>An application will in general define at least one <i>view</i>, for example:
+</p>
+<pre>
+&lt;!-- Define the component producer for the main view --&gt;
+  &lt;bean id=&quot;main-view&quot; class=&quot;uk.org.ponder.rsf.helloapp.components.MainProducer&quot;/&gt;
+</pre>
+and also a list of <a class="wikipage" href="Wiki284f.html?page=RequestWriteableBean">requestAddressibleBeans</a>. In general, in addition to defining beans for its own use, it may configure RSF by overriding some of the definitions from one of the &quot;blank&quot; configuration files (or even in extreme cases some of the core beans). Context files listed later in the web.xml file will simply override beans of the same name which appear in files listed earlier. For this reason the RSF context files should always be listed <i>earlier</i> than application definitions, as in the following extract from a &quot;typical&quot; web.xml file:
+<pre>
+&lt;!-- Configure standard Spring application contexts. Be sure to mention
+    rsf config files first, so any overrides may be processed --&gt;
+  &lt;context-param&gt;
+    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+    &lt;param-value&gt;classpath:conf/rsf-config.xml,
+                 classpath:conf/rsf-blank-applicationContext.xml,
+                 /WEB-INF/applicationContext.xml,
+                 /WEB-INF/userconfig.xml
+    &lt;/param-value&gt;
+  &lt;/context-param&gt;
+</pre>
+<h2 id="section-SpringAPI-DefinitionOfRSFSpringAPI"> Definition of RSF Spring API<a class="hashlink" href="#section-SpringAPI-DefinitionOfRSFSpringAPI">#</a></h2>
+<p>The following table will list all the beans constituting the <i>Spring API</i> of RSF (currently extremely incomplete):
+</p>
+<p />
+<table class="wikitable" border="1"><tr class="odd"><td>Bean</td><td>Scope</td><td>Interface/Base Class</td><td>Purpose</td></tr>
+<tr><td>templateResolverStrategy</td><td>Application</td><td>uk.org.ponder.rsf.templateresolver.SimpleTemplateResolverStrategy</td><td>Defines the rules used to look up the <a class="wikipage" href="Wiki35d7.html?page=ViewTemplate">view template</a> to be used for rendering the current request. RSF defines a very simple TemplateResolverStrategy called <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/templateresolver/CRITemplateResolverStrategy.java">CRITemplateResolverStrategy</a><img class="outlink" src="images/out.png" alt="" /> that just uses the view ID and consumer ID to locate a single template file in a named directory.</td></tr>
+<tr class="odd"><td>actionResultInterpreter</td><td>Application</td><td>uk.org.ponder.rsf.flow.ActionResultInterpreter</td><td>Implements the &quot;flow&quot; of the application, defined by the state transitions to different views occuring after successful and unsuccessful POST requests. </td></tr>
+<tr><td>requestWriteableBeans</td><td>Application</td><td>uk.org.ponder.stringutil.StringList</td><td>A list of the names of the &quot;root beans&quot; in the request scope container that are considered addressible by EL incoming through the request. This makes the request submission process more secure, in preventing the execution of arbitrary EL. Note that no further checks are made on derived properties of the root beans, of which writeability is determined solely by the model.</td></tr>
+<tr class="odd"><td>copyPreservingBeans</td><td>Application</td><td>uk.org.ponder.stringutil.StringList</td><td>A list of EL paths whose values will be preserved by simple Object reference copying between requests participating in an RSF flow (whilst using the default definitions for <tt>statePreservationStrategies</tt> and related beans held in blank-requestContext.xml)</td></tr>
+</table><p>(Many more to follow - consult blank-applicationContext.xml and blank-requestContext.xml)
+</p>
+<p>In a framework organised entirely around Spring, as RSF is, this creates an unprecedented level of fine-grained control over the structure of the application. Since Spring allows &quot;bean overrides&quot;, any RSF component, not just the mandatory application components listed above, may be replaced by listing it in the application's configuration files. 
+</p>
+<p />
+<hr />
+<span style="color: #666666; font-family: sans-serif; font-size:80%">You can post comments and questions on this page using the following blog. Please set your name using <a class="wikipage" href="Wiki7eba.html?page=UserPreferences">UserPreferences</a> before posting.</span>
+<div class="weblog">
+</div>
+
+<a href="Loginf249.html?page=SpringAPI">New entry</a>
+
+
+
+
+
+
+
+        
+  </div>
+
+
+  
+
+  
+  <div id="attach" class="hidetab" >
+
+    
+
+
+
+
+
+
+
+
+
+
+<div id="addattachment">
+<h3>Add new attachment</h3>
+
+
+<div class="formhelp">Only authorized users are allowed to upload new attachments.</div>
+
+</div>
+
+
+
+  </div>
+
+  
+    
+  <div id="info" class="hidetab" >
+
+  </div>
+
+    
+  
+
+<div style="clear:both;" ></div>
+</div>
+
+      
+
+
+
+
+
+
+
+<div id='actionsBottom' class="pageactions"> 
+    
+
+    <a href="#top" 
+      class="action quick2top" 
+      title="Go to top" >&laquo;</a>
+
+    
+       This page (revision-) was last changed on <a href="Diffd4e1.html?page=SpringAPI&amp;r1=-1&amp;r2=1">09-Aug-2007 18:22</a> by UnknownAuthor
+    
+
+    
+
+   
+
+  
+
+   
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div id="favorites">
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="Logina38c.html?redirect=SpringAPI" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="UserPreferencesa38c.html?redirect=SpringAPI"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+  
+  <div id="hiddenmorepopup">
+  <ul id="morepopup">
+     
+       	
+     
+       
+     
+    
+       
+     
+       <li>
+       
+       <a class="action rawpage wikipage" 
+               href="Wikif613.html?page=SpringAPI&amp;skin=raw"
+              title="View Page Source">View Page Source
+       </a>
+       
+       
+       </li>
+      
+        
+  
+      
+      
+      
+
+      
+	  <li class='separator'>
+        <div id="moremenu" ></div>
+      </li>
+  </ul>
+  </div>
+  
+  
+
+  
+
+  
+
+  
+  <div class="leftmenu">
+    <p><a class="wikipage" href="Wikib2ab.html?page=Main">Main page</a><br />
+<tt> </tt><i><a class="wikipage" href="Wiki4d3f.html?page=ThisWiki">About</a></i><br />
+</p><p><a class="wikipage" href="Wikid6f0.html?page=GettingStarted">Getting Started</a><br />
+</p>
+<p><b>Documentation</b><br />
+<tt> </tt><a class="wikipage" href="Wiki4c8c.html?page=Developers">Developers</a><br />
+<tt>  </tt><a class="wikipage" href="Wikib1ce.html?page=Javadocs">Javadocs</a><br />
+<tt> </tt><a class="wikipage" href="Wikia56b.html?page=Designers">Designers</a><br />
+<tt> </tt><a class="wikipage" href="Wiki4509.html?page=SampleRSFApps">Sample RSF Apps</a><br />
+<tt> </tt><a class="wikipage" href="Wikif010.html?page=Presentations">Presentations</a><br />
+<tt> </tt><a class="wikipage" href="Wiki45f9.html?page=Acronyms">Acronyms</a><br />
+</p>
+<p><b>Downloads</b><br />
+<tt> </tt><a class="wikipage" href="Wiki30c9.html?page=CurrentCode">Current Release</a><br />
+<tt> </tt><a class="wikipage" href="Wiki0e27.html?page=TrunkCode">Trunk</a><br />
+<tt> </tt><a class="wikipage" href="Wiki1a8d.html?page=CodeDistributions">Distributions</a><br />
+<tt> </tt><a class="wikipage" href="Wikiadaf.html?page=OldCode">Old Versions</a><br />
+</p>
+<p><b>Community</b><br />
+<tt> </tt><a class="wikipage" href="Wiki84f4.html?page=QampA">Q&amp;A</a><br />
+<tt> </tt><a class="external" href="http://ponder.org.uk/rsf/">Forums</a><img class="outlink" src="images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="Wikif345.html?page=EmailLists">Mailing Lists</a><br />
+<tt> </tt><a class="external" href="http://www.caret.cam.ac.uk/jira/browse/RSF">Issue Tracker</a><img class="outlink" src="images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="Wiki1535.html?page=People">People</a><br />
+</p>
+<p><b>Design</b><br />
+<tt> </tt><a class="wikipage" href="Wiki580c.html?page=Roadmap">Roadmap</a><br />
+<tt> </tt><a class="wikipage" href="Wiki654d.html?page=Integrations">Integrations</a><br />
+<tt> </tt><a class="wikipage" href="Wikia360.html?page=Concepts">Concepts</a><br />
+<tt> </tt><a class="wikipage" href="Wiki151d.html?page=Philosophy">Philosophy</a><br />
+</p>
+<div style="font-style:italic;font-size:0.8em;">
+<b>Pages</b><br />
+<tt> </tt><a class="wikipage" href="Wiki702d.html?page=FindPage">Find</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5fc7.html?page=RecentChanges">Recent Changes</a><br />
+<tt> </tt><a class="wikipage" href="Wikife97.html?page=UnusedPages">Unused</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5130.html?page=UndefinedPages">Undefined</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5f9e.html?page=PageIndex">Index</a>
+</div>
+<p />
+    
+  </div>
+  
+  <div class="leftmenufooter">
+    <hr />
+<p><b>Referenced by</b><br />
+<a class="wikipage" href="Wiki30c9.html?page=CurrentCode">CurrentCode</a><br /><a class="wikipage" href="Wiki4c8c.html?page=Developers">Developers</a><br /><a class="wikipage" href="Wiki28ec.html?page=Downloads_0.6">Downloads_0.6</a><br /><a class="wikipage" href="Wikif78e.html?page=Downloads_0.6.1">Downloads_0.6.1</a><br /><a class="wikipage" href="Wiki3844.html?page=Downloads_0.6.3">Downloads_0.6.3</a><br /><a class="wikipage" href="Wiki37eb.html?page=Downloads_0.6.4">Downloads_0.6.4</a><br /><a class="wikipage" href="Wikidc12.html?page=Downloads_0.7">Downloads_0.7</a><br /><a class="wikipage" href="Wikibd47.html?page=Downloads_0.7.1">Downloads_0.7.1</a><br /><a class="wikipage" href="Wikibb81.html?page=Downloads_0.7.2">Downloads_0.7.2</a><br /><a class="wikipage" href="Wiki28f9.html?page=Downloads_0.7.3">Downloads_0.7.3</a><br /><br /><a class='morelink' href='PageInfob036.html?page=SpringAPI' >...and 8 more</a><br />
+</p>
+    
+  </div>
+
+  
+
+  
+  
+  <div class="wikiversion">JSPWiki v2.8.2
+  <span class="rssfeed">
+    
+  </span>
+  </div>  
+  
+</div>
+
+	<div class="clearbox"></div>
+  </div>
+
+  
+
+
+
+
+
+ 
+<div id="footer">
+
+  <div class="applicationlogo" > 
+    <a href="Wikib2ab.html?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  <div class="copyright"></div>
+
+  <div class="wikiversion">
+    JSPWiki v2.8.2
+  </div>
+
+  <div class="rssfeed">
+    
+  </div>
+
+</div>
+
+</div>
+
+</body>
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Wiki.jsp?page=SpringAPI by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:00:29 GMT -->
+</html>
+

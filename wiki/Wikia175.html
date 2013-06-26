@@ -1,0 +1,128 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+On this page we will discuss the latest integration issues for [Spring Web Flow (SWF)|SpringWebFlow] in [RSF] in the context of the SWF &quot;Hotel Booking sample&quot; sample. This page is meant for those who are familiar with SWF and RSF. if you are new to either one you should start on the [RSF-SpringWebFlow] page.
+
+|| __Sample Code (SVN):__ | [original code (with maven2 build)|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFBooking/orig] | [RSF SWF version|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFBooking/RSFSWF]
+\\
+[Try out Hotel Booking RSF SWF on our server|http://ponder.org.uk/SWFBooking-RSFSWF/faces]
+
+You can see the original sample in action on [Ervacon's website|http://spring.ervacon.com/swf-booking-jsf/].
+
+!!Markup issues
+The original sample was written using [Facelets|https://facelets.dev.java.net/], a technology for JSF which allows a form of XHTML templating. This was further enhanced by the addition of tags from [Spring Faces|http://static.springframework.org/spring-webflow/docs/2.0-m1/reference/spring-faces.html], the JSF integration for Spring Web Flow which is new for SWF 2.0. A sample of the Facelets markup is shown here:
+
+{{{
+&lt;div class=&quot;label&quot;&gt;
+  &lt;h:outputLabel for=&quot;beds&quot;&gt;Room Preference:&lt;/h:outputLabel&gt;
+&lt;/div&gt;
+&lt;div class=&quot;input&quot;&gt;
+  &lt;h:selectOneMenu id=&quot;beds&quot; value=&quot;#{booking.beds}&quot;&gt;
+    &lt;f:selectItem itemLabel=&quot;One king-size bed&quot; itemValue=&quot;1&quot;/&gt;
+    &lt;f:selectItem itemLabel=&quot;Two double beds&quot; itemValue=&quot;2&quot;/&gt;
+    &lt;f:selectItem itemLabel=&quot;Three beds&quot; itemValue=&quot;3&quot;/&gt;
+  &lt;/h:selectOneMenu&gt;
+&lt;/div&gt;
+}}}
+
+Whilst this is much improved over the JSP equivalent, in that it is a reasonably valid XHTML document, this markup is still unfriendly to designers, and also will give no useful behaviour when previewed in a browser. The tags in namespaces {{&lt;f:}} and {{&lt;h:}} will generally either not render at all, or else be skipped until valid XHTML tags are found within their body. 
+
+The equivalent section from the RSF template is
+{{{
+  &lt;label class=&quot;label&quot; for=&quot;booking_beds&quot;&gt;Room Preference:&lt;/label&gt;
+  &lt;select rsf:id=&quot;booking_beds&quot; class=&quot;input&quot;&gt;
+    &lt;option value=&quot;1&quot;&gt;One king-size bed&lt;/option&gt;
+    &lt;option value=&quot;2&quot;&gt;Two double beds&lt;/option&gt;
+    &lt;option value=&quot;3&quot;&gt;Three beds&lt;/option&gt;
+  &lt;/select&gt;
+}}}
+
+Not only does this use only recognised XHTML tags {{&lt;label}}, {{&lt;select}}, {{&lt;option}}, which leads to this entire page previewing in the filesystem (check out the project in SVN, and browse to {{src/main/webapp/content/templates/bookingForm.html}}), there are also fewer tags. In a Facelets/JSF application, designer control generally ceases at the point where a component tag (e.g. {{&lt;h:selectOneMenu}} appears - the markup at this point is replaced by that chosen by the component designer, written into the taglib. In RSF, the tags written in the templates are precisely the ones rendered, down to the last tag and attribute. Therefore there is no need for the extra layer of {{&lt;div}} containment which is necessary to apply the CSS style target id {{input}} to the control - we can simply write this directly onto the {{&lt;select}} tag itself. Similarly for the remainder of the document.
+
+!!Outer templates
+Like the Facelets [composition|http://www.jsftoolbox.com/documentation/facelets/10-TagReference/facelets-ui-composition.html] system, RSF allows markup templates to be drawn up that can be &quot;included&quot; from anywhere else in the application, using its [Outer Page Templates] scheme. Unlike Facelets compositions, this again occurs without the need for custom tags, and without compromising previeawability.
+
+!!Application transparency
+RSF is a &quot;model free&quot; framework. This does not mean it has no model layer, rather that it has no model ''definitions'' within the framework that require wrapping of client model definitions. Unlike JSF's Table, List and Tree model classes, RSF view trees are generated programmatically using normal Java code constructs such as {{for}} loops. The original sample contains a utility class {{SerializableListDataModel}} which is required to adapt the Booking and Hotel {{List}}s used in the application to JSF's requirements. In RSF, we perform such iteration directly in code:
+
+{{{
+  for (Hotel hotel : hotels) {
+    UIBranchContainer hotelrow = UIBranchContainer.make(tofill, &quot;hotel-row:&quot;);
+    HotelUtil.dumpHotel(hotelrow, hotel);
+    UIInternalLink.make(hotelrow, &quot;view-hotel&quot;, 
+    new SWFEventViewParams(&quot;selectHotel&quot;, MapUtil.make(&quot;hotelId&quot;, hotel.getId())));
+    }
+}}}
+
+!!Validation
+The current validation code in the Spring Faces sample is labelled as provisional and will be replaced by a more scripted style in future versions of Spring Web Flow. As it stands it has dependencies on both JSF and on SWF and requires to be recast. In the RSF version of this app we fall back to a pure Spring Binding approach, using the standard Spring framework {{FormAction}} action handler and Spring Validators. Some (non-RSF-dependent) extensions are provided for this model, making it highly convenient and compact to specify validation rules in a technology-neutral fashion. ultimately paving the way for client-side validation. Here is the definition for the &quot;Booking action&quot; bean, replacing the custom {{BookingActions}} held in the original application:
+
+{{{
+  &lt;bean id=&quot;bookingActions&quot;
+    class=&quot;org.springframework.webflow.samples.booking.flow.booking.BookingActions&quot;&gt;
+    &lt;property name=&quot;formObjectName&quot; value=&quot;booking&quot; /&gt;
+    &lt;property name=&quot;validator&quot;&gt;
+      &lt;bean class=&quot;org.springframework.webflow.samples.booking.flow.booking.BookingValidator&quot; /&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;validatorSpecs&quot;&gt;
+      &lt;list&gt;
+        &lt;value&gt;creditCard: required, positive, maxLength(16), minLength(16)&lt;/value&gt;
+        &lt;value&gt;creditCardName: required&lt;/value&gt;
+      &lt;/list&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+}}}
+
+The Java code itself is split into two packages, a standard Spring Validator 
+{{{
+public class BookingValidator implements Validator {
+
+  public boolean supports(Class clazz) {
+    return Booking.class.isAssignableFrom(clazz); 
+  }
+
+  public void validate(Object bookingo, Errors errors) {
+    Booking booking = (Booking) bookingo;
+    Calendar calendar = Calendar.getInstance();
+    calendar.add(Calendar.DAY_OF_MONTH, -1);
+    
+    if (booking.getCheckinDate().before(calendar.getTime())) {
+      errors.rejectValue(&quot;checkinDate&quot;, &quot;error-date-future&quot;);
+    }
+    else if (!booking.getCheckinDate().before(booking.getCheckoutDate())) {
+      errors.rejectValue(&quot;checkoutDate&quot;, &quot;error-checkout-earlier&quot;);
+    }
+  }
+
+}
+}}}
+and then the remainder of the booking flow setup code, responsible for constructing the initial booking record, packaged as the {{createFormObject}} method of the FormAction (now extending the intermediate helper class {{ValidatorFormAction}}:
+{{{
+public class BookingActions extends ValidatorFormAction {
+  protected Object createFormObject(RequestContext context) throws Exception {
+    Hotel hotel = (Hotel) context.getFlowScope().get(&quot;hotel&quot;);
+    User user = (User) context.getConversationScope().get(&quot;user&quot;);
+    Booking booking = new Booking(hotel, user);
+    EntityManager em = (EntityManager) context.getFlowScope().get(&quot;entityManager&quot;);
+    em.persist(booking);
+    return booking;
+  }
+}
+}}}
+Spring Web Flow 2.0 final is expected to have facilities to avoid this lookup code. RSF version 0.8 will independently feature lookup-free handling of all kinds of &quot;intermediate&quot; scopes, such as flow, session and conversation. We have at least so far managed to remove all non-SWF dependencies from this application beyond the rendering layer.
+
+!! Automatic AJAX transparency
+
+Keeping track of flow keys and URL state can be a hazard when trying to conduct AJAX development together with SWF. RSF's [ViewParameters] scheme allows us to abstract all these details away - the framework automatically applies a flow-state-specific &quot;fixup&quot; to any URLs issued to clients to ensure they are properly nested within any current flow state. This enables the full set of RSF AJAX-enabled components, such as the internationalised date widget, to be used transparently within an SWF application with no modification. The AJAX round-trips performed by the widget are automatically &quot;fixed up&quot; to access the current flow state. As more components are developed as part of the [Fluid UI Project|http://fluidproject.org/] this will fruitfully feed forwards into a stream of fully accessible, flexible and generic which are usable both within SWF and without.
+
+
+</pre>
+

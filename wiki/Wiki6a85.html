@@ -1,0 +1,104 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!! XML Components
+
+The simplest [component|Component] definition is [index.xml|https://saffron.caret.cam.ac.uk/svn/projects/RSFNumberGuess/trunk/base/src/webapp/WEB-INF/producers/index.xml], specifying the tree for the &quot;welcome&quot; page whose template is [index.html|https://saffron.caret.cam.ac.uk/svn/projects/RSFNumberGuess/trunk/base/src/webapp/content/templates/index.html]. Its components are as follows:
+
+{{{
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;view&gt;
+  &lt;component type=&quot;form&quot; id=&quot;basic-form&quot;&gt;
+    &lt;component type=&quot;command&quot; id=&quot;startNumberGuess&quot;&gt;
+      &lt;methodbinding&gt;#{numberGuessFlow.flow-start}&lt;/methodbinding&gt;
+    &lt;/component&gt;
+    
+    &lt;component type=&quot;command&quot; id=&quot;startFourDigitNumberGuess&quot;&gt;
+      &lt;methodbinding&gt;#{fourDigitNumberGuessFlow.flow-start}&lt;/methodbinding&gt;
+    &lt;/component&gt;
+  &lt;/component&gt;
+&lt;/view&gt;
+}}}
+
+After having seen the Java-based component producer of &quot;Hello World&quot;, this should be fairly clear - this file defines three RSF components as part of the view, one of type UIForm with ID basic-form, and two commands (which will peer with the HTML &lt;input&gt; tags) of type UICommand. Rather than value bindings, command components have method bindings, whose last component specifies a no-arg method name on the target bean rather than a property name. All of these expressions beginning with # signs and curly brackets are part of the [RSF EL|EL] expression language, or value language.
+
+Compare this components file with the corresponding XHTML template file index.xhtml - note that the {{rsf:id}} attributes in the template correspond to the components with the same {{id}} attribute. For templates without [branch|UIBranchContainer] components, this relationship is very straightforward. 
+
+!!Method bindings and flow beans
+
+In general, a method binding like {{&lt;methodbinding&gt;#{numberGuessFlow.flow-start}&lt;/methodbinding&gt;}} refers to a no-arg method to be invoked on a bean, although in this case you can see that this would be impossible, the &quot;method name&quot; containing a hyphen character. For situations requiring more flexibility, such as where your actions, as here, are governed by a flow definition, the target bean (in this case {{numberGuessFlow}}, a request scope, [addressible|RequestWriteableBeans] bean defined in the requestScopeApplicationContext.xml file), may be declared to be a {{MethodInvokingProxy}} and intercept attempted method invocations from RSF rather than handling them reflectively. For those interested in the gory details, the concrete type of {{numberGuessFlow}} is [FlowActionProxyBean|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/flow/lite/FlowActionProxyBean.java], but the more practically-oriented will only want to know that these beans are automatically created from a factory bean named {{flowLite-flowProxyFactory}}, which needs to be given an application scope bean which holds the flow definition. 
+
+The request-scope bean operating the simple &quot;higher and lower&quot; flow is defined as follows
+{{{
+  &lt;bean id=&quot;numberGuessFlow&quot; parent=&quot;flowLite-flowProxyBean&quot;&gt;
+    &lt;property name=&quot;flow&quot; ref=&quot;numberGuessFlowDef&quot; /&gt;
+  &lt;/bean&gt;
+}}}
+For reference, the flow definition bean that it refers to with the &quot;flow&quot; property (which itself is derived from the RSF standard bean &quot;XMLFactoryBean&quot;) is defined in application scope like this:
+
+{{{
+   &lt;bean id=&quot;numberGuessFlowDef&quot; parent=&quot;flowLite-flowDefinition&quot;&gt;
+    &lt;property name=&quot;location&quot;&gt;
+      &lt;value&gt;/WEB-INF/flows/numberGuess-flow.xml&lt;/value&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+}}}
+
+!!Flow definition
+
+The application scope flow definition bean refers to one of the flow definition files we saw in our webapp. In fact this flow definition was taken line-for-line from our parent example, the Spring Web Flow [number guessing sample|http://opensource2.atlassian.com/confluence/spring/display/WEBFLOW/Home] which you might consider downloading for comparison purposes. It's important to note that RSF is currently %%(color:red;)not using%% Spring Web Flow itself, but a lightweight reimplementation which only supplies the core capabilities you see here. However, even this feature level is sufficient to gain the main expressive power of well-packaged, reusable flows, with a greater level of cohesion say, than JSF's navigation definitions. There are number of options for evolving RSF's flow definition framework, starting from a potential (complete) integration with the real SWF, or something even more idiomatic such as [RIFE] continuations or a BeanShell based flow.
+
+{{{
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE webflow PUBLIC &quot;-//SPRING//DTD WEBFLOW//EN&quot;
+	&quot;http://www.springframework.org/dtd/spring-webflow.dtd&quot;&gt;
+
+&lt;webflow id=&quot;numberGuess&quot; start-state=&quot;enterGuess&quot;&gt;
+	
+	&lt;view-state id=&quot;enterGuess&quot; view=&quot;enterGuess&quot;&gt;
+		&lt;transition on=&quot;submit&quot; to=&quot;guess&quot;/&gt;
+	&lt;/view-state&gt;
+	
+	&lt;action-state id=&quot;guess&quot;&gt;
+		&lt;action bean=&quot;numberGuessAction&quot;/&gt;
+		&lt;transition on=&quot;invalidInput&quot; to=&quot;enterGuess&quot;/&gt;
+		&lt;transition on=&quot;retry&quot; to=&quot;enterGuess&quot;/&gt;
+		&lt;transition on=&quot;success&quot; to=&quot;showAnswer&quot;/&gt;
+	&lt;/action-state&gt;
+	
+	&lt;end-state id=&quot;showAnswer&quot; view=&quot;showAnswer&quot;/&gt;
+
+&lt;/webflow&gt;
+}}}
+A [Spring Web Flow|http://opensource2.atlassian.com/confluence/spring/display/WEBFLOW/Home] (SWF) flow consists of a collection of &quot;view states&quot; (presented to the user, where the transition is governed by their choice of command link) and &quot;action states&quot; (presented to the application, where the transition is governed by the return value from the invoked method). In SWF these may alternate arbitrarily as opposed to the raw RSF model which is set up for strict alternation between view states and action states. Most of the logic in the FlowActionProxyBean is for adapting between these two idioms.
+
+We could diagram out this flow as follows:
+
+[{Image src='NumberGuessing_1/numberguess-flow-small.png' align='center'}]
+
+
+By default, an SWF flow assumes that an {{action-state}} will invoke a method named after its id, on the action bean it mentions. In this case the &quot;guess&quot; action is targetted at the bean &quot;numberGuessAction&quot;, which is a request-scope bean defined as follows:
+
+{{
+&lt;bean id=&quot;numberGuessAction&quot; 
+    class=&quot;org.springframework.webflow.samples.numberguess.NumberGuessAction&quot;/&gt;
+}}
+
+The SWF version of this class had the &quot;data&quot; POJO parcelled as a private static class inside the action bean. In RSF, in addition to the action class being freed of any framework dependence, the data class has been unbundled as a first-class request-scope POJO. Other than these changes, the code is line-for-line identical with the SWF implementation, and has been retained in the same package. It's well worth consulting the code for these POJOs, [NumberGuessAction|https://saffron.caret.cam.ac.uk/svn/projects/RSFNumberGuess/trunk/base/src/java/org/springframework/webflow/samples/numberguess/NumberGuessAction.java] and [NumberGuessData|https://saffron.caret.cam.ac.uk/svn/projects/RSFNumberGuess/trunk/base/src/java/org/springframework/webflow/samples/numberguess/NumberGuessData.java] since they give an idea of the complete cleanliness that one would expect from the business layer of the ideal web application - finally freed from framework clutter, you can get on with writing domain logic in complete peace. The main innovation of JSF was the idea that this clutter removal was at least possible, but the rest of the framework placed such strong burdens on implementors that i) usually they required to implement lots of framework-coupled beans just to operate the domain model properly, and ii) in more complex cases forced them to actually pollute the domain model itself once more. One of the main innovations of RSF, request-scope programming, also solves another perennial bugbear with web frameworks which is the scoping issue.
+----
+Head   -  [Number Guessing|NumberGuessing]\\
+Page 1 - Simple XML components and flow definitions\\
+Page 2 - [Request scope bindings and error handling|NumberGuessing_2]\\
+Page 3 - [Dynamic views and replicators|NumberGuessing_3]\\
+----
+
+</pre>
+

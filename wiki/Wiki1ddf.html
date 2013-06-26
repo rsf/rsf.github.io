@@ -1,0 +1,48 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+[EntityBeanLocator](EBL) is a standard framework interface in RSF, that comes with a default implementation which makes writing an [OTP] space for an entity very easy, given just a standard &quot;DAO-type&quot; API managing the entity. This is a conventional application-scope API with methods such as &quot;findById&quot;, &quot;save&quot;, &quot;delete&quot;, etc. and the EBL does the work of automatically setting up an [EL] address space for all the managed entities, and managing a request-scope cache so they can be addressed and manipulated quickly and clearly.
+
+!!Using the framework default implementation
+
+Assuming the API for the entity is sufficiently &quot;reasonable&quot;, this doesn't require writing any code, but simply a Spring definition. This definition is for an application scope bean extending the RSF framework parent {{entityBeanLocatorParent}}.
+
+Here is the set of properties supported on this bean and their meaning:
+
+|Property|Description
+|{{fetchMethod}}|(Required) An EL path to a &quot;fetch method&quot; which can fetch entities by their ID - for example, a DAO API bean named {{BlogDao}} which had a method called {{findById}} which took a single argument, the Id, would be registered with a {{fetchMethod}} of {{BlogDao.findById}}
+|{{newMethod}}|An EL path to a method which will be used to instantiate &quot;new&quot; (not yet persistent) examples of the entity. Either this property or {{entityClass}} must be set.
+|{{entityClass}}|A Class object representing the class of the entity that this EBL deals in. If {{newMethod}} is not set, the EBL will instantiate new instances of the entity using the default constructor of this class.
+|{{saveMethod}}|An EL path to a &quot;save method&quot; which will save modified entities back to some kind of persistence. This must take a single argument, which is the modified entity to be saved. If this property is not set, the {{saveAll}} method of the EBL will not function.
+|{{removeMethod}}|An El path to a &quot;remove method&quot; which will remove an entity from persistence. This method must take one argument, which is the id of the entity to be removed.
+
+!!A minimal example
+For example, an (minimal)entry for a &quot;Blog&quot; entity might look like this:
+
+{{{
+&lt;bean id=&quot;Blog&quot; parent=&quot;entityBeanLocatorParent&quot;&gt;
+  &lt;property name=&quot;entityClass&quot; value=&quot;myPackage.Blog&quot;/&gt;
+  &lt;property name=&quot;fetchMethod&quot; value=&quot;myBlogDao.findById&quot;/&gt;
+  &lt;property name=&quot;saveMethod&quot; value=&quot;myBlogDao.save&quot;/&gt;
+&lt;/bean&gt;
+}}}
+!!What you get for your money
+
+After having set up a definition of the sort just described, what you get done for you is the following:
+
+* The full [OTP] pattern supported for your entity - that is, the ability to address in any request scope paths of the form {{Blog.15}} (representing the Blog entity with id 15) or even {{Blog.new 1}} representing a particular, transient Blog entity good for the current request
+* If you supplied a {{saveMethod}}, you will get the ability to invoke a {{saveAll}} method on the resulting bean. Simply fetch the bean of the name you registered (only at ''request scope''), which will be an implementor of {{EntityBeanLocator}}, and invoke {{saveAll}} on it at request end.
+* If you supplied a {{removeMethod}}, you will get the ability to invoke {{remove}} on the resulting bean, with an id argument - as well as the ability to target [deletion bindings|bindings] at the OTP root over the request.
+* Finally, you will get for free to participate in the [EntityNameInferrer] scheme. This is particularly useful when making selection controls which are meant to select which instance of one entity type is attached to another via the [IDDefunnellingReshaper].
+
+
+</pre>
+

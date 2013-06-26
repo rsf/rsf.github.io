@@ -1,0 +1,18 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The RSF conception of a [UIType|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/uitype/UIType.java] is a type which &quot;the UI may use to atomically give rise to input&quot;. In standard HTTP/HTML (and in most reasonable dialects) a set of types that make sense in this context is {{ {Boolean, String, String[[]} }}, and these are the three UITypes that are supported in RSF. The UIType concept is key to understanding the role of the [component tree|ComponentTree] and in particular the [UIBound|PrimitiveComponents] component and its hierarchy. An RSF bound value is a component holding a an [EL] reference to a part of the [request context|RequestWriteableBean], whose value will be ''flattened'' into one of the UIType types as it passes into the component tree from the model, and reconstituted as it passes back. 
+
+The three UIType type correspond to the three concrete descendents of UIBound, being UIBoundBoolean, UIBoundString and UIBoundList. Note that a UIBound component ''never'' contains a {{null}} value as its {{value}} member. An unset value is represented by a special placeholder value, of which there is one per type, per ClassLoader - detecting these placeholder values is done by reference equality for speed. As a convenience method, a UIType placeholder value can be detected by using the API call {{UITypes.isPlaceHolder()}} from PonderUtilCore. This test is sometimes needed in implementations of [
+evolvers|Evolver] which might need to anticipate a portion of the RSF [fixup] cycle.
+
+</pre>
+

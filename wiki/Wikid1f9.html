@@ -1,0 +1,40 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+[MessageLocator|https://saffron.caret.cam.ac.uk/svn/projects/PonderUtilCore/trunk/src/uk/org/ponder/messageutil/MessageLocator.java] is a core RSF abstract class that is very similar in functionality to Spring's [MessageSource|http://www.springframework.org/docs/api/org/springframework/context/MessageSource.html] (since it uses the Spring MessageSource), only it features a great many more different signatures supporting a greater flexibility of lookup, as well as having the dependence in the API on the required JDK Locale factored off into a request-scope dependency. The usage and general context of MessageLocator is described on the [I18N] page.
+
+The most commonly used member of MessageLocator tends to be the plain 
+{{{
+  public String getMessage(String code)
+}}}
+method, which takes a message key and resolves it in a {{.properties}} file to a localized message.
+
+The default implementation [PonderUtilCore|Structure]'s MessageLocator is in fact a wrapper for a Spring MessageSource. The standard Spring definition in RSF's {{[blank-applicationContext.xml|SpringAPI]}} is 
+{{{
+  &lt;bean id=&quot;messageLocator&quot;
+    class=&quot;uk.org.ponder.springutil.SpringMessageLocator&quot;&gt;
+    &lt;property name=&quot;messageSource&quot; ref=&quot;messageSource&quot; /&gt;
+  &lt;/bean&gt;
+}}}
+where {{messageSource}} is 
+{{{
+  &lt;bean id=&quot;messageSource&quot;
+    class=&quot;org.springframework.context.support.ReloadableResourceBundleMessageSource&quot;&gt;
+    &lt;property name=&quot;basename&quot; value=&quot;WEB-INF/messages/messages&quot; /&gt;
+    &lt;property name=&quot;cacheSeconds&quot; value=&quot;10&quot; /&gt;
+  &lt;/bean&gt;
+}}}
+The idea is that users may override the definition of {{messageSource}} to refer to the primary Spring resolver of their taste, and then continue to access it through RSF's standard {{messageLocator}}.
+
+Since RSF 0.7.1, the use of MessageLocator in user code directly is much less necessary, with the widespread updates to [UIMessage] and the primitive components. 
+
+</pre>
+

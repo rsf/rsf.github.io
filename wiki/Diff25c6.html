@@ -1,0 +1,1011 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html id="top" xmlns="http://www.w3.org/1999/xhtml">
+
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=AJAX&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+    RSF Wiki: AJAX
+  </title>
+  
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" media="screen, projection, print" type="text/css"
+     href="templates/default/jspwiki.css"/>
+
+<link rel="stylesheet" type="text/css" media="print" 
+     href="templates/default/jspwiki_print.css" />
+<!-- INCLUDERESOURCES (stylesheet) -->
+
+<!-- INCLUDERESOURCES (inlinecss) -->
+
+
+
+<noscript>
+<style type="text/css">
+#hiddenmorepopup { display:block; }
+</style>
+</noscript>
+
+
+<script type="text/javascript" src="scripts/mootools.js"></script>
+<script type="text/javascript" src="scripts/prettify.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-common.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-commonstyles.js"></script>
+<!-- INCLUDERESOURCES (script) -->
+
+
+
+
+
+<meta name="wikiContext" content='diff' />
+<meta name="wikiBaseUrl" content='http://rsf.fluidproject.org/wiki/' />
+<meta name="wikiPageUrl" content='/wiki/Wiki.jsp?page=%23%24%25' />
+<meta name="wikiEditUrl" content='/wiki/Edit.jsp?page=AJAX' />
+<meta name="wikiJsonUrl" content='/wiki/JSON-RPC' />
+<meta name="wikiPageName" content='AJAX' />
+<meta name="wikiUserName" content='207.119.0.6' />
+<meta name="wikiTemplateUrl" content='/wiki/templates/default/' />
+<meta name="wikiApplicationName" content='RSF Wiki' />
+
+<script type="text/javascript">//<![CDATA[
+/* Localized javascript strings: LocalizedStrings[] */
+var LocalizedStrings = {
+"javascript.edit.allsections":"( All )",
+"javascript.slimbox.error":"<h2>Error</h2>There was a problem with your request.<br />Please try again",
+"javascript.slimbox.remoteRequest":"Remote Request {0} of {1}",
+"javascript.slimbox.close":"Close &#215;",
+"javascript.quick.edit":"[Edit]",
+"javascript.sort.descending":"Descending order. Click to reverse sort order",
+"javascript.expand":"Click to expand",
+"javascript.group.validName":"Please provide a valid name for the new Group",
+"javascript.slimbox.next":"Next&raquo;",
+"javascript.filter.all":"( All )",
+"javascript.edit.areyousure":"Without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.quick.edit.title":"Edit section {0}...",
+"javascript.slimbox.directLink":"Direct Link to the target",
+"javascript.prefs.areyousure":"Without clicking the Save User Preferences button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.sbox.clone.suffix":"-New",
+"javascript.slimbox.info":"Image {0} of {1}",
+"javascript.tip.default.title":"More...",
+"javascript.edit.resize":"Drag to resize the text area",
+"javascript.edit.findandreplace.nomatch":"No match found!",
+"javascript.sort.ascending":"Ascending order. Click to reverse sort order",
+"javascript.slimbox.close.title":"Close [Esc]",
+"javascript.edit.toolbar.makeSelection":"Please make first a selection.",
+"javascript.favs.hide":"Click to hide Favorites",
+"javascript.sectionediting.label":"Section Overview",
+"javascript.slimbox.previous":"&laquo;Previous",
+"javascript.favs.show":"Click to show Favorites",
+"javascript.collapse":"Click to collapse",
+"javascript.category.title":"Click to show category [{0}] ...",
+"javascript.sort.click":"Click to sort",
+"javascript.edit.startOfPage":"( Start of page )"
+};
+
+
+/* INCLUDERESOURCES (jsfunction) */
+
+//]]></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="search" href="Wiki702d.html?page=FindPage"
+    title='Search RSF Wiki' />
+<link rel="help"   href="Wikia3b7.html?page=TextFormattingRules"
+    title="Help" />
+
+ <link rel="start"  href="Wikib2ab.html?page=Main"
+    title="Front page" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki_print.css"
+    title="Print friendly" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki.css"
+    title="Standard" />
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+<link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  
+    <meta name="robots" content="noindex,nofollow" />
+  
+  
+    <meta name="robots" content="noindex,follow" />
+  
+</head>
+
+<body class="view">
+
+<div id="wikibody" class="fav-left">
+ 
+  
+
+
+
+
+
+
+<div id="header">
+
+  <div class="titlebox"></div>
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=AJAX" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=AJAX"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+
+  <div class="pagename">AJAX</div>
+
+  <div class="searchbox">
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Search.jsp"
+        class="wikiform"
+           id="searchForm" accept-charset="UTF-8">
+
+  <div style="position:relative">
+  <input onblur="if( this.value == '' ) { this.value = this.defaultValue }; return true; "
+        onfocus="if( this.value == this.defaultValue ) { this.value = ''}; return true; "
+           type="text" value="Quick Navigation"
+           name="query" id="query"
+           size="20" 
+      accesskey="f" />
+  <button type="submit"
+  		 name="searchSubmit" id="searchSubmit"
+  		value="Go!"
+  		title="Go!"></button>
+  </div>
+  <div id="searchboxMenu" style='visibility:hidden;'>
+    <div id="searchTools">
+      <a href="#" id='quickView' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Wiki.jsp?page=__PAGEHERE__','View the selected page' );"
+        title="View the selected page">view</a>
+      <a href="#" id='quickEdit' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__','Edit the selected page' );"
+        title="Edit the selected page">edit</a>
+      <a href="#" id='quickClone' class='action'	
+      onclick="return SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__', 'Clone the selected page', true );"
+        title="Clone the selected page">clone</a>
+      <a href="#" id="advancedSearch" class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Search.jsp?query=__PAGEHERE__','AJAX' )"
+        title="Advanced Search [ f ]">find</a>
+    </div>
+    <div id="searchResult" >
+	  Quick search
+      <span id="searchTarget" >(type ahead)</span>
+      <span id="searchSpin" class="spin" style="position:absolute;display:none;"></span>
+	  <div id="searchOutput" ></div>
+    </div>
+    <div id="recentSearches" style="display:none;">
+      Recent Searches
+      <span><a href="#" id="recentClear">(Clear)</a></span>
+    </div>
+  </div>
+
+</form></div>
+
+  <div class="breadcrumbs">Your trail:&nbsp;<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UserNameTag">UserNameTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ValueBinding">ValueBinding</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VariableTag">VariableTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VeryLazyBeans">VeryLazyBeans</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewID">ViewID</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewRender">ViewRender</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogEntryPlugin">WeblogEntryPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogPlugin">WeblogPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WikiFormsExampleText">WikiFormsExampleText</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=XPP">XPP</a></div>
+
+</div>
+
+  <div id="content">
+
+    <div id="page">
+      
+
+
+
+
+
+<div id="actionsTop" class="pageactions"> 
+  <ul>
+
+    
+    
+    
+
+    
+    <li id="morebutton">
+      <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=MoreMenu" class="action more">More...</a>
+    </li>
+
+  </ul>
+</div>
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="tabmenu">
+
+  
+
+  
+
+  
+  
+
+  
+
+  <a id="menu-pagecontent" href='http://rsf.fluidproject.org/wiki/Wiki.jsp?page=AJAX' accesskey="v" ><span class='accesskey'>V</span>iew</a>
+
+  <a id="menu-attach" accesskey="a" ><span class='accesskey'>A</span>ttach (1)</a>
+
+  
+  <a class="activetab" id="menu-info" accesskey="i" ><span class='accesskey'>I</span>nfo</a>
+
+  </div>
+<div class="tabs">
+
+  <div id="pagecontent" class="hidetab" >
+
+      
+  </div>
+
+
+  <div id="attach" class="hidetab" >
+
+    
+
+
+
+
+
+
+
+
+
+
+<div id="addattachment">
+<h3>Add new attachment</h3>
+
+
+<div class="formhelp">Only authorized users are allowed to upload new attachments.</div>
+
+</div>
+
+
+
+<h3>List of attachments</h3>
+
+  
+
+  
+
+  <div class="zebra-table"><div class="slimbox-img sortable">
+  <table class="wikitable">
+    <tr>
+      <th>Kind</th>
+      <th>Attachment Name</th>
+      <th>Size</th>
+      <th>Version</th>
+      <th>Date Modified</th>
+      <th>Author</th>
+      
+      <th class="changenote">Change note</th>
+    </tr>
+
+    
+    
+    <tr>
+      <td><div id="attach-png" class="attachtype">png</div></td>
+      <td><a class="attachment" href="http://rsf.fluidproject.org/wiki/attach/AJAX/screenshot.png" accesskey="" title="screenshot.png">screenshot.png</a></td>
+      <td style="white-space:nowrap;text-align:right;">
+        25.3&nbsp;kB
+      </td>
+      <td style="text-align:center;">
+        <a href="http://rsf.fluidproject.org/wiki/PageInfo.jsp?page=AJAX/screenshot.png" title="Attachment info and version history">1</a>
+      </td>
+	  <td style="white-space:nowrap;" sortvalue="Tue, 18 Mar 2008 04:11:35">
+	  18-Mar-2008 16:11
+	  </td>
+      <td><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=JamesMarca">JamesMarca</a></td>
+      
+      <td class="changenote">
+      
+      </td>
+    </tr>
+    
+
+  </table>
+  </div></div>
+
+
+
+  </div>
+
+
+  
+  <div id="info" >
+
+  <p>
+  This page (revision-1) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=AJAX&amp;r1=-1&amp;r2=1"
+        title="Show changes of last page update" >
+        18-Aug-2008 08:22
+      </a> by UnknownAuthor
+
+  
+  </p>
+
+  
+
+  
+  
+      <p>Only authorized users are allowed to rename pages.</p>
+  
+
+  
+  
+      <p>Only authorized users are allowed to delete pages.</p>
+  
+
+  <div class="collapsebox-closed" id="incomingLinks">
+  <h4>Incoming links</h4>
+    <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=AJAX" accesskey="" title="">AJAX</a>
+    <ul><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Javascript">Javascript</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main">Main</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PureXHTMLTemplating">PureXHTMLTemplating</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RSF">RSF</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SampleRSFApps">SampleRSFApps</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UniversalViewBus">UniversalViewBus</a>
+</li></ul>
+  </div>
+
+  <div class="collapsebox-closed" id="outgoingLinks">
+  <h4>Outgoing links</h4>
+    <div class="ReferredPagesPlugin">
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=AJAX" title="ReferredPagesPlugin: depth[1] include[.*] exclude[^$] format[compact]">AJAX</a>
+<ul>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=AJAX/screenshot.png">AJAX/screenshot.png</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ComponentProducer">ComponentProducer</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=DataViews">DataViews</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=EL">EL</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HandlerHook">HandlerHook</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=InitBlock">InitBlock</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Javascript">Javascript</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PrimitiveComponents">PrimitiveComponents</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RSF">RSF</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RSFJSLibrary">RSFJSLibrary</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RequestWriteableBean">RequestWriteableBean</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SampleRSFApps">SampleRSFApps</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UniversalViewBus">UniversalViewBus</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewParameters">ViewParameters</a></li>
+</ul>
+</div>
+
+  </div>
+
+  <div class="clearbox"></div>
+
+  
+  
+     
+
+
+
+
+
+
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Diff.jsp" method="get" accept-charset="UTF-8">
+<div class="collapsebox" id="diffcontent">
+  <h4>
+       <input type="hidden" name="page" value="AJAX" />
+       Difference between version <select id="r1" name="r1" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select> and <select id="r2" name="r2" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select>
+  </h4>
+
+  
+
+  <div class="diffbody">
+    <table class="diff" border="0" cellspacing="0" cellpadding="0">
+<tr><td class="diff">At line 1 added 194 lines</td></tr>
+<tr><td class="diffadd">!!! AJAX and RSF</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">[RSF] works well with [AJAX|http://en.wikipedia.org/wiki/AJAX] and [Javascript] (either together with client-side frameworks or as bits of Javascript you write yourself). Because RSF is designed to work in a standard [RESTful|http://en.wikipedia.org/wiki/Representational_State_Transfer] way it does not require or use Javascript for navigation, posting data, or any framework activities. This is notable because it is in contrast to the way many other Java [web frameworks|http://en.wikipedia.org/wiki/Web_application_framework] operate.</td></tr>
+<tr><td class="diffadd">Developers can choose to use RSF Javascript libraries for widgets, validation (eventually), and other specialized built-in RSF actions, but these are optional and are only used to enhance the user experience.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">There are multiple ways to use AJAX in RSF which are detailed below. We highly encourage looking at the [sample apps|SampleRSFApps] for examples of AJAX in RSF as a complement to this page. The sample applications are heavily commented and in many cases offer better explanations of how things work.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!! Returning a simple JSON payload</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">To define an RSF view which returns a simple JSON payload, encoded from a set of Java objects, use a [DataView|DataViews]. DataViews can also return other kinds of non-markup content types (images, PDF files, etc.).</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!! UVB shortcut (Recommended where a markup-based approach is not appropriate - see below)</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">RSF provides a special [producer|ComponentProducer] called the [Universal View Bus|UniversalViewBus] (or UVB for short). When this is combined with the [RSF Javascript library|RSFJSLibrary] (rsf.js) it allows a developer to make AJAX requests with minimal programming effort - in particular with no new request-handling code on the server-side.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">! Using UVB to handle an AJAX request and response cycle</td></tr>
+<tr><td class="diffadd">* In your template, create a form and a field which we will use to put data in to send along in the AJAX request, you could use any type of field you like to hold data but the field does have to be placed inside a form:</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">&lt;form rsf:id=&quot;input_form&quot; style=&quot;display:inline;&quot;&gt;</td></tr>
+<tr><td class="diffadd">   &lt;input rsf:id=&quot;input_field&quot; id=&quot;input_field&quot; type=&quot;text&quot; size=&quot;20&quot; maxlength=&quot;20&quot; /&gt;</td></tr>
+<tr><td class="diffadd">&lt;/form&gt;</td></tr>
+<tr><td class="diffadd">&lt;div id=&quot;result_field&quot;&gt;&lt;/div&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">** Remember to write the client-side XML id {{id=&quot;input_field&quot;}} on this element as well as the {{rsf:id}} to ensure that the RSF renderer writes a client side id when it rewrites the element. We will need the XML id later when we refer to the element via Javascript. (The id you write in the markup need not agree with RSF's id, but if you want to write a preview function call in place of the comment below, you can use this id there).</td></tr>
+<tr><td class="diffadd">* In your template, create a placeholder {{&lt;script&gt;}} tag which will hold the call to your init method, this will allow you to pass information from the server to the Javascript, such as the IDs for the fields controlled by RSF, as well as the [EL] bindings</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">&lt;script rsf:id=&quot;init_js&quot; type=&quot;text/javascript&quot;&gt;</td></tr>
+<tr><td class="diffadd">    // a real function call with real values which come from the </td></tr>
+<tr><td class="diffadd">    // &quot;emitJavascriptCall&quot; method will be placed here by RSF</td></tr>
+<tr><td class="diffadd">&lt;/script&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"> (Note that you can write an actual function call here in the markup too, to set up an environment that would let you preview your dynamic behaviour from your template file in the filesystem)</td></tr>
+<tr><td class="diffadd">* In your {{my-app.js}} file (may need to create one), create an init method to set up for an AJAX request. This method should take params which include elBindings and fieldIds for RSF controlled fields (e.g. input)</td></tr>
+<tr><td class="diffadd">** Use the {{getAJAXUpdater}} function to create a trigger function</td></tr>
+<tr><td class="diffadd">** Attach that trigger function to events or just run it yourself</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">function initMyAjaxStuff(fieldId, elBinding) {</td></tr>
+<tr><td class="diffadd">   // get the field we are working with</td></tr>
+<tr><td class="diffadd">   var inputField = document.getElementById(fieldId);</td></tr>
+<tr><td class="diffadd">   // get the URL from the form</td></tr>
+<tr><td class="diffadd">   var ajaxUrl = inputField.form.action;</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">   var callback = function(results) {</td></tr>
+<tr><td class="diffadd">      // this function (callback) defines what to do </td></tr>
+<tr><td class="diffadd">      // when the ajax response is received,</td></tr>
+<tr><td class="diffadd">      // the response will be placed in the &quot;results&quot; variable</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">      // result.EL is a map of ELbinding -&gt; JS Object</td></tr>
+<tr><td class="diffadd">      var resultField = document.getElementById(&quot;result_field&quot;);</td></tr>
+<tr><td class="diffadd">      // get out the object (which is a string array in </td></tr>
+<tr><td class="diffadd">      // this case) and decode it</td></tr>
+<tr><td class="diffadd">      var resultArray = RSF.decodeRSFStringArray(results.EL[elBinding]);</td></tr>
+<tr><td class="diffadd">      // output the array on the screen</td></tr>
+<tr><td class="diffadd">      resultField.innerHTML = resultArray;</td></tr>
+<tr><td class="diffadd">   }</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">   // setup the function which initiates the AJAX request</td></tr>
+<tr><td class="diffadd">   var updater = RSF.getAJAXUpdater([inputField], ajaxUrl, [elBinding], callback);</td></tr>
+<tr><td class="diffadd">   // setup the input field event to trigger the ajax request function</td></tr>
+<tr><td class="diffadd">   inputField.onchange = updater; // send request when field changes</td></tr>
+<tr><td class="diffadd">}</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">** Remember to add your {{my-app.js}} file to your template</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">&lt;script type=&quot;text/javascript&quot; language=&quot;JavaScript&quot; src=&quot;../js/my-app.js&quot;&gt;&lt;/script&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">* In your producer, pass the UVB Producer URL into the DOM so that it can be accessed by your Javascript and used as the target for the AJAX request. In this example we are putting the URL in the form action:</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">UIForm form = UIForm.make(tofill, &quot;input_form&quot;);</td></tr>
+<tr><td class="diffadd">// this puts the URL to the UVB producer in the form so we can get to it</td></tr>
+<tr><td class="diffadd">form.viewparams = new SimpleViewParameters(UVBProducer.VIEW_ID);</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">* In your producer, use a [UIInitBlock|InitBlock] to pass the needed data (fieldIds, elBindings, etc.) from the producer (server) to the template javascript (client) while triggering the init method, in this example we are showing how to get the full ID of an RSF controlled field (first param) and also pass along an [EL] binding (second param)</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  UIInput inputfield = UIInput.make(form, &quot;input_field&quot;, &quot;myAjaxBean.search&quot;);</td></tr>
+<tr><td class="diffadd">  UIInitBlock.make(tofill, &quot;init_js&quot;, &quot;initMyAjaxStuff&quot;, new Object[] {inputfield, &quot;myAjaxBean.results&quot;});</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">** This init block will generate a Javascript call in the output XHTML that looks like:</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">initMyAjaxStuff(&quot;input_field&quot;, &quot;myAjaxBean.results&quot;);</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">** Note that if you really need for some reason to take control of the rendering of the Javascript call, you can instead use the RSF utility call {{HTMLUtil.emitJavascriptCall}} which is what the UIInitBlock renderer uses internally. However you are generally recommended not to mix the client-side and server-side worlds by explicitly bashing together Javascript code in Java, unless you absolutely need to.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">* Create a bean which will do the processing when it receives the parameters from the AJAX request (this is just a standard bean), if you are sending more than one ajax request value then you will have to trigger the handleAjaxCall method in another way, see the [Sample RSF apps|SampleRSFApps] for examples</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public class AjaxHandlerBean {</td></tr>
+<tr><td class="diffadd">   public String search;</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">   private String[] results;</td></tr>
+<tr><td class="diffadd">   public String[] getResults() {</td></tr>
+<tr><td class="diffadd">      handleAjaxCall();</td></tr>
+<tr><td class="diffadd">      return results;</td></tr>
+<tr><td class="diffadd">   }</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">   public void handleAjaxCall() {</td></tr>
+<tr><td class="diffadd">      if (search == null || search.equals(&quot;&quot;)) {</td></tr>
+<tr><td class="diffadd">         // this should not happen so die here</td></tr>
+<tr><td class="diffadd">         throw new RuntimeException(&quot;Blank AJAX search&quot;);</td></tr>
+<tr><td class="diffadd">      } else {</td></tr>
+<tr><td class="diffadd">         // make an array of stuff to return</td></tr>
+<tr><td class="diffadd">         results = new String[] {search,&quot;aaron&quot;,&quot;is&quot;,&quot;totally&quot;,&quot;cool&quot;};</td></tr>
+<tr><td class="diffadd">      }</td></tr>
+<tr><td class="diffadd">   }</td></tr>
+<tr><td class="diffadd">}</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">* Add the AjaxHandlerBean definition to the ''requestContext.xml'' file</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">&lt;bean id=&quot;myAjaxBean&quot;</td></tr>
+<tr><td class="diffadd">      class=&quot;uk.org.ponder.rsf.ajax.autocomplete.AjaxHandlerBean&quot;&gt;</td></tr>
+<tr><td class="diffadd">&lt;/bean&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">* Add the id of your AJAX handler bean (myAjaxBean) to the list of [request addressible beans|RequestWriteableBeans]  (with requestAddressibleParent) in your {{applicationContext.xml}} file, this is needed so that UVB can write data into the the bean</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">&lt;bean parent=&quot;requestAddressibleParent&quot;&gt;</td></tr>
+<tr><td class="diffadd">   &lt;property name=&quot;value&quot; value=&quot;myAjaxBean&quot; /&gt;</td></tr>
+<tr><td class="diffadd">&lt;/bean&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">* You should be able to start up your application and change the field to trigger an AJAX request which should return an array from the server which has the search string in it (yes, completely pointless but it illustrates the cycle), then the value will be placed in the {{&lt;div&gt;}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">! What if I just want to trigger a method on the server using an AJAX request and do not want to pass any values?</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">This is exactly the same as the code demonstrated above, just change the following:</td></tr>
+<tr><td class="diffadd">* Leave off the search property ({{public String search;}}) from the AJAX handler bean</td></tr>
+<tr><td class="diffadd">* Don't pass an inputField when calling the ''emitJavascriptCall'' method (only pass the [EL] binding)</td></tr>
+<tr><td class="diffadd">* Change the initMyAjaxStuff function to only use one param</td></tr>
+<tr><td class="diffadd">{{{function initMyAjaxStuff(elBinding) {}}}</td></tr>
+<tr><td class="diffadd">* Change the call to the getAJAXUpdater to leave out the input fields</td></tr>
+<tr><td class="diffadd">{{{var updater = RSF.getAJAXUpdater([], ajaxUrl, [elBinding], callback);}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">! What if I don't care about the results of the AJAX request?</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">This is exactly the same as the code demonstrated above, just change the following:</td></tr>
+<tr><td class="diffadd">* Do not bother returning a real result, just return empty string from the AJAX handler bean</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public String getResults() {</td></tr>
+<tr><td class="diffadd">   handleAjaxCall();</td></tr>
+<tr><td class="diffadd">   return &quot;&quot;;</td></tr>
+<tr><td class="diffadd">}</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">* Change the callback method to not do anything {{ var callback = function(results) { } }}, you may want to still check to see if there were failures during the call by looking at {{results.isError}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">! Sample application</td></tr>
+<tr><td class="diffadd">There is a [sample RSF application|SampleRSFApps] which demonstrates everything shown above in SVN at:</td></tr>
+<tr><td class="diffadd">[https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/AjaxAutocompleteSimple/]</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!! AJAX handler view</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!&quot;Semantic&quot; AJAX, or XML views</td></tr>
+<tr><td class="diffadd">This will be the method that is most similar to the standard way AJAX is manually handled in a webpage, where there is no special framework support. It involves creating a [view producer|http://saffron.caret.cam.ac.uk/projects/RSFUtil/apidocs/uk/org/ponder/rsf/view/ViewComponentProducer.html] which will be the target for your AJAX requests and an xml template to control the layout. When this [producer|ComponentProducer] is triggered (by an AJAX request) it will (possibly) receive [ViewParameters] which contain the data being passed in (you are responsible for choosing how to encode and decode any data you are passing in your request). It will then work like a normal view producer and template combination and the data will be placed into the template based on the rsf:ids in the template. Then the XML will be sent back via an AJAX response. This requires the most manual work but provides for as much flexibility as you need. In this case your producer should implement {{[ContentTypeReporter|http://saffron.caret.cam.ac.uk/projects/RSFUtil/trunk/site/apidocs/uk/org/ponder/rsf/content/ContentTypeReporter.html]}} and return the value {{[ContentTypeInfoRegistry.AJAX|http://saffron.caret.cam.ac.uk/projects/RSFUtil/trunk/site/apidocs/uk/org/ponder/rsf/content/ContentTypeInfoRegistry.html]}}. Give your template a {{.xml}} extension. In views like this you will generally use the components [UIOutput|PrimitiveComponents], {{UIVerbatim}} and {{UIBranchContainer}}.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!Markup-driven AJAX, or HTML views</td></tr>
+<tr><td class="diffadd">It is also very easy to create a view rendering an HTML fragment, for use with an [AHAH|http://en.wikipedia.org/wiki/AHAH] strategy. Simply create a template for the markup fragment you want, and write a producer using all the usual RSF [components|PrimitiveComponents]. For views like this you will implement {{[ContentTypeReporter|http://saffron.caret.cam.ac.uk/projects/RSFUtil/trunk/site/apidocs/uk/org/ponder/rsf/content/ContentTypeReporter.html]}} and return the value {{[ContentTypeInfoRegistry.HTML_FRAGMENT|http://saffron.caret.cam.ac.uk/projects/RSFUtil/trunk/site/apidocs/uk/org/ponder/rsf/content/ContentTypeInfoRegistry.html]}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!Custom responses</td></tr>
+<tr><td class="diffadd">For stepping outside the RSF rendering system completely, you can register a custom request handler using a [HandlerHook] - this can render any kind of response at all, since it takes manual control of the {{HttpServletResponse}} or other environment. The drawback of this approach is that your application will not be portable to non-Servlet environments.</td></tr>
+<tr><td class="diffadd">!! AJAX frameworks</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">RSF fully supports the use of [AJAX frameworks|http://en.wikipedia.org/wiki/Ajax_framework] and has been tested with the following frameworks:</td></tr>
+<tr><td class="diffadd">* [jQuery|http://jquery.com/]</td></tr>
+<tr><td class="diffadd">* [Dojo Toolkit|http://www.dojotoolkit.org/]</td></tr>
+<tr><td class="diffadd">* [Yahoo! UI Library (YUI)|http://developer.yahoo.com/yui/] - used in the RSF data picker widget</td></tr>
+<tr><td class="diffadd">''Other frameworks should work fine with RSF, we just have not tested them''</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">If the framework allows you to construct your own AJAX requests then you can use the UVB shortcut and simply pass the data back to the framework once UVB gives you the AJAX response. If not, then you will have to make as AJAX handler view to process the requests from your framework (the framework would then handle the responses for you). This is often an attractive option as it takes the most advantage of the AJAX framework but it does require extra work.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">We recommend you avoid AJAX frameworks that [pollute the global namespace|http://www.ajaxprogrammer.com/?p=24] or [extend the core Javascript objects|http://phrogz.net/JS/Classes/ExtendingJavaScriptObjectsAndClasses.html]. Using frameworks like this will cause your app to not play nicely in portlet environments or other environments where the javascript ends up being shared between apps. Unfortunately, this includes any frameworks that use [prototype|http://www.prototypejs.org/] (more info on the [prototype extensions|http://www.prototypejs.org/learn/extensions].</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!!jQuery usage note</td></tr>
+<tr><td class="diffadd">I (jmarca) have found that jQuery does not like the ids that are generated automatically by RSF.  As noted in the [jQuery FAQ|http://docs.jquery.com/Frequently_Asked_Questions#How_do_I_select_an_element_that_has_weird_characters_in_its_ID.3F], jQuery chokes on characters that have a meaning in CSS, as it uses [CSS selectors|http://docs.jquery.com/Selectors] to do some fancy DOM searching.  To prove this, I put the following code in my javascript.  In the example, &quot;formId&quot; is created more or less following the [LogonTest example|http://www2.caret.cam.ac.uk/rsfwiki/Wiki.jsp?page=LogonTest_2]</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd"> constructorFn.initLogin=function(formId) {</td></tr>
+<tr><td class="diffadd">   // get the field we are working with</td></tr>
+<tr><td class="diffadd">   var loginForm  = jQuery(&quot;#&quot;+formId);</td></tr>
+<tr><td class="diffadd">   var bechity    = jQuery(&quot;#login-not-logged-in-pane::login-form&quot;);</td></tr>
+<tr><td class="diffadd">   var bechityboo = jQuery(&quot;#login-not-logged-in-pane\\:\\:login-form&quot;);</td></tr>
+<tr><td class="diffadd">    ...</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">If you run this in Firefox with Firebug enabled, you will see the following output as you step over these lines:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">[screenshot.png]</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">I don't know how to solve this problem in Java, but my Javascript solution is as follows:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd"> constructorFn.initLogin=function(formId) {</td></tr>
+<tr><td class="diffadd">    // jQuery chokes on colons</td></tr>
+<tr><td class="diffadd">    var formIdNoColon = formId.replace(/(\:)/g,&quot;\\$1&quot;);</td></tr>
+<tr><td class="diffadd">    // get the field we are working with</td></tr>
+<tr><td class="diffadd">    var loginForm = jQuery(&quot;#&quot;+formIdNoColon);</td></tr>
+<tr><td class="diffadd">    ...</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+</table>
+ 
+  </div>
+</div>
+</form>
+
+  
+  
+
+	
+    
+    
+
+    
+
+    <div class="zebra-table sortable table-filter">
+    <table class="wikitable" >
+      <tr>
+        <th>Version</th>
+        <th>Date Modified</th>
+        <th>Size</th>
+        <th>Author</th>
+        <th>Changes ...</th>
+        <th class='changenote'>Change note</th>
+      </tr>
+
+      
+      
+      <tr>
+        <td>
+          <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=AJAX&amp;version=-1" accesskey="" title="">
+            
+          </a>
+        </td>
+
+	    <td style="white-space:nowrap;" sortvalue="Mon, 18 Aug 2008 08:22:15">
+        18-Aug-2008 08:22
+        </td>
+        <td style="white-space:nowrap;text-align:right;">
+          
+          14.978&nbsp;kB
+        </td>
+        <td>UnknownAuthor</td>
+
+        <td>
+          
+
+          
+        </td>
+
+         <td class="changenote">
+           
+           
+         </td>
+
+      </tr>
+      
+      
+
+    </table>
+    </div>
+    
+    
+  </div>
+
+
+  <div style="clear:both;" ></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+<div id='actionsBottom' class="pageactions"> 
+    
+
+    <a href="#top" 
+      class="action quick2top" 
+      title="Go to top" >&laquo;</a>
+
+    
+       This page (revision-) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=AJAX&amp;r1=-1&amp;r2=1">18-Aug-2008 08:22</a> by UnknownAuthor
+    
+
+    
+
+   
+
+  
+
+   
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div id="favorites">
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=AJAX" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=AJAX"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+  
+  <div id="hiddenmorepopup">
+  <ul id="morepopup">
+     
+       	
+     
+       
+     
+    
+       
+     
+       <li>
+       
+       <a class="action rawpage wikipage" 
+               href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=AJAX&amp;skin=raw"
+              title="View Page Source">View Page Source
+       </a>
+       
+       
+       </li>
+      
+        
+  
+      
+      
+      
+
+      
+	  <li class='separator'>
+        <div id="moremenu" ></div>
+      </li>
+  </ul>
+  </div>
+  
+  
+
+  
+
+  
+
+  
+  <div class="leftmenu">
+    <p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main">Main page</a><br />
+<tt> </tt><i><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ThisWiki">About</a></i><br />
+</p><p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=GettingStarted">Getting Started</a><br />
+</p>
+<p><b>Documentation</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Developers">Developers</a><br />
+<tt>  </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Javadocs">Javadocs</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Designers">Designers</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SampleRSFApps">Sample RSF Apps</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Presentations">Presentations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Acronyms">Acronyms</a><br />
+</p>
+<p><b>Downloads</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CurrentCode">Current Release</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=TrunkCode">Trunk</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CodeDistributions">Distributions</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=OldCode">Old Versions</a><br />
+</p>
+<p><b>Community</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=QampA">Q&amp;A</a><br />
+<tt> </tt><a class="external" href="http://ponder.org.uk/rsf/">Forums</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=EmailLists">Mailing Lists</a><br />
+<tt> </tt><a class="external" href="http://www.caret.cam.ac.uk/jira/browse/RSF">Issue Tracker</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=People">People</a><br />
+</p>
+<p><b>Design</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Roadmap">Roadmap</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Integrations">Integrations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Concepts">Concepts</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Philosophy">Philosophy</a><br />
+</p>
+<div style="font-style:italic;font-size:0.8em;">
+<b>Pages</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=FindPage">Find</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RecentChanges">Recent Changes</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UnusedPages">Unused</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UndefinedPages">Undefined</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PageIndex">Index</a>
+</div>
+<p />
+    
+  </div>
+  
+  <div class="leftmenufooter">
+    <hr />
+<p><b>Referenced by</b><br />
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Javascript">Javascript</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main">Main</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PureXHTMLTemplating">PureXHTMLTemplating</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RSF">RSF</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SampleRSFApps">SampleRSFApps</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UniversalViewBus">UniversalViewBus</a><br />
+</p>
+    
+  </div>
+
+  
+
+  
+  
+  <div class="wikiversion">JSPWiki v2.8.2
+  <span class="rssfeed">
+    
+  </span>
+  </div>  
+  
+</div>
+
+	<div class="clearbox"></div>
+  </div>
+
+  
+
+
+
+
+
+ 
+<div id="footer">
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  <div class="copyright"></div>
+
+  <div class="wikiversion">
+    JSPWiki v2.8.2
+  </div>
+
+  <div class="rssfeed">
+    
+  </div>
+
+</div>
+
+</div>
+
+</body>
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=AJAX&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:19 GMT -->
+</html>

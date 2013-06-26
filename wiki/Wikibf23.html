@@ -1,0 +1,28 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Implement the interface [ViewExceptionStrategy|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/flow/errors/ViewExceptionStrategy.java] in a bean marked with the [TLAB|TargetListAggregatingBean] {{viewExceptionStrategyPareyt}} in order to declare a custom strategy for handling exceptions received during rendering a view.
+
+For example, the following Spring definition (at application scope) declares and marks a strategy which will pass on (by rethrowing) any exception of class SecurityException:
+
+{{{
+  
+  &lt;bean parent=&quot;viewExceptionStrategyParent&quot;&gt;
+    &lt;property name=&quot;value&quot;&gt;
+      &lt;bean class=&quot;uk.org.ponder.rsf.flow.errors.PropagatingViewExceptionStrategy&quot;&gt;
+        &lt;property name=&quot;propagatedExceptions&quot; value=&quot;java.lang.SecurityException&quot;/&gt;
+      &lt;/bean&gt;
+     &lt;/property&gt;
+  &lt;/bean&gt;
+}}}
+
+</pre>
+

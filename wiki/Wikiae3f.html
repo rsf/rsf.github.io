@@ -1,0 +1,37 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The &quot;partial WAR&quot; strategy has been used in several places throughout the RSF samples and projects in order to achieve a kind of &quot;inheritance&quot; amongst related WAR projects. For example the various versions of the [NumberGuessing] sample targetted at different environments (standalone Servlets, JSR-168 portlets and Sakai) make use of a &quot;base WAR&quot; containing all the portable definitions for the app (some view templates, Spring files, implementation logic) but omitting the nonportable parts (web.xml, further templates). This base or &quot;partial WAR&quot; is then imported into different concrete projects, one for each environment, which &quot;hydrate&quot; it by adding the smattering of extra packaging required for that environment.
+
+Unfortunate, Maven, the build system used for RSF and all associated projects, does not recognise WAR composition as a basic activity, so these build steps need to be automated manually, using the maven.xml file written using the Jelly scripting language supported by Maven 1.x.
+
+The following stanza is used in all projects requiring to built with partial WARs as dependencies:
+
+{{{
+&lt;!-- This standard stanza is required for any webapps participating in the
+   &quot;partial WAR&quot; build strategy --&gt;
+  &lt;preGoal name=&quot;war:webapp&quot;&gt;
+    &lt;echo&gt;Expanding webapp dependencies&lt;/echo&gt;
+
+    &lt;mkdir dir=&quot;${maven.war.webapp.dir}&quot; /&gt;
+    &lt;j:forEach var=&quot;lib&quot; items=&quot;${pom.artifacts}&quot;&gt;
+      &lt;j:set var=&quot;dep&quot; value=&quot;${lib.dependency}&quot; /&gt;
+      &lt;j:if test=&quot;${dep.getProperty('explode') == 'true'}&quot;&gt;
+        &lt;j:if test=&quot;${dep.type =='war'}&quot;&gt;
+          &lt;unjar src=&quot;${lib.path}&quot; dest=&quot;${maven.war.webapp.dir}&quot; /&gt;
+        &lt;/j:if&gt;
+      &lt;/j:if&gt;
+    &lt;/j:forEach&gt;
+  &lt;/preGoal&gt;
+}}}
+
+</pre>
+

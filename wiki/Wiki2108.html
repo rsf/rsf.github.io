@@ -1,0 +1,32 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!! RSF and Javascript
+
+__NOTE:__ If you are looking for help using [AJAX] or Javascript in [RSF] then check out the [AJAX page|AJAX].
+
+Javascript and [AJAX] in user interfaces is an issue on which [RSF] succeeds in being entirely neutral - the default HTML [RenderSystem] can operate completely correctly in a Javascript-disabled browser since it issues no Javascript of its own accord. The side-effect of this is to provide a much more Javascript-friendly environment for UI developers since there is no chance that any synthesized Javascript may obscurely conflict with the code they are attempting to write and test apart from RSF. Note that the pure HTML-template architecture of IKAT also contributes to the ease of the legendarily nasty task of constructing and testing Javascript UIs, since the template file is a direct model for a valid rendered page from the system, and may have all of its Javascript tested in isolation. [BuildingRSFComponents] explains how view templates can be created for RSF with not only previewable appearance, but previewable behaviour.
+
+!! Helpful Javascript links
+* [W3C Javascript tutorial (with online examples and editing)|http://www.w3schools.com/js/]
+* [W3C DOM reference|http://www.w3schools.com/htmldom/dom_reference.asp]
+* [Javascript Closures for Dummies|http://blog.morrisjohns.com/javascript_closures_for_dummies] - everyone writing javascript should read this
+
+!! rsf:id and Javascript
+
+The RSF [ID|IDs] system is also intended to be Javascript-friendly, making it easy to compute the ID (full ID) allocated to components in distant parts of the tree. The last page of the XML-driven [Hibernate Cookbook|HibernateCookBook_3] shows an example of RSF's philosophy for communication between server-side logic and the client side in action - the arguments to client-side logic are rendered into invisible document elements as XML, and client-side code is ''never'' rewritten. More information about [how IDs are generated|IDs] is available and examples of passing ids from the server to the client are show on the [AJAX] page.
+
+!! Client side validation
+
+There is scope for extending the basic [RenderSystem] to include support for some kind of client-side Javascript validation as in Spring Validation, but this is some way off.
+
+</pre>
+

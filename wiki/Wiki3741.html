@@ -1,0 +1,137 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+A very typical requirement is setting up a standard set of headers/footers etc. that surround every page in an application. This is done by setting up an outer page template, which in some frameworks is called a ''layout''. If you have some experience of building up [Producer|ComponentProducer] networks and [writing RSF components|BuildingRSFComponents], it will be no surprise to find that this is handled in RSF by the familiar means of setting up pure HTML templates with appropriate {{[rsf:id|IDs]}}s and arranging injection in Spring of the relevant producers. 
+
+In this case, most of the necessary Spring definitions are already set up within RSF, and it just a matter of rewiring them slightly. Let's start at the HTML templating level to get a clear overview of what is going on. 
+!! Outer page template example
+
+This is a sample template, in this case taken from the [Hibernate Cookbook|HibernateCookBook] sample application, which defines the outer, standard part of the page, together with a [branch|UIBranchContainer] tag, here named {{page-replace:}}, indicating where the page body is to be replaced with the different views for each page on the site:
+
+{{{
+&lt;!DOCTYPE html      PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+     &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+&lt;html xmlns:rsf=&quot;http://ponder.org.uk/rsf&quot;&gt;
+ &lt;head&gt;
+   &lt;title&gt;Online Cookbook&lt;/title&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+   &lt;h1&gt;Online Cookbook&lt;/h1&gt;
+     &lt;div rsf:id=&quot;page-replace:&quot;&gt;
+     &lt;!--  Page body will go here --&gt;
+     &lt;/div&gt;
+   &lt;p&gt;
+     &lt;a href=&quot;recipe-edit.html&quot; rsf:id=&quot;new-recipe&quot;&gt;Create new recipe&lt;/a&gt;
+     &lt;a href=&quot;recipes.html&quot; rsf:id=&quot;recipes-all&quot;&gt;Show all recipes&lt;/a&gt;
+     &lt;a href=&quot;categories.html&quot; rsf:id=&quot;categories-all&quot;&gt;Show all categories&lt;/a&gt;
+   &lt;/p&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+}}}
+
+Note that there is nothing &quot;unusual&quot; about this template - it is in fact indistinguishable from any normal RSF pure HTML template, obeying the same rules for any components [peering] with tags in it arranged by {{[rsf:id|IDs]}}. 
+
+!!NullaryProducer for the outer template
+There is however a slight difference with the [producer|ComponentProducer] that is paired up with our page layout template - since this markup is expected to be produced for ''every'' view in the application, the associated producer is not a {{ViewComponentProducer}} as it is for view templates, but the much more slimline {{NullaryProducer}}:
+
+{{{
+public interface NullaryProducer {
+  public void fillComponents(UIContainer tofill);
+}
+}}}
+
+{{NullaryProducer}} is in fact the simplest possible Producer interface, supplying no other context except the container to be filled. This makes sense, since in this case component production is beginning at the very root of the component tree, with no other context known to the framework.
+
+
+The implementation of the producer backing the template above looks like this:
+
+{{{
+public class Layout implements NullaryProducer {
+
+  private NullaryProducer pageproducer;
+
+  public void setPageProducer(NullaryProducer pageproducer) {
+    this.pageproducer = pageproducer;
+  }
+  
+  public void fillComponents(UIContainer tofill) {
+    UIInternalLink.make(tofill, &quot;recipe-create&quot;, 
+        new EntityCentredViewParameters(RecipeEdit.VIEW_ID, new EntityID(&quot;Recipe&quot;, &quot;new 1&quot;),
+            EntityCentredViewParameters.MODE_NEW));
+
+    UIInternalLink.make(tofill, &quot;recipes-all&quot;, new SimpleViewParameters(
+        Recipes.VIEW_ID));
+
+    UIInternalLink.make(tofill, &quot;categories-all&quot;, new SimpleViewParameters(
+        Categories.VIEW_ID));
+    
+    UIJointContainer page = new UIJointContainer(tofill, &quot;page-replace:&quot;, &quot;page:&quot;);
+    // include the components from the page body into tag &quot;page-replace:&quot;
+    pageproducer.fillComponents(page);
+  }
+}
+}}}
+
+Again, notice that it functions like any other RSF producer, generating components to match the {{rsf:id}}s of the tags in the template. Once it reaches the {{&lt;div&gt;}} where the page body is to be inserted, it must defer to the framework to fetch the correct component subtree for this view. It does this in a way extremely similar to that of an RSF [Evolver] which is the basis of the RSF &quot;widget&quot; system, by creating a [UIJointContainer] which forces the renderer to take a branch to another template - and then filling the container with the subtree obtained from the framework, via another {{NullaryProducer}} that is injected in.
+
+In this case the client ID and joint IDs for the {{UIJointContainer}}, {{page-replace:}} and {{page:}} are at the discretion of the author. The value used for {{page-replace:}} must match the ID used in your outer page template, like the one above. The value used for {{page:}} must match the one used in your actual view pages (see below).
+
+!!Spring definitions for outer producer and templates
+
+Our producer implemention is registered with Spring in the normal way - it needs to acquire an extra dependency from the framework in order to fill its joint when required:
+
+{{{
+  &lt;bean id=&quot;pageProducer&quot; class=&quot;uk.org.ponder.rsf.cookbook.producers.Layout&quot;&gt;
+    &lt;property name=&quot;pageProducer&quot; ref=&quot;pageBasicProducer&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+{{pageBasicProducer}} is a standard RSF request-scope bean implementing the {{NullaryProducer}} interface, which will deliver all the components fetched from the ViewProducers for the current request, whatever they are. The name {{pageProducer}} for this bean is also fixed - giving your bean this name indicates that you are replacing the standard {{pageProducer}} which produces the ViewRoot to RSF with your own implementation. {{pageProducer}} must be declared at request scope.
+
+Finally you need to register the HTML template file used for the outer layout with RSF, using the standard parent definition {{rootTemplateContributorParent}}:
+{{{
+  &lt;!-- Register the template &quot;layout.html&quot; as defining root layout for
+       each page in the application (extension is auto-inferred from view type),
+       base directory is defaulted from &quot;defaultTemplatePath&quot; -&gt; content/templates/ --&gt;
+  &lt;bean parent=&quot;rootTemplateContributorParent&quot;&gt;
+    &lt;property name=&quot;templateNames&quot; value=&quot;layout&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+This is very similar to the {{templateContributorParent}} used for [standard RSF UI components|BuildingRSFComponents]
+
+!!Writing page templates in your application
+The ViewProducers in your application are unchanged whether you are using outer page templates/layouts or not. The view templates are changed very slightly in that they must contain a branch tag enclosing the part of their markup which is intended to be included into the layout. For example, we set up our outer producer above to use the joint ID of {{page:}}, and this is the branch ID we must use in our view templates.
+
+For example, here is the template for one of the views in our CookBook application:
+
+{{{
+&lt;!DOCTYPE html      PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+     &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+&lt;html xmlns:rsf=&quot;http://ponder.org.uk/rsf&quot;&gt;
+&lt;head&gt;
+&lt;title rsf:id=&quot;edit-title&quot;&gt;Edit category&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div rsf:id=&quot;page:&quot;&gt;
+&lt;h1 rsf:id=&quot;new-category-heading&quot;&gt;New category&lt;/h1&gt;
+&lt;h1 rsf:id=&quot;edit-category-heading&quot;&gt;Edit category&lt;/h1&gt;
+
+&lt;!-- Etc., Rest of view template in here --&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+}}}
+
+We include enough header definitions to make this a valid XHTML document, but note that everything outside the tag {{&lt;div rsf:id=&quot;page:&quot;&gt;}} will be stripped out on rendering. The UIJointContainer {{= new UIJointContainer(tofill, &quot;page-replace:&quot;, &quot;page:&quot;);}} we issued in our outer producer will ''join'' the tag {{&lt;div rsf:id=&quot;page-replace:&quot;&gt;}} in the outer template to the tag {{&lt;div rsf:id=&quot;page:&quot;&gt;}} for whichever is the template for the current view.
+
+</pre>
+

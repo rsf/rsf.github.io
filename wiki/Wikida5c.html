@@ -1,0 +1,38 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+A [SubmittedValueEntry|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/request/SubmittedValueEntry.java] record is the unit of a cached request transaction - a primitive operation on the bean container required by a request, which is either the reading, writing, or &quot;unlinking&quot; of a bean value, or execution of a no-arg method. The pure data members (sans comments - see code link above for full details) are as follows:
+
+{{{
+public class SubmittedValueEntry {
+  public String valuebinding;
+  public String componentid;
+  public Object oldvalue;
+  public Object newvalue;
+  public boolean isEL;
+  public boolean isdeletion = false;
+  public String reshaperbinding;
+}
+}}}
+
+This structure is to be interpreted as a kind of &quot;union&quot; in which some entries are expected to be {{null}} where not relevant.
+
+More details are in the section on the [RequestSubmittedValueCache].
+
+
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

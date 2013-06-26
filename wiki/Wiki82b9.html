@@ -1,0 +1,46 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+In RSF, a ''component'' (or [primitive component|PrimitiveComponents]) is a lightweight object which occupies an application level intermediate between the business model (below the [bean line|BeanLine]) and the user interface, which is defined by a [view template|ViewTemplate] parsed from a raw (X)(H)TML representation.
+
+Unlike ''components'' in many frameworks, RSF components have little life of their own, containing ''essentially no logic'' and only a short scope (lifetime). Components exist only momentarily during the request cycle, in a component tree rooted in a [View] object, between production by a [ComponentProducer] and consumption by a [ViewRender]. After rendering, the component tree (like the request bean context) are completely discarded, freeing valuable server resources.
+
+RSF components all inhabit a type hierarchy rooted at the base class [UIComponent]. The sole functionality provided by this base class is to keep track of the various portions of the [component ID|IDs] and to record the component's parent [container].
+
+RSF components are designed to be produced equally easily from Java code as from a serialised (XML) form. To help this, the construction for concrete components follows the following conventions:
+
+# A no-arg constructor must be defined, although it is preferable to define none at all.
+# Components are provided with a static construction method named {{make()}}, which takes as its first two arguments the container's intended parent, and the component's ID.
+
+For example, [UIInternalLink|http://saffron.caret.cam.ac.uk/projects/RSFUtil/apidocs/uk/org/ponder/rsf/components/UIInternalLink.html] defines a {{make()}} method as follows:
+{{{
+ public static UIInternalLink make(UIContainer parent, String ID, 
+                                     ViewParameters viewparams) {
+    UIInternalLink togo = new UIInternalLink();
+    togo.ID = ID;
+    togo.viewparams = viewparams;
+    parent.addComponent(togo);
+    return togo;
+  }
+}}}
+This is not a constructor, since i) constructors are becoming a little unpopular in the Spring-enabled world (!) and ii) it is invalid Java to write an &quot;expression statement&quot; (valid in C-family languages) consisting of just the constructor call if you are not interested in the result. I.e. in code, we would like the default case of creating, initialising and linking a component to its parent[1] to fill a single line of code thus:
+
+{{{
+    UIInternalLink.make(parent, ComponentIDs.BREADCRUMBS_MODERATE, viewparams);
+}}}
+
+This replicates the combined effect that in XML, as also in Spring, ''separates'' the process of construction from the setting of properties, appearing in the implementation method above. Components become beans, although there is no current intention of treating them that way...
+
+----
+[#1] Note that in terms of [Levelization], this method introduces no ''extra'' dependence on UIContainer from components, since they all inherit from a base class UIComponent which includes the UIContainer {{parent}} as a member. Since there is virtually no code in these classes the dependence burden is minimal anyway.
+
+</pre>
+

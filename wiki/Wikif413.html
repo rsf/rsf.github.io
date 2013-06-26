@@ -1,0 +1,652 @@
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html id="top" xmlns="http://www.w3.org/1999/xhtml">
+
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Wiki.jsp?page=DevelopmentEnvironmentGuide by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:00:38 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+    RSF Wiki: DevelopmentEnvironmentGuide
+  </title>
+  
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" media="screen, projection, print" type="text/css"
+     href="templates/default/jspwiki.css"/>
+
+<link rel="stylesheet" type="text/css" media="print" 
+     href="templates/default/jspwiki_print.css" />
+<!-- INCLUDERESOURCES (stylesheet) -->
+
+<!-- INCLUDERESOURCES (inlinecss) -->
+
+
+
+<noscript>
+<style type="text/css">
+#hiddenmorepopup { display:block; }
+</style>
+</noscript>
+
+
+<script type="text/javascript" src="scripts/mootools.js"></script>
+<script type="text/javascript" src="scripts/prettify.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-common.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-commonstyles.js"></script>
+<!-- INCLUDERESOURCES (script) -->
+
+
+
+
+
+<meta name="wikiContext" content='view' />
+<meta name="wikiBaseUrl" content='http://rsf.fluidproject.org/wiki/' />
+<meta name="wikiPageUrl" content='/wiki/Wiki.jsp?page=%23%24%25' />
+<meta name="wikiEditUrl" content='/wiki/Edit.jsp?page=DevelopmentEnvironmentGuide' />
+<meta name="wikiJsonUrl" content='/wiki/JSON-RPC' />
+<meta name="wikiPageName" content='DevelopmentEnvironmentGuide' />
+<meta name="wikiUserName" content='207.119.0.6' />
+<meta name="wikiTemplateUrl" content='/wiki/templates/default/' />
+<meta name="wikiApplicationName" content='RSF Wiki' />
+
+<script type="text/javascript">//<![CDATA[
+/* Localized javascript strings: LocalizedStrings[] */
+var LocalizedStrings = {
+"javascript.edit.allsections":"( All )",
+"javascript.slimbox.error":"<h2>Error</h2>There was a problem with your request.<br />Please try again",
+"javascript.slimbox.remoteRequest":"Remote Request {0} of {1}",
+"javascript.slimbox.close":"Close &#215;",
+"javascript.quick.edit":"[Edit]",
+"javascript.sort.descending":"Descending order. Click to reverse sort order",
+"javascript.expand":"Click to expand",
+"javascript.group.validName":"Please provide a valid name for the new Group",
+"javascript.slimbox.next":"Next&raquo;",
+"javascript.filter.all":"( All )",
+"javascript.edit.areyousure":"Without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.quick.edit.title":"Edit section {0}...",
+"javascript.slimbox.directLink":"Direct Link to the target",
+"javascript.prefs.areyousure":"Without clicking the Save User Preferences button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.sbox.clone.suffix":"-New",
+"javascript.slimbox.info":"Image {0} of {1}",
+"javascript.tip.default.title":"More...",
+"javascript.edit.resize":"Drag to resize the text area",
+"javascript.edit.findandreplace.nomatch":"No match found!",
+"javascript.sort.ascending":"Ascending order. Click to reverse sort order",
+"javascript.slimbox.close.title":"Close [Esc]",
+"javascript.edit.toolbar.makeSelection":"Please make first a selection.",
+"javascript.favs.hide":"Click to hide Favorites",
+"javascript.sectionediting.label":"Section Overview",
+"javascript.slimbox.previous":"&laquo;Previous",
+"javascript.favs.show":"Click to show Favorites",
+"javascript.collapse":"Click to collapse",
+"javascript.category.title":"Click to show category [{0}] ...",
+"javascript.sort.click":"Click to sort",
+"javascript.edit.startOfPage":"( Start of page )"
+};
+
+
+/* INCLUDERESOURCES (jsfunction) */
+
+//]]></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="search" href="Wiki702d.html?page=FindPage"
+    title='Search RSF Wiki' />
+<link rel="help"   href="Wikia3b7.html?page=TextFormattingRules"
+    title="Help" />
+
+ <link rel="start"  href="Wikib2ab.html?page=Main"
+    title="Front page" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki_print.css"
+    title="Print friendly" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki.css"
+    title="Standard" />
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+<link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  
+  
+</head>
+
+<body class="view">
+
+<div id="wikibody" class="fav-left">
+ 
+  
+
+
+
+
+
+
+<div id="header">
+
+  <div class="titlebox"></div>
+
+  <div class="applicationlogo" > 
+    <a href="Wikib2ab.html?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="Logincdb2.html?redirect=DevelopmentEnvironmentGuide" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="UserPreferencescdb2.html?redirect=DevelopmentEnvironmentGuide"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+
+  <div class="pagename">DevelopmentEnvironmentGuide</div>
+
+  <div class="searchbox">
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Search.jsp"
+        class="wikiform"
+           id="searchForm" accept-charset="UTF-8">
+
+  <div style="position:relative">
+  <input onblur="if( this.value == '' ) { this.value = this.defaultValue }; return true; "
+        onfocus="if( this.value == this.defaultValue ) { this.value = ''}; return true; "
+           type="text" value="Quick Navigation"
+           name="query" id="query"
+           size="20" 
+      accesskey="f" />
+  <button type="submit"
+  		 name="searchSubmit" id="searchSubmit"
+  		value="Go!"
+  		title="Go!"></button>
+  </div>
+  <div id="searchboxMenu" style='visibility:hidden;'>
+    <div id="searchTools">
+      <a href="#" id='quickView' class='action'
+      onclick="SearchBox.navigate( 'Wiki195c.html?page=__PAGEHERE__','View the selected page' );"
+        title="View the selected page">view</a>
+      <a href="#" id='quickEdit' class='action'
+      onclick="SearchBox.navigate( 'Logine830.html?page=__PAGEHERE__','Edit the selected page' );"
+        title="Edit the selected page">edit</a>
+      <a href="#" id='quickClone' class='action'	
+      onclick="return SearchBox.navigate( 'Logine830.html?page=__PAGEHERE__', 'Clone the selected page', true );"
+        title="Clone the selected page">clone</a>
+      <a href="#" id="advancedSearch" class='action'
+      onclick="SearchBox.navigate( 'Search136d.html?query=__PAGEHERE__','DevelopmentEnvironmentGuide' )"
+        title="Advanced Search [ f ]">find</a>
+    </div>
+    <div id="searchResult" >
+	  Quick search
+      <span id="searchTarget" >(type ahead)</span>
+      <span id="searchSpin" class="spin" style="position:absolute;display:none;"></span>
+	  <div id="searchOutput" ></div>
+    </div>
+    <div id="recentSearches" style="display:none;">
+      Recent Searches
+      <span><a href="#" id="recentClear">(Clear)</a></span>
+    </div>
+  </div>
+
+</form></div>
+
+  <div class="breadcrumbs">Your trail:&nbsp;<a class="wikipage" href="Wiki0665.html?page=TemplateValidity">TemplateValidity</a>, <a class="wikipage" href="Wiki5ced.html?page=RightFirstTime">RightFirstTime</a>, <a class="wikipage" href="Wikid989.html?page=Javascript">Javascript</a>, <a class="wikipage" href="Wikia36a.html?page=RSAC">RSAC</a>, <a class="wikipage" href="Wikib036.html?page=SpringAPI">SpringAPI</a>, <a class="wikipage" href="Wiki1f75.html?page=RSFHibernate">RSFHibernate</a>, <a class="wikipage" href="Wikif73b.html?page=OTP">OTP</a>, <a class="wikipage" href="Wiki1025.html?page=RSFORMByItself">RSFORMByItself</a>, <a class="wikipage" href="Wikid407.html?page=ComponentProducer">ComponentProducer</a>, <a class="wikipage" href="Wiki0048.html?page=ContainerSetupGuide">ContainerSetupGuide</a></div>
+
+</div>
+
+  <div id="content">
+
+    <div id="page">
+      
+
+
+
+
+
+<div id="actionsTop" class="pageactions"> 
+  <ul>
+
+    
+    
+    
+
+    
+    <li id="morebutton">
+      <a href="Wiki81b4.html?page=MoreMenu" class="action more">More...</a>
+    </li>
+
+  </ul>
+</div>
+
+      
+
+
+
+
+
+
+
+
+<div class="tabmenu">
+
+  
+
+  
+
+  
+  
+  
+    
+  
+    
+  
+
+
+
+  <a class="activetab" id="menu-pagecontent" accesskey="v" ><span class='accesskey'>V</span>iew</a>
+
+  
+
+  
+  <a id="menu-attach" accesskey="a" ><span class='accesskey'>A</span>ttach</a>
+  
+    
+  <a id="menu-info" href='PageInfof413.html?page=DevelopmentEnvironmentGuide' accesskey="i" ><span class='accesskey'>I</span>nfo</a>
+    
+  
+
+</div>
+<div class="tabs">
+
+  <div id="pagecontent" >
+
+    
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="section-DevelopmentEnvironmentGuide-RSFDevelopmentEnvironmentGuide"> RSF Development Environment Guide<a class="hashlink" href="#section-DevelopmentEnvironmentGuide-RSFDevelopmentEnvironmentGuide">#</a></h2>
+<p>This guide should help <a class="wikipage" href="Wikib91f.html?page=RSF">RSF</a> and even Java development beginners to quickly get a development environment setup which they can use to work on RSF applications. This will explain the development technologies and how to get your environemnt setup. This guide will probably take an unfamiliar user 20-30 minutes.
+</p>
+<p>The RSF development team currently uses the following technologies
+</p>
+<ul><li><a class="external" href="http://subversion.tigris.org/">Subversion</a><img class="outlink" src="images/out.png" alt="" /> 1.4.x (<i>Source code versioning and control</i>)
+</li><li><a class="external" href="http://www.eclipse.org/">Eclipse</a><img class="outlink" src="images/out.png" alt="" /> 3.2 or 3.3 (<i>Java IDE</i>)
+<ul><li><a class="external" href="http://www.eclipse.org/webtools/main.php">Web Tools Platform (WTP) Project</a><img class="outlink" src="images/out.png" alt="" /> 2.0 (<i>Web development tools</i>)
+</li><li><a class="external" href="http://springide.org/blog/">Spring IDE</a><img class="outlink" src="images/out.png" alt="" /> plugin 2.0 (<i>Spring development tools</i>)
+</li><li><a class="external" href="http://subclipse.tigris.org/">Subclipse</a><img class="outlink" src="images/out.png" alt="" /> plugin 1.2.x (<i>SVN development tools</i>)
+</li></ul></li></ul><h3 id="section-DevelopmentEnvironmentGuide-Subversion"> Subversion<a class="hashlink" href="#section-DevelopmentEnvironmentGuide-Subversion">#</a></h3>
+<p><a class="external" href="http://subversion.tigris.org/">Subversion</a><img class="outlink" src="images/out.png" alt="" /> is used for all RSF source code versioning and control. You should have a the command line version of SVN installed so that you can checkout the various releases of RSF and <a class="wikipage" href="Wiki4509.html?page=SampleRSFApps">sample RSF apps</a>. Strictly speaking you can skip this if you plan to never checkout the RSF source code but we highly recommend installing it since it is small and very useful. The easiest way to install Subversion is to use the binary packages on the <a class="external" href="http://subversion.tigris.org/project_packages.html">downloads page</a><img class="outlink" src="images/out.png" alt="" />.
+</p>
+<h3 id="section-DevelopmentEnvironmentGuide-Eclipse"> Eclipse<a class="hashlink" href="#section-DevelopmentEnvironmentGuide-Eclipse">#</a></h3>
+<p><a class="external" href="http://www.eclipse.org/">Eclipse</a><img class="outlink" src="images/out.png" alt="" /> is the IDE of choice for developing in Java. We use version 3.2 or higher with the <a class="external" href="http://www.eclipse.org/webtools/main.php">Web Tools Platform (WTP) Project</a><img class="outlink" src="images/out.png" alt="" />. It is easiest to simply grab the <b>Web Tools Platform All-In-One Packages</b> which you can find on the downloads page of the WTP project.
+</p>
+<h4 id="section-DevelopmentEnvironmentGuide-WebToolsPlatformWTPProject"> Web Tools Platform (WTP) Project<a class="hashlink" href="#section-DevelopmentEnvironmentGuide-WebToolsPlatformWTPProject">#</a></h4>
+<a class="external" href="http://www.eclipse.org/webtools/main.php">Web Tools Platform (WTP) Project</a><img class="outlink" src="images/out.png" alt="" /> is an marvelous collection of tools that is highly recommended for anyone doing web development. The most convenient package is the <b>Web Tools Platform All-In-One Packages</b> download available at the <a class="external" href="http://download.eclipse.org/webtools/downloads/">Eclipse download site</a><img class="outlink" src="images/out.png" alt="" /> (approx 250MB download).
+<h4 id="section-DevelopmentEnvironmentGuide-SpringIDEPlugin"> Spring IDE plugin<a class="hashlink" href="#section-DevelopmentEnvironmentGuide-SpringIDEPlugin">#</a></h4>
+<a class="external" href="http://springide.org/blog/">Spring IDE</a><img class="outlink" src="images/out.png" alt="" /> provides autocomplete and editor assistance when working with <a class="external" href="http://www.springframework.org/">Spring Framework</a><img class="outlink" src="images/out.png" alt="" /> configuration files. Since RSF's request context files are Spring format files, you can get the full benefits of Spring IDE on RSF right away. Installation instructions are on the Spring IDE project site.
+<h4 id="section-DevelopmentEnvironmentGuide-SubclipsePlugin"> Subclipse plugin<a class="hashlink" href="#section-DevelopmentEnvironmentGuide-SubclipsePlugin">#</a></h4>
+The <a class="external" href="http://subclipse.tigris.org/">Subclipse plugin</a><img class="outlink" src="images/out.png" alt="" /> allows SVN commits, checkouts, and much more from within Eclipse. It is much easier to use than the Subversion command line for general development usage with your own projects (however, the command line is better for checking out things like RSF bundles). Installation instructions are avaialble on the project site.
+<h4 id="section-DevelopmentEnvironmentGuide-MavenAndEclipseNotes"> Maven and Eclipse notes<a class="hashlink" href="#section-DevelopmentEnvironmentGuide-MavenAndEclipseNotes">#</a></h4>
+Once you have Maven and Eclipse properly installed, you should use it *at least once* on each project to download all of its dependencies, *before* attempting to fix up the Eclipse build environment.  To do this, open up a command prompt window,  navigate to your workspace where you checked out the RSF code and then go into each rsf subfolder and type &quot;maven&quot;.  Note that it in general <span style="color:red;">does not make sense</span> to try to share Eclipse build products (typically in the <tt>bin</tt> directory) with Maven build products (typically in the <tt>target</tt> directory), yes, you will really need to have parallel builds otherwise chaos and nastiness will ensue. But you *should* keep Maven and Eclipse in step at least to the extent of directing Eclipse at the versions of jar dependencies held in your Maven repository. This should be done by declaring an Eclipse variable <tt>MAVEN_REPO</tt> (<tt>M2_REPO</tt> for Maven 2) pointing at your Maven repository, and adding each jar using &quot;Extend Variable&quot; as a dependency to the Eclipse project. There is apparently some tool that will do this automatically but I have never got it to work correctly.
+<h3 id="section-DevelopmentEnvironmentGuide-RSFFrameworkLogging"> RSF Framework logging<a class="hashlink" href="#section-DevelopmentEnvironmentGuide-RSFFrameworkLogging">#</a></h3>
+All of the framework samples contain a standard <tt>log4j.properties</tt> file which configures RSF framework logging to a reasonably verbose level. This is strongly recommended for development since otherwise you will miss informative warnings of various problems that occur at runtime, both during rendering and form submission. For production you are recommended to set the <tt>PonderUtilCore</tt> logging level to <tt>warn</tt> or higher. The standard <tt>log4j.properties</tt> file, which should be placed at <tt>/WEB-INF/classes</tt> is linked here: <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFHelloWorld/trunk/src/webapp/WEB-INF/classes/log4j.properties">log4j.properties</a><img class="outlink" src="images/out.png" alt="" />.
+<h3 id="section-DevelopmentEnvironmentGuide-TomcatDebuggingNote"> Tomcat Debugging Note<a class="hashlink" href="#section-DevelopmentEnvironmentGuide-TomcatDebuggingNote">#</a></h3>
+The <a class="wikipage" href="Wiki3a6c.html?page=DebuggingWithTomcat">Debugging with Tomcat</a> page summarises some useful tips for starting and debugging Tomcat apps from within Eclipse. Attempting to work with large scale Java apps without using a debugger will cost you a lot of time so we highly recommend using the debugger.
+<h3 id="section-DevelopmentEnvironmentGuide-WhatNext"> What next?<a class="hashlink" href="#section-DevelopmentEnvironmentGuide-WhatNext">#</a></h3>
+With your development environment fully set up, you should probably head over to <a class="wikipage" href="Wikid6f0.html?page=GettingStarted">getting started</a> and checkout the <a class="wikipage" href="Wiki4509.html?page=SampleRSFApps">sample RSF apps</a>.
+
+
+
+
+
+
+
+        
+  </div>
+
+
+  
+
+  
+  <div id="attach" class="hidetab" >
+
+    
+
+
+
+
+
+
+
+
+
+
+<div id="addattachment">
+<h3>Add new attachment</h3>
+
+
+<div class="formhelp">Only authorized users are allowed to upload new attachments.</div>
+
+</div>
+
+
+
+  </div>
+
+  
+    
+  <div id="info" class="hidetab" >
+
+  </div>
+
+    
+  
+
+<div style="clear:both;" ></div>
+</div>
+
+      
+
+
+
+
+
+
+
+<div id='actionsBottom' class="pageactions"> 
+    
+
+    <a href="#top" 
+      class="action quick2top" 
+      title="Go to top" >&laquo;</a>
+
+    
+       This page (revision-) was last changed on <a href="Diffdda6.html?page=DevelopmentEnvironmentGuide&amp;r1=-1&amp;r2=1">26-Nov-2007 11:11</a> by UnknownAuthor
+    
+
+    
+
+   
+
+  
+
+   
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div id="favorites">
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="Logincdb2.html?redirect=DevelopmentEnvironmentGuide" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="UserPreferencescdb2.html?redirect=DevelopmentEnvironmentGuide"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+  
+  <div id="hiddenmorepopup">
+  <ul id="morepopup">
+     
+       	
+     
+       
+     
+    
+       
+     
+       <li>
+       
+       <a class="action rawpage wikipage" 
+               href="Wikif953.html?page=DevelopmentEnvironmentGuide&amp;skin=raw"
+              title="View Page Source">View Page Source
+       </a>
+       
+       
+       </li>
+      
+        
+  
+      
+      
+      
+
+      
+	  <li class='separator'>
+        <div id="moremenu" ></div>
+      </li>
+  </ul>
+  </div>
+  
+  
+
+  
+
+  
+
+  
+  <div class="leftmenu">
+    <p><a class="wikipage" href="Wikib2ab.html?page=Main">Main page</a><br />
+<tt> </tt><i><a class="wikipage" href="Wiki4d3f.html?page=ThisWiki">About</a></i><br />
+</p><p><a class="wikipage" href="Wikid6f0.html?page=GettingStarted">Getting Started</a><br />
+</p>
+<p><b>Documentation</b><br />
+<tt> </tt><a class="wikipage" href="Wiki4c8c.html?page=Developers">Developers</a><br />
+<tt>  </tt><a class="wikipage" href="Wikib1ce.html?page=Javadocs">Javadocs</a><br />
+<tt> </tt><a class="wikipage" href="Wikia56b.html?page=Designers">Designers</a><br />
+<tt> </tt><a class="wikipage" href="Wiki4509.html?page=SampleRSFApps">Sample RSF Apps</a><br />
+<tt> </tt><a class="wikipage" href="Wikif010.html?page=Presentations">Presentations</a><br />
+<tt> </tt><a class="wikipage" href="Wiki45f9.html?page=Acronyms">Acronyms</a><br />
+</p>
+<p><b>Downloads</b><br />
+<tt> </tt><a class="wikipage" href="Wiki30c9.html?page=CurrentCode">Current Release</a><br />
+<tt> </tt><a class="wikipage" href="Wiki0e27.html?page=TrunkCode">Trunk</a><br />
+<tt> </tt><a class="wikipage" href="Wiki1a8d.html?page=CodeDistributions">Distributions</a><br />
+<tt> </tt><a class="wikipage" href="Wikiadaf.html?page=OldCode">Old Versions</a><br />
+</p>
+<p><b>Community</b><br />
+<tt> </tt><a class="wikipage" href="Wiki84f4.html?page=QampA">Q&amp;A</a><br />
+<tt> </tt><a class="external" href="http://ponder.org.uk/rsf/">Forums</a><img class="outlink" src="images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="Wikif345.html?page=EmailLists">Mailing Lists</a><br />
+<tt> </tt><a class="external" href="http://www.caret.cam.ac.uk/jira/browse/RSF">Issue Tracker</a><img class="outlink" src="images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="Wiki1535.html?page=People">People</a><br />
+</p>
+<p><b>Design</b><br />
+<tt> </tt><a class="wikipage" href="Wiki580c.html?page=Roadmap">Roadmap</a><br />
+<tt> </tt><a class="wikipage" href="Wiki654d.html?page=Integrations">Integrations</a><br />
+<tt> </tt><a class="wikipage" href="Wikia360.html?page=Concepts">Concepts</a><br />
+<tt> </tt><a class="wikipage" href="Wiki151d.html?page=Philosophy">Philosophy</a><br />
+</p>
+<div style="font-style:italic;font-size:0.8em;">
+<b>Pages</b><br />
+<tt> </tt><a class="wikipage" href="Wiki702d.html?page=FindPage">Find</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5fc7.html?page=RecentChanges">Recent Changes</a><br />
+<tt> </tt><a class="wikipage" href="Wikife97.html?page=UnusedPages">Unused</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5130.html?page=UndefinedPages">Undefined</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5f9e.html?page=PageIndex">Index</a>
+</div>
+<p />
+    
+  </div>
+  
+  <div class="leftmenufooter">
+    <hr />
+<p><b>Referenced by</b><br />
+<a class="wikipage" href="Wikid6f0.html?page=GettingStarted">GettingStarted</a><br />
+</p>
+    
+  </div>
+
+  
+
+  
+  
+  <div class="wikiversion">JSPWiki v2.8.2
+  <span class="rssfeed">
+    
+  </span>
+  </div>  
+  
+</div>
+
+	<div class="clearbox"></div>
+  </div>
+
+  
+
+
+
+
+
+ 
+<div id="footer">
+
+  <div class="applicationlogo" > 
+    <a href="Wikib2ab.html?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  <div class="copyright"></div>
+
+  <div class="wikiversion">
+    JSPWiki v2.8.2
+  </div>
+
+  <div class="rssfeed">
+    
+  </div>
+
+</div>
+
+</div>
+
+</body>
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Wiki.jsp?page=DevelopmentEnvironmentGuide by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:00:40 GMT -->
+</html>
+

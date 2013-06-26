@@ -1,0 +1,22 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The component tree is a tree of [UIComponent|component] objects (RSF [primitive components|PrimitiveComponents]), 
+which specify the abstract properties of the view to be rendered and the behaviour of its (UI) components, independent from the rendering technology to be used. In an MVC architecture, the component tree would constitute the controller layer - although it's worth noting that in RSF, since components ''have no behaviour'' there is actually no control performed here. This is in general a good thing since the &quot;C&quot; part of MVC was always the most problematic - controllers have the job of &quot;brokering&quot; between models and views and traditionally it is very hard to keep them from chaos given the large level of application knowledge they end up having. In RSF, virtually all &quot;controller&quot; logic is genericised and within the RSF framework itself, usually saving applications from having to write any.
+
+In RSF, only a [UIContainer|component] may contain other components, although its function is primarily that of a placeholder for an IKAT [branch point|UIBranchContainer] rather than specifically one of containing components. Non-container components may only appear at the leaves of the component tree.
+
+The component tree is the second major argument of the IKAT renderer (as embodied in the [ViewRender|http://saffron.caret.cam.ac.uk/cgi-bin/cvsweb/rep/RSFUtil/src/uk/org/ponder/rsf/renderer/ViewRender.java] class), in addition to the condensed representation of the [view template|ViewTemplate] itself.
+
+After rendering, the component tree is immediately discarded.
+
+</pre>
+

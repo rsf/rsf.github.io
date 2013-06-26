@@ -1,0 +1,68 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The &quot;Request Scope Application Context&quot; is defined by a collection of standard [Spring|http://www.springframework.org] configuration files, which provide bean definitions that will be used to instantiate Java objects during the request dispatch cycle. 
+
+!The reason for RSAC
+
+For performance reasons, RSF's request scope is operated by a lightweight Spring-like container, [RSAC], which supports a core subset of Spring functionality with somewhat reduced flexibility for accelerated instantiation. In recent versions 2.0.4-2.0.6 Spring has shown considerable performance improvements and there are hopes that in time RSAC development can be discontinued in favour of Spring's own request-scope - at the very least, RSAC will become packaged as a standard Spring scope.
+
+RSAC is a complement for Spring. Spring proper is designed with flexibility as the paramount consideration, and is prepared to deal with numerous kinds of &quot;enterprise&quot; situations such as concurrent access, and modification of the structure of the bean container and its relationships whilst it is in operation. This flexibility incurs a necessary execution cost which for some applications isn't appropriate - in particular applications which make extremely heavy use of short-scoped beans (for example non-singleton beans, or beans scoped to a request) the performance costs of using Spring proper can become unacceptable. Check the [RSACPerformance] page for more details - in tests RSAC has been shown in excess of 60x as rapid as Spring (as at Spring 1.2.8) in instantiating beans, which has proved sufficient in all cases evaluated so far to shift the focus of peformance to a different area of the application.
+
+
+
+
+Since RSAC uses Spring's own code for reading bean definitions, and all Spring beans in the &quot;parent context&quot; are visible as dependencies, it is extremely easy to move the definition of a bean from Spring into RSAC (and sometimes the reverse) simply by pasting the definition from one file to the other. RSAC is appropriate for those cases where it is known that all accesses to a particular set of beans will be from a particular thread - of which the most common case is the scope of a single web request serviced by a J2EE container. For this reason the beans managed by RSAC have become most recognisably called &quot;request beans&quot;. 
+
+Like Spring beans, these request-scope beans will have their dependencies wired (injected) before any of the beans become marked as &quot;live&quot; and accessible for use by beans and other code. Unlike application scope Spring beans[1], these beans will be brought into existence for just a single request (e.g. HTTP GET or POST) handling cycle, and disposed when handling concludes. Also unlike the Spring default, RSAC beans are ''lazily created'', and will only be constructed and populated into the bean context on first access. Unlike an application scope, where bean creation errors are best caught early, request processing must proceed as quickly as possible and many beans may be unnecessary for certain requests. 
+
+!RSAC configuration file
+The location of RSAC configuration files is configured in the application's web.xml file, under the context configuration parameter {{requestContextConfigLocation}}, which mirrors the standard Spring parameter {{contextConfigLocation}} which defines the location of standard application context files. For example, here is a typical stanza from web.xml:
+
+{{{
+  &lt;context-param&gt;
+    &lt;param-name&gt;requestContextConfigLocation&lt;/param-name&gt;
+      &lt;param-value&gt;
+        /WEB-INF/rsf-requestscope-config.xml
+        /WEB-INF/requestContext.xml,
+      &lt;/param-value&gt;
+  &lt;/context-param&gt;
+}}}
+
+Since RSF itself has critical components configured using RSAC as well as Spring, you must mention its own configuration files here (e.g. rsf-requestscope-config.xml) in addition to your own. There are certain bean names that MUST be defined in your application's applicationContext.xml and requestContext.xml - this constitues a form of [Spring API|SpringAPI] in addition to an applications API at the Java level.
+
+The typical RSAC file will define some [request writeable beans|RequestWriteableBeans] in addition to any other request-scope components you may desire (none, if you find the RSAC programming idiom uncongenial or inefficient). If you are using an ORM solution such as [Hibernate|http://www.hibernate.org] you may like to use an RSF idiom known as [OTP] to automatically expose your entity model as request-writeable beans, for example using the [RSFHibernate] library (you can also use OTP in a &quot;Do-It-Yourself&quot; pattern quite easily). 
+
+! The name &quot;RSAC&quot;
+After we had used the name &quot;RSAC&quot; for a few months, it suddenly struck me that it is self-contradictory. Spring's configuration file is called an &quot;application context.xml&quot; since it configures a context for the ''application'', whereas what we have here (if it ''has'' a name)[3|http://www.mgnet.karoo.net/blackadderep4.htm] is a file configuring a context for the ''request''. A sensible name would be &quot;Request Scope Context&quot; or &quot;RequestContext&quot; but this is a) slightly bland and unsuggestive, and b) does not make a nice acronym unless you are interested in a component that sounds like a bunch of classically-trained actors.[2]
+
+! RSAC history
+The impetus for making RSAC into a fully-blown dependency-wiring container came from [Andy|People] who thought that it might well have the same revolutionary code-organising power that Spring displayed for normal application code. The initial implementation, a 30-line piece of concision using all Spring components ran into serious performance problems, sometimes taking more than a second to fire up the container. More details on this can be found on the [RSAC Performance page|RSACPerformance].
+
+Since then, the request scope bean container in RSF was reimplemented in a hyper-lightweight component codenamed [Summer Lightning|SummerLightning], which, after invoking standard Spring code to parse the bean definition file once per application, provides the core minimum of Spring functionality (factories, lists, parent definitions &amp;c) in a ground-up reimplementation designed for raw speed (coming soon - using [FastClass]) - this allows request-scope RSAC programming to proceed with a bare minimum of CPU overhead.
+
+! RSAC philosophy
+This only leaves the architectural and philosophical questions over whether [RSAC programming|RequestScopeBeans] ''per se'' (that is, using dependency wiring capabilities at request time to replace logic, rather than the default static dependency model of JSF's or WebWork's request beans) is a &quot;good idea&quot;. There is not enough experience yet to settle this either way, although the effects of reorganising RSF itself to be RSAC-driven have certainly been &quot;interesting&quot; and probably productive. As with most things in RSF, you can take it or leave it - if you don't specify any dependencies in your request scope config file, your beans will have no special startup semantics applied to them and behave just as in other frameworks. Some of the philosophical implications of RSAC programming, and its relationship to other programming idioms (functional/goal-directed programming) appears on the [RequestScopeBeans] page.
+
+! RSAC future
+With the new &quot;arbitrary scoped beans&quot; support now available in Spring 2.0, it may be possible at some date to integrate RSAC as another scope available within Spring proper. This might cut down on the number of configuration files required, but would have the drawback of slightly more verbose configuration.
+----
+[#1] Note that as of version 2.0, Spring proper now has official support for beans scoped to a web request, as well as arbitrary other user-defined scopes. However, these still suffer from the same performance issues mentioned above.\\
+[#2] However [elsewhere|RSVCVersusDeadBeansMRSA] I didn't balk at creating a component which sounds like a highly virulent disease...\\
+
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

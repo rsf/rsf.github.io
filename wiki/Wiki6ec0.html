@@ -1,0 +1,60 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!! Component Producer
+
+The component producer is one of the central points of customization of [RSF] - it essentially does all the work of specifying what content will appear in a particular [view|View] (e.g. a web page or RSS feed), independent of the layout (i.e. what it looks like). Developers will work with the ViewComponentProducer most of the time (which is often abbreviated to view producer or simply producer in much of the documentation).
+
+!! Central active method
+
+The workhorse of the ComponentProducer is the fillComponents method. Here is the interface definition for the method:
+{{{
+  /** @param tofill The container into which produced components will be inserted.
+   *  @param origviewparams The view parameters specifying the currently rendering 
+   *  view
+   */
+  public abstract void fillComponents(UIContainer tofill, 
+    ViewParameters origviewparams, ComponentChecker checker);
+}}}
+
+ComponentProducer is part of a notional family of interfaces called __Producers__ in general - the first argument to every kind of Producer is a UIContainer, conventionally named {{tofill}}, representing a point in the [view tree|View]. A view may be constructed by pooling the outputs of multiple Producers. The contract of a Producer is to fill this container with some subtree of primitive RSF components. Framework users are free to invent variants on this interface incorporating any additional arguments they need, and arranging for Producer implementations to be delivered to them by injection via Spring. One particular class of Producers is called [Evolvers|BuildingRSFComponents], discussed on their own page.
+
+This allows an on-demand &quot;panel&quot; architecture, with different producers dividing up responsibilities for different areas of a UI, perhaps even using quite different technologies[1].
+
+A derived class of the ComponentProducer is the ViewComponentProducer, which is intended to the &quot;main&quot; renderer for a view. It has extra responsibilities of defining the &quot;default&quot; parameters for a view, using application-specific logic to locate a valid ViewParameters object with a particular [viewID|ViewID] where an invalid one has been encountered. A class implementing ViewComponentProducer is sometimes called a ''view producer'' or ViewProducer.
+
+{{{
+public interface ViewComponentProducer extends ComponentProducer {
+  public String getViewID();
+}
+}}}
+
+In addition to implementing {{ViewComponentProducter}}, a view producer may also want to implement {{DefaultView}}, which indicates that it is the default view for an application. The user will be redirected to the default view in the case of any [Level 1 error|Level1Error]. In addition, a ViewComponentProducer may well also implement {{ViewParamsReporter}}:
+
+{{{
+public interface ViewParamsReporter {
+  public ViewParameters getViewParameters();
+}
+}}}
+This reports to RSF the precise subclass of [ViewParameters] that this view expects to receive defining its view state (and hence its URL structure). While RSF defines some simple examples of ViewParameters (SimpleViewParameters and EntityCentredViewParameters) applications will almost certainly derive their own. 
+
+The actual work of generating a view is done in the [ViewGenerator|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/view/ViewGenerator.java] class. This is a [request-scope|RSAC] bean which is driven by the Spring configuration for the view collection (defined as the set of beans at application and request scope which implement ViewComponentProducer) to locate the relevant producers for the current view, and invokes them in sequence to pool their results into the View, which is returned.
+
+----
+[1] This suggests the possibility of using RSF at the component level as a communication between &quot;portlets&quot;. This has the considerable advantage over all current schemes that the portal aggregator has not already been committed to a particular rendering technology or strategy at the time the &quot;markup&quot; has been handed to it. Should multiple levels of aggregation become popular, this issue becomes even more urgent.
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

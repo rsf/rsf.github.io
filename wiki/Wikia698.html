@@ -1,0 +1,35 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The [DataAlterationRequest|CODE] (DAR) encodes a primitive operation on an abstract bean model, consisting of either
+the attachment or detachment of an object appearing at a particular [EL] bean path. The object value referred to in the DAR may require conversion at the point of delivery by the [DARApplier]. Note that if the value object is of type {{String}}, it may represent either i) a genuine String value, ii) an [EL] reference designating an r-value to be read at the point of delivery, or iii) an XML-encoded object tree. These cases cannot be disambiguated (reliably) until the type designated by the path field can be determined.
+
+The data members of DAR appear here:
+
+{{{
+public class DataAlterationRequest {
+  public static final String ADD = &quot;add&quot;;
+  public static final String DELETE = &quot;delete&quot;;
+  public String path;
+  public Object data;
+  public String type = ADD;
+...
+}}}
+
+The [RSVC log|RequestSubmittedValueCache] approach of RSF towards state essentially decomposes all user operations within a particular scope as a list of DAR objects. This enables &quot;side-effected&quot; or otherwise [unreasonable|BeanReasonableness] bean models to be used directly.
+
+It's possible that all of this functionality should be replaced by [OGNL]. I'm a little concerned at the performance implications, given the reliance of RSF on very high throughput of EL binding (although it looks like a [FastClass]-based OGNL MethodAccessor could be quite easy to produce), and also the resultant complexity.
+
+----
+Historical note: DAR was actually invented for a completely different purpose, although prompted by a similar cause: The timing of JSF bean manipulation operations was seen to be so haywire that it was considered too hazardous to try to interleave a user transaction in amongst them. The DAR was invented so that beans in the bean model could act as a &quot;proxy&quot;, accumulating alteration events which were delivered at some arbitrary time in arbitrary order, which were simply queued - once application code was finally invoked, the transaction could be opened, the queue replayed and the alterations effected at the desired time in a visible, reliable transaction scope.  
+
+</pre>
+

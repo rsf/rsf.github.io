@@ -1,0 +1,106 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!! RSF Flows
+
+__NOTE:__ ''This page documents the internal RSF flows, RSF also supports [Spring Web Flows|SpringWebFlow]''
+
+A flow in RSF is a chained collection of requests which form a scope. Some collection of the RSAC-managed [request beans|RequestScopeBeans] will have their state propagated along the request chain forming the flow.
+
+At most one RSF flow may be active at any one time. Also, a given request may not simultaneously be the end state of one flow and the start of another (unless one is using the &quot;slow start&quot; scheme - see [InformalFlows]).
+
+Flows in RSF are less critical than in other frameworks, since a large body of use cases that &quot;traditionally&quot; require flows can be managed through simple GET requests and URL state, in RSF assisted by the [ViewParameters] system. Always check first to see if you ''really'' need to use a flow, since they are always more cumbersome, error-prone, annoying to developers and inefficient in terms of space and time than REST-based &quot;pseudo-flows&quot;.
+
+An alternative to using a Flow for short-term value storage is to declare a [BeanScope|ScopedBeans] - this is in general somewhat longer term than a flow in that the lifetime is not tied to a particular series of requests.
+
+!!! Part 1 - The Flow Navigation Map
+
+There are (at least) two parts to the definition of a flow. Firstly there is the ''flow navigation map'', which defines which views are participating in the flow, and the rules for determining the next state. In RSF this is expressed in minimal form by the return value from the [ActionResultInterpreter], an [OLI] which returns an ARIResult. 
+
+!! SWF-like &quot;FlowLite&quot; system
+Currently in RSF there are two primary schemes for building up flow navigation maps - the first scheme, flow 'lite' is modelled on Spring's [Spring Web Flow|SWF] system, and is actually file-compatible with it. The flow definition map is stored in an external XML file which maps out the nodes and transitions in the flow graph in terms of the return values from RSF [Actions|Action]. You can see an example of this approach in the RSF standard [number guessing sample|NumberGuessing]
+
+!! JSF-like &quot;NavigationCase&quot; system
+The second scheme, named ['informal' flow|InformalFlows] is Java code-based - an RSF [ViewProducer|ComponentProducer] as well as any other interfaces it implements may implement [NavigationCaseReporter|http://saffron.caret.cam.ac.uk/projects/RSFUtil/apidocs/uk/org/ponder/rsf/flow/jsfnav/NavigationCaseReporter.html], returning a list of NavigationCase objects which fill in the {{flowCondition}} field to indicate that the particular case participates in a flow. In general, NavigationCaseReporter represents the &quot;JSF-Style Navigation&quot; scheme is in operation, but without the {{flowCondition}} field, this simply represents navigation (as per standard JSF semantics) without any propagation of flow state.
+
+!!! Part 2 - Flow State Propagation
+The second part of a flow definition specifies how the the relevant flow state is propagated along it. This specification is itself factored into two parts. The top level of control is the StatePreservationStrategy which specifies the basic ''approach'' used to preserve the state, and the lower level of control is the [TokenStateHolder] which specifies the ''place'' the state is to end up.
+
+!!StatePreservationStrategies
+
+The only currently functional strategy in RSF is the BeanCopyPreservationStrategy, which simply evaluates a set of EL expressions and copies the resulting object references into the target TokenStateHolder. An experimental strategy (not currently functional) is the RSVCPreservationStrategy which rather than preserving the bean values, preserves the log of operations used to modify them. Framework enthusiasts can follow the thinking and debate between these approaches on the [RSVCVersusDeadBeansMRSA] page. The &quot;bean copy&quot; approach coincides with the one used by every other framework, and will be all that users will generally want except in exceptional cases.
+
+The BeanCopyPreservationStrategy is configured by a simple list of the EL paths to be preserved held in a StringList bean named &quot;copyPreservingBeans&quot;, for example the following definition from the NumberGuessing application specifies that the two &quot;data beans&quot; named {{numberGuess}} and {{fourDigitNumberGuess}} will have their values propagated across the flow scope.
+
+{{{
+  &lt;!-- The beans which will be preserved across a flow via simple instance
+    copying --&gt;
+  &lt;bean parent=&quot;copyPreservingParent&quot;&gt;
+    &lt;property name=&quot;value&quot; value=&quot;numberGuess, fourDigitNumberGuess&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+
+As well as BeanCopyPreservationStrategy and the inactive RSVCPreservationStrategy, RSF also features the experimental InURLPreservationStrategy which is currently only used internally by the flow system itself. This and other forms of client-side storage may prove architecturally valuable in RSF going forwards, especially where conserving server state is an utter priority, but given the current free proliferation of frameworks that are far more wasteful of server state than RSF the use of these can safely be left a research topic for now.
+
+!!TokenStateHolders
+
+A [TokenStateHolder|http://saffron.caret.cam.ac.uk/projects/RSFUtil/apidocs/uk/org/ponder/rsf/state/TokenStateHolder.html] specifies an (essentially) server-side location for the storage of inter-request state in RSF. The classic TSH is InSessionTSH, specifying storage in an HTTP Session (replaced, for example by InSakaiSessionTSH when running in a Sakai environment, or InPortletSessionTSH when running as a JSR-168 portlet). Another possibility is InMemoryTSH for &quot;environmentless&quot; environments that have no explicit support for this kind of hanging state.
+
+In the default RSF configuration, the framework will make use of two standard TokenStateHolders, the &quot;flowTokenStateHolder&quot; to propagate state along the main body of a flow, and the &quot;bandgapStateHolder&quot; for more &quot;ephemeral&quot; types of state, primarily those that need a home during a POST-&gt;GET redirect that RSF operates in order to avoid violating HTTP/browser semantics by rendering results from a GET. This kind of state includes error messages, RSVC submitted values on their way back to the user from erroneous submissions, and &quot;end flow&quot; state. The role of the &quot;bandgap&quot; TSH may be familiar to users of other frameworks such as Stripes and Grails as the &quot;FlashScope&quot;, although in RSF this falls completely orthogonally into the Spring-configured interface-driven scheme for the framework rather than being special-cased.
+
+The current definitions taken from blank-applicationContext.xml look as follows:
+
+{{{
+  &lt;bean id=&quot;flowTokenStateHolder&quot;
+    class=&quot;uk.org.ponder.rsf.servlet.InSessionTSH&quot;&gt;
+    &lt;property name=&quot;httpRequest&quot; ref=&quot;httpServletRequestProxy&quot; /&gt;
+    &lt;property name=&quot;expirySeconds&quot;&gt;
+      &lt;!-- deliberately short time for testing - all flows will expire after 
+        30 seconds of disuse --&gt;
+      &lt;value&gt;30&lt;/value&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+
+  &lt;bean id=&quot;bandgapStateHolder&quot;
+    class=&quot;uk.org.ponder.rsf.servlet.InSessionTSH&quot;&gt;
+    &lt;property name=&quot;httpRequest&quot; ref=&quot;httpServletRequestProxy&quot; /&gt;
+    &lt;property name=&quot;expirySeconds&quot;&gt;
+      &lt;!-- deliberately short time for testing - all errors will expire after 
+        10 seconds of disuse --&gt;
+      &lt;value&gt;10&lt;/value&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+}}}
+
+These definitions are automatically overridden when using one of the &quot;environmental&quot; RSF integrations such as JSR-168 portlets or Sakai. When RSF becomes used in extremely server-resource-critical environments, you will want to replace these with your own implementations - quite easy, for a 3-line interface. In most other frameworks, you don't even get the choice.
+
+!! RSF and flows
+
+Whilst RSF comes &quot;out of the box&quot; with a flow system selecting some of the best parts from other currently available frameworks (Spring Web Flow and JSF), it is easy to build your own completely custom flow system by wiring together a few beans implementing the core slimline interfaces ActionResultInterpreter and TokenStateHolder. 
+
+But the best part is, as mentioned at the head of this article, in a good many cases RSF allows you to achieve your ends without the explicit use of flows - but by simply using URLs.
+
+!!!RESTful Flows
+The [ViewParameters] for the current request in effect specifies a &quot;mini-bean container&quot; in its own right, and with the &quot;parseSpec&quot; system (new in 0.6.3) you are free to map EL paths onto URL state in any way you please. So the *best* way to deal with many &quot;flow&quot; situations is to simply create &quot;pseudo-flows&quot; or &quot;RESTful Flows&quot; by calling copyBase() on the current ViewParameters, altering one data member and issuing a UILink which refers to &quot;the same state as the current view&quot;, but with just one aspect changed. By any other name, this is a &quot;flow&quot;, only 
+* It is fully bookmarkable
+* It occupies no server state
+* It requires no redirect in order to get serviced
+* It requires no &quot;action bean&quot; to service it
+* It is simply easier and quicker all round.
+
+Use them whenever possible! Only genuine &quot;wizards&quot; with bulky multi-request forms and a real &quot;workflow&quot; are worth turning into a &quot;full flow&quot; - and note that since RSF now has full idiomatic support for HTTP GET forms, you are now actually free to implement virtually *any* flow as a RESTful flow.
+
+%%(font-size: 70%; color: 0xcccccc)
+This page replaces the somewhat older and unfinished pages [MultiRequestState] and [RSVCVersusDeadBeansMRSA] which reflect an era of RSF's development where the preoccupation was with establishing a scheme whereby Hibernate-managed (or other &quot;active&quot;) beans could participate in a flow which potentially preserved state in an arbitrary target (in modern terms, a TSH). Now this architecture is established (RSVCPreservationManager), it becomes obvious that most RSF users will have a good deal more basic preoccupations for 98% of their applications, so it is left as a &quot;historical curiosity&quot; and &quot;nearly complete implementation&quot; against the day when any user will actually want it.
+%%
+
+</pre>
+

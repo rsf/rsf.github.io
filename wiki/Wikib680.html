@@ -1,0 +1,83 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+RSF [EL]s take one of two forms, which are visually identical - either ''value bindings'' or ''method bindings''. 
+
+!!Value bindings
+The syntax for an value binding in outline is 
+
+{{{
+#{requestwriteablebean.property1.subproperty2}
+}}}
+where {{requestwriteablebean}} is the name of a [request-writeable bean|RequestWriteableBean], {{property1}} is the name of a property of that bean which may be followed by further recursive sub-properties to form a complete bean path to the root property. Value bindings primarily occur in the [component|Component] class {{UIBound}} which all components capable of submitting input must extend - a schematic definition is below:
+{{{
+public class UIBoundXxxxx extends UIComponent {
+  public ELReference valuebinding;
+  public Xxxxx getValue() {..}
+  public void setValue(Xxxxx) {...}
+}}}
+
+where Xxxxx represents one of the [UIType] types allowed in RSF. UIBound and its 3 type-safe descendents UIBoundString, UIBoundBoolean and UIBoundList can be seen in context on the [primitive components|PrimitiveComponents] page. The key point to observe is that value bindings in the RSF component tree are typically represented as an object of type ELReference.
+
+The other primary route for delivering a value binding is as a ''pure'' or &quot;non-component&quot; EL binding. These can be added directly to the {{parameters}} member of RSF components of type UICommand or UIForm as follows:
+{{{
+  UIForm form = UIForm.make(tofill, &quot;basic-form&quot;);
+  form.parameters.add( new UIELBinding(&quot;#{evaluationBean.templateId}&quot;,
+         evalViewParams.templateId) );
+}}}
+
+This will cause the value to be stored in the binding to be forcibly submitted onto the model in the next cycle, without any component-directed processing. A binding attached to a UIForm will submit whenever the form submits, a binding attached to a UICommand will only submit when that submitting control is operated.
+
+Note that the {{rvalue}} of a UIELBinding may itself be another ELReference. This will cause the value written to the lvalue binding to be computed on the following request by reading the EL value rather than being a current value. This allows us to in effect built up a mini dynamic IoC container in advance for the following request.
+
+!Late interpretation of value bindings
+Those who have more complex transactional requirements (or even have any at all) and require a controlled delivery of bean values at a later time (i.e. during the action invocation rather than during RSF request decoding) can achieve this by implementing the [DARReceiver] interface which will allow them to queue up the incoming [DataAlterationRequest] objects. However, for virtually everyone it's imagined sufficient to get a transaction opened at the beginning of a POST and closed again at the end - since RSF respects HTTP [REST/Idempotency|REST] it is clear that a POST will be modifying persistent state (unless it is part of a [MultiRequest]) and that a GET ''certainly'' will not.
+
+!Resulting view bindings
+A particular kind of value binding with a special status in the framework is a [resulting view binding|Resulting View Bindings]. These are used in the case that a piece of data is required to enter the [ViewParameters] for a resulting view after an [action] (form submission/POST], but this data is not available until the end of action processing. The classic example of this case is where a view depends on an ID assigned by a database. More details and examples are on the [Resulting View Bindings] page.
+
+!!Method bindings
+The syntax for a method binding is visually identical to that for a value binding, except that instead of a property name, the final dot-separated section of the path is the name of a zero-argument method defined by the preceding bean:
+
+{{{
+#{requestwriteablebean.property1.methodName}
+}}}
+
+This method will be (reflectively) invoked by the RSF POST handler after all of the value bindings corresponding to changed values in the request have been (successfully) applied[1]. Method bindings are specified as one of the parameters of the [UICommand|PrimitiveComponents] component which peers with an &quot;action triggering&quot; UI component (in HTML/HTTP this is typically {{&lt;input type=&quot;submit&quot;}}). 
+
+(Encoding note: The method binding string is provided as the value for the key defined by the String {{FAST_TRACK_ACTION}} in the [SubmittedValueEntry] class.)
+
+!!Encoding of bindings
+RSF binding encoding is performed from the point of view that a client submission takes the form of a Map of key/value pairs where both key and value are Strings (agreeing with HTML and a number of other webapp idioms). The actual details of binding encoding should virtually never bother users, although in advanced Javascript/AJAX situations its conceivable that users may want to manipulate these dynamically on the client side.
+
+Bindings take two forms, either component bindings, or non-component bindings (that latter sometimes called pure EL bindings). A further subcategory of pure EL bindings is ''deletion bindings'' (futher specialised into ''value deletion'' bindings or ''id deletion bindings''). Rendering of all bindings into key/value pairs, and parsing them back again is handled by the class [FossilizedConverter.java|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/request/FossilizedConverter.java]. 
+
+The first point is that RSF NEVER interferes with the default meaning of submissions in the target language (e.g. HTML/HTTP) - a native component will in general always perform its expected function free
+of interference from Javascript hackery from the framework (with the beneficial effect that the field is left completely clear for any Javascript hackery performed by the user). 
+
+The second point is that RSF &quot;annotates&quot; every native submission with a &quot;shadow submission&quot; (in HTML implemented with a hidden input field) which contextualises it properly. This is called a &quot;[Fossilized Binding|FossilizedBinding]&quot; and records the following information: i) whether the corresponding native component is actually expected to submit a value, ii) the value held for the binding in the model at the time of submission, and iii) the binding EL value, iv) the ID of the component where the binding is held.
+
+! Virtual bindings and virtual fossils
+
+&quot;Virtual&quot; bindings only become important once client-side logic enters the picture. Whilst the standard RSF library [rsf.js] can easily reparse all the bindings and fossils that have been described above, in order to enable [Partial Form Submission|PartialFormSubmission] via AJAX, sometimes a little more flexibility is required. The function of virtual bindings and fossils is to communicate their respective binding behaviour to the client, without actually joining the standard form submission in HTML. They are useful to communicate &quot;alternative submission paths&quot; to the client, that they can easily modify to turn into true bindings if required.
+
+In HTML, virtual bindings are represented by standard {{&lt;input type=&quot;hidden&quot;}} elements, only with the difference that the part of the binding that would normally be encoded by the {{name}} attribute is actually stored in its {{id}}. At the Java end, virtual bindings are represented by UIBound components with the {{fossilize}} field set to {{true}}, whilst {{willinput}} set to {{false}}, which peer in the template with a hidden {{&lt;input&gt;}} field.
+%%(font-size:80%)
+----
+[#1] For those familiar with JSF, note that in RSF, unlike in JSF, there is no distinct &quot;Apply Request Value&quot; phase to the event pipeline - the request values are applied ''directly'' to the bean model at this point rather than to the component tree as in JSF - since in RSF at this point the component tree ''does not exist''. Incidentally a nice guide to JSF event processing is presented in this amusingly entitled [&quot;JSF for Nonbelievers&quot;|http://www.developertutorials.com/tutorials/java/jsp-application-lifecycle-050504/page4.html] tutorial.
+%%
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

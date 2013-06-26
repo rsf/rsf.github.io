@@ -1,0 +1,60 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+This page discusses the relationship of RSF to other techologies, broadly categorised into technologies with which RSF can integrate and techologies which are similar. This page will consist, like the [Concepts] page, of short summaries with links to a more extended discussion. 
+----
+
+!!! Integrations
+
+!! Spring Web Flow
+
+As of 0.7.2, [Spring Web Flow|SpringWebFlow] is a first-class integration environment for RSF. Spring Web Flow applications may be transparently hosted within the context of an RSF application, with seamless integration of templates, EL targets and the request cycle. This integration is discussed on its own page at [RSF-SpringWebFlow]. Since the early version of 0.5, RSF also featured a lightweight [&quot;clone&quot; of SWF|FlowLite] as an option for operating its own [flow|Flows] scope. This and RSF's flow subsystem in general are entirely independent of Spring Web Flow integration proper.
+
+!! Hibernate
+
+As of 0.6, [Hibernate|http://www.hibernate.org] enjoys first-class support in RSF, providing an ORM layer. Take a look at the [Hibernate Cookbook|HibernateCookBook] for how to get started.
+
+!! Sakai
+[Sakai|http://sakaiproject.org/] integration is achieved through the Sakai integration library [SakaiRSF]. The two major RSF samples, NumberGuessing and the Hibernate Cookbook, have been ported over to Sakai, requiring no code changes, and adapted to Sakai UI guidelines using simple HTML reskinning.
+
+!! JSR-168
+Sun's specification [JSR-168] is an API specification to be followed by Porlets, which are, loosely, &quot;components&quot; of a composite web application, each responsible for painting its own rectangle of the browser window. As of release 0.6.2 RSF features [RSFPortlet], producing a JAR enabling RSF applications to execute as portlets without code changes.
+
+!! Spring Web MVC
+As of version 0.6.4, RSF features integration with Spring MVC in that the [IKAT] renderer has been packaged as a Spring MVC view technology, to fit alongside the built-in renderers for JSPs, Velocity and FreeMarker templates. This now allows Spring MVC users to take advantage of pure HTML templating for the first time. Note that RSF as a whole replaces the functionality within Spring MVC, although it supports the low-level primitives on which it is based, such as Spring Validation and the Spring message resolving system. This integration is demonstrated in the [Spring MVC Step-by-Step|SpringMVCStep], where a standard SpringMVC sample is first partially ported by having the JSP layer reimplemented in HTML using IKAT, and then rewritten completely in RSF.
+
+!! Cocoon
+In RSF 0.6.3, a ''pilot'' integration of RSF's rendering technology [IKAT] with Apache's [Cocoon|http://cocoon.apache.org/] was tried. This appeared as a Cocoon Serializer, the [IKATSerializer]. This integrates part of the GET cycle. Integration of the rest of the GET cycle, and with the POST cycle, would be potential areas for future development. __NOTE:__ ''This integration is not being maintained. See the [CocoonRSFIntegration] page for details.''
+
+----
+!!! Similar Technologies
+
+!! Wicket
+[Wicket] is generally considered (by the RSF team) to be the best other HTML templating framework out there (just ahead of Tapestry). Wicket's HTML templating system is similar to that of RSF, although it is not quite as regular in that &quot;components&quot; are defined using a different (and non-HTML) syntax to pages. Wicket tends to use  [session-scope|SessionConsideredHarmful] and a heavy component architecture where RSF prefers request-scope and [IOC].
+
+!! Tapestry
+[Tapestry] is rather mature and quite widely deployed. It's also not terribly bad in that it does feature a form (albeit a logic-coupled one) of HTML templating, and has been integrated with several other technologies. However, as well as the somewhat deficient templates, it has its own somewhat rigid ideas about application state, as well as being ''rather big'' and sprawling.
+
+!! RIFE
+[RIFE] is pleasant in many ways, featuring a pure HTML templating language and a quite unique [continuations|RIFEContinuations] engine that will probably be integrated into RSF. However, the templating language is highly logic-bound and fairly intrusive, and RIFE has no [bean line|BeanLine]. RIFE does define a sort of lightweight ORM solution that if it were unbundled like the continuations package, could be quite useful.
+
+!! Qwicap
+[Qwicap] is a framework that is very similar to RIFE, in that it operates a pure HTML templating idiom, and is very strongly based around [Continuations], an interesting idea. The level of template abstraction is somewhat lower however, since page authors are manipulating representations of markup directly, even by reference to tags such as &lt;div&gt; and &lt;tr&gt;. In general Qwicap offers few architectural benefits other than its very lower barriers to entry.
+
+!! JSF
+[JSF] (together with Spring) can be considered the &quot;parent&quot; of RSF, and so a number of the same concepts (EL, actions, some component names, and a navigation style) have resurfaced, although usually in a considerably more streamlined form. RSF is envisaged as a wholesale replacement for JSF, with considerably greater integration flexibility and configurability resulting from its architecture based on [Spring] and [RSAC].
+
+!! Echo
+[Echo] is a framework that delivers on more of JSF's promise to integrate GUI development and webapp design.
+
+
+</pre>
+

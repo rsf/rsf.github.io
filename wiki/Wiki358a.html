@@ -1,0 +1,32 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The [ReasonableServlet|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/servlet/ReasonableServlet.java] is the main entry point for execution when RSF is used in a plain HTTP Servlet environment. The complete code is shown below:
+
+{{{
+public class ReasonableServlet extends HttpServlet {
+  private RSACBeanLocator rsacbeanlocator;
+  public void init(ServletConfig config) {
+    ServletContext sc = config.getServletContext();
+    WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(sc);
+    rsacbeanlocator = (RSACBeanLocator) wac.getBean(&quot;rsacBeanLocator&quot;);
+  }
+  
+  protected void service(HttpServletRequest requst, HttpServletResponse response) {
+    rsacbeanlocator.getBeanLocator().locateBean(&quot;rootHandlerBean&quot;);
+  }
+}
+}}}
+
+The ReasonableServlet is a prime example of [request scope programming|RSAC] since its entire logic is encoded by the fetching of a single request-scope bean (the {{rootHandlerBean}}) in whose init-method the entire request is handled.
+
+</pre>
+

@@ -1,0 +1,36 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The RSF [UICommand|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/components/UICommand.java] is a [primitive component|PrimitiveComponents] for a user control that will cause a non-idempotent ([action] request to the server. In plain HTML/HTTP terms, a UICommand is expected to peer with a tag {{&lt;input type=&quot;submit&quot;&gt;}} which will give rise to a POST request. 
+
+The full complement of arguments to the UICommand 'pseudoconstructor' {{make}} are 
+
+*__parent__ The parent component to which this action link will be added as a child.
+*__ID__ The {{rsf:id|IDs}} of this component
+*__text__ The text that will be rendered to the user on this component.
+*__methodbinding__ An RSF EL expression representing the [method binding|Bindings] - a reference to the action to be triggered when the user activates this link.
+
+The {{text}} argument may be either a literal {{String}} or a {{[UIBoundString|PrimitiveComponents]}} (typically a [UIMessage]) representing the text to be rendered on the control. If {{text}} is left {{null}}, this component can be used in the template as a [composite leaf|CompositeLeaf].
+
+!!Example
+
+Here is an example showing a use of the fullest UICommand constructor 
+{{{
+  UIForm startEvalForm = UIForm.make(tofill, &quot;begin-evaluation-form&quot;);
+  UICommand.make(startEvalForm, &quot;begin-evaluation-link&quot;, 
+       UIMessage.make(&quot;starteval.page.title&quot;), 
+       &quot;#{evaluationBean.startEvaluation}&quot;);
+}}}
+
+Note that the resulting navigation from a UICommand control will be controlled by the RSF [ActionResultInterpreter]/[ActionResultInterceptor] - which at the user level is most typically represented by the [NavigationCase] system.
+
+</pre>
+

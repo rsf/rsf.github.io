@@ -1,0 +1,79 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Peas are smaller than beans.
+
+One style of programming that RSF supports, somewhat controversially, is the use of &quot;peas&quot;, which are beans using direct field access rather than accessor methods. This style is completely optional, since all standard javax.beans.* style beans are also recognised, but I think peas represent a very valuable design option with much greater clarity of expression of intent, as well as being much less verbose to define and to use[1]. This is one of the key features that brings RSF programming closer to the concision and straightforwardness of non-Java frameworks such as PHP and Ruby.
+
+For example, the following definitions are equivalent as viewed by the RSF [EL] system:
+
+{{{
+public class TaskListBean {
+  public String siteID;
+  public void processActionAdd() {
+    ...
+  }
+}
+}}}
+
+and 
+
+{{{
+public class TaskListBean {
+  private String siteID;
+  public void setSiteID(String siteID) {
+    this.siteID = siteID;
+    }
+  public String getSiteID() {
+    return siteID;
+    }
+  public void processActionAdd() {
+    ...
+  }
+}
+}}}
+
+Why write the latter when you can write the former? All the standard arguments based on &quot;Object-Oriented&quot; thinking are empty here - this class will almost certainly never be subclassed (not that subclassing is itself any good idea), there is absolutely no requirement for polymorphism since this class is a simple holder of data. Note that even the arguments based on proxying are pretty weak, since RSAC now supports the [PeaProxy] idiom - take a look at [ConsumerInfo.java|https://saffron.caret.cam.ac.uk/svn/projects/PonderUtilCore/trunk/src/uk/org/ponder/webapputil/ConsumerInfo.java] for a classic example. 
+
+In general, when i) a property is read/write, and ii) on a bean stored in the request scope, there is very rarely a good reason not to make it a Pea. Setters and getters just add pointless verbosity, and excite the derision of users of other languages.
+
+Note that you may also use pea properties for injection in an RSAC-managed request context file, as well as accessing them via EL - that is, you could treat &quot;siteID&quot; above as a wireable property as so:
+
+{{{
+  &lt;bean id=&quot;siteID&quot; class=&quot;java.lang.String&quot;&gt;
+   &lt;!-- arguments here, or more realistically acquire via factory-method --&gt;
+  &lt;/bean&gt;
+
+  &lt;bean id=&quot;taskListBean&quot;&gt;
+    &lt;property name=&quot;siteID&quot; ref=&quot;siteID&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+
+Note that this form of bean/property is not supported by Spring itself - do not use this style in an application-scope context file defining beans which are managed by Spring.
+
+!Further discussion
+The merits of peas are discussed a little on the [Philosophy|WhyRSF] page, and also on the [BeanLine] page.
+
+The only real downside of this approach is that it breaks in Java where properties are required to be read-only[2] - there are many cases where immutable objects have vast performance benefits. The technique of creating two interface wrappers for a class, a writeable one derived from a read-only one is deprecated in adequately designed languages (including over-designed ones like C++), but in Java it is the only viable technique.[3] 
+
+Be careful to use peas only at the request scope (managed by RSAC) - since RSF uses genuine Spring for all other (application scope) beans, which uses javax.beans.* introspection code, this could not be supported.
+
+----
+[#1] There is also a tiny increase in speed, but people would generally not quibble about the odd 5ns here or there these days.\\
+[#2] The continuing omission of any kind of &quot;const&quot; specifier in Java is one of those completely fatal flaws that will probably one day be instrumental in killing it off.
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin days=all}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

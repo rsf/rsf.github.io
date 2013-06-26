@@ -1,0 +1,147 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The ActionResultInterceptor interface (sometimes known as ARI2 for short), new in RSF 0.7.1, is useful when the application needs to take very finegrained-level control over the contents of outgoing [ViewParameters] state from an [Action] cycle.
+
+{{{
+public interface ActionResultInterceptor {
+  /**
+   * @param result The required result from this action cycle, which is in the
+   * process of determination. May already contain some determined URL state,
+   * for example a ViewParams with viewId, but may be overwritten by this
+   * interceptor.
+   * @param incoming The URL state for the view which generated this 
+   * action cycle.
+   * @param actionReturn The return from any action method invoked on this
+   * cycle. Should be a String, although may be &lt;code&gt;null&lt;/code&gt; if there was
+   * no return or no method.
+   */
+  public void interceptActionResult(ARIResult result, ViewParameters incoming, 
+     Object actionReturn);
+}
+}}}
+
+!Consider Resulting View Bindings first
+
+Note that a great many of the uses that were formerly met by ARI2 are now in RSF 0.7.3 and later met by the use of [Resulting View Bindings] which you should consider first.
+
+!Differences to ARI1 (ActionResultInterpreter)
+
+ActionResultInterceptor is a little similar, but quite distinct from the earlier [ActionResultInterpreter] (ARI1) interface, which was (and is) largely for framework use only. The differences are:
+
+* The chain of [ActionResultInterpreter]s is always queried before ActionResultInterceptors
+* Whilst the first ActionResultInterpreter which returns an ARIResult terminates the search of the chain, *all* ActionResultInterceptors registered for a particular request always execute. This lets later ARI2s override (possibly completely) the decisions made by earlier stages of processing.
+* ARI2s are typically non-request-static, that is, they are expected to make use of request contextual information to make their decisions.
+
+Note that the familiar [NavigationCase] system itself is implemented in terms of ARI1 - therefore a common pattern is to supply the &quot;skeleton&quot; of information through static NavigationCase information, and fill in fine details (for example parts of ViewParameters which depend on entity IDs) via an ARI2, possibly globally registered.
+
+!!Registering an ARI2
+ActionResultInterceptors may be registered in two ways. Firstly, any request-scope [ViewProducer|ComponentProducer] which implements the ARI2 interface will be queried at the end of the [Action] cycle, for which it is the producer with the matching [ViewID]. Note that in this usage, the ViewProducer's lifecycle will be somewhat unusual, and you should be prepared for it - the bean will be fired up not only on the render cycle where the UICommand is rendered, but also on the following action cycle where it is handled, in order to invoke the ARI2 interface method.
+
+Secondly a &quot;global&quot; ARI2 may be registered into the application context by means of the framework parent definition {{actionResultInterceptorParent}} - for example
+{{{
+  &lt;bean parent=&quot;actionResultInterceptorParent&quot;&gt;
+    &lt;property name=&quot;value&quot;&gt;
+      &lt;bean parent=&quot;RSACBridgeProxy&quot;&gt;
+        &lt;property name=&quot;targetBeanName&quot; value=&quot;myARI2&quot; /&gt;
+      &lt;/bean&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+}}}
+
+This registers a request-scope bean named {{myARI2}} as a global ActionResultInterceptor, which will be queried on __all__ action cycles in the application. Note the use of the [RSACBridgeProxy] since the parent definition is at application scope (for performance reasons) whilst the implementing bean will most likely be at request scope.
+
+!!Purpose of ARI2
+ARI2 was created to cover the cases where the outgoing ViewParameters state cannot be completely computed using a static rule. The most classic case for this is where the outgoing state depends on the ID assigned to an entity which was just newly saved to the database in that action cycle. In general, when saving a new database row, the key allocated is not known until ''very'' late in the request cycle (perhaps not until after the main request portion bracketed by the [AlterationWrapper] has already concluded. This makes some architectural problems where the application needs to redirect to a view which is centered on this freshly created row.
+
+ARI2 was created precisely for this sort of case - the user may embed arbitrary logic within an ARI2, which runs at the last possible moment before the final ARIResult for the cycle is computed. It is best to be very economical with this capability - whilst in theory it could be used to perform ''all'' action logic, this would lead to a considerable loss of architectural coherence, and transparency for your app. 
+!! Using ARI2
+A typical usage pattern of ARI2 involves continuing to compute the bulk of an action result using the static [NavigationCase] system. Imagine we had set up a [ViewParameters] object, which depends on the Id of a particular entity, say a Template, by means of a member called {{templateId}}:
+{{{
+public class TemplateViewParameters extends SimpleViewParameters {
+  public Long templateId;
+
+  public TemplateViewParameters() {
+   }
+
+  public TemplateViewParameters(String viewID, Long templateId) {
+    this.viewID = viewID;
+    this.templateId = templateId;
+    }
+}
+}}}
+
+We have a view in our system, governed by, say, a producer named {{EvaluationSettingsProducer}}. This view contains a UICommand submission control which may cause a new Template to be produced, but then wishes to direct to another view, say, {{EvaluationStartProducer}}, which will fill in further details of this template. The skeleton outline of the source producer would be:
+
+
+{{{
+public class EvaluationSettingsProducer implements ViewComponentProducer, NavigationCaseReporter {
+ ...
+  public List reportNavigationCases() {
+    List i = new ArrayList();
+    // Physical templateId is filled in by global Interceptor
+    i.add(new NavigationCase(EvaluationStartProducer.VIEW_ID, new TemplateViewParameters(EvaluationStartProducer.VIEW_ID, null)));
+    }
+  }
+}}}
+
+We would like to fill in the 2nd argument of the TemplateViewParameters constructor here, but we cannot - NavigationCaseReporter is a *static* interface which is queried essentially only once per application. Even if we created a specialisation of it (DynamicNavigationCaseReporter) which was queried at request scope, it would still be queried ''far too early'' - the required ID is not known during the render cycle when the producer is fired up.
+
+ARI2 to the rescue. In this case we are using the [OTP] pattern for managing Template entities, and so it is easy to discover what the ID of the freshly saved entity is. We have created an OTP [BeanLocator] to manage all templates, with the following skeleton:
+
+{{{
+public class TemplateBeanLocator implements BeanLocator {
+  public static final String NEW_PREFIX = &quot;new &quot;;
+  public static String NEW_1 = NEW_PREFIX + &quot;1&quot;;
+  private Map delivered = new HashMap();
+	
+  public Object locateBean(String path) {
+    ...
+    }
+  }
+}}}
+The constant {{NEW_1}} is arranged to be the key under which the &quot;primary&quot; new entity of this type for the view is saved. Therefore we can implement our ARI2 as follows:
+
+{{{
+public class EvalActionResultInterceptor implements ActionResultInterceptor {
+  private TemplateBeanLocator templateBeanLocator;
+  public void setTemplateBeanLocator(TemplateBeanLocator templateBeanLocator) {
+    this.templateBeanLocator = templateBeanLocator;
+    }
+  
+  public void interceptActionResult(ARIResult result, ViewParameters incoming, Object actionReturn) {
+    if (result.resultingView instanceof TemplateViewParameters) {
+      TemplateViewParameters outgoing = (TemplateViewParameters) result.resultingView;
+      EvalTemplate template = (EvalTemplate) templateBeanLocator.locateBean(TemplateBeanLocator.NEW_1);
+      if (template != null &amp;&amp; outgoing.templateId == null) {
+        outgoing.templateId = template.getId();
+      }
+    }
+  }
+}}}
+
+Firstly, note the protective line {{if (result.resultingView instanceof TemplateViewParameters) }} - since this is a ''global'' ARI2, we must be careful not to act on any views for which the outgoing view is not of the required type. Secondly we guard on {{outgoing.templateId == null}} so that we do not overwrite any outgoing entity ID that has already been computed. 
+
+This is very cool - this one ARI2 can handle any number of views which are based around these entities, and this logic intrudes neither on the backing beans (which would be deeply undesirable) nor the producer logic. Note that it is not necessary to use OTP to be benefitting from ARI2 for this kind of requirement, but it certainly makes locating the necessary entity ID very easy.
+
+!! Why to use ARI2 and why not to use it
+Let's recap the reasons you would want to use ARI2. 
+
+Without this interface, the only place the logic could be written to pass along the required entity ID would be in the backing bean handling the action. This would be a complete violation of RSF's (and any decent) principles, since we would have a dependency on RSF structures (ViewParams, ARIResult) in what should be considered part of the application's model. However, writing ''too much'' code in an ARI2 would be equally destabilising, since for a start the navigation structure of the application would become extremely obscure. Note that how in the above example we cooperate nicely with the existing static [NavigationCase] system, which sets up the fact that we are basically issuing some form of {{TemplateViewParameters}} with an ID yet to be determined, and the ARI2 picks up the results of this static decision in order to work out the view transitions when it should be firing. This is a near-ideal division of responsibilities and architectural balance.
+
+However, if the rule in the above ARI2 were good for __just a single form submission__, it would make more sense to achieve the same result with [Resulting View Bindings] - this would be both shorter and more expressive. In this case the equivalent RVB call would look like this:
+
+{{{
+  form.addResultingViewBinding(&quot;templateId&quot;, &quot;viewParameters.templateId&quot;);
+}}}
+
+</pre>
+

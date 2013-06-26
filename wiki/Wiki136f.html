@@ -1,0 +1,191 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!! Front page view
+
+Having worked out the framework-free definitions for the business function of our app[1], we need to define a view that will let the user interact with it. Since I am so rotten at HTML (ironic, given how strongly RSF is pitched towards unlocking the latent power of a world of expert HTML developers), we will use a simple {{table}}-based view, with a logon control at the right, and a panel at the left that will display different state depending on whether the user is logged in or not. This will form an RSF view with a [viewId|IDs] of {{logon}}. The complete [ViewProducer|ComponentProducer] is held in SVN [here|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/RSFLogon/src/java/uk/org/ponder/rsf/testlogon/producers/LogonProducer.java] for reference - we will look at the code piece by piece.
+
+!!Logon control
+
+Firstly, the logon control itself - note that since this has the request-scope {{LogonBean}} injected, this entire view producer needs to be declared at request scope in {{requestContext.xml}}.
+
+{{{
+public class LogonProducer implements ViewComponentProducer, DefaultView {
+  private LogonBean logonbean;
+  public void setLogonBean(LogonBean logonbean) {
+    this.logonbean = logonbean;
+  }
+
+ public void fillComponents(UIContainer tofill, ViewParameters viewparamso,
+      ComponentChecker arg2) {
+    if (logonbean.name == null) {
+      UIBranchContainer.make(tofill, &quot;content-not-logged-in-pane:&quot;);
+      UIBranchContainer notlogged = UIBranchContainer.make(tofill,
+          &quot;login-not-logged-in-pane:&quot;);
+      UIForm form = UIForm.make(notlogged, &quot;basic-form&quot;);
+      UIInput.make(form, &quot;login-user&quot;, &quot;#{logon.name}&quot;);
+      UIInput.make(form, &quot;login-password&quot;, &quot;#{logon.password}&quot;);
+
+      UICommand.make(form, &quot;login-login&quot;, null, &quot;#{logonAction.logon}&quot;);
+    }
+...
+}}}
+
+
+The first {{make}} line simply emits a [branch container|UIBranchContainer] (named &quot;{{content-not-logged-in-pane:}}&quot;) to show some generic static content in the left content pane when the user is not logged in. The rest of the logic above builds up the controls for the login panel, for which the HTML (from {{logon.html}}) is as follows:
+
+{{{
+    &lt;div rsf:id=&quot;login-not-logged-in-pane:&quot;&gt;
+    &lt;form action=&quot;#&quot; rsf:id=&quot;basic-form&quot;&gt;
+    &lt;table&gt;
+      &lt;tr&gt;
+        &lt;td&gt;User ID:&lt;/td&gt;
+        &lt;td&gt;&lt;input type=&quot;text&quot; rsf:id=&quot;login-user&quot;&gt;&lt;/input&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td style=&quot;padding-top: 5px&quot;&gt;Password:&lt;/td&gt;
+        &lt;td style=&quot;padding-top: 5px&quot;&gt;&lt;input type=&quot;password&quot;
+          rsf:id=&quot;login-password&quot;&gt;&lt;/input&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&lt;input type=&quot;submit&quot; value=&quot;Log on&quot;
+          rsf:id=&quot;login-login&quot; /&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;/form&gt;
+    &lt;/div&gt;
+}}}
+
+An important point to note here is how RSF does not require any kind of &quot;custom control&quot; to deal with the hidden password which is backing {{login-password}}. Given the enormous power of [parachute rendering|ParachuteRendering] supplied by [IKAT], we can simply write this control in standard HTML ({{&lt;input type=&quot;password&quot;&gt;}}) and rely on IKAT not to destroy it, unlike the renderers of all other frameworks. It's this sort of ability that leads to the extremely low requirements for new RSF components at the renderer level. Reusable RSF &quot;components&quot; are instead mostly defined at the [ViewProducer|ComponentProducer] level as will now see.
+
+!!Logoff control - a custom RSF &quot;component&quot;
+Whilst the logon control can only appear at the front page, we imagine that the logout control will be repeated throughout our hypothetical app. Whilst other frameworks would require us to create some kind of &quot;component&quot; for this, implementing some blasted framework interface and conforming to its crazed lifecycle semantics &amp;c, in RSF this &quot;unit of reusable UI space&quot; is simply a normal Spring bean. Since we are injecting it into a known set of consumers, we are free to give it any interface we like, so long as it can be passed the correct container to place its controls. In fact, since we are not imagining any substitutability for this &quot;component&quot; right now, we will not bother to give it any interface at all, but simply inject it concretely. It would be very easy to alter this somewhat crass design decision later - enter {{LogoffProducer}}:
+
+{{{
+public class LogoffProducer {
+  public void fillComponents(UIContainer tofill, String username) {
+    UIBranchContainer logged = UIBranchContainer.make(tofill,
+        &quot;login-loggedin-pane:&quot;);
+    UIOutput.make(logged, &quot;login-user&quot;, username);
+    UIForm form = UIForm.make(logged, &quot;basic-form&quot;);
+
+    UICommand logoff = UICommand.make(form, &quot;login-logoff&quot;);
+    // rather than just clear the fields from &quot;LogonBean&quot;, completely remove
+    // its storage from the session.
+    logoff.parameters.add(new UIDeletionBinding(&quot;#{destroyScope.logonScope}&quot;));
+  }
+}
+}}}
+
+The interesting part of this producer is the [deletion binding|Bindings] which is attached to the &quot;log off&quot; button - this will clear the contents of {{logonScope}} (which is only our {{logonBean}}, declared above) from the session state. See the explanation of RSF [scoped beans|ScopedBeans] for more details.
+
+The only context required for this bean to operate in addition to the target container is the {{LogonBean}} containing the name of the currently logged on user, and so it requires no Spring configuration and may be declared in {{applicationContext.xml}}[2]
+
+{{{
+  &lt;bean id=&quot;logoffProducer&quot;
+    class=&quot;uk.org.ponder.rsf.testlogon.producers.LogoffProducer&quot; /&gt;
+}}}
+
+
+!!Logged on view
+If the user is logged on successfully, as well as being shown the logoff control above, they will be shown some different content in the left pane of this view (this is the end of the body from {{LogonProducer}}:
+
+{{{
+    else {
+      UIBranchContainer pane = UIBranchContainer.make(tofill,
+          &quot;content-logged-in-pane:&quot;);
+      UIInternalLink.make(pane, &quot;waleslink&quot;, new SimpleViewParameters(
+          WalesFrameProducer.VIEW_ID));
+      logoffproducer.fillComponents(tofill, logonbean.name);
+    }
+}}}
+
+The only non-static content of the left pane is a link to a 2nd page of our app, that can only be shown by a logged on user. 
+
+[LogonTest/rsf-logon-demo.png]
+
+!!A second view
+The link in the above branch leads to a &quot;protected&quot; view (with ID {{wales}}) that can only be seen by authenticated users. The producer for this view will have the same {{LogonBean}} instance injected into it as the logon view, demonstrating that the bean value has been persisted across the requests:
+
+{{{
+  &lt;bean id=&quot;walesFrameProducer&quot;
+    class=&quot;uk.org.ponder.rsf.testlogon.producers.WalesFrameProducer&quot;&gt;
+    &lt;property name=&quot;logonBean&quot; ref=&quot;logon&quot; /&gt;
+  &lt;/bean&gt;
+}}}
+
+This view will actually be an HTML ''frameset'' which will display the contents of an external URL in the left pane, together with the same logoff control we wrote earlier in the right pane. Much like the hidden password control above, this view again shows off why it is that RSF requires so few dedicated framework-level components - rather than a bulky or even impossible UIFrameset and UIFrame control, we can render these controls again with the standard [UILink] or [UIInternalLink] together with [parachute rendering|ParachuteRendering]. These controls will actually peer with any HTML component which holds a single URL, for example {{&lt;a&gt;}}, {{&lt;img&gt;}}, {{&lt;script&gt;}}, {{&lt;frame&gt;}} etc. 
+
+The frameset consists of only one non-static link, so the producer looks as follows:
+{{{
+public class WalesFrameProducer implements ViewComponentProducer {
+  public static final String VIEW_ID = &quot;walesframe&quot;;
+  private LogonBean logonbean;
+  public String getViewID() {
+    return VIEW_ID;
+  }
+  
+  public void setLogonBean(LogonBean logonbean) {
+    this.logonbean = logonbean;
+  }
+  
+  public void fillComponents(UIContainer tofill, ViewParameters viewparams, ComponentChecker checker) {
+    if (logonbean.name == null) {
+      throw new SecurityException(&quot;Cannot view page 'wales' while not logged on&quot;);
+    }
+    else {
+      UIInternalLink.make(tofill, &quot;wales&quot;, new SimpleViewParameters(WalesProducer.VIEW_ID));
+    }
+  }
+}
+}}}
+
+Note that as well as rendering the single link with [RSF ID|IDs] {{wales}}, this producer also performs a security check. If the user is not logged on, an exception is thrown, which by default will cause a [redirect|Level1Error] to the default view.
+
+The core HTML for the frameset looks like this:
+{{{
+&lt;html xmlns:rsf=&quot;http://ponder.org.uk.rsf&quot;&gt;
+&lt;head&gt;
+&lt;title&gt;Llywelyn the Last - Prince of Wales&lt;/title&gt;
+&lt;/head&gt;
+&lt;frameset cols=&quot;80%, 20%&quot;&gt;
+  &lt;frame src=&quot;http://www.castlewales.com/llywel2.html&quot;/&gt;
+  &lt;frame src=&quot;wales.html&quot; rsf:id=&quot;wales&quot;/&gt;
+&lt;/frameset&gt;
+&lt;/html&gt;
+}}}
+
+[LogonTest/rsf-logon-demo2.png]
+
+!Logoff action - getting maximum value from RSF defaults
+It's worth noticing that we declared no navigation rules for the command links in the {{LogoffProducer}} above. Having seen the code inside {{WalesFrameProducer}}, we can see that we have been a little slimy, in allowing default RSF semantics to do the work for us. The default navigation semantics for a command link will cause a redirect to the same view. However, a rendering of this same view after we have logged off will throw the {{PermissionException}} we just saw earlier. And the default RSF semantics for an exception thrown from a ViewProducer are to cause a redirect to the default view. All of these reasonable defaults conspire to give us the behaviour we would want without any work - when the user logs off, they will be automatically redirected to the logon page on the default view.
+
+!!Test it out
+Take the app for a test drive (install by editing {{project.properties}} to point to your webapp container, type {{maven}} for the project and it will auto-install). Log in to the right panel with user {{Edward}} and password {{Longshanks}} and you will see the content change in the left pane. You can then use the navigation link in the content pane to take you to the protected frameset, and then log off to be redirected to the default view.
+
+Although our app appears to perform well, it could be better designed in a few respects. In particular in the next section we will see that it suffers from a serious security issue.
+
+----
+Head   - [LogonTest|LogonTest]\\
+Page 1 - [Core Business logic|LogonTest_1]\\
+Page 2 - Defining the views\\
+Page 3 - [Digging deeper - BeanGuards and Bracketers|LogonTest_3]\\
+----
+
+----
+%%( font-size: 80%)
+[#1]Such as they are - since we're only interested in showing how the logon functionality itself can be implemented, the only app logic that is &quot;protected&quot; by the password is simply showing some web content.\\
+[#2]Actually since it has no dependencies we ''could'' go further and simply construct this producer using {{new}} where it was required, but this would be the sort of ''extremely bad style'' that would only be recommended by the designers of non-IoC based frameworks such as [Wicket]. Just because we can see that {{LogoffProducer}} has no dependencies ''now'' doesn't mean that it will have none in the future, and any additional ones it requires may be added silently in the Spring file and in its definition without disturbing the code in any of its consumers. This is the feature that leads apps designed using Spring and RSAC to be ''far more stable'' in the face of change than those built without IoC in mind, as well as being more testable and easier to understand.
+%%
+
+
+</pre>
+

@@ -1,0 +1,33 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+UISelect is an RSF [primitive component|PrimitiveComponent] that represents the function of a user selection from a palette of alternatives. The schematic definition for UISelect is as follows:
+
+{{{
+public class UISelect extends UIComponent implements FixableComponent {
+ /** A component representing the options which the user has to choose from **/
+  public UIBoundList optionlist;
+
+  /** A component representing the rendered labels for the list control */
+  public UIBoundList optionnames;
+
+  /** The input component representing the actual selected value. Expected to be
+   *  either UIInput or UIInputMany.
+   */
+  public UIBound selection;
+}}}
+
+Depending on the type of the member {{selection}}, UISelect may represent either a single or multiple selection control. UISelect may be rendered in HTML by either an HTML {{&lt;select&gt;}} tag or else by a selection of {{&lt;input type=&quot;checkbox&quot;&gt;}} - see the [footnote|PrimitiveComponents#2] on primitive components and also the page on [parachute rendering|ParachuteRendering] for more details. 
+
+As well as the standard {{make}} &quot;constructors&quot;, UISelect features other signatures named {{makeMultiple}} for creating multiple selection controls, as well as a switch {{setMessageKeys()}} for enabling message key lookup mode (see [I18N]).
+
+</pre>
+

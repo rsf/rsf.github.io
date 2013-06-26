@@ -1,0 +1,113 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!! Porting the Sell Item SWF sample to RSF with SWF
+
+This page documents my efforts to port the [Sell Item sample|http://spring.ervacon.com/swf-sellitem/] [Spring Web Flow (SWF)|SpringWebFlow] app to using the [RSF/SWF integration|RSFSpringWebFlow].\\
+This conversion took approximately 6 hours to complete (including documenting the process). Breakdown is as follows: approximately 1 hour to make the original app work with Maven2, 1 hour to understand the structure of the sample app, 1 hour for initial structure setup and cleanup, 1 hour to convert the JSPs to html templates with rsf:ids, 1 hour to write the RSF producers, 1 hour to for miscellaneous changes (updates to .xml, .properties).\\
+I would estimate that a real app conversion for an app this size would take only 3 hours since documenting the process and understanding the app would not be required. You could probably save almost another hour if the app was already using maven2.\\
+Feel free to send me ([Aaron Zeckoski|People]) questions or comments (or using the [mailing list|EmailLists]).
+
+|| __Sample Code (SVN):__ | [original code (with maven2 build)|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/orig] | [RSF SWF version|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/RSFSWF] |
+[Try out Sell Item RSF SWF on our server|http://ponder.org.uk/SWFSellItem-RSFSWF/faces]
+
+!! My development environment
+* Java 1.5
+* Tomcat 5.5.12
+* Maven2
+* Eclipse 3.2
+* Windows XP ''(any OS should be fine)''
+__NOTE:__ Want [instructions setting up a similar development environment|ContainerSetupGuide]?
+
+!! Getting started
+First thing I had to do was get the SWF sample code up and running on my machine.
+# Went to the [Spring Download page|http://www.springframework.org/download] and grabbed version 1.0.4 of SWF (this just goes over to sourceforge for the [spring-webflow-1.0.4.zip|http://downloads.sourceforge.net/springframework/spring-webflow-1.0.4.zip?modtime=1182395228&amp;big_mirror=0])
+# Extracted the package and grabbed the sellitem sample app (spring-webflow-1.0.4\projects\spring-webflow-samples\sellitem) and copied it over to my desktop
+# Imported the sample app in eclipse and added a maven2 [pom.xml file|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/orig/pom.xml] (also adjusted the [.classpath file|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/orig/.classpath] to all required jars to use M2_REPO variable).
+#* __TIP:__ Look at the {{ivy.xml}} file to get the required dependency list and versions
+#* __TIP:__ Don't forget to define a ''M2_REPO'' classpath variable in eclipse which points to your local maven2 repository
+# Built the project using maven2 by running {{mvn install}}
+# Started up tomcat and accessed the app at: ''[http://localhost:8080/SWFSellItem-orig-1.0/]''
+# Checked in the [code for the original version|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/orig] to the CARET SVN
+
+!! Creating the RSF version
+
+! Initial structure setup and cleanup
+
+# Branched the [original code|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/orig] to create the [RSFSWF version|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/RSFSWF].
+# Adjusted the maven2 {{pom.xml}} to remove unneeded dependencies (webmvc, web, etc.) and added in the rsf-util and spring-aop dependencies.
+#* Also changed the Spring version to 2.0.4 to make it easier for maven2 to sync and require less specified dependencies in the {{pom.xml}}
+# Added rsf-swf and rsfutil jars to the eclipse classpath (using the M2_REPO variable)
+# Added in an RSF standard {{content}} directory under {{/src/main/webapp}}
+# Added in RSF standard {{content/templates}}, {{content/css}}, and {{content/images}} directories
+# Moved *.jsp files to {{content/templates}} and renamed all files to .html
+# Updated the headers of all .html files to remove taglibs and added in standard RSF headers (also removed meta tag)
+# Moved *.jpg to {{content/images}} and removed old {{/src/main/webapp/images}} directory
+# Copied in the rsf logo and fixed the relative path to all images in the templates
+# Moved {{/src/main/webapp/style.css}} file to {{content/css}}
+# Fixed the css paths in the headers
+# Added {{/src/main/webapp/WEB-INF/messages/messages_en.properties}} file for internationalized messages
+# Created an {{rsf}} package in {{org.springframework.webflow.samples.sellitem}}
+# Added {{params}} and {{producers}} packages to the {{rsf}} package
+
+! Actual real conversion work
+# Removed the {{/src/main/webapp/WEB-INF/sellitem-servlet-config.xml}} (it only has webmvc beans which we do not need)
+# Updated the {{/src/main/webapp/WEB-INF/web.xml}} file to include the RSF standard contexts and servlets
+#* This basically means completely overwriting what is there except you can keep the {{classpath:org/springframework/webflow/samples/sellitem/services-config.xml}}
+#* Here is a link to the [new web.xml file|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/RSFSWF/src/main/webapp/WEB-INF/web.xml] for easy reference
+# Create an {{applicationContext.xml}} and {{requestContext.xml}} file in {{/src/main/webapp/WEB-INF}}
+#* Here are links to each for easy reference: [applicationContext.xml|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/RSFSWF/src/main/webapp/WEB-INF/applicationContext.xm], [requestContext.xml|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/RSFSWF/src/main/webapp/WEB-INF/requestContext.xm]
+#* ''OPTIONAL:'' added an RSF config set under [SpringIDE|http://springide.org/blog/] which includes all spring files
+# Went through each .html template and removed the JSP code and replaced it with rsf:ids
+#* This mostly involved the removal of non-standard html tags like {{&lt;form:form&gt;}} and {{&lt;c:...}}
+#* This also involved some moving around of tags to improve the xhtml
+# Created [producers|ComponentProducer] for each of the html files in the producers package
+#* This is the ''best practice'' way to create RSF view producers
+## Create a class named &lt;template&gt;Producer which implements {{ViewComponentProducer}}
+## Create a {{public final static String VIEW_ID = &quot;&lt;template&gt;&quot;;}} which is set to the template without .html
+## Make the {{getViewID}} method return the VIEW_ID variable
+# Made the IndexProducer implement {{DefaultView}} so it is the starting page for the app
+# Added real code to the {{IndexProducer}} to create the links to initiate the various flows
+#* Create a link to start a flow: {{UIInternalLink.make(tofill, &quot;sellitem-flow-link&quot;, new SWFLaunchViewParams(&quot;sellitem-flow&quot;));}}
+#* From the template: {{&lt;a rsf:id=&quot;sellitem-flow-link&quot; href=&quot;priceAndItemCountForm.html&quot;&gt;Sell Item&lt;/a&gt;}}
+# Added real code to the {{PriceAndItemCountFormProducer}} to connect data to the form and associate the submit with the flow
+#* Use the RSF convention of {{SWFBindingBean}} to proxy data to the flow formObject, this points to the {{org.springframework.webflow.samples.sellitem.Sale.java}} object which has fields on it like {{.price}}, \\For example: {{UIInput.make(form, &quot;sale-price&quot;, &quot;SWFBindingBean.price&quot;);}}
+#** __NOTE:__ Here we are putting data into the ''sale'' bean
+#* Use the RSF convention of {{SWFEventBean}} to continue the flow, this ties to the {{view-state}} in the flow \\({{/src/main/webapp/WEB-INF/flows/sellitem-flow.xml}}) and the related ''transition'' which will have an ''on'', \\For example: {{&lt;transition on=&quot;submit&quot; to=&quot;enterCategory&quot;&gt;}} for __view-state id=enterPriceAndItemCount__
+# Added real code to the {{CategoryFormProducer}} to connect data to the form and associate the submit with the flow
+#* Use the RSF convention of {{SWFBindingBean}} to proxy data from the flow formObject, this points to the {{org.springframework.webflow.samples.sellitem.Sale.java}} object which has fields on it like {{.itemCount}}, \\For example: {{UIOutput.make(tofill, &quot;sale-itemCount&quot;, &quot;SWFBindingBean.itemCount&quot;);}}
+#** __NOTE:__ Here we are getting data back out of the ''sale'' bean, before we were putting it in
+# Added real code to the {{ShippingDetailsFormProducer}} to connect data to the form and associate the submit with the flow
+#* There is some optional rendering on this view and a pulldown which requires adding the options text to \\{{/src/main/webapp/WEB-INF/messages/messages_en.properties}}
+#* __NOTE:__ This view differs from the others in that it does not perform SWF form setup on entry to the state. As a result, EL references to the model must be via {{sale.*}} when rendering fields rather than {{SWFBindingBean.*}}.
+# Added real code to the {{CostOverviewProducer}} to connect data to the form and associate the submit with the flow
+#* __NOTE:__ This view differs in that it uses the end flow state. This does not actually impact our conversion but it is worth noting that RSF handles this automatically.
+# Added all producer bean definitions to the {{requestContext.xml}} file
+# Added the validation messages from {{/src/main/java/org/springframework/webflow/samples/sellitem/SaleValidator.java}} to the {{/src/main/webapp/WEB-INF/messages/messages_en.properties}}
+#* This is because RSF only allows internationalized messages
+# Committed the changed code to the [CARET SVN repository RSF samples trunk|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/]
+
+! Running the sample app
+# Built and deployed the project using maven2 by running {{mvn install cargo:deploy}} from the main directory
+# Started up tomcat and accessed the app at: ''[http://localhost:8080/SWFSellItem-SWFRSF-1.0/faces/]''
+# Tested the various flows
+
+! Differences in app function
+* Hitting the __browser back button__ after reaching the final flow will yield an exception on screen in the original app, this behavior is the same in RSF except that RSF handles the exception and redirects the user back to the Home screen
+* In the original app, hitting refresh once you reach the end flow will yield an exception on screen, in RSF the end flow state is preserved and the end flow screen can be refreshed and will display the results of the flow again
+
+! Summary of needed changes
+* No flows were changed and the logic for the application was not touched
+* The &quot;views&quot; (JSPs) were transformed into RSF views (producers and templates) and various RSF bits were added (contexts)
+* A few other RSFisms like internationalized messages and the web.xml had to be updated or added
+
+</pre>
+

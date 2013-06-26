@@ -1,0 +1,860 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html id="top" xmlns="http://www.w3.org/1999/xhtml">
+
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=SpringMVCStepRSF&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:20 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+    RSF Wiki: SpringMVCStepRSF
+  </title>
+  
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" media="screen, projection, print" type="text/css"
+     href="templates/default/jspwiki.css"/>
+
+<link rel="stylesheet" type="text/css" media="print" 
+     href="templates/default/jspwiki_print.css" />
+<!-- INCLUDERESOURCES (stylesheet) -->
+
+<!-- INCLUDERESOURCES (inlinecss) -->
+
+
+
+<noscript>
+<style type="text/css">
+#hiddenmorepopup { display:block; }
+</style>
+</noscript>
+
+
+<script type="text/javascript" src="scripts/mootools.js"></script>
+<script type="text/javascript" src="scripts/prettify.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-common.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-commonstyles.js"></script>
+<!-- INCLUDERESOURCES (script) -->
+
+
+
+
+
+<meta name="wikiContext" content='diff' />
+<meta name="wikiBaseUrl" content='http://rsf.fluidproject.org/wiki/' />
+<meta name="wikiPageUrl" content='/wiki/Wiki.jsp?page=%23%24%25' />
+<meta name="wikiEditUrl" content='/wiki/Edit.jsp?page=SpringMVCStepRSF' />
+<meta name="wikiJsonUrl" content='/wiki/JSON-RPC' />
+<meta name="wikiPageName" content='SpringMVCStepRSF' />
+<meta name="wikiUserName" content='207.119.0.6' />
+<meta name="wikiTemplateUrl" content='/wiki/templates/default/' />
+<meta name="wikiApplicationName" content='RSF Wiki' />
+
+<script type="text/javascript">//<![CDATA[
+/* Localized javascript strings: LocalizedStrings[] */
+var LocalizedStrings = {
+"javascript.edit.allsections":"( All )",
+"javascript.slimbox.error":"<h2>Error</h2>There was a problem with your request.<br />Please try again",
+"javascript.slimbox.remoteRequest":"Remote Request {0} of {1}",
+"javascript.slimbox.close":"Close &#215;",
+"javascript.quick.edit":"[Edit]",
+"javascript.sort.descending":"Descending order. Click to reverse sort order",
+"javascript.expand":"Click to expand",
+"javascript.group.validName":"Please provide a valid name for the new Group",
+"javascript.slimbox.next":"Next&raquo;",
+"javascript.filter.all":"( All )",
+"javascript.edit.areyousure":"Without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.quick.edit.title":"Edit section {0}...",
+"javascript.slimbox.directLink":"Direct Link to the target",
+"javascript.prefs.areyousure":"Without clicking the Save User Preferences button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.sbox.clone.suffix":"-New",
+"javascript.slimbox.info":"Image {0} of {1}",
+"javascript.tip.default.title":"More...",
+"javascript.edit.resize":"Drag to resize the text area",
+"javascript.edit.findandreplace.nomatch":"No match found!",
+"javascript.sort.ascending":"Ascending order. Click to reverse sort order",
+"javascript.slimbox.close.title":"Close [Esc]",
+"javascript.edit.toolbar.makeSelection":"Please make first a selection.",
+"javascript.favs.hide":"Click to hide Favorites",
+"javascript.sectionediting.label":"Section Overview",
+"javascript.slimbox.previous":"&laquo;Previous",
+"javascript.favs.show":"Click to show Favorites",
+"javascript.collapse":"Click to collapse",
+"javascript.category.title":"Click to show category [{0}] ...",
+"javascript.sort.click":"Click to sort",
+"javascript.edit.startOfPage":"( Start of page )"
+};
+
+
+/* INCLUDERESOURCES (jsfunction) */
+
+//]]></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="search" href="Wiki702d.html?page=FindPage"
+    title='Search RSF Wiki' />
+<link rel="help"   href="Wikia3b7.html?page=TextFormattingRules"
+    title="Help" />
+
+ <link rel="start"  href="Wikib2ab.html?page=Main"
+    title="Front page" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki_print.css"
+    title="Print friendly" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki.css"
+    title="Standard" />
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+<link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  
+    <meta name="robots" content="noindex,nofollow" />
+  
+  
+    <meta name="robots" content="noindex,follow" />
+  
+</head>
+
+<body class="view">
+
+<div id="wikibody" class="fav-left">
+ 
+  
+
+
+
+
+
+
+<div id="header">
+
+  <div class="titlebox"></div>
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=SpringMVCStepRSF" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=SpringMVCStepRSF"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+
+  <div class="pagename">SpringMVCStepRSF</div>
+
+  <div class="searchbox">
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Search.jsp"
+        class="wikiform"
+           id="searchForm" accept-charset="UTF-8">
+
+  <div style="position:relative">
+  <input onblur="if( this.value == '' ) { this.value = this.defaultValue }; return true; "
+        onfocus="if( this.value == this.defaultValue ) { this.value = ''}; return true; "
+           type="text" value="Quick Navigation"
+           name="query" id="query"
+           size="20" 
+      accesskey="f" />
+  <button type="submit"
+  		 name="searchSubmit" id="searchSubmit"
+  		value="Go!"
+  		title="Go!"></button>
+  </div>
+  <div id="searchboxMenu" style='visibility:hidden;'>
+    <div id="searchTools">
+      <a href="#" id='quickView' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Wiki.jsp?page=__PAGEHERE__','View the selected page' );"
+        title="View the selected page">view</a>
+      <a href="#" id='quickEdit' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__','Edit the selected page' );"
+        title="Edit the selected page">edit</a>
+      <a href="#" id='quickClone' class='action'	
+      onclick="return SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__', 'Clone the selected page', true );"
+        title="Clone the selected page">clone</a>
+      <a href="#" id="advancedSearch" class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Search.jsp?query=__PAGEHERE__','SpringMVCStepRSF' )"
+        title="Advanced Search [ f ]">find</a>
+    </div>
+    <div id="searchResult" >
+	  Quick search
+      <span id="searchTarget" >(type ahead)</span>
+      <span id="searchSpin" class="spin" style="position:absolute;display:none;"></span>
+	  <div id="searchOutput" ></div>
+    </div>
+    <div id="recentSearches" style="display:none;">
+      Recent Searches
+      <span><a href="#" id="recentClear">(Clear)</a></span>
+    </div>
+  </div>
+
+</form></div>
+
+  <div class="breadcrumbs">Your trail:&nbsp;<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UserNameTag">UserNameTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ValueBinding">ValueBinding</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VariableTag">VariableTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VeryLazyBeans">VeryLazyBeans</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewID">ViewID</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewRender">ViewRender</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogEntryPlugin">WeblogEntryPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogPlugin">WeblogPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WikiFormsExampleText">WikiFormsExampleText</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=XPP">XPP</a></div>
+
+</div>
+
+  <div id="content">
+
+    <div id="page">
+      
+
+
+
+
+
+<div id="actionsTop" class="pageactions"> 
+  <ul>
+
+    
+    
+    
+
+    
+    <li id="morebutton">
+      <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=MoreMenu" class="action more">More...</a>
+    </li>
+
+  </ul>
+</div>
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="tabmenu">
+
+  
+
+  
+
+  
+  
+
+  
+
+  <a id="menu-pagecontent" href='http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SpringMVCStepRSF' accesskey="v" ><span class='accesskey'>V</span>iew</a>
+
+  <a id="menu-attach" accesskey="a" ><span class='accesskey'>A</span>ttach</a>
+
+  
+  <a class="activetab" id="menu-info" accesskey="i" ><span class='accesskey'>I</span>nfo</a>
+
+  </div>
+<div class="tabs">
+
+  <div id="pagecontent" class="hidetab" >
+
+      
+  </div>
+
+
+  <div id="attach" class="hidetab" >
+
+    
+
+
+
+
+
+
+
+
+
+
+<div id="addattachment">
+<h3>Add new attachment</h3>
+
+
+<div class="formhelp">Only authorized users are allowed to upload new attachments.</div>
+
+</div>
+
+
+
+  </div>
+
+
+  
+  <div id="info" >
+
+  <p>
+  This page (revision-1) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=SpringMVCStepRSF&amp;r1=-1&amp;r2=1"
+        title="Show changes of last page update" >
+        10-Sep-2006 20:38
+      </a> by UnknownAuthor
+
+  
+  </p>
+
+  
+
+  
+  
+      <p>Only authorized users are allowed to rename pages.</p>
+  
+
+  
+  
+      <p>Only authorized users are allowed to delete pages.</p>
+  
+
+  <div class="collapsebox-closed" id="incomingLinks">
+  <h4>Incoming links</h4>
+    <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SpringMVCStepRSF" accesskey="" title="">SpringMVCStepRSF</a>
+    <ul><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SpringMVCStep">SpringMVCStep</a>
+</li></ul>
+  </div>
+
+  <div class="collapsebox-closed" id="outgoingLinks">
+  <h4>Outgoing links</h4>
+    <div class="ReferredPagesPlugin">
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SpringMVCStepRSF" title="ReferredPagesPlugin: depth[1] include[.*] exclude[^$] format[compact]">SpringMVCStepRSF</a>
+<ul>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Action">Action</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=BeanGuards">BeanGuards</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=EL">EL</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=IKAT">IKAT</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RSAC">RSAC</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SpringMVCStep">SpringMVCStep</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewID">ViewID</a></li>
+</ul>
+</div>
+
+  </div>
+
+  <div class="clearbox"></div>
+
+  
+  
+     
+
+
+
+
+
+
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Diff.jsp" method="get" accept-charset="UTF-8">
+<div class="collapsebox" id="diffcontent">
+  <h4>
+       <input type="hidden" name="page" value="SpringMVCStepRSF" />
+       Difference between version <select id="r1" name="r1" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select> and <select id="r2" name="r2" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select>
+  </h4>
+
+  
+
+  <div class="diffbody">
+    <table class="diff" border="0" cellspacing="0" cellpadding="0">
+<tr><td class="diff">At line 1 added 101 lines</td></tr>
+<tr><td class="diffadd">!!! Spring MVC Step by Step - RSF Version</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">We inherited a SpringMVC sample application from the [Spring documentation|http://www.springframework.org/docs/MVC-step-by-step/Spring-MVC-step-by-step.html] for the SpringMVC framework, which operates two simple views, one of which contains a form which modifies the &quot;persistent state&quot; (actually held in memory in this simple app) of the application by increasing prices of a collection of products.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">In Stage 1/1a on the previous page we reworked the view layer of this application from JSPs to [IKAT], RSF's pure HTML templating system, which greatly improved the separation between logic and presentation in this application.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">In this final stage, we will rework the rest of the code to form a full-blown RSF application. While preserving *all* of the business infrastructure (including Spring Validators) unchanged from the original app, we will also continue to use the same HTML templates from Stage 1. A lot of code will fall away from the app, since much of RSF's &quot;controller&quot; infrastructure is implicit - leaving it (we argue) much clearer and straightforward, with no longer the mixture of dependency ferrying, action processing and view preparation that is typical of a SpringMVC controller. Moreover, the resulting app will be completely *portable* (e.g. to JSR-168 portlets, or other kinds of hosting environment), since it will be free of any dependencies on the Servlet infrasturcture.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!! Stage 2 - RSF request handling</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Part of the key transition to the RSF idiom occurred at Stage 1a, where we allowed the request-scope list {{products}} to be self-configured naturally using Spring (actually [RSAC]) rather than being &quot;pushed&quot; into the request context using a controller.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The core change to complete this transition is to use RSF's [Action] cycle to process the submission, rather than a SpringMVC controller. This is remarkably straightforward, since all we need to do is to &quot;liberate&quot; the command object, {{priceIncrease}} from the old {{PriceIncreaseFormController}} and elevate it to become a perfectly normal bean inhabitant of the request scope. We create a framework-free &quot;action bean&quot; named {{priceIncreaseAction}} to coordinate the form submission effect with the {{priceIncrease}} bean, leading to the following definitions at request scope:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  &lt;bean id=&quot;priceIncrease&quot; class=&quot;uk.org.ponder.rsf.springmvcstep.bus.PriceIncrease&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;percentage&quot; value=&quot;20&quot;/&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/bean&gt;</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">  &lt;bean id=&quot;priceIncreaseAction&quot;</td></tr>
+<tr><td class="diffadd">    class=&quot;uk.org.ponder.rsf.springmvcstep.bus.PriceIncreaseAction&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;priceIncrease&quot; ref=&quot;priceIncrease&quot;/&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;productManager&quot; ref=&quot;prodMan&quot;/&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/bean&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Note that the initialisation of {{priceIncrease}}, which was formerly done in code as part of the nested &quot;form command object&quot; is now done within the Spring file.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{PriceIncreaseAction}} is a simple collection of accessors plus a zero-arg method suitable to be the target of an [action binding|EL]:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public class PriceIncreaseAction {</td></tr>
+<tr><td class="diffadd">  private PriceIncrease priceIncrease;</td></tr>
+<tr><td class="diffadd">  private ProductManager productManager;</td></tr>
+<tr><td class="diffadd">  </td></tr>
+<tr><td class="diffadd">  public void setPriceIncrease(PriceIncrease priceIncrease) {</td></tr>
+<tr><td class="diffadd">    this.priceIncrease = priceIncrease;</td></tr>
+<tr><td class="diffadd">  }</td></tr>
+<tr><td class="diffadd">  public void setProductManager(ProductManager productManager) {</td></tr>
+<tr><td class="diffadd">    this.productManager = productManager;</td></tr>
+<tr><td class="diffadd">  }</td></tr>
+<tr><td class="diffadd">  </td></tr>
+<tr><td class="diffadd">  public String increase() {</td></tr>
+<tr><td class="diffadd">    productManager.increasePrice(priceIncrease.getPercentage());</td></tr>
+<tr><td class="diffadd">    return &quot;success&quot;;</td></tr>
+<tr><td class="diffadd">  }</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">}</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">All we need to do to bind all of these elements together to fire during the submission of the &quot;increase prices&quot; form is to emit the following two bindings from the view producer for this view, {{PriceIncreaseProducer}}: </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  UIInput.make(form, &quot;percentage&quot;, &quot;#{priceIncrease.percentage}&quot;);</td></tr>
+<tr><td class="diffadd">  UICommand.make(form, &quot;submit&quot;, &quot;#{priceIncreaseAction.increase}&quot;);</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Finally, we reconfigure the existing Validator {{PriceIncreaseValidator}}, unchanged, as an RSF [BeanGuard], which will be triggered automatically through any write access to the {{priceIncrease}} bean:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd"> &lt;bean id=&quot;priceIncreaseGuard&quot; parent=&quot;writeGuardParent&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;guardedPath&quot; value=&quot;priceIncrease&quot;/&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;guard&quot;&gt;</td></tr>
+<tr><td class="diffadd">      &lt;bean class=&quot;uk.org.ponder.rsf.springmvcstep.bus.PriceIncreaseValidator&quot;/&gt;</td></tr>
+<tr><td class="diffadd">    &lt;/property&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/bean&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">With these remarkably Spring-idiomatic and straightforward changes, the SpringMVC controller layer of the application may now be disposed of - all of the disparate elements of the {{PriceIncreaseFormController}} have been segregated out into areas of common function, largely in the form of Spring definitions and framework-free beans.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!Navigational changes</td></tr>
+<tr><td class="diffadd">In being &quot;upgraded&quot; to a fully-fledged RSF application, the view producers may now participate in RSF's ViewParameters system, which now insulates them from the details of the URL mapping (if any) applied by the outer application. Therefore wherever links ({{UIInternalLink}}) were emitted leading to views within the application, we replace the URL arguments with ViewParameters objects derived from the [ViewID]s of the respective views - e.g.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">   UIInternalLink.makeURL(form, &quot;home&quot;, &quot;hello.htm&quot;);</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">becomes</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">    UIInternalLink.make(form, &quot;home&quot;, new SimpleViewParameters(</td></tr>
+<tr><td class="diffadd">        HelloProducer.VIEW_ID));</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The same system is used to govern the resulting navigation following the form submission. We have a simple rule, which always redirects to the initial view - using the [NavigationCaseReporter] system, we add the following return to {{PriceIncreaseProducer}}:</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  public List reportNavigationCases() {</td></tr>
+<tr><td class="diffadd">    List togo = new ArrayList();</td></tr>
+<tr><td class="diffadd">    togo.add(new NavigationCase(&quot;success&quot;, new SimpleViewParameters(</td></tr>
+<tr><td class="diffadd">        HelloProducer.VIEW_ID)));</td></tr>
+<tr><td class="diffadd">    return togo;</td></tr>
+<tr><td class="diffadd">  }</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!Environment changes</td></tr>
+<tr><td class="diffadd">We remove the Servlet-bound Spring context file {{springapp-servlet.xml}} completely, placing all definitions in the {{applicationContext.xml}} and {{requestContext.xml}} files. The {{web.xml}} elements referring to the SpringMVC Dispatcher servlet are replaced with the corresponding definitions for the RSF {{ReasonableSpringServlet}}.</td></tr>
+<tr><td class="diffadd">!!! Summary</td></tr>
+<tr><td class="diffadd">We have taken this sample app through two successive transformations, firstly from JSP as the view layer to pure HTML with IKAT, and then finally to a full RSF app. Throughout the process, we preserved unchanged all the business definitions in code and in Spring files, as well as the Spring Validator attached to the form. During the final stage, we preserved unchanged the HTML templates, as well as making only small changes to the RSF ViewProducers. The resulting app is now reskinnable by non-coders armed with standard HTML tools, as well as no longer being tied to the Servlet environment. Arguably, it also enjoys a better structure, with more clearly separated areas of responsibility between view generation, request decoding and action processing, away from the somewhat tangled responsibilities of a SpringMVC FormController.</td></tr>
+<tr><td class="diffadd">----</td></tr>
+<tr><td class="diffadd">Head   - [Spring MVC Step by Step - IKAT versions|SpringMVCStep]\\</td></tr>
+<tr><td class="diffadd">Page 1 - Spring MVC Step by Step - RSF version\\</td></tr>
+<tr><td class="diffadd">----</td></tr>
+</table>
+ 
+  </div>
+</div>
+</form>
+
+  
+  
+
+	
+    
+    
+
+    
+
+    <div class="zebra-table sortable table-filter">
+    <table class="wikitable" >
+      <tr>
+        <th>Version</th>
+        <th>Date Modified</th>
+        <th>Size</th>
+        <th>Author</th>
+        <th>Changes ...</th>
+        <th class='changenote'>Change note</th>
+      </tr>
+
+      
+      
+      <tr>
+        <td>
+          <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SpringMVCStepRSF&amp;version=-1" accesskey="" title="">
+            
+          </a>
+        </td>
+
+	    <td style="white-space:nowrap;" sortvalue="Sun, 10 Sep 2006 08:38:28">
+        10-Sep-2006 20:38
+        </td>
+        <td style="white-space:nowrap;text-align:right;">
+          
+          7.176&nbsp;kB
+        </td>
+        <td>UnknownAuthor</td>
+
+        <td>
+          
+
+          
+        </td>
+
+         <td class="changenote">
+           
+           
+         </td>
+
+      </tr>
+      
+      
+
+    </table>
+    </div>
+    
+    
+  </div>
+
+
+  <div style="clear:both;" ></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+<div id='actionsBottom' class="pageactions"> 
+    
+
+    <a href="#top" 
+      class="action quick2top" 
+      title="Go to top" >&laquo;</a>
+
+    
+       This page (revision-) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=SpringMVCStepRSF&amp;r1=-1&amp;r2=1">10-Sep-2006 20:38</a> by UnknownAuthor
+    
+
+    
+
+   
+
+  
+
+   
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div id="favorites">
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=SpringMVCStepRSF" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=SpringMVCStepRSF"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+  
+  <div id="hiddenmorepopup">
+  <ul id="morepopup">
+     
+       	
+     
+       
+     
+    
+       
+     
+       <li>
+       
+       <a class="action rawpage wikipage" 
+               href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SpringMVCStepRSF&amp;skin=raw"
+              title="View Page Source">View Page Source
+       </a>
+       
+       
+       </li>
+      
+        
+  
+      
+      
+      
+
+      
+	  <li class='separator'>
+        <div id="moremenu" ></div>
+      </li>
+  </ul>
+  </div>
+  
+  
+
+  
+
+  
+
+  
+  <div class="leftmenu">
+    <p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main">Main page</a><br />
+<tt> </tt><i><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ThisWiki">About</a></i><br />
+</p><p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=GettingStarted">Getting Started</a><br />
+</p>
+<p><b>Documentation</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Developers">Developers</a><br />
+<tt>  </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Javadocs">Javadocs</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Designers">Designers</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SampleRSFApps">Sample RSF Apps</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Presentations">Presentations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Acronyms">Acronyms</a><br />
+</p>
+<p><b>Downloads</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CurrentCode">Current Release</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=TrunkCode">Trunk</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CodeDistributions">Distributions</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=OldCode">Old Versions</a><br />
+</p>
+<p><b>Community</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=QampA">Q&amp;A</a><br />
+<tt> </tt><a class="external" href="http://ponder.org.uk/rsf/">Forums</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=EmailLists">Mailing Lists</a><br />
+<tt> </tt><a class="external" href="http://www.caret.cam.ac.uk/jira/browse/RSF">Issue Tracker</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=People">People</a><br />
+</p>
+<p><b>Design</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Roadmap">Roadmap</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Integrations">Integrations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Concepts">Concepts</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Philosophy">Philosophy</a><br />
+</p>
+<div style="font-style:italic;font-size:0.8em;">
+<b>Pages</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=FindPage">Find</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RecentChanges">Recent Changes</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UnusedPages">Unused</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UndefinedPages">Undefined</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PageIndex">Index</a>
+</div>
+<p />
+    
+  </div>
+  
+  <div class="leftmenufooter">
+    <hr />
+<p><b>Referenced by</b><br />
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SpringMVCStep">SpringMVCStep</a><br />
+</p>
+    
+  </div>
+
+  
+
+  
+  
+  <div class="wikiversion">JSPWiki v2.8.2
+  <span class="rssfeed">
+    
+  </span>
+  </div>  
+  
+</div>
+
+	<div class="clearbox"></div>
+  </div>
+
+  
+
+
+
+
+
+ 
+<div id="footer">
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  <div class="copyright"></div>
+
+  <div class="wikiversion">
+    JSPWiki v2.8.2
+  </div>
+
+  <div class="rssfeed">
+    
+  </div>
+
+</div>
+
+</div>
+
+</body>
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=SpringMVCStepRSF&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:20 GMT -->
+</html>

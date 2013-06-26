@@ -1,0 +1,186 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Our simple logon app seems to perform fine at the user level, but could be designed somewhat better. Firstly, let's look at a serious security issue that it has.
+
+
+!!A security problem
+Users who have pondered somewhat into the way RSF works will have noticed this simple version of our app suffers from a quite serious security problem. This is by virtue of the fact the ''same'' request-scope instance of the bean to which request values are applied by forms is the ''very same'' instance which is persisted into the session, and checked for logon details by every page! This means that a malicious user with knowledge of the structure of our app could synthesise a fake form which contains all the contents of our logon producer's form, ''minus'' the action binding, which will then cause them to be automatically logged on as any user!
+
+At initial sight this could be seen as a flaw in the design of RSF in providing insufficient insulation between the view layer and the business layer, but is actually part of a more general &quot;economic&quot; philosophy of design that tries to get as much value as possible from properly designed business logic layers. For a request model that was exposing, for example, a section of database state, this resistance to corruption would be provided by correct ''transactionality'' of the request cycle. The modification of the values by the view layer, by being part of their own transaction, would not be reflected anywhere outside the request until the transaction was committed. Therefore by providing guaranteed execution of validation logic, which would throw an exception and hence cause rollback, the application would be guaranteed coherence and correctness in the face of dangerous inputs, without the mess and extra work of creating ''extra'' insulation layers, or, god forbid, DTOs or similar evils. 
+
+We have no transactions here, but the answer to the problem is similar. Essentially we need to ''guarantee'' execution of the logic in {{LogonActionBean}}, irrespective of how the view layer tries to modify the values within {{LogonBean}}. Therefore, rather than attach these somewhat dangerously via an EL method binding that the user may prevent from executing, we instead make use of RSF's powerful validation architecture, packaged in the form of [bean guards|BeanGuards] - you may want to pop over and read about them now on their own page.
+
+!A BeanGuard for the LogonBean
+Excellently, we can reorganise our application to use this reliable approach purely by Spring configuration, and ''removing code''. The key is to avoid the unpredictable execution of the action binding which is attached to our &quot;logon&quot; button in {{LogonProducer}}:
+
+{{{
+      UICommand.make(form, &quot;login-login&quot;, null, &quot;#{logonAction.logon}&quot;);
+}}}
+
+The user could easily forge a form that simply failed to emit this binding when the button was clicked. Instead, we turn this into a &quot;null-action&quot; button as follows:
+
+{{{
+      UICommand.make(form, &quot;login-login&quot;);
+}}}
+
+and instead operate the code from the {{logicAction}} bean as a BeanGuard targetted at EL write accesses to the {{logon}} bean, by adding this definition to {{applicationContext.xml}}:
+
+{{{
+  &lt;bean id=&quot;logonGuard&quot; parent=&quot;writeGuardParent&quot;&gt;
+    &lt;property name=&quot;guardedPath&quot; value=&quot;logon&quot;/&gt;
+    &lt;property name=&quot;guardMethod&quot; value=&quot;logonAction.logon&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+
+Now, any write access to the &quot;logon&quot; bean via EL during a request will *certainly* be followed by execution of {{LogonAction.logon()}}, which will check the password and update the logon status of the bean appropriately - the user cannot now forge their logon by inventing their own submission.
+
+
+%%(background-color: #ff9999; border: 1px dotted black; padding: 0.2em;)
+!Advanced topics ahead!
+
+The rest of this page deals with some more advanced RSF topics that you may want to pass over if you have just come here from [HelloWorld]. Moving on to the [ComponentTest] and [Hibernate Cookbook|HibernateCookBook_4] applications would probably be better to familiarise yourself with the way RSF works in general.
+%%
+
+!A final wrinkle - exclusive scopes
+There's one final danger that it's barely worth protecting against in this situation, but it's worth bearing in mind for situations where it might matter. There is a danger in that every incoming request (from the same user) is going to be targetted at the selfsame ''Object reference'' for the {{logon}} bean held in the session. In some cases, this concurrent access could cause corruption, or worse, a security violation. In this case, the only danger is that an extremely lucky (unlucky?) user might manage to generate two simultaneous requests from different browser windows sharing the session, both performing different logon actions, for example a logon and a logoff. Actually the worst that could happen in this case is that the {{logonAction}} manages to see a partially blasted bean with a username and password that don't match any more, in which case it would decide to log the user off - no real loss there. But in more complex situations this collision could be much more dangerous.
+
+In real life, any particularly complex state stored in session would be protected much more robustly by some form of database transaction, but in the case you have raw data in POJOs as we have here, the way to firmly guarantee against any simultaneous access is to declare the BeanScope that you stored them in as {{exclusive}}.
+
+Our definition for {{logonScope}} would therefore become
+
+{{{
+  &lt;bean id=&quot;logonScope&quot; parent=&quot;beanScopeParent&quot;&gt;
+    &lt;property name=&quot;copyPreservingBeans&quot; value=&quot;logon&quot;/&gt;
+    &lt;property name=&quot;exclusive&quot; value=&quot;true&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+
+Any other threads coming in trying to make use of this bean will block until our current request has concluded. This will have an efficiency impact on the throughput of the server, but should really happen pretty rarely - a single user will rarely succeed in managing to have more than one request active at a time.
+
+This brief tour into the foul pits of session-scoped logic should hopefully persuade you what a wise choice RSF has made in thoroughly discouraging users from using any kind session-type state, by providing an army of techiques for avoiding it (URL flows, zero-server-state processing). Sometimes you really *must* have session state, but make sure you pick your fights wisely - architectures with either no state, or all concurrency pushed into the database layer, are far more likely to be free of subtle and computationally nasty problems.
+
+!!Avoiding boilerplate security checks - the BeanFetchBracketer
+
+A final &quot;problem&quot; with our app (which is really just an issue of style) is the fact that every view currently performs its own security checks. We only have one view that is not the logon view right now, but you can imagine that as an app scales up, writing 
+
+{{{
+  if (logonbean.name == null) {
+      throw new SecurityException(&quot;Cannot view page 'wales' while not logged on&quot;);
+    }
+}}}
+at the front of every ViewProducer would become a bit tedious.
+
+This is a classic example of what [AOP] aficionados would call a &quot;cross-cutting concern&quot; - the security policy applied across an application would far better be centralised in a single coherent bean, rather than scattered and duplicated across all the places where the checks might take place.
+
+Due to RSF's [RSAC] based design, we can avoid using any explicit (or even implicit) use of AOP to solve this problem, and simply let the container do the work for us. RSAC contains code for a standard bean named {{BeanFetchBracketer}}, which actually functions extremely similarly to the BeanGuard we just used, only 
+* It only applies &quot;around&quot;-type interception - i.e. it allows the operation of fetching any RSAC bean to be &quot;wrapped&quot; reliably with &quot;before-and-after&quot; type logic
+* It applies to the fetch of ANY RSAC bean by any means, not just those addressed via EL.
+
+Since the RSF request lifecycle is defined largely by the fetch of request-scope beans, the ideal way to express any &quot;general&quot; interception logic such a security policy is by wrapping it in a BeanFetchBracketer. This is very similar to the way RSF handles the other &quot;cross-cutting&quot; concern of transactionality, by bracketing all model-altering logic in the [alterationWrapper] - and in fact it does so by using exactly the same core interface, [RunnableWrapper].
+
+RunnableWrapper is an absolutely super [OLI] that should be in every framework - the entire code looks like this:
+
+{{{
+public interface RunnableInvoker {
+  public void invokeRunnable(Runnable torun);
+}
+}}}
+
+A RunnableInvoker is a &quot;machine&quot;, which takes in a unit of work (specified by a standard java.lang.Runnable), and executes it, wrapped in some extra logic. This is easier to see from an example, than to explain - here is our security policy, packaged as a {{RunnableInvoker}} called {{SecurityWrapper}}:
+
+{{{
+public class SecurityWrapper implements RunnableInvoker {
+  private ViewParameters viewparams;
+  private LogonBean logonbean;
+
+  public void setViewParameters(ViewParameters viewparams) {
+    this.viewparams = viewparams;
+  }
+
+  public void setLogonBean(LogonBean logonbean) {
+    this.logonbean = logonbean;
+  }
+
+  public void invokeRunnable(Runnable towrap) {
+    if (logonbean.name == null
+        &amp;&amp; !(LogonProducer.VIEW_ID.equals(viewparams.viewID))) {
+      throw new SecurityException(&quot;Cannot view page &quot; + viewparams.viewID
+          + &quot; while not logged on&quot;);
+    }
+    towrap.run();
+  }
+}
+}}}
+
+This is configured like any Spring bean, although we can see that since it accepts two request-scope dependencies, the {{viewParameters}} for the current view, and the {{logonBean}} itself, it has to be defined in your {{requestContext.xml}} file:
+
+{{{
+  &lt;bean id=&quot;securityWrapper&quot;
+    class=&quot;uk.org.ponder.rsf.testlogon.impl.SecurityWrapper&quot;&gt;
+    &lt;property name=&quot;logonBean&quot; ref=&quot;logon&quot; /&gt;
+    &lt;property name=&quot;viewParameters&quot; ref=&quot;viewParameters&quot; /&gt;
+  &lt;/bean&gt;
+}}}
+
+So, putting our security checking logic all in one place in this way means we can slim down our 2nd (and any subsequent) application's ViewProducer considerably - the application code for WalesFrameProducer could be reduced to just this:
+
+{{{
+public class WalesFrameProducer implements ViewComponentProducer {
+  public static final String VIEW_ID = &quot;walesframe&quot;;
+  public String getViewID() {
+    return VIEW_ID;
+  }
+
+  public void fillComponents(UIContainer tofill, ViewParameters viewparams, ComponentChecker checker) {
+    UIInternalLink.make(tofill, &quot;wales&quot;, new SimpleViewParameters(WalesProducer.VIEW_ID));
+  }
+}
+}}}
+We can remove the dependence on logonBean, and so move the definition back into application scope!
+
+{{{
+  &lt;bean id=&quot;walesFrameProducer&quot;
+    class=&quot;uk.org.ponder.rsf.testlogon.producers.WalesFrameProducer&quot;/&gt;
+}}}
+
+The same goes for WalesProducer (responsible for the right frame of the frameset):
+{{{
+ &lt;bean id=&quot;walesProducer&quot;
+    class=&quot;uk.org.ponder.rsf.testlogon.producers.WalesProducer&quot;&gt;
+    &lt;property name=&quot;logoffProducer&quot; ref=&quot;logoffProducer&quot; /&gt;
+  &lt;/bean&gt;
+}}}
+
+So, all that's left is actually registering our Security Wrapper with RSF. An [AlterationWrapper] can be easily registered into RSF using the helpful parent definition {{alterationWrapperParent}} - this exposes a single property named {{value}} which accepts the bean, implementing [RunnableInvoker], to do the bracketing. The {{alterationWrapper}} is a good choice for this since it naturally guards the main &quot;model access&quot; phase of every RSF request. Bracketing any further out would mean we couldn't get the benefit of RSF's [redirect-on-error|Level1Error] functionality, and also could not, for example, get access to any session beans or ViewParameters state - any further in, and some possibly dangerous unsecured access to the model might have taken place. We complete our app with the following definition at application scope:
+
+{{{
+  &lt;!-- Set up our wrapper to bracket RSF's model access cycle --&gt;
+  &lt;bean parent=&quot;alterationWrapperParent&quot;&gt;
+    &lt;property name=&quot;value&quot;&gt;
+      &lt;bean parent=&quot;RSACBridgeProxy&quot;&gt;
+        &lt;property name=&quot;targetBeanName&quot; value=&quot;securityWrapper&quot; /&gt;
+      &lt;/bean&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+}}}
+
+Note the use of the [RSACBridgeProxy], since the wrapper definition occurs at application scope, whereas the {{securityWrapper}} itself is conveniently defined at request scope, since it makes use of the current [ViewParameters] as well as a session scoped bean.
+
+----
+Head   - [LogonTest|LogonTest]\\
+Page 1 - [Core Business logic|LogonTest_1]\\
+Page 2 - [Defining the views|LogonTest_2]\\
+Page 3 - Digging deeper - BeanGuards and Bracketers\\
+----
+
+</pre>
+

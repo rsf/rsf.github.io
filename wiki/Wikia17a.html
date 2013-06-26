@@ -1,0 +1,57 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+BeanGuards are RSF's interception facility for accesses to its model via [EL] expressions. This is the basis of RSF's validation architecture, since a &quot;write&quot; mode BeanGuard can be used to provide guaranteed execution of logic, after request values have been applied, but before the request action has been invoked[1]. However, BeanGuards should properly be seen in the more general context of ''interception'', as popularised via [Aspect-oriented|AOP] frameworks such as Spring (or more militantly AOP ones such as AspectJ).
+
+A BeanGuard is an application-scope definition of a (Spring Bean), extending the framework bean parent {{beanGuardParent}}.   The properties of BeanGuard take on the following values, with the following interpretations (note that most of these have defaults, or are mutually exclusive - you should rarely have to specify more than one or two):
+
+|__property__|__values__|__purpose__
+|{{mode}}|READ, WRITE|Whether read or write accesses to the data model are to be guarded. Optional, defaults to WRITE (currently the only supported value)
+|{{guardTiming}}|PRE, POST, AROUND|Whether the guard is to trigger before, after, or &quot;around&quot; the access. Optional, defaults to POST (currently the only supported value)
+|{{guardedPath}}|EL path|A specification (possibly with wildcards) of the EL path to be guarded. The specification will automatically match any nested paths. This value is ''required''.
+|{{guard}}|Object|An immediate object (Spring bean) which contains the code to be executed through the guarding process, in response to the access to {{guardedPath}}. This may either be a POJO, or implement the standard Spring {{Validator}} interface. You may specify ''either'' {{guard}} ''or'' {{guardEL}} and either {{guardMethod}} ''or '' {{guardProperty}}(see below).
+|{{guardEL}}|EL path|An EL path from which the &quot;guard&quot; object can be fetched, rather than specifying it inline. This allows guards derived from request-scope evaluations.
+|{{guardProperty}}|[[EL path].property name|The name of a property on the guard which will have the guarded object delivered to it. For this style of POJO the guard is assumed to trigger on execution of this setter. You may optionally fold the value of {{guardEL}} into the beginning of {{guardProperty}} to shorten the bean definition, e.g. &lt;property name=&quot;guardProperty&quot; value=&quot;guardBean.propertyName&quot;&gt; is the same as &lt;property name=&quot;guardEL&quot; value=&quot;guardBean&quot;&gt; &lt;property name=&quot;guardProperty&quot; value=&quot;propertyName&quot;&gt;
+|{{guardMethod}}|[[EL path].method binding|If the {{guard}} object represents a POJO which is using &quot;action validation&quot;, this is a full [method binding|Bindings] (minus the #{} packaging) which will be invoked for the guard. The same condensation with {{guardEL}} that is allowed for {{guardProperty}} also works for {{guardMethod}}
+
+If the guard is a Spring Validator, you should omit all of {{guardEL}}/{{guardProperty}}/{{guardMethod}}.
+
+The most typical use of a BeanGuard is in WRITE mode, used as a validator. If WRITE is specified, the {{guardTiming}} value will default to {{POST}}, resulting in the classic &quot;Validation&quot; pattern of triggering the guard code ''after'' write accesses to the model.
+
+If the {{guard}} object (whether fetched via {{guardEL}} or supplied directly) is a POJO, it is expected to expose some writeable property {{guardProperty}} which will receive the object at the EL accessed by {{guardedPath}}. The alternative to specifying a guard object itself, is to specify it implicitly by use of {{guardMethod}}. In this case the guard is expected to be implemented using normal RSF/JSF &quot;action bean&quot; semantics, and you must not specify either {{guard}} or {{guardEL}}.
+
+For example, we might have a POJO mapped to path {{logonAction}} via 
+{{
+ &lt;bean id=&quot;logonAction&quot;
+    class=&quot;uk.org.ponder.rsf.testlogon.beans.LogonActionBean&quot;/&gt;
+}}
+at request scope, which has a zero-arg method named {{logon()}}.
+
+A &quot;validation&quot; type guard expression which uses this &quot;validation POJO&quot; to guard EL access to path {{logon}} might look like this (at app scope):
+
+{{{
+  &lt;bean id=&quot;logonGuard&quot; parent=&quot;writeGuardParent&quot;&gt;
+    &lt;property name=&quot;guardedPath&quot; value=&quot;logon&quot;/&gt;
+    &lt;property name=&quot;guardMethod&quot; value=&quot;logonAction.logon&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+(note that writeGuardParent is a BeanGuard that automatically defaults to WRITE mode)
+
+In POJO mode, any exception thrown by the guard will be added to the {{TargettedMessageList}} for the current request. The &quot;message&quot; text of the exception will be used as a message code for the message, which will be resolved against the {{messageLocator}} configured into your context. ''ALL'' triggered BeanGuards for a request are ''guaranteed'' to execute, even if Exceptions are thrown (unless those exceptions are also Java {{Errors}}, representing fatal JVM conditions). 
+
+More finegrained control of error formatting can be achieved by using a Spring Validator object rather than a POJO. In this case, the guard can be at application scope, and rather than a setter method, the {{validate}} method is called. This allows more complex messages to be built up via the {{reject}} methods, or explicit adding of {{FieldError}} or {{ObjectError}} objects. Consult the Spring documentation on [validation|http://static.springframework.org/spring/docs/2.0.x/reference/validation.html] for (very few) more details.
+
+
+----
+[#1] For developers who have used [JSF], this timing sequence will be familiar. Sun's [diagram of the JSF request cycle|http://java.sun.com/j2ee/1.4/docs/tutorial/doc/JSFIntro10.html] shows request phases called &quot;Apply Request Values&quot;, &quot;Process Validations&quot; and &quot;Invoke Application&quot; - although it's worth noting the important difference that in RSF, request values are applied ''directly to the model'' and not to any intermediate component representation. Accompanying this is the lack of any &quot;Restore View&quot; cycle, and the lack of any explicit framework &quot;Process Events&quot; phases, although BeanGuards may be seen as the (framework-free) equivalent of this functionality.
+
+</pre>
+

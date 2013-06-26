@@ -1,0 +1,67 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Allows you to determine which JSP page originally got the request.  It is very useful to know this when you are including specific information on a page.
+
+Available contexts are:
+
+* &quot;view&quot; - Wiki.jsp
+* &quot;edit&quot; - Edit.jsp
+* &quot;diff&quot; - Diff.jsp
+* &quot;info&quot; - PageInfo.jsp
+* &quot;preview&quot; - Preview.jsp
+* &quot;conflict&quot; - PageModified.jsp
+* &quot;upload&quot; - Upload.jsp
+* &quot;error&quot; - Error.jsp
+* &quot;find&quot;  - Search.jsp
+* &quot;prefs&quot; - UserPreferences.jsp
+
+!Usage
+
+&lt;wiki:CheckRequestContext context=&quot;view|edit|diff...&quot;&gt;
+;:''HTML or JSP''
+&lt;/wiki:CheckRequestContext&gt;
+
+!Parameters
+
+;__context__: Context to check.  If the context matches, includes the body.
+
+!Example
+
+This example comes from ViewTemplate.jsp:
+{{{
+      &lt;wiki:CheckRequestContext context=&quot;view&quot;&gt;
+         &lt;wiki:Include page=&quot;PageContent.jsp&quot; /&gt;
+      &lt;/wiki:CheckRequestContext&gt;
+
+      &lt;wiki:CheckRequestContext context=&quot;diff&quot;&gt;
+         &lt;wiki:Include page=&quot;DiffContent.jsp&quot; /&gt;
+      &lt;/wiki:CheckRequestContext&gt;
+
+      &lt;wiki:CheckRequestContext context=&quot;info&quot;&gt;
+         &lt;wiki:Include page=&quot;InfoContent.jsp&quot; /&gt;
+      &lt;/wiki:CheckRequestContext&gt;
+
+      &lt;wiki:CheckRequestContext context=&quot;preview&quot;&gt;
+         &lt;wiki:Include page=&quot;PreviewContent.jsp&quot; /&gt;
+      &lt;/wiki:CheckRequestContext&gt;
+
+      &lt;wiki:CheckRequestContext context=&quot;conflict&quot;&gt;
+         &lt;wiki:Include page=&quot;ConflictContent.jsp&quot; /&gt;
+      &lt;/wiki:CheckRequestContext&gt;
+
+      &lt;wiki:CheckRequestContext context=&quot;find&quot;&gt;
+         &lt;wiki:Include page=&quot;FindContent.jsp&quot; /&gt;
+      &lt;/wiki:CheckRequestContext&gt;
+}}}
+
+</pre>
+

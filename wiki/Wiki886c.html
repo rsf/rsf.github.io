@@ -1,0 +1,51 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Inserts a diff between two pages.  The &quot;Diff.jsp&quot; places two variables into the JSP PageContext:
+
+* ''insertdiff.old'' - The version number of the old version.
+* ''insertdiff.new'' - The version number of the new version.
+
+These have been parsed from the HTTP parameters by &quot;Diff.jsp&quot;.
+
+The resulting HTML uses a few CSS styles:
+
+* TABLE.diff - The whole table gets this style.
+* TD.diff - Each unchanged line gets this.
+* TD.diffadd - Each added line gets this style.
+* TD.diffrem - Each removed line gets this style.
+
+----
+
+!Usage
+
+&lt;wiki:InsertDiff page=&quot;&lt;page name&gt;&quot; /&gt;
+
+!Parameters
+
+;__page__ : Page name.
+
+!Example
+{{{
+&lt;wiki:InsertDiff /&gt;
+}}}
+
+Might result into something like this:
+{{{
+   &lt;table class=&quot;diff&quot; border=0 cellspacing=0 cellpadding=0&gt;
+       &lt;tr&gt;&lt;td class=&quot;diff&quot;&gt;Line 16 was replaced by line 16&lt;/td&gt;&lt;/tr&gt;
+       &lt;tr&gt;&lt;td bgcolor=#FF9933 class=&quot;diffrem&quot;&gt;- [Sandbox/cens7.gif]&lt;/td&gt;&lt;/tr&gt;
+       &lt;tr&gt;&lt;td bgcolor=#99FF99 class=&quot;diffadd&quot;&gt;+ Foobar.&lt;/td&gt;&lt;/tr&gt;
+   &lt;/table&gt;
+}}}
+
+</pre>
+

@@ -1,0 +1,95 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!Replicators and dynamic components
+
+Using RSF at this level already brings many benefits - insulation from HTML, HTTP and browser nastiness, flexible Spring-configured architecture and nicely packaged flows. However, we haven't yet touched on an ability that most apps are likely to require sooner rather than later, and was the initial driving force behind RSF - the ability to present a view with a dynamic structure, driven by data from the model. The most straightforward example of this is a simple table, and there is one in the number guessing app - this pictures shows the state of play after a few rounds of the &quot;4 digit number guess&quot; sub-app:
+
+[{Image src='NumberGuessing_2/numberguess-table.png' align='center'}]
+
+At first sight it looks like we need some kind of &quot;logic&quot; to run as we generate this HTML view - to iterate over each member of the {{guessHistory}} and generate an HTML {{&lt;tr&gt;}} block for each one. RSF is unique[1] in that there is %%(color: red;) no %% logic which couples the model structure and the HTML template - the view structure is completely determined by the component tree, and once it has been generated, all user logic and model access is finished. The component tree and HTML template are then fused together by RSF's unique [IKAT] algorithm, to generate the final view.
+
+To see how this works, take a look at the part of the view template that deals with the table you can see in the picture above - this is taken from the file {{enterFourDigitGuess.xhtml}}:
+
+{{{
+  &lt;div rsf:id=&quot;guesshistory:&quot;&gt;
+    &lt;h4&gt;Guess history:&lt;/h4&gt;
+    &lt;table border=&quot;1&quot;&gt;
+      &lt;th&gt;Guess&lt;/th&gt;
+      &lt;th&gt;Right Position&lt;/th&gt;
+      &lt;th&gt;Present But Wrong Position&lt;/th&gt;
+      &lt;tr rsf:id=&quot;guessline:&quot;&gt;
+        &lt;td rsf:id=&quot;guess&quot;&gt;1738&lt;/td&gt;
+        &lt;td rsf:id=&quot;rightPosition&quot;&gt;2&lt;/td&gt;
+        &lt;td rsf:id=&quot;correctButWrongPosition&quot;&gt;1&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+  &lt;div rsf:id=&quot;guesshistory:&quot;&gt;
+  &lt;/div&gt;
+}}}
+As usual, this is pure HTML apart from the {{rsf:id}} attribute. RSF templates work by ''example'', the most powerful means of explanation! We provide the HTML for the table as it might appear, with one complete row filled in as an example. We could have provided any number of rows, for previewing purposes, but at render-time, IKAT will replace them with the number of rows actually required. Note that the {{rsf:id}} for the table row, {{guessline:}} is slightly different from IDs we've seen before,
+since it ends in a colon. This signals to IKAT that component (which must peer with a special RSF component, a [UIBranchContainer]) will render using ''component-driven'' logic rather than the ''template-driven'' logic that is normally used. Branches can &quot;induce&quot; much more sophisticated view logic than simple iteration, including recursion and selection. We can see an example of selection in this example too - note that the entire {{guesshistory:}} table is followed by ''another'' example of the table, implemented as an empty {{div}}. This performs the selection logic we need to supress the whole table, including column headers, on the user's first go when there have been no guesses. A {{guesshistory:}} tag with no {{guessline}}s in it is a better match for a component tree with no {{guessline}} components, so this empty div is transparently selected when the history is empty. In case you are concerned at the potential &quot;bloating out&quot; of RSF template files as they need to render every possible state of a complex user interface, don't worry - RSF features ''multi-file templates'' which allow you to break out the implementation of bulky or frequently used HTML fragments into separate files. 
+
+So, given the template above, our mission is to generate a component tree with the right structure - a UIBranchContainer with ID {{guesshistory:}} with one UIBranchComponent child with id {{guessline:}} for each history line. We could either do this in code, with a simple Java {{for}} loop written inside a ComponentProducer, or we can use a special facility provided by RSF's XML component files, a {{UIReplicator}} component. This allows the simplest forms of iteration and selection logic to be used inside ViewProducers and still stay within the XML component producer model, an ability we will use to good effect in the next example, the [Hibernate Cookbook|HibernateCookBook]. 
+
+A UIReplicator is a &quot;placeholder&quot; component that takes two &quot;arguments&quot; - an RSF [EL] which can be used to locate an list of Java Objects in the request scope, and an RSF UIComponent to be replicated. The replicator used to generate the component tree for this view is as follows:
+
+{{{
+  &lt;component type=&quot;branchcontainer&quot; id=&quot;guesshistory:&quot;&gt;
+    &lt;component type=&quot;replicator&quot; id=&quot;guesshistoryrep&quot;&gt;
+      &lt;valuebinding&gt;#{fourDigitNumberGuess.guessHistory}&lt;/valuebinding&gt;
+      &lt;idstrategy type=&quot;directindex&quot;/&gt;
+      &lt;component type=&quot;branchcontainer&quot; id=&quot;guessline:&quot;&gt;
+        &lt;component type=&quot;output&quot; id=&quot;guess&quot;&gt;
+          &lt;valuebinding&gt;#{*.guess}&lt;/valuebinding&gt;
+        &lt;/component&gt;
+        &lt;component type=&quot;output&quot; id=&quot;rightPosition&quot;&gt;
+          &lt;valuebinding&gt;#{*.rightPosition}&lt;/valuebinding&gt;
+        &lt;/component&gt;
+        &lt;component type=&quot;output&quot; id=&quot;correctButWrongPosition&quot;&gt;
+          &lt;valuebinding&gt;#{*.correctButWrongPosition}&lt;/valuebinding&gt;
+        &lt;/component&gt;
+      &lt;/component&gt; &lt;!-- end branchline defn --&gt;
+    &lt;/component&gt;&lt;!-- end replicator defn --&gt;
+  &lt;/component&gt; &lt;!-- end branch defn --&gt;
+}}}
+
+The ID used for the replicator component is irrelevant, since it will be destroyed before it reaches the renderer. The value binding entry {{&lt;valuebinding&gt;#{fourDigitNumberGuess.guessHistory}&lt;/valuebinding&gt;}} identifies where the list driving this iteration is to be found in the request-scope container. The request-scope bean {{fourDigitNumberGuess}} is defined in the {{requestScopeApplicationContext.xml}} file to be of class {{FourDigitNumberGuessData}}, taken direct from the original Spring Web Flow example. The {{idstrategy}} entry specifies that this list is to be indexed directly &quot;in place&quot; by its numeric index - this option should only be used for very simple models, as it is unsafe in any kind of concurrent environment. Finally we have the definition of the component to be replicated, the branch container {{guessline:}} that peers with the {{&lt;tr&gt;}} tag in the template above. This looks perfectly normal except for the wildcard characters in the value bindings for its components - these will be rewritten during the [fixup|Fixups] stage to refer to the correct EL paths, based on the {{idstrategy}} we have chosen. In this case, a typical path might look like {{ {#fourDigitNumberGuess.guessHistory.3.rightPosition} }} after rewriting.
+!! Conclusions
+Compared with the table rendering models of other frameworks, this is thoroughly clean and simple - contrast this with JSF's baffling combination of &quot;facets&quot; and &quot;columns&quot;, or opaque &quot;taglib&quot;-based solutions. Changing from using {{&lt;tr&gt;}} and {{&lt;td&gt;}} to using a CSS layout model based on {{&lt;div&gt;}}s is just a matter of editing an HTML template file, ''yet'' we still have all the benefits of a completely clean model-driven architecture[2].
+
+With this standard app implemented in so many frameworks, it is a useful point of comparison. One area in which RSF comes off extremely well is in terms of ''lines of framework-coupled code''. In fact, we have managed to develop this complete app without one single line of Java code tied to the RSF framework - it is therefore portable to all other zero-impact web frameworks out there (currently none :P but I strongly hope RSF will start a trend in this respect). Here is a table summarising the LOC situation in various frameworks:
+
+| |[SpringWebFlow]|[RIFE]|[Struts]|[RSF]
+|Total LOC|295|454|**|307
+|Coupled LOC|172|192|**|%%(color:red; font-weight:bold)0%%
+
+(I placed a ** under the Struts column since the version I found had all of its code embedded in JSPs - clearly however many &quot;lines of code&quot; were there, none of them were extractable)
+
+!Java producers
+Note however that for general-purpose, and especially for large-scale development you would %%(color:red; font-weight:bold)NOT%% use the XML-driven style that we use here for specificing view producers. The all-Java approach that you see for example in the [ComponentTest] demo and the [last page|HibernateCookBook_4] of the Hibernate Cookbook sample are more typical examples of RSF development. Naturally of course the use of Java producers __does__ introduce a framework dependence into the application.
+\\
+\\
+----
+Head   -  [Number Guessing|NumberGuessing]\\
+Page 1 - [Simple XML components and flow definitions|NumberGuessing_1]\\
+Page 2 - [Request scope bindings and error handling|NumberGuessing_2]\\
+Page 3 - Dynamic views and replicators\\
+----
+%%( font-size: 80%)
+[#1] Well, nearly unique - The [RIFE] framework does also feature pure HTML templating, but iteration over it still has to be driven by app logic, which closes the door on simple XML-based component trees as we see here, and also on the possibility of GUI-like MVC webapp models of the sort promised by JSF and RSF. [Tapestry] and [Facelets], although featuring HTML templating, unfortunately embed the view iteration logic inside the template, prohibiting them from being parsed by simple designer tools like DreamWeaver. RSF really offers the best of every world!\\ \\
+[#2] A criticism that could be levelled at this scheme is that it is slightly verbose - certainly more so than a JSP, since the key identifier, the RSF ID, must be mentioned in two separate places. The first response to this is to reiterate that RSF is very much aimed at mature and long-lived applications, where the initial cost of design is expected to be small compared to the maintenance burden of reskinning, redesigning and reevaluating over multiple product cycles. However, as a concession to a more rapid &quot;prototyping&quot; style of design, it is possible that RSF support a form of [&quot;interwoven&quot;|InterwovenTemplates] HTML-and-component definition for those developers who might appreciate it. Once the view was developed, a simple automated tool could &quot;strip&quot; the component definitions out of the HTML into a separate file, leaving the more maintainable model that we adopt in this app. The interwoven file, much more similar in style to JSP or Tapestery templates, would look [as follows|NumberGuessing_2/enterFourDigitGuess-interwoven.xhtml]. Note that i) this is &quot;just as valid&quot; as an HTML template in current browsers/design tools, although writing a valid DTD for this format would now be near-impossible, ii) some extra {{&lt;div&gt;}} tags were necessary to house components that have no &quot;natural home&quot; in the HTML structure. As the template structure becomes more complicated, the template and component structure will diverge increasingly, and this &quot;interwoven&quot; pattern cannot be recommended for general development.
+%%
+
+
+</pre>
+

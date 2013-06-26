@@ -1,0 +1,965 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html id="top" xmlns="http://www.w3.org/1999/xhtml">
+
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=HibernateCookBook_2&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:20 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+    RSF Wiki: HibernateCookBook_2
+  </title>
+  
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" media="screen, projection, print" type="text/css"
+     href="templates/default/jspwiki.css"/>
+
+<link rel="stylesheet" type="text/css" media="print" 
+     href="templates/default/jspwiki_print.css" />
+<!-- INCLUDERESOURCES (stylesheet) -->
+
+<!-- INCLUDERESOURCES (inlinecss) -->
+
+
+
+<noscript>
+<style type="text/css">
+#hiddenmorepopup { display:block; }
+</style>
+</noscript>
+
+
+<script type="text/javascript" src="scripts/mootools.js"></script>
+<script type="text/javascript" src="scripts/prettify.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-common.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-commonstyles.js"></script>
+<!-- INCLUDERESOURCES (script) -->
+
+
+
+
+
+<meta name="wikiContext" content='diff' />
+<meta name="wikiBaseUrl" content='http://rsf.fluidproject.org/wiki/' />
+<meta name="wikiPageUrl" content='/wiki/Wiki.jsp?page=%23%24%25' />
+<meta name="wikiEditUrl" content='/wiki/Edit.jsp?page=HibernateCookBook_2' />
+<meta name="wikiJsonUrl" content='/wiki/JSON-RPC' />
+<meta name="wikiPageName" content='HibernateCookBook_2' />
+<meta name="wikiUserName" content='207.119.0.6' />
+<meta name="wikiTemplateUrl" content='/wiki/templates/default/' />
+<meta name="wikiApplicationName" content='RSF Wiki' />
+
+<script type="text/javascript">//<![CDATA[
+/* Localized javascript strings: LocalizedStrings[] */
+var LocalizedStrings = {
+"javascript.edit.allsections":"( All )",
+"javascript.slimbox.error":"<h2>Error</h2>There was a problem with your request.<br />Please try again",
+"javascript.slimbox.remoteRequest":"Remote Request {0} of {1}",
+"javascript.slimbox.close":"Close &#215;",
+"javascript.quick.edit":"[Edit]",
+"javascript.sort.descending":"Descending order. Click to reverse sort order",
+"javascript.expand":"Click to expand",
+"javascript.group.validName":"Please provide a valid name for the new Group",
+"javascript.slimbox.next":"Next&raquo;",
+"javascript.filter.all":"( All )",
+"javascript.edit.areyousure":"Without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.quick.edit.title":"Edit section {0}...",
+"javascript.slimbox.directLink":"Direct Link to the target",
+"javascript.prefs.areyousure":"Without clicking the Save User Preferences button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.sbox.clone.suffix":"-New",
+"javascript.slimbox.info":"Image {0} of {1}",
+"javascript.tip.default.title":"More...",
+"javascript.edit.resize":"Drag to resize the text area",
+"javascript.edit.findandreplace.nomatch":"No match found!",
+"javascript.sort.ascending":"Ascending order. Click to reverse sort order",
+"javascript.slimbox.close.title":"Close [Esc]",
+"javascript.edit.toolbar.makeSelection":"Please make first a selection.",
+"javascript.favs.hide":"Click to hide Favorites",
+"javascript.sectionediting.label":"Section Overview",
+"javascript.slimbox.previous":"&laquo;Previous",
+"javascript.favs.show":"Click to show Favorites",
+"javascript.collapse":"Click to collapse",
+"javascript.category.title":"Click to show category [{0}] ...",
+"javascript.sort.click":"Click to sort",
+"javascript.edit.startOfPage":"( Start of page )"
+};
+
+
+/* INCLUDERESOURCES (jsfunction) */
+
+//]]></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="search" href="Wiki702d.html?page=FindPage"
+    title='Search RSF Wiki' />
+<link rel="help"   href="Wikia3b7.html?page=TextFormattingRules"
+    title="Help" />
+
+ <link rel="start"  href="Wikib2ab.html?page=Main"
+    title="Front page" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki_print.css"
+    title="Print friendly" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki.css"
+    title="Standard" />
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+<link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  
+    <meta name="robots" content="noindex,nofollow" />
+  
+  
+    <meta name="robots" content="noindex,follow" />
+  
+</head>
+
+<body class="view">
+
+<div id="wikibody" class="fav-left">
+ 
+  
+
+
+
+
+
+
+<div id="header">
+
+  <div class="titlebox"></div>
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=HibernateCookBook_2" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=HibernateCookBook_2"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+
+  <div class="pagename">HibernateCookBook_2</div>
+
+  <div class="searchbox">
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Search.jsp"
+        class="wikiform"
+           id="searchForm" accept-charset="UTF-8">
+
+  <div style="position:relative">
+  <input onblur="if( this.value == '' ) { this.value = this.defaultValue }; return true; "
+        onfocus="if( this.value == this.defaultValue ) { this.value = ''}; return true; "
+           type="text" value="Quick Navigation"
+           name="query" id="query"
+           size="20" 
+      accesskey="f" />
+  <button type="submit"
+  		 name="searchSubmit" id="searchSubmit"
+  		value="Go!"
+  		title="Go!"></button>
+  </div>
+  <div id="searchboxMenu" style='visibility:hidden;'>
+    <div id="searchTools">
+      <a href="#" id='quickView' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Wiki.jsp?page=__PAGEHERE__','View the selected page' );"
+        title="View the selected page">view</a>
+      <a href="#" id='quickEdit' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__','Edit the selected page' );"
+        title="Edit the selected page">edit</a>
+      <a href="#" id='quickClone' class='action'	
+      onclick="return SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__', 'Clone the selected page', true );"
+        title="Clone the selected page">clone</a>
+      <a href="#" id="advancedSearch" class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Search.jsp?query=__PAGEHERE__','HibernateCookBook_2' )"
+        title="Advanced Search [ f ]">find</a>
+    </div>
+    <div id="searchResult" >
+	  Quick search
+      <span id="searchTarget" >(type ahead)</span>
+      <span id="searchSpin" class="spin" style="position:absolute;display:none;"></span>
+	  <div id="searchOutput" ></div>
+    </div>
+    <div id="recentSearches" style="display:none;">
+      Recent Searches
+      <span><a href="#" id="recentClear">(Clear)</a></span>
+    </div>
+  </div>
+
+</form></div>
+
+  <div class="breadcrumbs">Your trail:&nbsp;<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UserNameTag">UserNameTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ValueBinding">ValueBinding</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VariableTag">VariableTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VeryLazyBeans">VeryLazyBeans</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewID">ViewID</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewRender">ViewRender</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogEntryPlugin">WeblogEntryPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogPlugin">WeblogPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WikiFormsExampleText">WikiFormsExampleText</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=XPP">XPP</a></div>
+
+</div>
+
+  <div id="content">
+
+    <div id="page">
+      
+
+
+
+
+
+<div id="actionsTop" class="pageactions"> 
+  <ul>
+
+    
+    
+    
+
+    
+    <li id="morebutton">
+      <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=MoreMenu" class="action more">More...</a>
+    </li>
+
+  </ul>
+</div>
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="tabmenu">
+
+  
+
+  
+
+  
+  
+
+  
+
+  <a id="menu-pagecontent" href='http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_2' accesskey="v" ><span class='accesskey'>V</span>iew</a>
+
+  <a id="menu-attach" accesskey="a" ><span class='accesskey'>A</span>ttach (2)</a>
+
+  
+  <a class="activetab" id="menu-info" accesskey="i" ><span class='accesskey'>I</span>nfo</a>
+
+  </div>
+<div class="tabs">
+
+  <div id="pagecontent" class="hidetab" >
+
+      
+  </div>
+
+
+  <div id="attach" class="hidetab" >
+
+    
+
+
+
+
+
+
+
+
+
+
+<div id="addattachment">
+<h3>Add new attachment</h3>
+
+
+<div class="formhelp">Only authorized users are allowed to upload new attachments.</div>
+
+</div>
+
+
+
+<h3>List of attachments</h3>
+
+  
+
+  
+
+  <div class="zebra-table"><div class="slimbox-img sortable">
+  <table class="wikitable">
+    <tr>
+      <th>Kind</th>
+      <th>Attachment Name</th>
+      <th>Size</th>
+      <th>Version</th>
+      <th>Date Modified</th>
+      <th>Author</th>
+      
+      <th class="changenote">Change note</th>
+    </tr>
+
+    
+    
+    <tr>
+      <td><div id="attach-png" class="attachtype">png</div></td>
+      <td><a class="attachment" href="http://rsf.fluidproject.org/wiki/attach/HibernateCookBook_2/cookbook-basic-recipe-edit.png" accesskey="" title="cookbook-basic-recipe-edit.png">cookbook-basic-recipe-edit.png</a></td>
+      <td style="white-space:nowrap;text-align:right;">
+        23.2&nbsp;kB
+      </td>
+      <td style="text-align:center;">
+        <a href="http://rsf.fluidproject.org/wiki/PageInfo.jsp?page=HibernateCookBook_2/cookbook-basic-recipe-edit.png" title="Attachment info and version history">1</a>
+      </td>
+	  <td style="white-space:nowrap;" sortvalue="Wed, 19 Jul 2006 09:36:21">
+	  19-Jul-2006 09:36
+	  </td>
+      <td><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=AntranigBasman">AntranigBasman</a></td>
+      
+      <td class="changenote">
+      
+      </td>
+    </tr>
+    
+    
+    <tr>
+      <td><div id="attach-png" class="attachtype">png</div></td>
+      <td><a class="attachment" href="http://rsf.fluidproject.org/wiki/attach/HibernateCookBook_2/datetransit.png" accesskey="" title="datetransit.png">datetransit.png</a></td>
+      <td style="white-space:nowrap;text-align:right;">
+        32.5&nbsp;kB
+      </td>
+      <td style="text-align:center;">
+        <a href="http://rsf.fluidproject.org/wiki/PageInfo.jsp?page=HibernateCookBook_2/datetransit.png" title="Attachment info and version history">1</a>
+      </td>
+	  <td style="white-space:nowrap;" sortvalue="Wed, 19 Jul 2006 09:36:21">
+	  19-Jul-2006 09:36
+	  </td>
+      <td><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=AntranigBasman">AntranigBasman</a></td>
+      
+      <td class="changenote">
+      
+      </td>
+    </tr>
+    
+
+  </table>
+  </div></div>
+
+
+
+  </div>
+
+
+  
+  <div id="info" >
+
+  <p>
+  This page (revision-1) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=HibernateCookBook_2&amp;r1=-1&amp;r2=1"
+        title="Show changes of last page update" >
+        19-Jul-2006 09:36
+      </a> by UnknownAuthor
+
+  
+  </p>
+
+  
+
+  
+  
+      <p>Only authorized users are allowed to rename pages.</p>
+  
+
+  
+  
+      <p>Only authorized users are allowed to delete pages.</p>
+  
+
+  <div class="collapsebox-closed" id="incomingLinks">
+  <h4>Incoming links</h4>
+    <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_2" accesskey="" title="">HibernateCookBook_2</a>
+    <ul><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook">HibernateCookBook</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_1">HibernateCookBook_1</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_2">HibernateCookBook_2</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_3">HibernateCookBook_3</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_4">HibernateCookBook_4</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=TransitBeans">TransitBeans</a>
+</li></ul>
+  </div>
+
+  <div class="collapsebox-closed" id="outgoingLinks">
+  <h4>Outgoing links</h4>
+    <div class="ReferredPagesPlugin">
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_2" title="ReferredPagesPlugin: depth[1] include[.*] exclude[^$] format[compact]">HibernateCookBook_2</a>
+<ul>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=BeanExploder">BeanExploder</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook">HibernateCookBook</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_1">HibernateCookBook_1</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_2/cookbook-basic-recipe-edit.png">HibernateCookBook_2/cookbook-basic-recipe-edit.png</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_2/datetransit.png">HibernateCookBook_2/datetransit.png</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_3">HibernateCookBook_3</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_4">HibernateCookBook_4</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=OTP">OTP</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=TransitBeans">TransitBeans</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UIBound">UIBound</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewID">ViewID</a></li>
+</ul>
+</div>
+
+  </div>
+
+  <div class="clearbox"></div>
+
+  
+  
+     
+
+
+
+
+
+
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Diff.jsp" method="get" accept-charset="UTF-8">
+<div class="collapsebox" id="diffcontent">
+  <h4>
+       <input type="hidden" name="page" value="HibernateCookBook_2" />
+       Difference between version <select id="r1" name="r1" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select> and <select id="r2" name="r2" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select>
+  </h4>
+
+  
+
+  <div class="diffbody">
+    <table class="diff" border="0" cellspacing="0" cellpadding="0">
+<tr><td class="diff">At line 1 added 131 lines</td></tr>
+<tr><td class="diffadd">!!!Edit/new view - Replicators, Switches and Transit Beans</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Having looked at how the default &quot;list&quot; view for the Recipe entity is put together, we're set up to look at the most complex view in this application, the &quot;new Recipe&quot; view, which is given the [viewID] {{recipe-edit}}. This view doubles as the view for creating a new entity as well as editing an existing one, with the minor differences taken care of with a [UISwitch] component.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">To start with, as before, here is the &quot;picture on the box&quot; so we can see what result this view is aiming at:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">[{Image src='cookbook-basic-recipe-edit.png' align='center'}]</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The components tree for the {{[recipe-show|https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernateCookbook/trunk/basic/src/webapp/WEB-INF/producers/recipe-edit.xml]}} , as well as containing a [UIReplicator] component of the sort we saw before, also has a number of other components and bindings necessary to manage the input process. Here are the first dozen lines for us to look over:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">&lt;view&gt;</td></tr>
+<tr><td class="diffadd">  &lt;component type=&quot;switch&quot; id=&quot;headingswitch&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;lvalue type=&quot;elref&quot;&gt;#{viewParameters.mode}&lt;/lvalue&gt;</td></tr>
+<tr><td class="diffadd">    &lt;rvalue type=&quot;java.lang.String&quot;&gt;new&lt;/rvalue&gt;</td></tr>
+<tr><td class="diffadd">    &lt;truecomponent type=&quot;output&quot; id=&quot;new-recipe-heading&quot;/&gt;</td></tr>
+<tr><td class="diffadd">    &lt;falsecomponent type=&quot;output&quot; id=&quot;edit-recipe-heading&quot;/&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/component&gt;</td></tr>
+<tr><td class="diffadd">  &lt;component type=&quot;form&quot; id=&quot;basic-form&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;component type=&quot;replicator&quot; id=&quot;reciperep&quot;&gt;</td></tr>
+<tr><td class="diffadd">      &lt;valuebinding&gt;#{viewParameters.entity}&lt;/valuebinding&gt;</td></tr>
+<tr><td class="diffadd">      &lt;idstrategy type=&quot;idremap&quot; basepath=&quot;#{Recipe}&quot; idfield=&quot;ID&quot;/&gt;</td></tr>
+<tr><td class="diffadd">      &lt;elideparent&gt;true&lt;/elideparent&gt;</td></tr>
+<tr><td class="diffadd">      &lt;component type=&quot;branchcontainer&quot; id=&quot;recipeline:&quot;&gt;</td></tr>
+<tr><td class="diffadd">        &lt;component type=&quot;input&quot; id=&quot;recipe-title&quot;&gt;</td></tr>
+<tr><td class="diffadd">          &lt;valuebinding&gt;#{*.title}&lt;/valuebinding&gt;</td></tr>
+<tr><td class="diffadd">        &lt;/component&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!UISwitch</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The first interesting component is introduced by {{&lt;component type=&quot;switch&quot;}} which represents a component of type [UISwitch] (by standard RSF component serialization, the type parameter for a component is always the lower-cased component name omitting &quot;UI&quot;). This is another &quot;template component&quot; - like the replicator, UISwitch must ''never'' appear in the final component tree presented to the renderer, but instead is used to guide template component expansion operated by the XML view system.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Just as UIReplicator operates basic iteration semantics (iterating over an object list), UISwitch operates conditional branching, completing our basic programming capabilities in XML component trees. UISwitch accepts 4 arguments - firstly an &quot;lvalue&quot; and an &quot;rvalue&quot; which will form the basis of the comparison. The template expander will evaluate a boolean expression representing &quot;lvalue == rvalue&quot;, and based on whether this expression is true or false, will choose one of the second two arguments, {{truecomponent}} or {{falsecomponent}} to be the one that finally enters the component tree.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">So in this case, we are testing the {{mode}} field of the {{viewParameters}} request bean (this is a standard RSF bean representing the location of the current view) for being equal to the String &quot;new&quot;. If it is, we emit the {{new-recipe-heading}} component (which is defined in the HTML template to contain the relevant view heading), if not, we emit {{edit-recipe-heading}}.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Remember that in the Java version of this app, this component layout will just be replaced by a simple genuine {{if}} statement choosing the right heading component.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!Return of the Replicator</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">This view, like the recipes list view from the [previous page|HibernateCookBook_2], also defines a replicator component inside its form, which looks at first sight a bit odd, since there is nothing obviously being repeated in this view. In this case, we are using the replicator just for its ''id rewriting'' function, based on the single {{viewParameters}} object which defines the entity of focus for the current view, rather than for any repetition as such. Given the definition above, we can see the {{idstrategy}} that we define</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd"> &lt;idstrategy type=&quot;idremap&quot; basepath=&quot;#{Recipe}&quot; idfield=&quot;ID&quot;/&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">will replace the wildcard paths in the replicated component with the field &quot;ID&quot; obtained from the value binding target from the replicator, which is {{#{viewParameters.entity} }}. That is, the total request EL containing the ID value is {{#{viewParameters.entity.ID} }}, and this value will be subsituted for &quot;*&quot; where it occurs in replicated components, afte prefixing with the base path of &quot;#{Recipe}&quot;. If this all looks somewhat involved, recall that there has to be some price for pure XML-based programming of this sort! You will see how this logic is considerably simpler in the &quot;pure-Java&quot; version of this app we will present on the last page.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!! Dates and [Transit Beans|TransitBeans]</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Everything else in this view is pretty straightforward, except for the handling of the &quot;broken-up&quot; date field that we can type into. In fact, usability requirements (as well as programming convenience!) are strongly recommending towards allowing free-form date entry fields these days, but we took the decision of exactly replicating the functionality of the original Ruby app, and although being somewhat more complex this nicely showcases the very powerful capabilities of RSF's &quot;request bean programming model&quot;.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Firstly, here is the relevant stanza of {{recipe-edit.xml}} that deals with the date input:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  &lt;component type=&quot;input&quot; id=&quot;recipe-date-year&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;valuebinding&gt;#{datetransit.1.year}&lt;/valuebinding&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/component&gt;</td></tr>
+<tr><td class="diffadd">  &lt;component type=&quot;select&quot; id=&quot;recipe-date-month&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;optionlist&gt;</td></tr>
+<tr><td class="diffadd">      &lt;valuebinding&gt;#{monthBean.indexes}&lt;/valuebinding&gt;</td></tr>
+<tr><td class="diffadd">    &lt;/optionlist&gt;</td></tr>
+<tr><td class="diffadd">    &lt;optionnames type=&quot;outputmany&quot;&gt;</td></tr>
+<tr><td class="diffadd">      &lt;resolver type=&quot;elref&quot;&gt;#{monthBean.names}&lt;/resolver&gt;</td></tr>
+<tr><td class="diffadd">    &lt;/optionnames&gt;</td></tr>
+<tr><td class="diffadd">    &lt;selection type=&quot;input&quot;&gt;</td></tr>
+<tr><td class="diffadd">      &lt;valuebinding&gt;#{datetransit.1.month}&lt;/valuebinding&gt;</td></tr>
+<tr><td class="diffadd">    &lt;/selection&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/component&gt;</td></tr>
+<tr><td class="diffadd">  &lt;component type=&quot;input&quot; id=&quot;recipe-date-day&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;valuebinding&gt;#{datetransit.1.day}&lt;/valuebinding&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/component&gt;</td></tr>
+<tr><td class="diffadd">...</td></tr>
+<tr><td class="diffadd">  &lt;parameter type=&quot;elbinding&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;valuebinding&gt;#{*.date}&lt;/valuebinding&gt;</td></tr>
+<tr><td class="diffadd">    &lt;rvalue type=&quot;elref&quot;&gt;#{datetransit.1.date}&lt;/rvalue&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/parameter&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">To start with, {{recipe-date-year}} and {{recipe-date-day}} are just straightforward text input fields, but the first thing to notice is the slightly interesting EL target that they refer to, {{datetransit}}.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{datetransit}} is our first example of an [exploder|BeanExploder] bean. The definition of {{datetransit}}, from this apps {{requestContext.xml}} file is as follows:</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">&lt;!-- A &quot;Date Transit&quot; exploder to collect and focus a </td></tr>
+<tr><td class="diffadd">     &quot;broken-up&quot; date from fields in Date/Month/Year </td></tr>
+<tr><td class="diffadd">     into a full java.util.Date object. --&gt;  </td></tr>
+<tr><td class="diffadd">  &lt;bean id=&quot;datetransit&quot; parent=&quot;beanExploder&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;beanClass&quot; </td></tr>
+<tr><td class="diffadd">       value=&quot;uk.org.ponder.dateutil.DMYTransit&quot;/&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/bean&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">(see previous page for comments on parent bean definitions - in this case {{beanExploder}} is a standard RSF parent bean definition defined in [blank-requestContext.xml|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/conf/blank-requestContext.xml]).</td></tr>
+<tr><td class="diffadd">BeanExploders are provide similar functionality to RSF's [One True Path|OTP] entity beans, only generally for non-persistent beans - they take a bean &quot;exemplar&quot; (or more simply, just a class name) and &quot;explode&quot; this bean to create an infinite lazy collection of distinct instances initialized from it. Another way of thinking about this is that it is the request-scope equivalent to &quot;defining a variable&quot; - in this case, the path {{#{datetransit.1} }} refers to a particular (dynamically created at request scope) instance of a {{uk.org.ponder.dateutil.DMYTransit}} bean - if we were inputting two dates in this view we might call the second such instance {{#{datetransit.2} }}. These beans like all request beans are thrown away at the end of the request cycle and are very useful to maintain cleanly programming. </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">If you take a look at the [definition of DMYTransit|https://saffron.caret.cam.ac.uk/svn/projects/PonderUtilCore/trunk/src/uk/org/ponder/dateutil/DMYTransit.java] you can see that, in line with RSF philosophy it is a &quot;completely clean bean&quot; - it consists of nothing but getters and setters, has no framework dependencies (apart from exception types - this will be solved later), and could have been defined by anyone. It has three publically readable fields {{year}}, {{month}} and {{day}}, corresponding (in this case) to the three fields incoming from the UI, and has public accessor methods {{getDate}} and {{setDate}} which will render or accept the same date represented as a {{java.util.Date}}. In fact, this is a very simple and reusable basic component that performs type conversion of dates into a DMY &quot;broken-up&quot; form, and need not be used with RSF in particular.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The following picture shows the layout of the request beans (in red) together with the three components (green) involved in the submission:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">[{Image src=datetransit.png' align='center'}]</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Remember that this bean-wiring arrangement is ''encoded'' in the original component at render time, but not actually ''created'' until the POST is handled from the submission - this achieves one of the core RSF goals of allowing zero-server-state request handling.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!Selection controls</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">We decided to implement the &quot;month&quot; control with a dropdown. This is our first example of an RSF selection control. The key point to bear in mind is that RSF selection controls are represented as aggregates of simpler components, each some kind of [UIBound] - in total there are three: {{optionlist}} represents the &quot;parent&quot; list, from which choices are being made, {{optionnames}} represents the rendered ''names'' of these options in the UI, and {{selection}} represents the actual selection made by the user. In this example we initialise each of these three sub-components in a straightforward way - {{selection}} is simply bound to month field the {{datetransit.1}} bean in the way one would expect. The other two fields are bound to the (application scope) bean {{monthbean}}, which we have defined in our {{applicationContext.xml}} as follows:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  &lt;bean id=&quot;monthBean&quot; class=&quot;uk.org.ponder.dateutil.MonthBean&quot; </td></tr>
+<tr><td class="diffadd">    init-method=&quot;init&quot;/&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The {{[MonthBean|https://saffron.caret.cam.ac.uk/svn/projects/PonderUtilCore/trunk/src/uk/org/ponder/dateutil/MonthBean.java]}} bean is another simple dependency-free framework bean of the sort anyone could implement. In a more sophisticated application, you would make this a request bean, so that the {{locale}} parameter could be set in a request-aware way, appropriate for the current user. The bean simply does the work of exposing the list of Strings forming the &quot;internal&quot; month numbers, as well as querying the locale to find the corresponding month names.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!! Conclusion</td></tr>
+<tr><td class="diffadd">We have constructed a simple one-entity &quot;CRUD&quot; app with three basic views for listing, editing and showing the Recipe entities (we skipped treatment of the {{recipe-show}} view since it is straightforward). </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">In practice, you would you would have generated this application &quot;logic&quot; automatically using an XSL (coming soon, March 2006), but we have walked through it by hand here to get you set up for understanding and modifying these component trees for more advanced applications. At this point, we have arrived at the level of functionality of the end of [page 3|http://www.onlamp.com/pub/a/onlamp/2005/01/20/rails.html?page=3] of the Ruby version, showing off the ROR &quot;scaffold&quot; framework. We will now continue to follow this tutorial by adding a new entity to our data model, and customising all the views. </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">However, it's worth noting at this point one of the crucial benefits of RSF (as well as those inherited from such marvellous frameworks as Spring and Hibernate) - that of ''complete previewability''. In contrast to the Ruby version of this app in which the view files are a mishmash of markup and code, the RSF template files (in your webapp at the path {{src\webapp\content\templates}}) are PURE HTML, which you can just fire up in your browser, even navigate relative links &amp;c - in general, see exactly how your app will fit together, apart from any POST functionality. This can be a marvellously useful capability  - especially on larger, more long-lived projects with a separate UI team and proper requirements cycle - the HTML-version of the app can be easily circulated for review, comment and redesign, even complete with any Javascript, CSS, local navigation &amp;c. Ruby on Rails, with its focus on extracting maximum possible development speed from 1-man teams, cannot help here.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">----</td></tr>
+<tr><td class="diffadd">Head   - [Hibernate Cookbook|HibernateCookBook]\\</td></tr>
+<tr><td class="diffadd">Page 1 - [Query beans, templates and views|HibernateCookBook_1]\\</td></tr>
+<tr><td class="diffadd">Page 2 - Switches, Replicators and transit beans\\</td></tr>
+<tr><td class="diffadd">Page 3 - [The main app - entity selectors and Javascript|HibernateCookBook_3]\\</td></tr>
+<tr><td class="diffadd">Page 4 - [Let's hear that one more time - this time in Java|HibernateCookBook_4]\\</td></tr>
+<tr><td class="diffadd">----</td></tr>
+<tr><td class="diffadd"></td></tr>
+</table>
+ 
+  </div>
+</div>
+</form>
+
+  
+  
+
+	
+    
+    
+
+    
+
+    <div class="zebra-table sortable table-filter">
+    <table class="wikitable" >
+      <tr>
+        <th>Version</th>
+        <th>Date Modified</th>
+        <th>Size</th>
+        <th>Author</th>
+        <th>Changes ...</th>
+        <th class='changenote'>Change note</th>
+      </tr>
+
+      
+      
+      <tr>
+        <td>
+          <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_2&amp;version=-1" accesskey="" title="">
+            
+          </a>
+        </td>
+
+	    <td style="white-space:nowrap;" sortvalue="Wed, 19 Jul 2006 09:36:21">
+        19-Jul-2006 09:36
+        </td>
+        <td style="white-space:nowrap;text-align:right;">
+          
+          13.026&nbsp;kB
+        </td>
+        <td>UnknownAuthor</td>
+
+        <td>
+          
+
+          
+        </td>
+
+         <td class="changenote">
+           
+           
+         </td>
+
+      </tr>
+      
+      
+
+    </table>
+    </div>
+    
+    
+  </div>
+
+
+  <div style="clear:both;" ></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+<div id='actionsBottom' class="pageactions"> 
+    
+
+    <a href="#top" 
+      class="action quick2top" 
+      title="Go to top" >&laquo;</a>
+
+    
+       This page (revision-) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=HibernateCookBook_2&amp;r1=-1&amp;r2=1">19-Jul-2006 09:36</a> by UnknownAuthor
+    
+
+    
+
+   
+
+  
+
+   
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div id="favorites">
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=HibernateCookBook_2" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=HibernateCookBook_2"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+  
+  <div id="hiddenmorepopup">
+  <ul id="morepopup">
+     
+       	
+     
+       
+     
+    
+       
+     
+       <li>
+       
+       <a class="action rawpage wikipage" 
+               href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_2&amp;skin=raw"
+              title="View Page Source">View Page Source
+       </a>
+       
+       
+       </li>
+      
+        
+  
+      
+      
+      
+
+      
+	  <li class='separator'>
+        <div id="moremenu" ></div>
+      </li>
+  </ul>
+  </div>
+  
+  
+
+  
+
+  
+
+  
+  <div class="leftmenu">
+    <p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main">Main page</a><br />
+<tt> </tt><i><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ThisWiki">About</a></i><br />
+</p><p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=GettingStarted">Getting Started</a><br />
+</p>
+<p><b>Documentation</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Developers">Developers</a><br />
+<tt>  </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Javadocs">Javadocs</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Designers">Designers</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SampleRSFApps">Sample RSF Apps</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Presentations">Presentations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Acronyms">Acronyms</a><br />
+</p>
+<p><b>Downloads</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CurrentCode">Current Release</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=TrunkCode">Trunk</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CodeDistributions">Distributions</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=OldCode">Old Versions</a><br />
+</p>
+<p><b>Community</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=QampA">Q&amp;A</a><br />
+<tt> </tt><a class="external" href="http://ponder.org.uk/rsf/">Forums</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=EmailLists">Mailing Lists</a><br />
+<tt> </tt><a class="external" href="http://www.caret.cam.ac.uk/jira/browse/RSF">Issue Tracker</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=People">People</a><br />
+</p>
+<p><b>Design</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Roadmap">Roadmap</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Integrations">Integrations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Concepts">Concepts</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Philosophy">Philosophy</a><br />
+</p>
+<div style="font-style:italic;font-size:0.8em;">
+<b>Pages</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=FindPage">Find</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RecentChanges">Recent Changes</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UnusedPages">Unused</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UndefinedPages">Undefined</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PageIndex">Index</a>
+</div>
+<p />
+    
+  </div>
+  
+  <div class="leftmenufooter">
+    <hr />
+<p><b>Referenced by</b><br />
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook">HibernateCookBook</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_1">HibernateCookBook_1</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_2">HibernateCookBook_2</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_3">HibernateCookBook_3</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_4">HibernateCookBook_4</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=TransitBeans">TransitBeans</a><br />
+</p>
+    
+  </div>
+
+  
+
+  
+  
+  <div class="wikiversion">JSPWiki v2.8.2
+  <span class="rssfeed">
+    
+  </span>
+  </div>  
+  
+</div>
+
+	<div class="clearbox"></div>
+  </div>
+
+  
+
+
+
+
+
+ 
+<div id="footer">
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  <div class="copyright"></div>
+
+  <div class="wikiversion">
+    JSPWiki v2.8.2
+  </div>
+
+  <div class="rssfeed">
+    
+  </div>
+
+</div>
+
+</div>
+
+</body>
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=HibernateCookBook_2&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:20 GMT -->
+</html>

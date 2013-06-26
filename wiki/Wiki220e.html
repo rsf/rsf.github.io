@@ -1,0 +1,25 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Zero or one application-defined &quot;Actions&quot; may be invoked by RSF as the last stage of POST (state-altering) request handling. The action to be invoked is defined using a [method binding EL|EL], and references the target method by bean path - the action code is below the [bean line|BeanLine] and requires no framework interface to be implemented by the client code.
+
+A [component|Component] which signals an action is to be invoked when the corresponding UI control is operated is of class [UICommand], which holds the relevant method binding. After the action is invoked, successfully or otherwise, control passes to an (again implementation-defined) [ActionResultInterpreter], which, above the bean line interprets the action's result and computes the view to be rendered on the next cycle, after the client redirect.
+
+It's imagined that as RSF matures, for some class of applications the Action may actually end up being empty. Since many typical &quot;actions&quot; simply update some persistent state based on the request and process errors and validations in a fairly typical way, the &quot;real work&quot; of the action could all be performed by the [AlterationWrapper], [DARApplier] and the [ActionResultInterpreter]. In some ways this represents a loss since it appears that we have traded code below the bean line for code above - but AIW code is highly economical and may be entered only once per application/ORM technology, and ARI code may not be code at all, but entered in some form of web flow technology. In this way RSF does indeed aim for a &quot;codeless&quot; application, but unlike other &quot;hard-coded&quot; codeless frameworks (Cocoon e.g.) one in which code could very easily enter where needed.
+
+See also tips when an [action handler fails].
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

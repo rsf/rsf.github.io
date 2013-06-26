@@ -1,0 +1,17 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The DARApplier ([DataAlterationRequest] Applier) is an interesting sort of component that is tightly coupled to the RSF [serialization|SAXalizer] framework. It is integral to the principal behind RSF that request parameters represent ''transformations on the data model'' rather than just specifically submitted data. It is this idea that enables the [RequestSubmittedValueCache] (RSVC) to function as a running &quot;transaction log&quot; of activities, and hence our repository of state in a [MultiRequest]. 
+
+The DARApplier is the component which actually ''applies'' the contents of the RSVC to the data model - it has responsibilities for decoding EL references, navigating through the bean model, and reflectively invoking the required manipulation, encoded as a [DataAlterationRequest]. It is only within the DARApplier that the target type referenced by an [EL] can be known since the bean path is parsed at this time - therefore it is here that any type conversion is invoked, from the &quot;flat&quot; version of the data that is (probably) stored in the [SubmittedValueEntry] and [DataAlterationRequest] representations. Any conversion errors occuring during this delivery process are accumulated into a [TargettedMessageList] for ultimate delivery to the UI in some form.
+
+</pre>
+

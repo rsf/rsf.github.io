@@ -1,0 +1,114 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+%%(font-size:2em;color:red;)
+To_Be_Removed: this page is not helpful to RSF users
+%%
+
+
+This page is a general dumping ground for &quot;reminders&quot; and issues coming up during coding.
+
+!!Pending Breaking Changes:
+
+The following are breaking changes that probably *SHOULD* occur before 1.0 release. The question is, when is the time to roll them out causing the least disruption?
+
+i) parameters to UIInput and UIOutput are swapped!! One takes binding first, the other takes value first. This will be *VERY* annoying since both are Strings.\\
+ii) Need to refactor the context files to create the &quot;core&quot; PUC context containing SAXalizer &amp;c, and maybe even a &quot;core&quot; RSF &quot;headless&quot; context. Properly this should just happen &quot;automatically&quot;.\\
+iii) Should really deprecate requestAddressibleBeans now we have TLAB.
+
+!EL security
+
+It is generally obstructive and actually pointless to &quot;censor&quot; EL expressions which are issued from *within* code. I think. For example, the &quot;Value fixup&quot; stage - should we consider this as &quot;possibly subject to malice&quot;? I guess it is possible that we may have received a &quot;hostile component tree&quot; as input. But preservation strategies? Come off it. 
+
+Now so far we have had the possible undesirable coupling in BeanContainerWrapper that &quot;thing addressible by EL&quot; was BOTH (needing censoring by permissible paths) AND (needing extra resolution through fallbacks). IT WOULD SEEM that we would want to separate these two capabilities?
+
+The additional point is that we want to stop bothering users with having to make things &quot;permissible&quot;. Most glaring example - MessageLocators, we would like &quot;automatically exported&quot; - and similarly, any &quot;FallbackLocators&quot;. Or at least some of them. Now what we *seemed* to have before was a situation in which we seemed to think the check of permissibility was *cheap* compared to the cost of actually trying to fetch a bean and seeing whether it was null. This doesn't seem sensible, and no good reason to cause this coupling.
+
+OK, so are we agreed then? We want to separate BCW into two levels of wrapping, and ALSO to use TLAB to start automating export? 
+
+NO!!! Preservation Strategies may be &quot;autonomous&quot;!!! I guess we have to distinguish. But we really can't tell! One that stores in a URL or a client field can be forged, one that stores in a session or database table &quot;can not&quot;. But perhaps we just want a uniform policy regardless. There seems to be no real choice.
+
+OK, yes. We cannot make ScopedBeanCoordinator, for example, into a secure/insecure reporter since its strategy is completely mixed! It is a proxy for an unbounded set of TSHes. THEREFORE THE ONLY WORKABLE STRATEGY IS TO DECLARE *EVERY* &quot;exterior&quot; ACCESS TO THE REQUEST SCOPE INSECURE. 
+
+!Renderer Reform
+Issues we need to tackle during 0.8 renderer reform:
+
+i) Need to be able to CHOOSE whether a branch container is ALSO a naming container. It's clear that branches for REPLICATION should be names, but branches for SELECTION should not. Is it as simple as noting whether there is MORE THAN ONE branch on a given level? Problem with this is that names would then be unpredictable, e.g. for Javascript. So it should REALLY be a template-level thing, which could then also become an ERROR if a second component were issued. But this unfortunately means that we need another character for rsf:ids? The reason this is important is that, while RSF &quot;does&quot; support GET forms, it does so in a way that somewhat ties the ID structure to the model structure, at least to the extent that the rsf:id MUST agree with the ViewParams field name - and hence once there is more likelihood of root level branching, we need to make sure that there is no &quot;spurious&quot; branch before the rsf:id. IS this actually a satisfactory system? Although in practice it will &quot;work&quot;, it does seem to place some slightly unusual conditions on users. Considering lots of frameworks don't support GET forms at all, it might be seen as somewhat mild... We probably *don't* want to introduce some &quot;interesting&quot; system for *leaving* template-written &quot;names&quot; behind inside GET forms? I mean, this is only important if they are controls that need initialising anyway. AHA!! This is the key. This behaviour is desired for ALL controls that have no fossilized binding! If we did not &quot;fossilize&quot; them, then we are also uninterested in their submitting name (as RSF) and assume that the name the user gave to them in the template is the one they wanted? Will this always be the case? Ask Steve if he could possibly have some mad plans for creating a &quot;table of auto-renamed non-fossilized controls&quot;...
+
+!ViewProducers into request scope
+
+Should we make all ViewProducers request-scope? This would remove the &quot;casting&quot; issue with ViewParameters objects which would be reflectively delivered, but cast outside the code. Do we *really* believe that the RSAC creation penalty is so small that it will never bother anyone in a practical app? We've already moved TemplateResolvers into request scope, to make good on Sakai promised of universal flexibility in view resolution. So half of the costs are already paid...
+
+NB I think our issue was that FlowTalk ViewProducers are rather BIG. But they needed a good refactoring kick in the first place, this will be a good incentive for people to keep their designs fine-grained to avoid protruding too much stuff over from app scope into request scope. Once the call crosses the framework-&gt;app boundary, there should be a good deal more knowledge about what the dependencies are anyway.
+
+NBB!!! NO! Costs of putting producers into request scope are TOO BIG, since this would produce an app with request costs proportional to the number of views in it. Although NB we could lazily define this collection somehow. How do you define a list of beans whose members are not constructed until demand? This sounds a lot like a BeanLocator - implies that the ViewResolver is somehow in contact with the BeanDefinition layer. This all looks somewhat intricate, best to keep ViewProducers in app scope for now. Well, actually - if we gave up hard-wiring, the resolver could be just given a list of NAMES of producers. Hardwiring is a general issue that we will be weak on in the BIM era - these sorts of predicates are most conveniently made at the NAMING level. 
+
+This is of course a massive breaking change, every existing app would need to be rebuilt. There is a general fragility problem that even though *EL* does not change in moving between scopes, the fact that a bean is defined and overridden in one set of Spring files rather than another means this change is breaking. Can't immediately think of a way to allow overrides to cross over in scope... what would the ordering be in any case?
+
+We couldn't say for example, ALL app-scope containers were searched, THEN all request-scope containers. Or could we? Well, actually we do this already. TODO: What actually is the effect of defining a bean which was FORMERLY at blank-level app scope in user-level request scope?
+
+!RSAC into request scope!
+
+Recall our other idea of moving RSAC defs out of web.xml and INTO REQUEST SCOPE ITSELF.... erm isn't this a bit recursive? If we are dispatching an RSAC container based on contents of ViewParameters/ConsumerInfo, where are we PUTTING these beans in the meantime? This would mean reconfiguring RBL so that it could &quot;switch in&quot; extra BeanDef sets on the fly. This is a somewhat exotic capability but could be nice in really complex hosting environments, e.g. FlowTalk if we want to do away with the slightly sleazy way DirectWebServiceDispatcher pre-populates the bean container.
+
+!Later comments
+
+View producers as of 0.6 have been moved into request scope by a sort of &quot;semi-static&quot; cheatery - view producers are expect to answer their &quot;manifest&quot; requirements on default construction, but not asked to fill components until the proper time. Slightly sleazy, but very clean for the users. As for the second matter, [RSACBridgeProxy] has made this largely go away. It is also the natural answer to what remains a problem of &quot;cross-overrides&quot; - you can now override/obscure an application scope bean with what is properly a request-scope bean by placing a BridgeProxy in its way.
+
+
+!The SWF &quot;error during apply request values&quot; debacle:
+
+/** The ActionResultInterpreter in force when a &quot;RSF Flow Lite&quot; is governing
+ * the current request sequence. It is only invoked when non-empty contents
+ * are discovered in the FlowIDHolder by the FlowLiteARIResolver, and thus
+ * ensures that we only receive results from a FlowActionProxyBean, which
+ * returns ViewableState objects referring to the next view state to be shown. 
+ * @author Antranig Basman (antranig@caret.cam.ac.uk)
+ */
+// NB, this and FLARIR are currently DISUSED since all logic is performed by
+// the proxy bean. The problem we are currently facing is this somewhat 
+// assymetry, caused by errors which are triggered during VALUE DECODING, which
+// is a time out of scope of this flow logic.
+
+// issues: we would like orthogonality in how these errors are treated by the
+// user in staticerrorstrategies, but there seems to be a real mismatch of
+// idioms. For a start, the proxy bean may NEVER BE INVOKED if there is a
+// decode exception. And secondly, WHICH TRANSITION is expected to have
+// generated the error? We assume that the error return from the AES is
+// propagated &quot;forward in time&quot; to the first CONCRETE state transition that
+// the flow manages, and replaces it. But the incoming action invocation is
+// targeted at the FLOW PROXY, and not at the backing CONCRETE bean, how can
+// we sort this out without breaking someone's encapsulation?
+
+// This HAS to happen. But how can we insist that the flow ALWAYS starts even
+// if action decode errors occur? This is crazy. General users will NOT want
+// to be queried in the case of incorrect submissions, whereas unless the
+// FlowProxyBean starts up it cannot POSSIBLY have the result code of an 
+// exception processor injected into it. This suggests that the Proxy model
+// for SWF is fundamentally incorrect. Instead of being the ACTION, perhaps
+// the operator should actually be the ARI??! Well no, then how will the user
+// express what the target of the operation is. This suggests we need to 
+// &quot;bust open&quot; the proxy model and put more intelligence in the ActionHandler.
+// It can do a &quot;getBean&quot; for the action, and then based on what it finds, 
+// blow some sense into it about i) whether an result has &quot;already occurred&quot;
+// and then invoke the &quot;handle()&quot; method on it manually. 
+
+// if there are further internal actions of course, the decode does not occurs...
+// the result seems to be to recommend that users of Flow Proxy beans do type
+// conversion by themselves, or else adopt the awkward strategy in the AES of
+// FULLY RESOLVING the ARIResult for the error case.
+
+!Later comments
+
+In the end we fixed this by precisely the only possible way - destroy MethodInvokingProxy and define a specialised interface for FlowActionProxyBean, and indeed perform logic in RSFActionHandler in two steps.
+
+</pre>
+

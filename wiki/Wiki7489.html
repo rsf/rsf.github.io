@@ -1,0 +1,29 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Levelization is a simple organizational principle or metric applied to code, first promoted by the great John Lakos in his landmark book [&quot;Large Scale Software Design in C++&quot;|http://www.amazon.com/gp/product/0201633620/002-7417214-8818440] (if you haven't read it, buy it now and read it, even if you never write in C++). This was experience gained the hard way, on one of the first and largest projects that suffered the results of &quot;modern&quot; &quot;object-oriented&quot; thinking applied to a codebase of tens of millions of lines. The lessons learned however are very general and applicable to code that needn't be in C++ and needn't be very large. Some of the low-level concepts from Lakos' book are summarised on this page of [lecture notes|http://www.mpi-sb.mpg.de/~kettner/courses/lib_design_03/notes/large.html], with a little discussion of the high level at [this page|http://www.braithwaite-lee.com/opinions/levelization.html]. You can also read some [recommendations for package design|http://javacentral.compuware.com/pasta/concepts/packageDesign.html].
+
+Levelization assigns a dependence level number to each physical unit (in Java, read &quot;class&quot;) of code, organized in a graph (hopefully DAG) of &quot;knowledge&quot;. Class A &quot;knows about&quot; or depends on class B if the name of class B occurs anywhere in its definition - in C++ there are various degrees of dependence (inheritance, structural, by pointer, &quot;in name only&quot;, or opaque) not all of which are possible in Java. Opaque dependence, where there is no longer any evidence of dependence in the code (illustrated by Lakos in a chapter where he shows the reduction of a highly coupled set of classes representing a graph structure to a set of integer indices) is the &quot;nearly ideal&quot; state, the nature of which is talked about a little in the section on the [bean line|BeanLine]
+
+[Lakos book cover |http://images.amazon.com/images/P/0201633620.01._BO2,204,203,200_PIlitb-dp-500-arrow,TopRight,32,-59_AA240_SH20_SCLZZZZZZZ_.jpg]
+
+Levelization is one of those magic agencies, like Spring, a simply mechanical agency that can improve your code. Sometimes the refactoring required on your code is not obvious, due to the way it was conceptualised during its design - but simply looking for a properly levelized design can create enough pressure to give you the idea how to do it - which usually does require some actual thinking. Levelization is like an altimeter showing you the distance to a good design - you still have to use your legs to walk up the hill! 
+
+To summarize, the [BeanLine] discussion mentions that, following Lakos, &quot;good&quot; designs consist of i) a strict knowledge hierachy, ii) arranged in as flat as possible a shape. Lakos defines a measure of &quot;cumulative component dependency&quot; (CCD), as follows:
+
+{{{
+The Cumulative Component Dependency, CCD, is the sum over all components Ci in a 
+subsystem of the number of components needed in order to test each Ci incrementally.
+}}}
+Good (testable, stable, robust) designs seek to both maximise the number of components C_i while at the same time minimising the CCD.
+
+</pre>
+

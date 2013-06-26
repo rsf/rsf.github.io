@@ -1,0 +1,145 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!!Edit/new view - Replicators, Switches and Transit Beans
+
+Having looked at how the default &quot;list&quot; view for the Recipe entity is put together, we're set up to look at the most complex view in this application, the &quot;new Recipe&quot; view, which is given the [viewID] {{recipe-edit}}. This view doubles as the view for creating a new entity as well as editing an existing one, with the minor differences taken care of with a [UISwitch] component.
+
+To start with, as before, here is the &quot;picture on the box&quot; so we can see what result this view is aiming at:
+
+[{Image src='cookbook-basic-recipe-edit.png' align='center'}]
+
+The components tree for the {{[recipe-show|https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernateCookbook/trunk/basic/src/webapp/WEB-INF/producers/recipe-edit.xml]}} , as well as containing a [UIReplicator] component of the sort we saw before, also has a number of other components and bindings necessary to manage the input process. Here are the first dozen lines for us to look over:
+
+{{{
+
+&lt;view&gt;
+  &lt;component type=&quot;switch&quot; id=&quot;headingswitch&quot;&gt;
+    &lt;lvalue type=&quot;elref&quot;&gt;#{viewParameters.mode}&lt;/lvalue&gt;
+    &lt;rvalue type=&quot;java.lang.String&quot;&gt;new&lt;/rvalue&gt;
+    &lt;truecomponent type=&quot;output&quot; id=&quot;new-recipe-heading&quot;/&gt;
+    &lt;falsecomponent type=&quot;output&quot; id=&quot;edit-recipe-heading&quot;/&gt;
+  &lt;/component&gt;
+  &lt;component type=&quot;form&quot; id=&quot;basic-form&quot;&gt;
+    &lt;component type=&quot;replicator&quot; id=&quot;reciperep&quot;&gt;
+      &lt;valuebinding&gt;#{viewParameters.entity}&lt;/valuebinding&gt;
+      &lt;idstrategy type=&quot;idremap&quot; basepath=&quot;#{Recipe}&quot; idfield=&quot;ID&quot;/&gt;
+      &lt;elideparent&gt;true&lt;/elideparent&gt;
+      &lt;component type=&quot;branchcontainer&quot; id=&quot;recipeline:&quot;&gt;
+        &lt;component type=&quot;input&quot; id=&quot;recipe-title&quot;&gt;
+          &lt;valuebinding&gt;#{*.title}&lt;/valuebinding&gt;
+        &lt;/component&gt;
+}}}
+
+!!UISwitch
+
+The first interesting component is introduced by {{&lt;component type=&quot;switch&quot;}} which represents a component of type [UISwitch] (by standard RSF component serialization, the type parameter for a component is always the lower-cased component name omitting &quot;UI&quot;). This is another &quot;template component&quot; - like the replicator, UISwitch must ''never'' appear in the final component tree presented to the renderer, but instead is used to guide template component expansion operated by the XML view system.
+
+Just as UIReplicator operates basic iteration semantics (iterating over an object list), UISwitch operates conditional branching, completing our basic programming capabilities in XML component trees. UISwitch accepts 4 arguments - firstly an &quot;lvalue&quot; and an &quot;rvalue&quot; which will form the basis of the comparison. The template expander will evaluate a boolean expression representing &quot;lvalue == rvalue&quot;, and based on whether this expression is true or false, will choose one of the second two arguments, {{truecomponent}} or {{falsecomponent}} to be the one that finally enters the component tree.
+
+So in this case, we are testing the {{mode}} field of the {{viewParameters}} request bean (this is a standard RSF bean representing the location of the current view) for being equal to the String &quot;new&quot;. If it is, we emit the {{new-recipe-heading}} component (which is defined in the HTML template to contain the relevant view heading), if not, we emit {{edit-recipe-heading}}.
+
+Remember that in the Java version of this app, this component layout will just be replaced by a simple genuine {{if}} statement choosing the right heading component.
+
+!!Return of the Replicator
+
+This view, like the recipes list view from the [previous page|HibernateCookBook_2], also defines a replicator component inside its form, which looks at first sight a bit odd, since there is nothing obviously being repeated in this view. In this case, we are using the replicator just for its ''id rewriting'' function, based on the single {{viewParameters}} object which defines the entity of focus for the current view, rather than for any repetition as such. Given the definition above, we can see the {{idstrategy}} that we define
+
+{{{
+ &lt;idstrategy type=&quot;idremap&quot; basepath=&quot;#{Recipe}&quot; idfield=&quot;ID&quot;/&gt;
+}}}
+
+will replace the wildcard paths in the replicated component with the field &quot;ID&quot; obtained from the value binding target from the replicator, which is {{#{viewParameters.entity} }}. That is, the total request EL containing the ID value is {{#{viewParameters.entity.ID} }}, and this value will be subsituted for &quot;*&quot; where it occurs in replicated components, afte prefixing with the base path of &quot;#{Recipe}&quot;. If this all looks somewhat involved, recall that there has to be some price for pure XML-based programming of this sort! You will see how this logic is considerably simpler in the &quot;pure-Java&quot; version of this app we will present on the last page.
+
+!! Dates and [Transit Beans|TransitBeans]
+
+Everything else in this view is pretty straightforward, except for the handling of the &quot;broken-up&quot; date field that we can type into. In fact, usability requirements (as well as programming convenience!) are strongly recommending towards allowing free-form date entry fields these days, but we took the decision of exactly replicating the functionality of the original Ruby app, and although being somewhat more complex this nicely showcases the very powerful capabilities of RSF's &quot;request bean programming model&quot;.
+
+Firstly, here is the relevant stanza of {{recipe-edit.xml}} that deals with the date input:
+
+{{{
+  &lt;component type=&quot;input&quot; id=&quot;recipe-date-year&quot;&gt;
+    &lt;valuebinding&gt;#{datetransit.1.year}&lt;/valuebinding&gt;
+  &lt;/component&gt;
+  &lt;component type=&quot;select&quot; id=&quot;recipe-date-month&quot;&gt;
+    &lt;optionlist&gt;
+      &lt;valuebinding&gt;#{monthBean.indexes}&lt;/valuebinding&gt;
+    &lt;/optionlist&gt;
+    &lt;optionnames type=&quot;outputmany&quot;&gt;
+      &lt;resolver type=&quot;elref&quot;&gt;#{monthBean.names}&lt;/resolver&gt;
+    &lt;/optionnames&gt;
+    &lt;selection type=&quot;input&quot;&gt;
+      &lt;valuebinding&gt;#{datetransit.1.month}&lt;/valuebinding&gt;
+    &lt;/selection&gt;
+  &lt;/component&gt;
+  &lt;component type=&quot;input&quot; id=&quot;recipe-date-day&quot;&gt;
+    &lt;valuebinding&gt;#{datetransit.1.day}&lt;/valuebinding&gt;
+  &lt;/component&gt;
+...
+  &lt;parameter type=&quot;elbinding&quot;&gt;
+    &lt;valuebinding&gt;#{*.date}&lt;/valuebinding&gt;
+    &lt;rvalue type=&quot;elref&quot;&gt;#{datetransit.1.date}&lt;/rvalue&gt;
+  &lt;/parameter&gt;
+}}}
+
+To start with, {{recipe-date-year}} and {{recipe-date-day}} are just straightforward text input fields, but the first thing to notice is the slightly interesting EL target that they refer to, {{datetransit}}.
+
+{{datetransit}} is our first example of an [exploder|BeanExploder] bean. The definition of {{datetransit}}, from this apps {{requestContext.xml}} file is as follows:
+{{{
+&lt;!-- A &quot;Date Transit&quot; exploder to collect and focus a 
+     &quot;broken-up&quot; date from fields in Date/Month/Year 
+     into a full java.util.Date object. --&gt;  
+  &lt;bean id=&quot;datetransit&quot; parent=&quot;beanExploder&quot;&gt;
+    &lt;property name=&quot;beanClass&quot; 
+       value=&quot;uk.org.ponder.dateutil.DMYTransit&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+
+(see previous page for comments on parent bean definitions - in this case {{beanExploder}} is a standard RSF parent bean definition defined in [blank-requestContext.xml|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/conf/blank-requestContext.xml]).
+BeanExploders are provide similar functionality to RSF's [One True Path|OTP] entity beans, only generally for non-persistent beans - they take a bean &quot;exemplar&quot; (or more simply, just a class name) and &quot;explode&quot; this bean to create an infinite lazy collection of distinct instances initialized from it. Another way of thinking about this is that it is the request-scope equivalent to &quot;defining a variable&quot; - in this case, the path {{#{datetransit.1} }} refers to a particular (dynamically created at request scope) instance of a {{uk.org.ponder.dateutil.DMYTransit}} bean - if we were inputting two dates in this view we might call the second such instance {{#{datetransit.2} }}. These beans like all request beans are thrown away at the end of the request cycle and are very useful to maintain cleanly programming. 
+
+If you take a look at the [definition of DMYTransit|https://saffron.caret.cam.ac.uk/svn/projects/PonderUtilCore/trunk/src/uk/org/ponder/dateutil/DMYTransit.java] you can see that, in line with RSF philosophy it is a &quot;completely clean bean&quot; - it consists of nothing but getters and setters, has no framework dependencies (apart from exception types - this will be solved later), and could have been defined by anyone. It has three publically readable fields {{year}}, {{month}} and {{day}}, corresponding (in this case) to the three fields incoming from the UI, and has public accessor methods {{getDate}} and {{setDate}} which will render or accept the same date represented as a {{java.util.Date}}. In fact, this is a very simple and reusable basic component that performs type conversion of dates into a DMY &quot;broken-up&quot; form, and need not be used with RSF in particular.
+
+The following picture shows the layout of the request beans (in red) together with the three components (green) involved in the submission:
+
+[{Image src=datetransit.png' align='center'}]
+
+Remember that this bean-wiring arrangement is ''encoded'' in the original component at render time, but not actually ''created'' until the POST is handled from the submission - this achieves one of the core RSF goals of allowing zero-server-state request handling.
+
+!!Selection controls
+
+We decided to implement the &quot;month&quot; control with a dropdown. This is our first example of an RSF selection control. The key point to bear in mind is that RSF selection controls are represented as aggregates of simpler components, each some kind of [UIBound] - in total there are three: {{optionlist}} represents the &quot;parent&quot; list, from which choices are being made, {{optionnames}} represents the rendered ''names'' of these options in the UI, and {{selection}} represents the actual selection made by the user. In this example we initialise each of these three sub-components in a straightforward way - {{selection}} is simply bound to month field the {{datetransit.1}} bean in the way one would expect. The other two fields are bound to the (application scope) bean {{monthbean}}, which we have defined in our {{applicationContext.xml}} as follows:
+
+{{{
+  &lt;bean id=&quot;monthBean&quot; class=&quot;uk.org.ponder.dateutil.MonthBean&quot; 
+    init-method=&quot;init&quot;/&gt;
+}}}
+
+The {{[MonthBean|https://saffron.caret.cam.ac.uk/svn/projects/PonderUtilCore/trunk/src/uk/org/ponder/dateutil/MonthBean.java]}} bean is another simple dependency-free framework bean of the sort anyone could implement. In a more sophisticated application, you would make this a request bean, so that the {{locale}} parameter could be set in a request-aware way, appropriate for the current user. The bean simply does the work of exposing the list of Strings forming the &quot;internal&quot; month numbers, as well as querying the locale to find the corresponding month names.
+
+!! Conclusion
+We have constructed a simple one-entity &quot;CRUD&quot; app with three basic views for listing, editing and showing the Recipe entities (we skipped treatment of the {{recipe-show}} view since it is straightforward). 
+
+In practice, you would you would have generated this application &quot;logic&quot; automatically using an XSL (coming soon, March 2006), but we have walked through it by hand here to get you set up for understanding and modifying these component trees for more advanced applications. At this point, we have arrived at the level of functionality of the end of [page 3|http://www.onlamp.com/pub/a/onlamp/2005/01/20/rails.html?page=3] of the Ruby version, showing off the ROR &quot;scaffold&quot; framework. We will now continue to follow this tutorial by adding a new entity to our data model, and customising all the views. 
+
+However, it's worth noting at this point one of the crucial benefits of RSF (as well as those inherited from such marvellous frameworks as Spring and Hibernate) - that of ''complete previewability''. In contrast to the Ruby version of this app in which the view files are a mishmash of markup and code, the RSF template files (in your webapp at the path {{src\webapp\content\templates}}) are PURE HTML, which you can just fire up in your browser, even navigate relative links &amp;c - in general, see exactly how your app will fit together, apart from any POST functionality. This can be a marvellously useful capability  - especially on larger, more long-lived projects with a separate UI team and proper requirements cycle - the HTML-version of the app can be easily circulated for review, comment and redesign, even complete with any Javascript, CSS, local navigation &amp;c. Ruby on Rails, with its focus on extracting maximum possible development speed from 1-man teams, cannot help here.
+
+----
+Head   - [Hibernate Cookbook|HibernateCookBook]\\
+Page 1 - [Query beans, templates and views|HibernateCookBook_1]\\
+Page 2 - Switches, Replicators and transit beans\\
+Page 3 - [The main app - entity selectors and Javascript|HibernateCookBook_3]\\
+Page 4 - [Let's hear that one more time - this time in Java|HibernateCookBook_4]\\
+----
+
+
+</pre>
+

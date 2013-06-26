@@ -1,0 +1,39 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+XHTML XML-conformance is a perennially annoying issue, which after much struggle I have determined is best left alone. For those cases where full XML validity is important, you may fill out your document declaration with the following internal subset:
+
+{{{
+&lt;!DOCTYPE html      PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+     &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;
+  [ &lt;!ATTLIST html xmlns:rsf CDATA #IMPLIED &gt; 
+    &lt;!ATTLIST div rsf:id CDATA #IMPLIED &gt;
+    &lt;!ATTLIST a rsf:id CDATA #IMPLIED &gt;
+    &lt;!ATTLIST span rsf:id CDATA #IMPLIED &gt;
+    &lt;!ATTLIST tr rsf:id CDATA #IMPLIED &gt;
+    &lt;!ATTLIST td rsf:id CDATA #IMPLIED &gt;
+    &lt;!ATTLIST table rsf:id CDATA #IMPLIED &gt;
+    &lt;!ATTLIST form rsf:id CDATA #IMPLIED &gt;
+    &lt;!ATTLIST img rsf:id CDATA #IMPLIED &gt;
+    &lt;!ATTLIST link rsf:id CDATA #IMPLIED &gt;
+    &lt;!ATTLIST textarea rsf:id CDATA #IMPLIED &gt;
+    &lt;!ATTLIST button rsf:id CDATA #IMPLIED &gt;
+    &lt;!ATTLIST input rsf:id CDATA #IMPLIED &gt;
+    &lt;!ATTLIST title rsf:id CDATA #IMPLIED &gt; 
+    &lt;!ATTLIST table nowrap CDATA #IMPLIED &gt; ]&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xmlns:rsf=&quot;http://www.ponder.org/rsf&quot;&gt;
+}}}
+Note that strictly we must even add the namespace attribute to the definition of the HTML tag, since the XHTML DTD is not actually allowing for it! This infuriating situation is [blandly discussed|http://www.w3.org/TR/xhtml1/normative.html] on the W3C site.
+
+However, rather than be guided by the desire for conformance at all costs, it's much better to take a practical view - virtually every HTML tool out there is 100% happy to silently ignore any unrecognised attribute it meets, especially if it appears to be qualified with an unknown namespace. And in fact relying on this behaviour, ironically, is even more reliable than attempting to quote the internal subset above, which tends to trigger all sorts of alarming browser quirks, especially where IE is involved. Any such subset you mention in your template will therefore be removed by IKAT in its rendered output.
+
+</pre>
+

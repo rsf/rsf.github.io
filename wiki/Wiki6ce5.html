@@ -1,0 +1,36 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Creates a link to a [WikiPage].  This also works with [WikiAttachments], that is, if the page you are referring to is an attachment, it will generate the correct link.
+
+Why would you use this instead of a standard anchor?  The LinkToTag automatically adds things like the correct class information (for styles), the jspwiki.baseURL property, attachment links, etc.
+
+----
+
+!Usage
+
+&lt;wiki:LinkTo page=&quot;&lt;page name&gt;&quot; format=&quot;anchor|url&quot; version=&quot;&lt;version number&gt;&quot;&gt;
+;:''Link text''
+&lt;/wiki:LinkTo&gt;
+
+!Parameters
+
+;__page__: Page name to link to. If not set, uses the current page.
+;__format__: If &quot;anchor&quot;, creates the full hyperlink (&lt;a href=&quot;...&quot;&gt;link text&lt;/a&gt;); if &quot;url&quot;, outputs only the URL.
+;__version__: Links to a specific version of a page.  If not set, links to the latest version of the page.
+
+!Example
+{{{
+Please see the &lt;wiki:LinkTo page=&quot;RecentChanges&quot;&gt;list of recently changed pages&lt;/wiki:LinkTo&gt;.
+}}}
+
+</pre>
+

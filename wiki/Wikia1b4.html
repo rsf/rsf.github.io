@@ -1,0 +1,35 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Inserts an RSS autodiscovery link.  Put this tag in the HEAD section of your template to allow RSS autodiscovery.  If RSS is not enabled, does nothing.
+
+----
+
+!Usage
+
+&lt;wiki:RSSLink /&gt;
+
+!Parameters
+
+None.
+
+!Example
+{{{
+&lt;wiki:RSSLink /&gt;
+}}}
+
+inserts the following code, if the [RSS feed|http://en.wikipedia.org/wiki/RSS_(file_format)] is enabled, and your site is located in {{http://www.ecyrd.com/go}}
+{{{
+&lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; title=&quot;RSS feed&quot; href=&quot;http://www.ecyrd.com/go/rss.rdf&quot; /&gt;
+}}}
+
+</pre>
+

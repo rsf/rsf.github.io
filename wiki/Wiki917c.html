@@ -1,0 +1,848 @@
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html id="top" xmlns="http://www.w3.org/1999/xhtml">
+
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Wiki.jsp?page=AJAX by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 14:43:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+    RSF Wiki: AJAX
+  </title>
+  
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" media="screen, projection, print" type="text/css"
+     href="templates/default/jspwiki.css"/>
+
+<link rel="stylesheet" type="text/css" media="print" 
+     href="templates/default/jspwiki_print.css" />
+<!-- INCLUDERESOURCES (stylesheet) -->
+
+<!-- INCLUDERESOURCES (inlinecss) -->
+
+
+
+<noscript>
+<style type="text/css">
+#hiddenmorepopup { display:block; }
+</style>
+</noscript>
+
+
+<script type="text/javascript" src="scripts/mootools.js"></script>
+<script type="text/javascript" src="scripts/prettify.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-common.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-commonstyles.js"></script>
+<!-- INCLUDERESOURCES (script) -->
+
+
+
+
+
+<meta name="wikiContext" content='view' />
+<meta name="wikiBaseUrl" content='http://rsf.fluidproject.org/wiki/' />
+<meta name="wikiPageUrl" content='/wiki/Wiki.jsp?page=%23%24%25' />
+<meta name="wikiEditUrl" content='/wiki/Edit.jsp?page=AJAX' />
+<meta name="wikiJsonUrl" content='/wiki/JSON-RPC' />
+<meta name="wikiPageName" content='AJAX' />
+<meta name="wikiUserName" content='207.119.0.6' />
+<meta name="wikiTemplateUrl" content='/wiki/templates/default/' />
+<meta name="wikiApplicationName" content='RSF Wiki' />
+
+<script type="text/javascript">//<![CDATA[
+/* Localized javascript strings: LocalizedStrings[] */
+var LocalizedStrings = {
+"javascript.edit.allsections":"( All )",
+"javascript.slimbox.error":"<h2>Error</h2>There was a problem with your request.<br />Please try again",
+"javascript.slimbox.remoteRequest":"Remote Request {0} of {1}",
+"javascript.slimbox.close":"Close &#215;",
+"javascript.quick.edit":"[Edit]",
+"javascript.sort.descending":"Descending order. Click to reverse sort order",
+"javascript.expand":"Click to expand",
+"javascript.group.validName":"Please provide a valid name for the new Group",
+"javascript.slimbox.next":"Next&raquo;",
+"javascript.filter.all":"( All )",
+"javascript.edit.areyousure":"Without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.quick.edit.title":"Edit section {0}...",
+"javascript.slimbox.directLink":"Direct Link to the target",
+"javascript.prefs.areyousure":"Without clicking the Save User Preferences button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.sbox.clone.suffix":"-New",
+"javascript.slimbox.info":"Image {0} of {1}",
+"javascript.tip.default.title":"More...",
+"javascript.edit.resize":"Drag to resize the text area",
+"javascript.edit.findandreplace.nomatch":"No match found!",
+"javascript.sort.ascending":"Ascending order. Click to reverse sort order",
+"javascript.slimbox.close.title":"Close [Esc]",
+"javascript.edit.toolbar.makeSelection":"Please make first a selection.",
+"javascript.favs.hide":"Click to hide Favorites",
+"javascript.sectionediting.label":"Section Overview",
+"javascript.slimbox.previous":"&laquo;Previous",
+"javascript.favs.show":"Click to show Favorites",
+"javascript.collapse":"Click to collapse",
+"javascript.category.title":"Click to show category [{0}] ...",
+"javascript.sort.click":"Click to sort",
+"javascript.edit.startOfPage":"( Start of page )"
+};
+
+
+/* INCLUDERESOURCES (jsfunction) */
+
+//]]></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="search" href="Wiki702d.html?page=FindPage"
+    title='Search RSF Wiki' />
+<link rel="help"   href="Wikia3b7.html?page=TextFormattingRules"
+    title="Help" />
+
+ <link rel="start"  href="Wikib2ab.html?page=Main"
+    title="Front page" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki_print.css"
+    title="Print friendly" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki.css"
+    title="Standard" />
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+<link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  
+  
+</head>
+
+<body class="view">
+
+<div id="wikibody" class="fav-left">
+ 
+  
+
+
+
+
+
+
+<div id="header">
+
+  <div class="titlebox"></div>
+
+  <div class="applicationlogo" > 
+    <a href="Wikib2ab.html?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="Login0667.html?redirect=AJAX" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="UserPreferences0667.html?redirect=AJAX"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+
+  <div class="pagename">AJAX</div>
+
+  <div class="searchbox">
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Search.jsp"
+        class="wikiform"
+           id="searchForm" accept-charset="UTF-8">
+
+  <div style="position:relative">
+  <input onblur="if( this.value == '' ) { this.value = this.defaultValue }; return true; "
+        onfocus="if( this.value == this.defaultValue ) { this.value = ''}; return true; "
+           type="text" value="Quick Navigation"
+           name="query" id="query"
+           size="20" 
+      accesskey="f" />
+  <button type="submit"
+  		 name="searchSubmit" id="searchSubmit"
+  		value="Go!"
+  		title="Go!"></button>
+  </div>
+  <div id="searchboxMenu" style='visibility:hidden;'>
+    <div id="searchTools">
+      <a href="#" id='quickView' class='action'
+      onclick="SearchBox.navigate( 'Wiki195c.html?page=__PAGEHERE__','View the selected page' );"
+        title="View the selected page">view</a>
+      <a href="#" id='quickEdit' class='action'
+      onclick="SearchBox.navigate( 'Logine830.html?page=__PAGEHERE__','Edit the selected page' );"
+        title="Edit the selected page">edit</a>
+      <a href="#" id='quickClone' class='action'	
+      onclick="return SearchBox.navigate( 'Logine830.html?page=__PAGEHERE__', 'Clone the selected page', true );"
+        title="Clone the selected page">clone</a>
+      <a href="#" id="advancedSearch" class='action'
+      onclick="SearchBox.navigate( 'Search136d.html?query=__PAGEHERE__','AJAX' )"
+        title="Advanced Search [ f ]">find</a>
+    </div>
+    <div id="searchResult" >
+	  Quick search
+      <span id="searchTarget" >(type ahead)</span>
+      <span id="searchSpin" class="spin" style="position:absolute;display:none;"></span>
+	  <div id="searchOutput" ></div>
+    </div>
+    <div id="recentSearches" style="display:none;">
+      Recent Searches
+      <span><a href="#" id="recentClear">(Clear)</a></span>
+    </div>
+  </div>
+
+</form></div>
+
+  <div class="breadcrumbs">Your trail:&nbsp;<a class="wikipage" href="Wiki4509.html?page=SampleRSFApps">SampleRSFApps</a>, <a class="wikipage" href="Wiki30c9.html?page=CurrentCode">CurrentCode</a>, <a class="wikipage" href="Wikibad7.html?page=News">News</a>, <a class="wikipage" href="Wiki13ab.html?page=SpringWebFlow">SpringWebFlow</a>, <a class="wikipage" href="Wiki580c.html?page=Roadmap">Roadmap</a>, <a class="wikipage" href="Wikifbad.html?page=Anniversaries">Anniversaries</a>, <a class="wikipage" href="Wikif756.html?page=I18N">I18N</a>, <a class="wikipage" href="Wiki5ea4.html?page=Action">Action</a>, <a class="wikipage" href="Wikic195.html?page=GETForms">GETForms</a>, <a class="wikipage" href="Wiki7157.html?page=IKAT">IKAT</a></div>
+
+</div>
+
+  <div id="content">
+
+    <div id="page">
+      
+
+
+
+
+
+<div id="actionsTop" class="pageactions"> 
+  <ul>
+
+    
+    
+    
+
+    
+    <li id="morebutton">
+      <a href="Wiki81b4.html?page=MoreMenu" class="action more">More...</a>
+    </li>
+
+  </ul>
+</div>
+
+      
+
+
+
+
+
+
+
+
+<div class="tabmenu">
+
+  
+
+  
+
+  
+  
+  
+    
+  
+    
+  
+
+
+
+  <a class="activetab" id="menu-pagecontent" accesskey="v" ><span class='accesskey'>V</span>iew</a>
+
+  
+
+  
+  <a id="menu-attach" accesskey="a" ><span class='accesskey'>A</span>ttach (1)</a>
+  
+    
+  <a id="menu-info" href='PageInfo917c.html?page=AJAX' accesskey="i" ><span class='accesskey'>I</span>nfo</a>
+    
+  
+
+</div>
+<div class="tabs">
+
+  <div id="pagecontent" >
+
+    
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="section-AJAX-AJAXAndRSF"> AJAX and RSF<a class="hashlink" href="#section-AJAX-AJAXAndRSF">#</a></h2>
+<p><a class="wikipage" href="Wikib91f.html?page=RSF">RSF</a> works well with <a class="external" href="http://en.wikipedia.org/wiki/AJAX">AJAX</a><img class="outlink" src="images/out.png" alt="" /> and <a class="wikipage" href="Wikid989.html?page=Javascript">Javascript</a> (either together with client-side frameworks or as bits of Javascript you write yourself). Because RSF is designed to work in a standard <a class="external" href="http://en.wikipedia.org/wiki/Representational_State_Transfer">RESTful</a><img class="outlink" src="images/out.png" alt="" /> way it does not require or use Javascript for navigation, posting data, or any framework activities. This is notable because it is in contrast to the way many other Java <a class="external" href="http://en.wikipedia.org/wiki/Web_application_framework">web frameworks</a><img class="outlink" src="images/out.png" alt="" /> operate.
+Developers can choose to use RSF Javascript libraries for widgets, validation (eventually), and other specialized built-in RSF actions, but these are optional and are only used to enhance the user experience.
+</p>
+<p>There are multiple ways to use AJAX in RSF which are detailed below. We highly encourage looking at the <a class="wikipage" href="Wiki4509.html?page=SampleRSFApps">sample apps</a> for examples of AJAX in RSF as a complement to this page. The sample applications are heavily commented and in many cases offer better explanations of how things work.
+</p>
+<h3 id="section-AJAX-ReturningASimpleJSONPayload"> Returning a simple JSON payload<a class="hashlink" href="#section-AJAX-ReturningASimpleJSONPayload">#</a></h3>
+<p>To define an RSF view which returns a simple JSON payload, encoded from a set of Java objects, use a <a class="wikipage" href="Wikid3cc.html?page=DataViews">DataView</a>. DataViews can also return other kinds of non-markup content types (images, PDF files, etc.).
+</p>
+<h3 id="section-AJAX-UVBShortcutRecommendedWhereAMarkupBasedApproachIsNotAppropriateSeeBelow"> UVB shortcut (Recommended where a markup-based approach is not appropriate - see below)<a class="hashlink" href="#section-AJAX-UVBShortcutRecommendedWhereAMarkupBasedApproachIsNotAppropriateSeeBelow">#</a></h3>
+<p>RSF provides a special <a class="wikipage" href="Wikid407.html?page=ComponentProducer">producer</a> called the <a class="wikipage" href="Wiki4d13.html?page=UniversalViewBus">Universal View Bus</a> (or UVB for short). When this is combined with the <a class="wikipage" href="Wikic2ec.html?page=RSFJSLibrary">RSF Javascript library</a> (rsf.js) it allows a developer to make AJAX requests with minimal programming effort - in particular with no new request-handling code on the server-side.
+</p>
+<h4 id="section-AJAX-UsingUVBToHandleAnAJAXRequestAndResponseCycle"> Using UVB to handle an AJAX request and response cycle<a class="hashlink" href="#section-AJAX-UsingUVBToHandleAnAJAXRequestAndResponseCycle">#</a></h4>
+<ul><li>In your template, create a form and a field which we will use to put data in to send along in the AJAX request, you could use any type of field you like to hold data but the field does have to be placed inside a form:
+</li></ul><pre>
+&lt;form rsf:id=&quot;input_form&quot; style=&quot;display:inline;&quot;&gt;
+   &lt;input rsf:id=&quot;input_field&quot; id=&quot;input_field&quot; type=&quot;text&quot; size=&quot;20&quot; maxlength=&quot;20&quot; /&gt;
+&lt;/form&gt;
+&lt;div id=&quot;result_field&quot;&gt;&lt;/div&gt;
+</pre>
+<ul><li><ul><li>Remember to write the client-side XML id <tt>id=&quot;input_field&quot;</tt> on this element as well as the <tt>rsf:id</tt> to ensure that the RSF renderer writes a client side id when it rewrites the element. We will need the XML id later when we refer to the element via Javascript. (The id you write in the markup need not agree with RSF's id, but if you want to write a preview function call in place of the comment below, you can use this id there).
+</li></ul></li><li>In your template, create a placeholder <tt>&lt;script&gt;</tt> tag which will hold the call to your init method, this will allow you to pass information from the server to the Javascript, such as the IDs for the fields controlled by RSF, as well as the <a class="wikipage" href="Wiki2b2a.html?page=EL">EL</a> bindings
+</li></ul><pre>
+&lt;script rsf:id=&quot;init_js&quot; type=&quot;text/javascript&quot;&gt;
+    // a real function call with real values which come from the 
+    // &quot;emitJavascriptCall&quot; method will be placed here by RSF
+&lt;/script&gt;
+</pre>
+ (Note that you can write an actual function call here in the markup too, to set up an environment that would let you preview your dynamic behaviour from your template file in the filesystem)
+<ul><li>In your <tt>my-app.js</tt> file (may need to create one), create an init method to set up for an AJAX request. This method should take params which include elBindings and fieldIds for RSF controlled fields (e.g. input)
+<ul><li>Use the <tt>getAJAXUpdater</tt> function to create a trigger function
+</li><li>Attach that trigger function to events or just run it yourself
+</li></ul></li></ul><pre>
+function initMyAjaxStuff(fieldId, elBinding) {
+   // get the field we are working with
+   var inputField = document.getElementById(fieldId);
+   // get the URL from the form
+   var ajaxUrl = inputField.form.action;
+
+   var callback = function(results) {
+      // this function (callback) defines what to do 
+      // when the ajax response is received,
+      // the response will be placed in the &quot;results&quot; variable
+
+      // result.EL is a map of ELbinding -&gt; JS Object
+      var resultField = document.getElementById(&quot;result_field&quot;);
+      // get out the object (which is a string array in 
+      // this case) and decode it
+      var resultArray = RSF.decodeRSFStringArray(results.EL[elBinding]);
+      // output the array on the screen
+      resultField.innerHTML = resultArray;
+   }
+
+   // setup the function which initiates the AJAX request
+   var updater = RSF.getAJAXUpdater([inputField], ajaxUrl, [elBinding], callback);
+   // setup the input field event to trigger the ajax request function
+   inputField.onchange = updater; // send request when field changes
+}
+</pre>
+<ul><li><ul><li>Remember to add your <tt>my-app.js</tt> file to your template
+</li></ul></li></ul><pre>
+&lt;script type=&quot;text/javascript&quot; language=&quot;JavaScript&quot; src=&quot;../js/my-app.js&quot;&gt;&lt;/script&gt;
+</pre>
+<ul><li>In your producer, pass the UVB Producer URL into the DOM so that it can be accessed by your Javascript and used as the target for the AJAX request. In this example we are putting the URL in the form action:
+</li></ul><pre>
+UIForm form = UIForm.make(tofill, &quot;input_form&quot;);
+// this puts the URL to the UVB producer in the form so we can get to it
+form.viewparams = new SimpleViewParameters(UVBProducer.VIEW_ID);
+</pre>
+<ul><li>In your producer, use a <a class="wikipage" href="Wikif5e4.html?page=InitBlock">UIInitBlock</a> to pass the needed data (fieldIds, elBindings, etc.) from the producer (server) to the template javascript (client) while triggering the init method, in this example we are showing how to get the full ID of an RSF controlled field (first param) and also pass along an <a class="wikipage" href="Wiki2b2a.html?page=EL">EL</a> binding (second param)
+</li></ul><pre>
+  UIInput inputfield = UIInput.make(form, &quot;input_field&quot;, &quot;myAjaxBean.search&quot;);
+  UIInitBlock.make(tofill, &quot;init_js&quot;, &quot;initMyAjaxStuff&quot;, new Object[] {inputfield, &quot;myAjaxBean.results&quot;});
+</pre>
+<ul><li><ul><li>This init block will generate a Javascript call in the output XHTML that looks like:
+</li></ul></li></ul><pre>
+initMyAjaxStuff(&quot;input_field&quot;, &quot;myAjaxBean.results&quot;);
+</pre>
+<ul><li><ul><li>Note that if you really need for some reason to take control of the rendering of the Javascript call, you can instead use the RSF utility call <tt>HTMLUtil.emitJavascriptCall</tt> which is what the UIInitBlock renderer uses internally. However you are generally recommended not to mix the client-side and server-side worlds by explicitly bashing together Javascript code in Java, unless you absolutely need to.
+</li></ul></li></ul><ul><li>Create a bean which will do the processing when it receives the parameters from the AJAX request (this is just a standard bean), if you are sending more than one ajax request value then you will have to trigger the handleAjaxCall method in another way, see the <a class="wikipage" href="Wiki4509.html?page=SampleRSFApps">Sample RSF apps</a> for examples
+</li></ul><pre>
+public class AjaxHandlerBean {
+   public String search;
+
+   private String[] results;
+   public String[] getResults() {
+      handleAjaxCall();
+      return results;
+   }
+
+   public void handleAjaxCall() {
+      if (search == null || search.equals(&quot;&quot;)) {
+         // this should not happen so die here
+         throw new RuntimeException(&quot;Blank AJAX search&quot;);
+      } else {
+         // make an array of stuff to return
+         results = new String[] {search,&quot;aaron&quot;,&quot;is&quot;,&quot;totally&quot;,&quot;cool&quot;};
+      }
+   }
+}
+</pre>
+<ul><li>Add the AjaxHandlerBean definition to the <i>requestContext.xml</i> file
+</li></ul><pre>
+&lt;bean id=&quot;myAjaxBean&quot;
+      class=&quot;uk.org.ponder.rsf.ajax.autocomplete.AjaxHandlerBean&quot;&gt;
+&lt;/bean&gt;
+</pre>
+<ul><li>Add the id of your AJAX handler bean (myAjaxBean) to the list of <a class="wikipage" href="Wiki284f.html?page=RequestWriteableBean">request addressible beans</a>  (with requestAddressibleParent) in your <tt>applicationContext.xml</tt> file, this is needed so that UVB can write data into the the bean
+</li></ul><pre>
+&lt;bean parent=&quot;requestAddressibleParent&quot;&gt;
+   &lt;property name=&quot;value&quot; value=&quot;myAjaxBean&quot; /&gt;
+&lt;/bean&gt;
+</pre>
+<ul><li>You should be able to start up your application and change the field to trigger an AJAX request which should return an array from the server which has the search string in it (yes, completely pointless but it illustrates the cycle), then the value will be placed in the <tt>&lt;div&gt;</tt>
+</li></ul><h4 id="section-AJAX-WhatIfIJustWantToTriggerAMethodOnTheServerUsingAnAJAXRequestAndDoNotWantToPassAnyValues"> What if I just want to trigger a method on the server using an AJAX request and do not want to pass any values?<a class="hashlink" href="#section-AJAX-WhatIfIJustWantToTriggerAMethodOnTheServerUsingAnAJAXRequestAndDoNotWantToPassAnyValues">#</a></h4>
+<p>This is exactly the same as the code demonstrated above, just change the following:
+</p>
+<ul><li>Leave off the search property (<tt>public String search;</tt>) from the AJAX handler bean
+</li><li>Don't pass an inputField when calling the <i>emitJavascriptCall</i> method (only pass the <a class="wikipage" href="Wiki2b2a.html?page=EL">EL</a> binding)
+</li><li>Change the initMyAjaxStuff function to only use one param
+</li></ul><pre>function initMyAjaxStuff(elBinding) {</pre>
+<ul><li>Change the call to the getAJAXUpdater to leave out the input fields
+</li></ul><pre>var updater = RSF.getAJAXUpdater([], ajaxUrl, [elBinding], callback);</pre>
+<h4 id="section-AJAX-WhatIfIDonTCareAboutTheResultsOfTheAJAXRequest"> What if I don't care about the results of the AJAX request?<a class="hashlink" href="#section-AJAX-WhatIfIDonTCareAboutTheResultsOfTheAJAXRequest">#</a></h4>
+<p>This is exactly the same as the code demonstrated above, just change the following:
+</p>
+<ul><li>Do not bother returning a real result, just return empty string from the AJAX handler bean
+</li></ul><pre>
+public String getResults() {
+   handleAjaxCall();
+   return &quot;&quot;;
+}
+</pre>
+<ul><li>Change the callback method to not do anything <tt> var callback = function(results) { } </tt>, you may want to still check to see if there were failures during the call by looking at <tt>results.isError</tt>
+</li></ul><h4 id="section-AJAX-SampleApplication"> Sample application<a class="hashlink" href="#section-AJAX-SampleApplication">#</a></h4>
+There is a <a class="wikipage" href="Wiki4509.html?page=SampleRSFApps">sample RSF application</a> which demonstrates everything shown above in SVN at:
+<a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/AjaxAutocompleteSimple/">https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/AjaxAutocompleteSimple/</a><img class="outlink" src="images/out.png" alt="" />
+<p />
+<h3 id="section-AJAX-AJAXHandlerView"> AJAX handler view<a class="hashlink" href="#section-AJAX-AJAXHandlerView">#</a></h3>
+<h4 id="section-AJAX-SemanticAJAXOrXMLViews">&quot;Semantic&quot; AJAX, or XML views<a class="hashlink" href="#section-AJAX-SemanticAJAXOrXMLViews">#</a></h4>
+This will be the method that is most similar to the standard way AJAX is manually handled in a webpage, where there is no special framework support. It involves creating a <a class="external" href="http://saffron.caret.cam.ac.uk/projects/RSFUtil/apidocs/uk/org/ponder/rsf/view/ViewComponentProducer.html">view producer</a><img class="outlink" src="images/out.png" alt="" /> which will be the target for your AJAX requests and an xml template to control the layout. When this <a class="wikipage" href="Wikid407.html?page=ComponentProducer">producer</a> is triggered (by an AJAX request) it will (possibly) receive <a class="wikipage" href="Wikib32a.html?page=ViewParameters">ViewParameters</a> which contain the data being passed in (you are responsible for choosing how to encode and decode any data you are passing in your request). It will then work like a normal view producer and template combination and the data will be placed into the template based on the rsf:ids in the template. Then the XML will be sent back via an AJAX response. This requires the most manual work but provides for as much flexibility as you need. In this case your producer should implement <tt><a class="external" href="http://saffron.caret.cam.ac.uk/projects/RSFUtil/trunk/site/apidocs/uk/org/ponder/rsf/content/ContentTypeReporter.html">ContentTypeReporter</a><img class="outlink" src="images/out.png" alt="" /></tt> and return the value <tt><a class="external" href="http://saffron.caret.cam.ac.uk/projects/RSFUtil/trunk/site/apidocs/uk/org/ponder/rsf/content/ContentTypeInfoRegistry.html">ContentTypeInfoRegistry.AJAX</a><img class="outlink" src="images/out.png" alt="" /></tt>. Give your template a <tt>.xml</tt> extension. In views like this you will generally use the components <a class="wikipage" href="Wikiac49.html?page=PrimitiveComponents">UIOutput</a>, <tt>UIVerbatim</tt> and <tt>UIBranchContainer</tt>.
+<h4 id="section-AJAX-MarkupDrivenAJAXOrHTMLViews">Markup-driven AJAX, or HTML views<a class="hashlink" href="#section-AJAX-MarkupDrivenAJAXOrHTMLViews">#</a></h4>
+It is also very easy to create a view rendering an HTML fragment, for use with an <a class="external" href="http://en.wikipedia.org/wiki/AHAH">AHAH</a><img class="outlink" src="images/out.png" alt="" /> strategy. Simply create a template for the markup fragment you want, and write a producer using all the usual RSF <a class="wikipage" href="Wikiac49.html?page=PrimitiveComponents">components</a>. For views like this you will implement <tt><a class="external" href="http://saffron.caret.cam.ac.uk/projects/RSFUtil/trunk/site/apidocs/uk/org/ponder/rsf/content/ContentTypeReporter.html">ContentTypeReporter</a><img class="outlink" src="images/out.png" alt="" /></tt> and return the value <tt><a class="external" href="http://saffron.caret.cam.ac.uk/projects/RSFUtil/trunk/site/apidocs/uk/org/ponder/rsf/content/ContentTypeInfoRegistry.html">ContentTypeInfoRegistry.HTML_FRAGMENT</a><img class="outlink" src="images/out.png" alt="" /></tt>
+<h4 id="section-AJAX-CustomResponses">Custom responses<a class="hashlink" href="#section-AJAX-CustomResponses">#</a></h4>
+For stepping outside the RSF rendering system completely, you can register a custom request handler using a <a class="wikipage" href="Wikid2ba.html?page=HandlerHook">HandlerHook</a> - this can render any kind of response at all, since it takes manual control of the <tt>HttpServletResponse</tt> or other environment. The drawback of this approach is that your application will not be portable to non-Servlet environments.
+<h3 id="section-AJAX-AJAXFrameworks"> AJAX frameworks<a class="hashlink" href="#section-AJAX-AJAXFrameworks">#</a></h3>
+<p>RSF fully supports the use of <a class="external" href="http://en.wikipedia.org/wiki/Ajax_framework">AJAX frameworks</a><img class="outlink" src="images/out.png" alt="" /> and has been tested with the following frameworks:
+</p>
+<ul><li><a class="external" href="http://jquery.com/">jQuery</a><img class="outlink" src="images/out.png" alt="" />
+</li><li><a class="external" href="http://www.dojotoolkit.org/">Dojo Toolkit</a><img class="outlink" src="images/out.png" alt="" />
+</li><li><a class="external" href="http://developer.yahoo.com/yui/">Yahoo! UI Library (YUI)</a><img class="outlink" src="images/out.png" alt="" /> - used in the RSF data picker widget
+</li></ul><i>Other frameworks should work fine with RSF, we just have not tested them</i>
+<p>If the framework allows you to construct your own AJAX requests then you can use the UVB shortcut and simply pass the data back to the framework once UVB gives you the AJAX response. If not, then you will have to make as AJAX handler view to process the requests from your framework (the framework would then handle the responses for you). This is often an attractive option as it takes the most advantage of the AJAX framework but it does require extra work.
+</p>
+<p>We recommend you avoid AJAX frameworks that <a class="external" href="http://www.ajaxprogrammer.com/?p=24">pollute the global namespace</a><img class="outlink" src="images/out.png" alt="" /> or <a class="external" href="http://phrogz.net/JS/Classes/ExtendingJavaScriptObjectsAndClasses.html">extend the core Javascript objects</a><img class="outlink" src="images/out.png" alt="" />. Using frameworks like this will cause your app to not play nicely in portlet environments or other environments where the javascript ends up being shared between apps. Unfortunately, this includes any frameworks that use <a class="external" href="http://www.prototypejs.org/">prototype</a><img class="outlink" src="images/out.png" alt="" /> (more info on the <a class="external" href="http://www.prototypejs.org/learn/extensions">prototype extensions</a><img class="outlink" src="images/out.png" alt="" />.
+</p>
+<h2 id="section-AJAX-JQueryUsageNote">jQuery usage note<a class="hashlink" href="#section-AJAX-JQueryUsageNote">#</a></h2>
+I (jmarca) have found that jQuery does not like the ids that are generated automatically by RSF.  As noted in the <a class="external" href="http://docs.jquery.com/Frequently_Asked_Questions#How_do_I_select_an_element_that_has_weird_characters_in_its_ID.3F">jQuery FAQ</a><img class="outlink" src="images/out.png" alt="" />, jQuery chokes on characters that have a meaning in CSS, as it uses <a class="external" href="http://docs.jquery.com/Selectors">CSS selectors</a><img class="outlink" src="images/out.png" alt="" /> to do some fancy DOM searching.  To prove this, I put the following code in my javascript.  In the example, &quot;formId&quot; is created more or less following the <a class="external" href="http://www2.caret.cam.ac.uk/rsfwiki/Wiki.jsp?page=LogonTest_2">LogonTest example</a><img class="outlink" src="images/out.png" alt="" />
+<pre>
+ constructorFn.initLogin=function(formId) {
+   // get the field we are working with
+   var loginForm  = jQuery(&quot;#&quot;+formId);
+   var bechity    = jQuery(&quot;#login-not-logged-in-pane::login-form&quot;);
+   var bechityboo = jQuery(&quot;#login-not-logged-in-pane\\:\\:login-form&quot;);
+    ...
+</pre>
+<p>If you run this in Firefox with Firebug enabled, you will see the following output as you step over these lines:
+</p>
+<p><img class="inline" src="attach/AJAX/screenshot.png" alt="screenshot.png" />
+</p>
+<p>I don't know how to solve this problem in Java, but my Javascript solution is as follows:
+</p>
+<pre>
+ constructorFn.initLogin=function(formId) {
+    // jQuery chokes on colons
+    var formIdNoColon = formId.replace(/(\:)/g,&quot;\\$1&quot;);
+    // get the field we are working with
+    var loginForm = jQuery(&quot;#&quot;+formIdNoColon);
+    ...
+</pre>
+
+
+
+
+
+
+
+        
+  </div>
+
+
+  
+
+  
+  <div id="attach" class="hidetab" >
+
+    
+
+
+
+
+
+
+
+
+
+
+<div id="addattachment">
+<h3>Add new attachment</h3>
+
+
+<div class="formhelp">Only authorized users are allowed to upload new attachments.</div>
+
+</div>
+
+
+
+<h3>List of attachments</h3>
+
+  
+
+  
+
+  <div class="zebra-table"><div class="slimbox-img sortable">
+  <table class="wikitable">
+    <tr>
+      <th>Kind</th>
+      <th>Attachment Name</th>
+      <th>Size</th>
+      <th>Version</th>
+      <th>Date Modified</th>
+      <th>Author</th>
+      
+      <th class="changenote">Change note</th>
+    </tr>
+
+    
+    
+    <tr>
+      <td><div id="attach-png" class="attachtype">png</div></td>
+      <td><a class="attachment" href="attach/AJAX/screenshot.png" accesskey="" title="screenshot.png">screenshot.png</a></td>
+      <td style="white-space:nowrap;text-align:right;">
+        25.3&nbsp;kB
+      </td>
+      <td style="text-align:center;">
+        <a href="PageInfo0e52.html?page=AJAX/screenshot.png" title="Attachment info and version history">1</a>
+      </td>
+	  <td style="white-space:nowrap;" sortvalue="Tue, 18 Mar 2008 04:11:35">
+	  18-Mar-2008 16:11
+	  </td>
+      <td><a class="wikipage" href="Wiki9e17.html?page=JamesMarca">JamesMarca</a></td>
+      
+      <td class="changenote">
+      
+      </td>
+    </tr>
+    
+
+  </table>
+  </div></div>
+
+
+
+  </div>
+
+  
+    
+  <div id="info" class="hidetab" >
+
+  </div>
+
+    
+  
+
+<div style="clear:both;" ></div>
+</div>
+
+      
+
+
+
+
+
+
+
+<div id='actionsBottom' class="pageactions"> 
+    
+
+    <a href="#top" 
+      class="action quick2top" 
+      title="Go to top" >&laquo;</a>
+
+    
+       This page (revision-) was last changed on <a href="Diff6e25.html?page=AJAX&amp;r1=-1&amp;r2=1">18-Aug-2008 08:22</a> by UnknownAuthor
+    
+
+    
+
+   
+
+  
+
+   
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div id="favorites">
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="Login0667.html?redirect=AJAX" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="UserPreferences0667.html?redirect=AJAX"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+  
+  <div id="hiddenmorepopup">
+  <ul id="morepopup">
+     
+       	
+     
+       
+     
+    
+       
+     
+       <li>
+       
+       <a class="action rawpage wikipage" 
+               href="Wiki5a5b.html?page=AJAX&amp;skin=raw"
+              title="View Page Source">View Page Source
+       </a>
+       
+       
+       </li>
+      
+        
+  
+      
+      
+      
+
+      
+	  <li class='separator'>
+        <div id="moremenu" ></div>
+      </li>
+  </ul>
+  </div>
+  
+  
+
+  
+
+  
+
+  
+  <div class="leftmenu">
+    <p><a class="wikipage" href="Wikib2ab.html?page=Main">Main page</a><br />
+<tt> </tt><i><a class="wikipage" href="Wiki4d3f.html?page=ThisWiki">About</a></i><br />
+</p><p><a class="wikipage" href="Wikid6f0.html?page=GettingStarted">Getting Started</a><br />
+</p>
+<p><b>Documentation</b><br />
+<tt> </tt><a class="wikipage" href="Wiki4c8c.html?page=Developers">Developers</a><br />
+<tt>  </tt><a class="wikipage" href="Wikib1ce.html?page=Javadocs">Javadocs</a><br />
+<tt> </tt><a class="wikipage" href="Wikia56b.html?page=Designers">Designers</a><br />
+<tt> </tt><a class="wikipage" href="Wiki4509.html?page=SampleRSFApps">Sample RSF Apps</a><br />
+<tt> </tt><a class="wikipage" href="Wikif010.html?page=Presentations">Presentations</a><br />
+<tt> </tt><a class="wikipage" href="Wiki45f9.html?page=Acronyms">Acronyms</a><br />
+</p>
+<p><b>Downloads</b><br />
+<tt> </tt><a class="wikipage" href="Wiki30c9.html?page=CurrentCode">Current Release</a><br />
+<tt> </tt><a class="wikipage" href="Wiki0e27.html?page=TrunkCode">Trunk</a><br />
+<tt> </tt><a class="wikipage" href="Wiki1a8d.html?page=CodeDistributions">Distributions</a><br />
+<tt> </tt><a class="wikipage" href="Wikiadaf.html?page=OldCode">Old Versions</a><br />
+</p>
+<p><b>Community</b><br />
+<tt> </tt><a class="wikipage" href="Wiki84f4.html?page=QampA">Q&amp;A</a><br />
+<tt> </tt><a class="external" href="http://ponder.org.uk/rsf/">Forums</a><img class="outlink" src="images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="Wikif345.html?page=EmailLists">Mailing Lists</a><br />
+<tt> </tt><a class="external" href="http://www.caret.cam.ac.uk/jira/browse/RSF">Issue Tracker</a><img class="outlink" src="images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="Wiki1535.html?page=People">People</a><br />
+</p>
+<p><b>Design</b><br />
+<tt> </tt><a class="wikipage" href="Wiki580c.html?page=Roadmap">Roadmap</a><br />
+<tt> </tt><a class="wikipage" href="Wiki654d.html?page=Integrations">Integrations</a><br />
+<tt> </tt><a class="wikipage" href="Wikia360.html?page=Concepts">Concepts</a><br />
+<tt> </tt><a class="wikipage" href="Wiki151d.html?page=Philosophy">Philosophy</a><br />
+</p>
+<div style="font-style:italic;font-size:0.8em;">
+<b>Pages</b><br />
+<tt> </tt><a class="wikipage" href="Wiki702d.html?page=FindPage">Find</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5fc7.html?page=RecentChanges">Recent Changes</a><br />
+<tt> </tt><a class="wikipage" href="Wikife97.html?page=UnusedPages">Unused</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5130.html?page=UndefinedPages">Undefined</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5f9e.html?page=PageIndex">Index</a>
+</div>
+<p />
+    
+  </div>
+  
+  <div class="leftmenufooter">
+    <hr />
+<p><b>Referenced by</b><br />
+<a class="wikipage" href="Wikid989.html?page=Javascript">Javascript</a><br /><a class="wikipage" href="Wikib2ab.html?page=Main">Main</a><br /><a class="wikipage" href="Wikicce8.html?page=PureXHTMLTemplating">PureXHTMLTemplating</a><br /><a class="wikipage" href="Wikib91f.html?page=RSF">RSF</a><br /><a class="wikipage" href="Wiki4509.html?page=SampleRSFApps">SampleRSFApps</a><br /><a class="wikipage" href="Wiki4d13.html?page=UniversalViewBus">UniversalViewBus</a><br />
+</p>
+    
+  </div>
+
+  
+
+  
+  
+  <div class="wikiversion">JSPWiki v2.8.2
+  <span class="rssfeed">
+    
+  </span>
+  </div>  
+  
+</div>
+
+	<div class="clearbox"></div>
+  </div>
+
+  
+
+
+
+
+
+ 
+<div id="footer">
+
+  <div class="applicationlogo" > 
+    <a href="Wikib2ab.html?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  <div class="copyright"></div>
+
+  <div class="wikiversion">
+    JSPWiki v2.8.2
+  </div>
+
+  <div class="rssfeed">
+    
+  </div>
+
+</div>
+
+</div>
+
+</body>
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Wiki.jsp?page=AJAX by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 14:43:17 GMT -->
+</html>
+

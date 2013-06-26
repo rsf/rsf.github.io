@@ -1,0 +1,35 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+[JSF|http://java.sun.com/j2ee/javaserverfaces/index.jsp] (Java Server Faces) is currently promoted by Sun Microsystems as the new standard technology for developing webapps in Java. RSF in fact started out life as a humble JSF utility library (JSFUtil), based on some examples from Chapter 15 of [Hans Bergsten|http://HansBergsten.com]'s book, Java Server Faces.
+
+JSF contained a number of exciting new ideas, and promised sufficient configurability in the framework that would allow it to be adaptible to different idioms, if the components found by Sun were found insufficient. However, in practice these promises were found not to be delivered, and each good idea in JSF was obscured by such poor architecture and execution as to virtually negate its value.
+
+In trying to work with JSF then, the JSFUtil library eventually expanded to take over more and more its functions, while trying to preserve as many as possible of its core value points - genericity, flexibility, portability. One day, faced with a particularly difficult reskinning requirement, it became clear that the only sensible course was to abandon JSF entirely. 
+
+Probably the best way to explain why it was that JSF must be abandoned is to quote (my side of) an email dialog with Hans Bergsten, who asked whether it might not have been better for RSF to continue by being built on JSF. Highlights of this are presented on the [JSFandRSFHistory] page.
+
+RSF as it stands now I believe rescues all of the &quot;key value points&quot; of JSF as I see them, which I've summarised here to save readers wading through the whole &quot;History&quot; page:
+
+JSF key value points:
+
+* Introduction of the idea of an &quot;abstract&quot; component tree insulating framework users from the target idiom (HTML, WAP, XUL, whatever) 
+* Increased cementing of the idea begun in JSPs of a pure &quot;bean&quot; model, potentially defined framework-free by developers which is poked by abstract &quot;EL&quot; paths. 
+* The use of &quot;bindings&quot; attached to components which represented an association of UI values to model values. 
+* The idea of an &quot;action&quot; binding which invoked an abstract application-defined action with a String result, which was then interpreted by a layer of indirection. 
+* Beginning to become &quot;portal-ready&quot; by separating Action URLs from Resource URLs &amp;c. 
+
+Together with these value points, RSF adds everything else that is good - a ''fully'' pure HTML templating system, thoroughgoing IoC architecture throughout the framework supplied by Spring, and a return to native HTTP idioms, with statelessness enshrines as the default. It's also a lot easier to use.
+
+You also have to wonder why, if JSF is so good, Sun don't use it to render their own website.
+
+</pre>
+

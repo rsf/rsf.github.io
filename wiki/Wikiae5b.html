@@ -1,0 +1,19 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+An important driving &quot;taste&quot; behind RSF development is that &quot;session state&quot; is a completely inappropriate scope for storage since it violates browser semantics. The only semantically valid use of a session is to represent the authentication state of a user at a single machine, although perhaps people will append with other ideas. In RSF there are essentially only two scopes - request scope and application scope. State handling is discussed in more detail in a [separate article|State].
+
+Here is an article by the [RIFE team|http://rifers.org/wiki/display/RIFE/Acceptable+session+support] which argues along the same lines. [RIFE continuations|RIFEContinuations] are a prime candidate for being integrated into RSF as a flow mapping technology.
+
+There is one valuable service, however, that a &quot;session&quot; concept can allow, which is to allow early server cleanup. Should the user or other client successfully manage to signal some kind of &quot;session ending event&quot;, precious server state that would otherwise linger for perhaps hours can be cleared out, aiding both security and efficiency. However, since one cannot rely on either users or other clients to certainly signal this event, the whole of RSF should be able to proceed correctly and tolerably efficiently without it. There is a plan for &quot;session ending&quot; support of this sort in future versions of RSF, but it is right now fairly distant.
+
+</pre>
+

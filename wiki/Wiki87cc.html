@@ -1,0 +1,120 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!! RSF Javascript Library
+
+RSF includes a javascript library (rsf.js) as an optional component (part of the RSFComponents package). You can [download the latest version of this library|https://saffron.caret.cam.ac.uk/svn/projects/RSFComponents/trunk/templates/src/webapp/content/js/rsf.js] directly but it is easier to simply include the [latest RSFComponents package|https://saffron.caret.cam.ac.uk/svn/projects/RSFComponents/trunk/] in your application.
+
+!! Using the RSF javascript library
+* First you need to ensure the library will be available in your app
+* You have 2 options
+** __Option 1:__ (Preferred) Use maven to include the library by adding this to your project.xml or pom.xml 
+{{{
+&lt;dependency&gt;
+	&lt;groupId&gt;uk.org.ponder.rsfutil&lt;/groupId&gt;
+	&lt;artifactId&gt;RSFComponents-templates&lt;/artifactId&gt;
+	&lt;version&gt;${rsfutil.version}&lt;/version&gt;
+	&lt;type&gt;war&lt;/type&gt;
+&lt;/dependency&gt;
+}}}
+** __Option 2:__ You can manually copy the rsf.js file into a __js__ directory at the same level as your __content__ directory
+* Then you will need to include the library in your template like so (using the default RSF application structure):
+{{{
+&lt;script type=&quot;text/javascript&quot; language=&quot;JavaScript&quot; src=&quot;../js/rsf.js&quot;&gt;&lt;/script&gt;
+}}}
+* Now you can call various methods in the __RSF.__ AJAX namespace
+** All functions are contained within the RSF. namespace to avoid polluting the global namespace
+
+!! Key methods in the RSF javascript library
+
+! getAJAXUpdater
+
+__Summary:__
+Allows a developer to create a method that will trigger an AJAX request when it is called and then send the response to another function so they can define what should happen with the response.\\
+__Return:__ a function which can be executed safely at any point and will generate an AJAX request\\
+__Parameters:__ 
+* inputFields (array) - an array of javascript objects which contain the data you want to send in the AJAX request to the UVB, this should be the actual objects and not ids, this cannot not be null but it can be an empty array in the case where we do not want to send any data and only want to use the ajax request as a trigger for server side processing
+* ajaxUrl (string) - this is the URL to the page where the AJAX request will be sent, when using UVB, this should be passed into the page so that it can be picked up from the form.
+There are many acceptable ways to do this, but for example, this would go in your producer to set the form action to the address of the built in UVB producer: 
+{{{
+form.viewparams = new SimpleViewParameters(UVBProducer.VIEW_ID);
+}}} 
+And this would go in your template (or even better, your .js file) to get the URL out of the form:
+{{{
+var ajaxUrl = inputField.form.action; // get the URL from the form
+}}}
+* elBindings (array) - an array of strings which indicate an EL path for the UVB producer to get results of the AJAX request, this is the RSF [EL] to a request bean method which returns some data which the UVB producer will turn into XML and then send back as an AJAX response, effectively this calls a method on a bean and the returns the XML encoded version of whatever data that method returns
+* callback (function) - a function which defines what to do when the ajax response is received, the response will be placed in the first parameter as a javascript object (results) which holds the response data, the response is encoded into a structure to make it easy to get data out:
+%%(margin-left:2em;)
+| results.EL | map of elBinding =&gt; text value returned from the request model (will be encoded if it is an array)
+| restuls.message | map of target =&gt; text for any TargettedMessages generated during the request cycle
+| resutls.isError | true if the request is in error (exception or error message generated during processing), false otherwise
+For example:
+{{{
+var callback = function(results) {
+   // result.EL is a map of ELbinding -&gt; JS Object
+   var resultField = document.getElementById(&quot;result_field&quot;);
+   // get out the object (which is a string array in this case) and decode it
+   var resultArray = RSF.decodeRSFStringArray(results.EL[elBinding]);
+   resultField.innerHTML = resultArray; // dump the JS array contents into a div
+}
+}}}
+%%
+__Example:__ 
+{{{
+function initMyAjaxStuff(fieldId, elBinding) {
+   // get the field we are working with
+   var inputField = document.getElementById(fieldId);
+   // get the URL from the form
+   var ajaxUrl = inputField.form.action;
+
+   var callback = function(results) {
+      // this function (callback) defines what to do 
+      // when the ajax response is received,
+      // the response will be placed in the &quot;results&quot; variable
+
+      // result.EL is a map of ELbinding -&gt; JS Object
+      var resultField = document.getElementById(&quot;result_field&quot;);
+      // get out the object (which is a string array in 
+      // this case) and decode it
+      var resultArray = RSF.decodeRSFStringArray(results.EL[elBinding]);
+      // output the array on the screen
+      resultField.innerHTML = resultArray;
+   }
+
+   // setup the function which initiates the AJAX request
+   var updater = RSF.getAJAXUpdater([inputField], ajaxUrl, [elBinding], callback);
+   // setup the input field event to trigger the ajax request function
+   inputField.onkeyup = updater; // for when the user is typing in the field
+   inputField.onchange = updater; // for when they copy and paste
+}
+}}}
+
+! decodeRSFStringArray
+
+__Summary:__ Allows a developer to process returned encoded string data from RSF UVB which represents an array. Should only be used when the data is encoded as it will fail on non-encoded data.\\
+__Return:__ a javascript array object with the contents of original array\\
+__Parameters:__ 
+* encodedString - a string returned from the UVB which was an array in Java and has been encoded, the encoding looks like: {{3:5:aaron2:is4:cool}}, the first number is the number of items in the array, all other numbers are the text size of the array item in the encoded string followed by &quot;:&quot; and the value
+__Example:__ 
+{{{
+var resultField = document.getElementById(&quot;result_field&quot;);
+// decode the string array into a real javascript array
+var resultArray = RSF.decodeRSFStringArray(results.EL[elBinding]);
+// set the contents of a div to the first thing in the array
+resultField.innerHTML = resultArray[0];
+}}}
+
+!! What about the rest?
+You can look at the rsf.js file to find out what other methods are included or post on the forums if you are using a method and it is confusing and should be documented.
+
+</pre>
+

@@ -1,0 +1,42 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+%%( background-color: #c0c0c0; border: 1px dotted black; padding: 0.2em; font-size: 200%; text-align: center)
+--= OLD=--
+%%
+
+%%( background-color: #c0c0c0; text-align: center)
+This page predates the release of RSF 0.6 - whilst any reasoning here is probably still roughly valid, specific descriptions of the way RSF does things are probably not valid. The page may be left here either as a historical note, and/or because it refers to a part of RSF that no longer bears this name. Read it with caution.
+%%
+
+!!!Dead beans and Hibernate
+
+As suggested in the [BeanReasonableness] page and elsewhere, the original goal for RSF was to be able at some point during the request cycle to declare the request writeable bean model as POJOs and have our way with them. Unfortunately it seems that Hibernate, at least, will not support this model, at least via any public functionality I can see, since
+* If an object is attached to a session, ANY query of a lazy property or collection will trigger the load of it, and
+* If an object is detached, any query of a lazy property or collection that has not ALREADY been queried and loaded will cause an exception.
+
+This implies it will be impossible to apply any straightforward serialization procedure to the contents of the request writeable bean model at any time, and we will have to adopt an even more minimal approach to requirements placed on beans before.
+
+In order to implement [multi-request state|MultiRequestState], we need some way to carry state from request to request, preferably not through keeping connections or sessions open which is unacceptable in a high-throughput environment. Also the use and/or expectation of [long transactions|LongTransactions] in the bean model is too much of a burden to put on all users, and Ian reports these may be unreliable/destructive for some reason. But more, they place limits on server memory since they again rely on the presence of unserializable objects in memory.
+
+!!New idea (14th October)
+
+The new idea for implementing [MRSA] is to make use of the already present [RequestSubmittedValueCache] inside the [TRS]. As you recall, this in effect represents a sort of &quot;log&quot; of user activity throughout the request, and consists of data in a perfectly harmless form. If instead we preserve ''this'' rather than trying to preserve the bean model, we may simply accumulate to it during a multi-request cycle, with at each new view &quot;replaying&quot; the log so far in order to generate the identical[1] bean state that prevailed at the end of the last request.
+
+In this way we now have an ''utterly'' clean set of bean requirements that state that the bean model will be poked ONLY via [EL] and the [DARApplier] in response to user requests, and will CERTAINLY be thrown away at the end of each request, which would seem to be the most minimal restrictions on bean providers that are possible.
+
+The other upshot of this is that there are more demands than ever for the EL and reflective system to be highly efficient, which would seem to be quite achievable since they are all under our control since the [SAXalizer] &quot;debacle&quot;. On the other hand it should be borne in mind that the length of RSVC &quot;log&quot; that will be replayed during a wizard is limited by the number of UI ''CHANGES'' that the user could physically have made, much less than the maximum editable user state presented per view.
+
+----
+[#1] Of course excluding the possibility that there has been some change to the underlying persistent state addressed by one of the previous requests. However, recall that on the one hand, the RSVC only records values CHANGED by the user via the UI, and so if the persistent change is orthogonal to the user's change, he should simply see this reflected in the current UI. If the persistent change overlaps completely and is overwritten by the user's change, the users current request will silently overwrite it as occuring later, should he submit later (we could easily build in a version exception here if required, since note that the RSVC __DOES__ record the value of the field as seen by the user at request init which we could compare). Finally, in the awful case where the persistent change invalidates some dependent piece of state that the user's current request depends on, it is entirely reasonable to expect the bean model to throw some form of exception - in fact it is quite liable that it will throw anyway. This set of guarantees, which is essentially limited only by the bean provider's &quot;reasonable&quot; diligence, is far better than you are likely to get from JSF with client saving, for example, which could corrupt persistent state arbitrarily in the case of concurrent modification.
+
+</pre>
+

@@ -1,0 +1,29 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+%%( background-color: #c0c0c0; border: 1px dotted black; padding: 0.2em; font-size: 200%; text-align: center)
+--= OLD=--
+%%
+
+%%( background-color: #c0c0c0; text-align: center)
+This page predates the release of RSF 0.6 - whilst any reasoning here is probably still roughly valid, specific descriptions of the way RSF does things are probably not valid. The page may be left here either as a historical note, and/or because it refers to a part of RSF that no longer bears this name. Read it with caution.
+%%
+
+(Obsolete page - consult [Flows|Flow] instead)
+
+A &quot;Multi-Request&quot; is a sequence of POST operations (i.e. requests with the potential to modify persistent state) issued by the user that collaborate to construct a &quot;unit of work&quot; that should either be committed or rolled back as a unit. The most common idiom for requiring a Multi-Request is a &quot;wizard&quot;, a sequence of related dialog boxes which the user is guided through in a linear fashion to build up a combined request. The user should at any time be able to &quot;cancel&quot; the wizard, leaving no change to the persistent state since the start, but should &quot;see&quot; themselves at intermediate times to be within a &quot;transactional&quot; state whereby their changes have actually been reflected. 
+
+RSF does ''not'' in essence define a separate type of scope to handle Multi-Requests, but instead chains together the state-altering potential of each individual request scope by amalgamating the individual alteration operations, which are tracked using tokens assigned to each view participating in the Multi-Request.
+
+Like most things in RSF, the strategy for this should not be something that concerns the general user, but those who need a more thorough grasp of the conventions and mechanisms should refer to the pages on [Multi-Request State Architecture|MultiRequestState], and on [State] in general.
+
+</pre>
+

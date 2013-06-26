@@ -1,0 +1,947 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html id="top" xmlns="http://www.w3.org/1999/xhtml">
+
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=LogonTest_2&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+    RSF Wiki: LogonTest_2
+  </title>
+  
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" media="screen, projection, print" type="text/css"
+     href="templates/default/jspwiki.css"/>
+
+<link rel="stylesheet" type="text/css" media="print" 
+     href="templates/default/jspwiki_print.css" />
+<!-- INCLUDERESOURCES (stylesheet) -->
+
+<!-- INCLUDERESOURCES (inlinecss) -->
+
+
+
+<noscript>
+<style type="text/css">
+#hiddenmorepopup { display:block; }
+</style>
+</noscript>
+
+
+<script type="text/javascript" src="scripts/mootools.js"></script>
+<script type="text/javascript" src="scripts/prettify.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-common.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-commonstyles.js"></script>
+<!-- INCLUDERESOURCES (script) -->
+
+
+
+
+
+<meta name="wikiContext" content='diff' />
+<meta name="wikiBaseUrl" content='http://rsf.fluidproject.org/wiki/' />
+<meta name="wikiPageUrl" content='/wiki/Wiki.jsp?page=%23%24%25' />
+<meta name="wikiEditUrl" content='/wiki/Edit.jsp?page=LogonTest_2' />
+<meta name="wikiJsonUrl" content='/wiki/JSON-RPC' />
+<meta name="wikiPageName" content='LogonTest_2' />
+<meta name="wikiUserName" content='207.119.0.6' />
+<meta name="wikiTemplateUrl" content='/wiki/templates/default/' />
+<meta name="wikiApplicationName" content='RSF Wiki' />
+
+<script type="text/javascript">//<![CDATA[
+/* Localized javascript strings: LocalizedStrings[] */
+var LocalizedStrings = {
+"javascript.edit.allsections":"( All )",
+"javascript.slimbox.error":"<h2>Error</h2>There was a problem with your request.<br />Please try again",
+"javascript.slimbox.remoteRequest":"Remote Request {0} of {1}",
+"javascript.slimbox.close":"Close &#215;",
+"javascript.quick.edit":"[Edit]",
+"javascript.sort.descending":"Descending order. Click to reverse sort order",
+"javascript.expand":"Click to expand",
+"javascript.group.validName":"Please provide a valid name for the new Group",
+"javascript.slimbox.next":"Next&raquo;",
+"javascript.filter.all":"( All )",
+"javascript.edit.areyousure":"Without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.quick.edit.title":"Edit section {0}...",
+"javascript.slimbox.directLink":"Direct Link to the target",
+"javascript.prefs.areyousure":"Without clicking the Save User Preferences button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.sbox.clone.suffix":"-New",
+"javascript.slimbox.info":"Image {0} of {1}",
+"javascript.tip.default.title":"More...",
+"javascript.edit.resize":"Drag to resize the text area",
+"javascript.edit.findandreplace.nomatch":"No match found!",
+"javascript.sort.ascending":"Ascending order. Click to reverse sort order",
+"javascript.slimbox.close.title":"Close [Esc]",
+"javascript.edit.toolbar.makeSelection":"Please make first a selection.",
+"javascript.favs.hide":"Click to hide Favorites",
+"javascript.sectionediting.label":"Section Overview",
+"javascript.slimbox.previous":"&laquo;Previous",
+"javascript.favs.show":"Click to show Favorites",
+"javascript.collapse":"Click to collapse",
+"javascript.category.title":"Click to show category [{0}] ...",
+"javascript.sort.click":"Click to sort",
+"javascript.edit.startOfPage":"( Start of page )"
+};
+
+
+/* INCLUDERESOURCES (jsfunction) */
+
+//]]></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="search" href="Wiki702d.html?page=FindPage"
+    title='Search RSF Wiki' />
+<link rel="help"   href="Wikia3b7.html?page=TextFormattingRules"
+    title="Help" />
+
+ <link rel="start"  href="Wikib2ab.html?page=Main"
+    title="Front page" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki_print.css"
+    title="Print friendly" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki.css"
+    title="Standard" />
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+<link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  
+    <meta name="robots" content="noindex,nofollow" />
+  
+  
+    <meta name="robots" content="noindex,follow" />
+  
+</head>
+
+<body class="view">
+
+<div id="wikibody" class="fav-left">
+ 
+  
+
+
+
+
+
+
+<div id="header">
+
+  <div class="titlebox"></div>
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=LogonTest_2" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=LogonTest_2"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+
+  <div class="pagename">LogonTest_2</div>
+
+  <div class="searchbox">
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Search.jsp"
+        class="wikiform"
+           id="searchForm" accept-charset="UTF-8">
+
+  <div style="position:relative">
+  <input onblur="if( this.value == '' ) { this.value = this.defaultValue }; return true; "
+        onfocus="if( this.value == this.defaultValue ) { this.value = ''}; return true; "
+           type="text" value="Quick Navigation"
+           name="query" id="query"
+           size="20" 
+      accesskey="f" />
+  <button type="submit"
+  		 name="searchSubmit" id="searchSubmit"
+  		value="Go!"
+  		title="Go!"></button>
+  </div>
+  <div id="searchboxMenu" style='visibility:hidden;'>
+    <div id="searchTools">
+      <a href="#" id='quickView' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Wiki.jsp?page=__PAGEHERE__','View the selected page' );"
+        title="View the selected page">view</a>
+      <a href="#" id='quickEdit' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__','Edit the selected page' );"
+        title="Edit the selected page">edit</a>
+      <a href="#" id='quickClone' class='action'	
+      onclick="return SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__', 'Clone the selected page', true );"
+        title="Clone the selected page">clone</a>
+      <a href="#" id="advancedSearch" class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Search.jsp?query=__PAGEHERE__','LogonTest_2' )"
+        title="Advanced Search [ f ]">find</a>
+    </div>
+    <div id="searchResult" >
+	  Quick search
+      <span id="searchTarget" >(type ahead)</span>
+      <span id="searchSpin" class="spin" style="position:absolute;display:none;"></span>
+	  <div id="searchOutput" ></div>
+    </div>
+    <div id="recentSearches" style="display:none;">
+      Recent Searches
+      <span><a href="#" id="recentClear">(Clear)</a></span>
+    </div>
+  </div>
+
+</form></div>
+
+  <div class="breadcrumbs">Your trail:&nbsp;<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UserNameTag">UserNameTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ValueBinding">ValueBinding</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VariableTag">VariableTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VeryLazyBeans">VeryLazyBeans</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewID">ViewID</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewRender">ViewRender</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogEntryPlugin">WeblogEntryPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogPlugin">WeblogPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WikiFormsExampleText">WikiFormsExampleText</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=XPP">XPP</a></div>
+
+</div>
+
+  <div id="content">
+
+    <div id="page">
+      
+
+
+
+
+
+<div id="actionsTop" class="pageactions"> 
+  <ul>
+
+    
+    
+    
+
+    
+    <li id="morebutton">
+      <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=MoreMenu" class="action more">More...</a>
+    </li>
+
+  </ul>
+</div>
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="tabmenu">
+
+  
+
+  
+
+  
+  
+
+  
+
+  <a id="menu-pagecontent" href='http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_2' accesskey="v" ><span class='accesskey'>V</span>iew</a>
+
+  <a id="menu-attach" accesskey="a" ><span class='accesskey'>A</span>ttach</a>
+
+  
+  <a class="activetab" id="menu-info" accesskey="i" ><span class='accesskey'>I</span>nfo</a>
+
+  </div>
+<div class="tabs">
+
+  <div id="pagecontent" class="hidetab" >
+
+      
+  </div>
+
+
+  <div id="attach" class="hidetab" >
+
+    
+
+
+
+
+
+
+
+
+
+
+<div id="addattachment">
+<h3>Add new attachment</h3>
+
+
+<div class="formhelp">Only authorized users are allowed to upload new attachments.</div>
+
+</div>
+
+
+
+  </div>
+
+
+  
+  <div id="info" >
+
+  <p>
+  This page (revision-1) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=LogonTest_2&amp;r1=-1&amp;r2=1"
+        title="Show changes of last page update" >
+        20-Dec-2007 00:08
+      </a> by UnknownAuthor
+
+  
+  </p>
+
+  
+
+  
+  
+      <p>Only authorized users are allowed to rename pages.</p>
+  
+
+  
+  
+      <p>Only authorized users are allowed to delete pages.</p>
+  
+
+  <div class="collapsebox-closed" id="incomingLinks">
+  <h4>Incoming links</h4>
+    <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_2" accesskey="" title="">LogonTest_2</a>
+    <ul><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest">LogonTest</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_1">LogonTest_1</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_3">LogonTest_3</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UIBranchContainer">UIBranchContainer</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewParameters">ViewParameters</a>
+</li></ul>
+  </div>
+
+  <div class="collapsebox-closed" id="outgoingLinks">
+  <h4>Outgoing links</h4>
+    <div class="ReferredPagesPlugin">
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_2" title="ReferredPagesPlugin: depth[1] include[.*] exclude[^$] format[compact]">LogonTest_2</a>
+<ul>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Bindings">Bindings</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ComponentProducer">ComponentProducer</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=IDs">IDs</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=IKAT">IKAT</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Level1Error">Level1Error</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest">LogonTest</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest/rsf-logon-demo.png">LogonTest/rsf-logon-demo.png</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest/rsf-logon-demo2.png">LogonTest/rsf-logon-demo2.png</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_1">LogonTest_1</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_3">LogonTest_3</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ParachuteRendering">ParachuteRendering</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ScopedBeans">ScopedBeans</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UIBranchContainer">UIBranchContainer</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Wicket">Wicket</a></li>
+</ul>
+</div>
+
+  </div>
+
+  <div class="clearbox"></div>
+
+  
+  
+     
+
+
+
+
+
+
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Diff.jsp" method="get" accept-charset="UTF-8">
+<div class="collapsebox" id="diffcontent">
+  <h4>
+       <input type="hidden" name="page" value="LogonTest_2" />
+       Difference between version <select id="r1" name="r1" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select> and <select id="r2" name="r2" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select>
+  </h4>
+
+  
+
+  <div class="diffbody">
+    <table class="diff" border="0" cellspacing="0" cellpadding="0">
+<tr><td class="diff">At line 1 added 177 lines</td></tr>
+<tr><td class="diffadd">!!! Front page view</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Having worked out the framework-free definitions for the business function of our app[1], we need to define a view that will let the user interact with it. Since I am so rotten at HTML (ironic, given how strongly RSF is pitched towards unlocking the latent power of a world of expert HTML developers), we will use a simple {{table}}-based view, with a logon control at the right, and a panel at the left that will display different state depending on whether the user is logged in or not. This will form an RSF view with a [viewId|IDs] of {{logon}}. The complete [ViewProducer|ComponentProducer] is held in SVN [here|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/RSFLogon/src/java/uk/org/ponder/rsf/testlogon/producers/LogonProducer.java] for reference - we will look at the code piece by piece.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!Logon control</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Firstly, the logon control itself - note that since this has the request-scope {{LogonBean}} injected, this entire view producer needs to be declared at request scope in {{requestContext.xml}}.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public class LogonProducer implements ViewComponentProducer, DefaultView {</td></tr>
+<tr><td class="diffadd">  private LogonBean logonbean;</td></tr>
+<tr><td class="diffadd">  public void setLogonBean(LogonBean logonbean) {</td></tr>
+<tr><td class="diffadd">    this.logonbean = logonbean;</td></tr>
+<tr><td class="diffadd">  }</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd"> public void fillComponents(UIContainer tofill, ViewParameters viewparamso,</td></tr>
+<tr><td class="diffadd">      ComponentChecker arg2) {</td></tr>
+<tr><td class="diffadd">    if (logonbean.name == null) {</td></tr>
+<tr><td class="diffadd">      UIBranchContainer.make(tofill, &quot;content-not-logged-in-pane:&quot;);</td></tr>
+<tr><td class="diffadd">      UIBranchContainer notlogged = UIBranchContainer.make(tofill,</td></tr>
+<tr><td class="diffadd">          &quot;login-not-logged-in-pane:&quot;);</td></tr>
+<tr><td class="diffadd">      UIForm form = UIForm.make(notlogged, &quot;basic-form&quot;);</td></tr>
+<tr><td class="diffadd">      UIInput.make(form, &quot;login-user&quot;, &quot;#{logon.name}&quot;);</td></tr>
+<tr><td class="diffadd">      UIInput.make(form, &quot;login-password&quot;, &quot;#{logon.password}&quot;);</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">      UICommand.make(form, &quot;login-login&quot;, null, &quot;#{logonAction.logon}&quot;);</td></tr>
+<tr><td class="diffadd">    }</td></tr>
+<tr><td class="diffadd">...</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The first {{make}} line simply emits a [branch container|UIBranchContainer] (named &quot;{{content-not-logged-in-pane:}}&quot;) to show some generic static content in the left content pane when the user is not logged in. The rest of the logic above builds up the controls for the login panel, for which the HTML (from {{logon.html}}) is as follows:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">    &lt;div rsf:id=&quot;login-not-logged-in-pane:&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;form action=&quot;#&quot; rsf:id=&quot;basic-form&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;table&gt;</td></tr>
+<tr><td class="diffadd">      &lt;tr&gt;</td></tr>
+<tr><td class="diffadd">        &lt;td&gt;User ID:&lt;/td&gt;</td></tr>
+<tr><td class="diffadd">        &lt;td&gt;&lt;input type=&quot;text&quot; rsf:id=&quot;login-user&quot;&gt;&lt;/input&gt;&lt;/td&gt;</td></tr>
+<tr><td class="diffadd">      &lt;/tr&gt;</td></tr>
+<tr><td class="diffadd">      &lt;tr&gt;</td></tr>
+<tr><td class="diffadd">        &lt;td style=&quot;padding-top: 5px&quot;&gt;Password:&lt;/td&gt;</td></tr>
+<tr><td class="diffadd">        &lt;td style=&quot;padding-top: 5px&quot;&gt;&lt;input type=&quot;password&quot;</td></tr>
+<tr><td class="diffadd">          rsf:id=&quot;login-password&quot;&gt;&lt;/input&gt;&lt;/td&gt;</td></tr>
+<tr><td class="diffadd">      &lt;/tr&gt;</td></tr>
+<tr><td class="diffadd">      &lt;tr&gt;</td></tr>
+<tr><td class="diffadd">        &lt;td&gt;&lt;input type=&quot;submit&quot; value=&quot;Log on&quot;</td></tr>
+<tr><td class="diffadd">          rsf:id=&quot;login-login&quot; /&gt;&lt;/td&gt;</td></tr>
+<tr><td class="diffadd">      &lt;/tr&gt;</td></tr>
+<tr><td class="diffadd">    &lt;/table&gt;</td></tr>
+<tr><td class="diffadd">    &lt;/form&gt;</td></tr>
+<tr><td class="diffadd">    &lt;/div&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">An important point to note here is how RSF does not require any kind of &quot;custom control&quot; to deal with the hidden password which is backing {{login-password}}. Given the enormous power of [parachute rendering|ParachuteRendering] supplied by [IKAT], we can simply write this control in standard HTML ({{&lt;input type=&quot;password&quot;&gt;}}) and rely on IKAT not to destroy it, unlike the renderers of all other frameworks. It's this sort of ability that leads to the extremely low requirements for new RSF components at the renderer level. Reusable RSF &quot;components&quot; are instead mostly defined at the [ViewProducer|ComponentProducer] level as will now see.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!Logoff control - a custom RSF &quot;component&quot;</td></tr>
+<tr><td class="diffadd">Whilst the logon control can only appear at the front page, we imagine that the logout control will be repeated throughout our hypothetical app. Whilst other frameworks would require us to create some kind of &quot;component&quot; for this, implementing some blasted framework interface and conforming to its crazed lifecycle semantics &amp;c, in RSF this &quot;unit of reusable UI space&quot; is simply a normal Spring bean. Since we are injecting it into a known set of consumers, we are free to give it any interface we like, so long as it can be passed the correct container to place its controls. In fact, since we are not imagining any substitutability for this &quot;component&quot; right now, we will not bother to give it any interface at all, but simply inject it concretely. It would be very easy to alter this somewhat crass design decision later - enter {{LogoffProducer}}:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public class LogoffProducer {</td></tr>
+<tr><td class="diffadd">  public void fillComponents(UIContainer tofill, String username) {</td></tr>
+<tr><td class="diffadd">    UIBranchContainer logged = UIBranchContainer.make(tofill,</td></tr>
+<tr><td class="diffadd">        &quot;login-loggedin-pane:&quot;);</td></tr>
+<tr><td class="diffadd">    UIOutput.make(logged, &quot;login-user&quot;, username);</td></tr>
+<tr><td class="diffadd">    UIForm form = UIForm.make(logged, &quot;basic-form&quot;);</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">    UICommand logoff = UICommand.make(form, &quot;login-logoff&quot;);</td></tr>
+<tr><td class="diffadd">    // rather than just clear the fields from &quot;LogonBean&quot;, completely remove</td></tr>
+<tr><td class="diffadd">    // its storage from the session.</td></tr>
+<tr><td class="diffadd">    logoff.parameters.add(new UIDeletionBinding(&quot;#{destroyScope.logonScope}&quot;));</td></tr>
+<tr><td class="diffadd">  }</td></tr>
+<tr><td class="diffadd">}</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The interesting part of this producer is the [deletion binding|Bindings] which is attached to the &quot;log off&quot; button - this will clear the contents of {{logonScope}} (which is only our {{logonBean}}, declared above) from the session state. See the explanation of RSF [scoped beans|ScopedBeans] for more details.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The only context required for this bean to operate in addition to the target container is the {{LogonBean}} containing the name of the currently logged on user, and so it requires no Spring configuration and may be declared in {{applicationContext.xml}}[2]</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  &lt;bean id=&quot;logoffProducer&quot;</td></tr>
+<tr><td class="diffadd">    class=&quot;uk.org.ponder.rsf.testlogon.producers.LogoffProducer&quot; /&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!Logged on view</td></tr>
+<tr><td class="diffadd">If the user is logged on successfully, as well as being shown the logoff control above, they will be shown some different content in the left pane of this view (this is the end of the body from {{LogonProducer}}:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">    else {</td></tr>
+<tr><td class="diffadd">      UIBranchContainer pane = UIBranchContainer.make(tofill,</td></tr>
+<tr><td class="diffadd">          &quot;content-logged-in-pane:&quot;);</td></tr>
+<tr><td class="diffadd">      UIInternalLink.make(pane, &quot;waleslink&quot;, new SimpleViewParameters(</td></tr>
+<tr><td class="diffadd">          WalesFrameProducer.VIEW_ID));</td></tr>
+<tr><td class="diffadd">      logoffproducer.fillComponents(tofill, logonbean.name);</td></tr>
+<tr><td class="diffadd">    }</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The only non-static content of the left pane is a link to a 2nd page of our app, that can only be shown by a logged on user. </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">[LogonTest/rsf-logon-demo.png]</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!A second view</td></tr>
+<tr><td class="diffadd">The link in the above branch leads to a &quot;protected&quot; view (with ID {{wales}}) that can only be seen by authenticated users. The producer for this view will have the same {{LogonBean}} instance injected into it as the logon view, demonstrating that the bean value has been persisted across the requests:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  &lt;bean id=&quot;walesFrameProducer&quot;</td></tr>
+<tr><td class="diffadd">    class=&quot;uk.org.ponder.rsf.testlogon.producers.WalesFrameProducer&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;logonBean&quot; ref=&quot;logon&quot; /&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/bean&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">This view will actually be an HTML ''frameset'' which will display the contents of an external URL in the left pane, together with the same logoff control we wrote earlier in the right pane. Much like the hidden password control above, this view again shows off why it is that RSF requires so few dedicated framework-level components - rather than a bulky or even impossible UIFrameset and UIFrame control, we can render these controls again with the standard [UILink] or [UIInternalLink] together with [parachute rendering|ParachuteRendering]. These controls will actually peer with any HTML component which holds a single URL, for example {{&lt;a&gt;}}, {{&lt;img&gt;}}, {{&lt;script&gt;}}, {{&lt;frame&gt;}} etc. </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The frameset consists of only one non-static link, so the producer looks as follows:</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public class WalesFrameProducer implements ViewComponentProducer {</td></tr>
+<tr><td class="diffadd">  public static final String VIEW_ID = &quot;walesframe&quot;;</td></tr>
+<tr><td class="diffadd">  private LogonBean logonbean;</td></tr>
+<tr><td class="diffadd">  public String getViewID() {</td></tr>
+<tr><td class="diffadd">    return VIEW_ID;</td></tr>
+<tr><td class="diffadd">  }</td></tr>
+<tr><td class="diffadd">  </td></tr>
+<tr><td class="diffadd">  public void setLogonBean(LogonBean logonbean) {</td></tr>
+<tr><td class="diffadd">    this.logonbean = logonbean;</td></tr>
+<tr><td class="diffadd">  }</td></tr>
+<tr><td class="diffadd">  </td></tr>
+<tr><td class="diffadd">  public void fillComponents(UIContainer tofill, ViewParameters viewparams, ComponentChecker checker) {</td></tr>
+<tr><td class="diffadd">    if (logonbean.name == null) {</td></tr>
+<tr><td class="diffadd">      throw new SecurityException(&quot;Cannot view page 'wales' while not logged on&quot;);</td></tr>
+<tr><td class="diffadd">    }</td></tr>
+<tr><td class="diffadd">    else {</td></tr>
+<tr><td class="diffadd">      UIInternalLink.make(tofill, &quot;wales&quot;, new SimpleViewParameters(WalesProducer.VIEW_ID));</td></tr>
+<tr><td class="diffadd">    }</td></tr>
+<tr><td class="diffadd">  }</td></tr>
+<tr><td class="diffadd">}</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Note that as well as rendering the single link with [RSF ID|IDs] {{wales}}, this producer also performs a security check. If the user is not logged on, an exception is thrown, which by default will cause a [redirect|Level1Error] to the default view.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The core HTML for the frameset looks like this:</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">&lt;html xmlns:rsf=&quot;http://ponder.org.uk.rsf&quot;&gt;</td></tr>
+<tr><td class="diffadd">&lt;head&gt;</td></tr>
+<tr><td class="diffadd">&lt;title&gt;Llywelyn the Last - Prince of Wales&lt;/title&gt;</td></tr>
+<tr><td class="diffadd">&lt;/head&gt;</td></tr>
+<tr><td class="diffadd">&lt;frameset cols=&quot;80%, 20%&quot;&gt;</td></tr>
+<tr><td class="diffadd">  &lt;frame src=&quot;http://www.castlewales.com/llywel2.html&quot;/&gt;</td></tr>
+<tr><td class="diffadd">  &lt;frame src=&quot;wales.html&quot; rsf:id=&quot;wales&quot;/&gt;</td></tr>
+<tr><td class="diffadd">&lt;/frameset&gt;</td></tr>
+<tr><td class="diffadd">&lt;/html&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">[LogonTest/rsf-logon-demo2.png]</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!Logoff action - getting maximum value from RSF defaults</td></tr>
+<tr><td class="diffadd">It's worth noticing that we declared no navigation rules for the command links in the {{LogoffProducer}} above. Having seen the code inside {{WalesFrameProducer}}, we can see that we have been a little slimy, in allowing default RSF semantics to do the work for us. The default navigation semantics for a command link will cause a redirect to the same view. However, a rendering of this same view after we have logged off will throw the {{PermissionException}} we just saw earlier. And the default RSF semantics for an exception thrown from a ViewProducer are to cause a redirect to the default view. All of these reasonable defaults conspire to give us the behaviour we would want without any work - when the user logs off, they will be automatically redirected to the logon page on the default view.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!Test it out</td></tr>
+<tr><td class="diffadd">Take the app for a test drive (install by editing {{project.properties}} to point to your webapp container, type {{maven}} for the project and it will auto-install). Log in to the right panel with user {{Edward}} and password {{Longshanks}} and you will see the content change in the left pane. You can then use the navigation link in the content pane to take you to the protected frameset, and then log off to be redirected to the default view.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Although our app appears to perform well, it could be better designed in a few respects. In particular in the next section we will see that it suffers from a serious security issue.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">----</td></tr>
+<tr><td class="diffadd">Head   - [LogonTest|LogonTest]\\</td></tr>
+<tr><td class="diffadd">Page 1 - [Core Business logic|LogonTest_1]\\</td></tr>
+<tr><td class="diffadd">Page 2 - Defining the views\\</td></tr>
+<tr><td class="diffadd">Page 3 - [Digging deeper - BeanGuards and Bracketers|LogonTest_3]\\</td></tr>
+<tr><td class="diffadd">----</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">----</td></tr>
+<tr><td class="diffadd">%%( font-size: 80%)</td></tr>
+<tr><td class="diffadd">[#1]Such as they are - since we're only interested in showing how the logon functionality itself can be implemented, the only app logic that is &quot;protected&quot; by the password is simply showing some web content.\\</td></tr>
+<tr><td class="diffadd">[#2]Actually since it has no dependencies we ''could'' go further and simply construct this producer using {{new}} where it was required, but this would be the sort of ''extremely bad style'' that would only be recommended by the designers of non-IoC based frameworks such as [Wicket]. Just because we can see that {{LogoffProducer}} has no dependencies ''now'' doesn't mean that it will have none in the future, and any additional ones it requires may be added silently in the Spring file and in its definition without disturbing the code in any of its consumers. This is the feature that leads apps designed using Spring and RSAC to be ''far more stable'' in the face of change than those built without IoC in mind, as well as being more testable and easier to understand.</td></tr>
+<tr><td class="diffadd">%%</td></tr>
+<tr><td class="diffadd"></td></tr>
+</table>
+ 
+  </div>
+</div>
+</form>
+
+  
+  
+
+	
+    
+    
+
+    
+
+    <div class="zebra-table sortable table-filter">
+    <table class="wikitable" >
+      <tr>
+        <th>Version</th>
+        <th>Date Modified</th>
+        <th>Size</th>
+        <th>Author</th>
+        <th>Changes ...</th>
+        <th class='changenote'>Change note</th>
+      </tr>
+
+      
+      
+      <tr>
+        <td>
+          <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_2&amp;version=-1" accesskey="" title="">
+            
+          </a>
+        </td>
+
+	    <td style="white-space:nowrap;" sortvalue="Thu, 20 Dec 2007 12:08:01">
+        20-Dec-2007 00:08
+        </td>
+        <td style="white-space:nowrap;text-align:right;">
+          
+          11.588&nbsp;kB
+        </td>
+        <td>UnknownAuthor</td>
+
+        <td>
+          
+
+          
+        </td>
+
+         <td class="changenote">
+           
+           
+         </td>
+
+      </tr>
+      
+      
+
+    </table>
+    </div>
+    
+    
+  </div>
+
+
+  <div style="clear:both;" ></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+<div id='actionsBottom' class="pageactions"> 
+    
+
+    <a href="#top" 
+      class="action quick2top" 
+      title="Go to top" >&laquo;</a>
+
+    
+       This page (revision-) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=LogonTest_2&amp;r1=-1&amp;r2=1">20-Dec-2007 00:08</a> by UnknownAuthor
+    
+
+    
+
+   
+
+  
+
+   
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div id="favorites">
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=LogonTest_2" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=LogonTest_2"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+  
+  <div id="hiddenmorepopup">
+  <ul id="morepopup">
+     
+       	
+     
+       
+     
+    
+       
+     
+       <li>
+       
+       <a class="action rawpage wikipage" 
+               href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_2&amp;skin=raw"
+              title="View Page Source">View Page Source
+       </a>
+       
+       
+       </li>
+      
+        
+  
+      
+      
+      
+
+      
+	  <li class='separator'>
+        <div id="moremenu" ></div>
+      </li>
+  </ul>
+  </div>
+  
+  
+
+  
+
+  
+
+  
+  <div class="leftmenu">
+    <p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main">Main page</a><br />
+<tt> </tt><i><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ThisWiki">About</a></i><br />
+</p><p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=GettingStarted">Getting Started</a><br />
+</p>
+<p><b>Documentation</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Developers">Developers</a><br />
+<tt>  </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Javadocs">Javadocs</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Designers">Designers</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SampleRSFApps">Sample RSF Apps</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Presentations">Presentations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Acronyms">Acronyms</a><br />
+</p>
+<p><b>Downloads</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CurrentCode">Current Release</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=TrunkCode">Trunk</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CodeDistributions">Distributions</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=OldCode">Old Versions</a><br />
+</p>
+<p><b>Community</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=QampA">Q&amp;A</a><br />
+<tt> </tt><a class="external" href="http://ponder.org.uk/rsf/">Forums</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=EmailLists">Mailing Lists</a><br />
+<tt> </tt><a class="external" href="http://www.caret.cam.ac.uk/jira/browse/RSF">Issue Tracker</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=People">People</a><br />
+</p>
+<p><b>Design</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Roadmap">Roadmap</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Integrations">Integrations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Concepts">Concepts</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Philosophy">Philosophy</a><br />
+</p>
+<div style="font-style:italic;font-size:0.8em;">
+<b>Pages</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=FindPage">Find</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RecentChanges">Recent Changes</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UnusedPages">Unused</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UndefinedPages">Undefined</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PageIndex">Index</a>
+</div>
+<p />
+    
+  </div>
+  
+  <div class="leftmenufooter">
+    <hr />
+<p><b>Referenced by</b><br />
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest">LogonTest</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_1">LogonTest_1</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_3">LogonTest_3</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UIBranchContainer">UIBranchContainer</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewParameters">ViewParameters</a><br />
+</p>
+    
+  </div>
+
+  
+
+  
+  
+  <div class="wikiversion">JSPWiki v2.8.2
+  <span class="rssfeed">
+    
+  </span>
+  </div>  
+  
+</div>
+
+	<div class="clearbox"></div>
+  </div>
+
+  
+
+
+
+
+
+ 
+<div id="footer">
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  <div class="copyright"></div>
+
+  <div class="wikiversion">
+    JSPWiki v2.8.2
+  </div>
+
+  <div class="rssfeed">
+    
+  </div>
+
+</div>
+
+</div>
+
+</body>
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=LogonTest_2&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:19 GMT -->
+</html>

@@ -1,0 +1,23 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The inverse of the &quot;integrations&quot; page, this area discusses various ways in which RSF can be taken to pieces. Since RSF has a completely modular bean-driven architecture, it is quite easy to take some of its components and use them in a standalone context - closing the circle, this often helps with &quot;integrations&quot; where components have to work in sometimes hostile hosting environments.
+
+The principal usage styles run like this:
+
+* [Using IKAT as a templating system|IKAT] The IKAT rendering system is just a bunch of beans and is not (in general) tied to the RSF request cycle or infrastructure. If you restrict yourself to &quot;output-only&quot; controls such as UIOutput and UISelect you can use IKAT for template processing (like [Velocity|http://velocity.apache.org/] for example) by just setting up the appropriate bean environment.
+
+* [Using RSAC to control request logic|RSACByItself] RSAC is not tied to either RSF or the javax.HttpServlet infrastructure, and so can be used to cleanly construct lightweight/short-lived Spring-like IOC contexts, either to control request logic, or to set up &quot;little environments&quot; for running IKAT/ORM. [RSACBeanLocator] is just a normal Spring bean and so each component can configure its own.
+
+* [Using RSF-style ORM|RSFORMByItself] This isn't quite such a clear win case, but could be productive in certain scenarios. Like Spring-Hibernate, RSF-Hibernate tries to remove the dependence on Hibernate in user code, but can go a little further in removing couple code as a result of having [RSAC]. The key points of RSF ORM are i) the use of RSAC to inject query results into request beans, ii) the [OTP] system, and iii) use of an AlterationWrapper (another request-scope bean) to centralise commit/rollback logic in one bean.
+
+</pre>
+

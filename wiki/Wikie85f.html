@@ -1,0 +1,53 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+RSF's scoped beans are actually perfectly normal [request-scoped beans|RequestScopeBeans], but who are copied into some longer term storage (such as the HTTP session) at the end of a request. These beans are automatically restored at the beginning of each RSF request cycle if they are present. If they are not present in the storage, the corresponding request-scope bean is initialised with the normal Spring semantics - i.e. its {{init-method}} will be called, if any, &amp;c. For a scoped bean restored from storage, the only framework action for this cycle will be to deliver into it any request-scope dependencies declared for it in the {{requestContext.xml}} file. 
+
+In the default HTTP/Servlet configuration, these beans are stored in the HTTP Session, although in other RSF environments this will transparently adjust to using whatever kind of Session is appropriate (PortletSession for the JSR-168 environment, SakaiSession for Sakai, etc.).
+
+If you want more control over where your scoped beans are stored, you may implement your own [TokenStateHolder] which will place them elsewhere (in a database table, for example). This is why these beans have been called simply, &quot;scoped beans&quot;, rather than &quot;session scoped beans&quot; as they might have, in other, less abstracted frameworks.
+
+! Difference to Flow Beans 
+
+RSF's scoped beans are complementary to its [flow|Flow]-scoped beans. Whilst these are actually stored in the same [TokenStateHolder] ({{flowTokenStateHolder}}), their lifetimes behave quite differently. Whilst a flow-scoped bean has its lifetime (in the session) tied to a linked set of requests forming a flow, a scoped bean simply hangs around in its storage until it is explicitly destroyed by a call to the {{ScopedBeanManager}} for its scope. This makes them more suitable for non-request-related storage uses such as logon information, shopping carts and the like, rather than flow-scoped beans which are more useful for the intermediate storage of multi-page wizards, or games/tests.
+
+Note that you may not declare the same bean to be a flow bean and a scoped bean at the same time!
+
+!Example
+
+To declare a new bean scope, simply make a definition like the following at application scope, deriving from the standard framework parent bean {{beanScopeParent}}
+{{{
+  &lt;bean id=&quot;myBeanScope&quot; parent=&quot;beanScopeParent&quot;&gt;
+    &lt;property name=&quot;copyPreservingBeans&quot; value=&quot;mybean1, mybean2&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+
+This example declares a new bean scope named {{myBeanScope}} that manages the scope of two request-scope beans named {{mybean1}} and {{mybean2}}. You will need to have given {{mybean1}} and {{mybean2}} separate definitions in request scope, together with any dependencies they may require to contextualise them for the current request (probably none, since scoped beans usually have the purpose of storing state, not logic - however, you may be an O-O purist :P)
+
+Note that since all [RSAC] beans are by default [lazy|VeryLazyBeans], these beans will not be initialised (nor stored in the session) until their first use in a request. Once they are initialised for any request, they will hang around indefinitely, with the lifetime given by the [TokenStateHolder] (as standard, the HTTP session), or until they are deallocated by you, whichever happens first.
+
+!Destroying beans in a scope
+
+When you want to deallocate your scoped beans (from their backing storage), you have two main choices. Firstly, you may directly inject the {{ScopedBeanManager}} bean you defined above into your {{ViewProducer}}, under the interface {{BeanDestroyer}}, and call its {{destroy()}} method. This is not really recommended since it mixes application logic with view logic.
+
+A more sound method is to issue a [deletion binding|Bindings] targetted at the scope manager via [EL]. In general you will want this binding to be attached to a particular [UICommand] control which performs an action associated with clearing the state (such as logging off, or emptying a shopping cart, etc.). 
+
+For example,
+{{{
+  UICommand logoff = UICommand.make(form, &quot;login-logoff&quot;);
+  logoff.parameters.add(new UIDeletionBinding(&quot;#{destroyScope.myBeanScope}&quot;));
+}}}
+
+{{destroyScope}} is a standard RSF &quot;EL machine&quot; that does the work of invoking the destroy method on the appropriate scope manager. In this case, it destroys beans in the scope &quot;myBeanScope&quot; that we declared earlier. Note however that though we say it &quot;destroys the beans&quot;, this action will ''not affect your application logic in any way''. All that &quot;destruction&quot; means in this case is that the relevant beans be removed from the backing storage (e.g. Session), and not persisted at the end of the current request. Therefore, any effects from the destruction will not be seen until subsequent requests.
+
+
+</pre>
+

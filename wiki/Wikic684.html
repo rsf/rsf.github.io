@@ -1,0 +1,63 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The RSACBridgeProxy is an absolutely invaluable architectural device for bridging between request scope and application scope. At an early stage during the invention of [RSAC], it became somewhat dismayingly apparent that the natural endpoint of a [request scope|RequestScopeBeans] design was to consist almost ''entirely'' of request-scope beans - since it is seemingly impossible to make a bean with a dependency which has a shorter scope than oneself. Much like &quot;const&quot;-ness in C++, &quot;request-scopeness&quot; would ripple outwards through a design, infecting probably the majority of a webapp's logic by placing it into the request scope.
+
+In an &quot;ideal&quot; world this wouldn't be too much of a problem - unfortunately while [RSAC] is fast, it is not ''that'' fast - with a ThreadLocal get running at 60ns, while an RSAC bean construction at perhaps 20x that, the request-time cost mounts up quite quickly. While having ''some'' RSACed beans becomes indispensable in terms of the design benefits they bring, being forced to have the ''majority'' of request-scope logic defined in them would be a real liability.
+
+AOP to the rescue. Spring since its very earliest days has defined a very generalised framework, under the banner [AOPAlliance|http://aopalliance.sourceforge.net/] for bytecode manipulation, proxying, and &quot;Aspect-Oriented Programming&quot; of various kinds. While I'm still very much at odds with Aspects as a design principle, when used for proxying and stubbing of these kinds of AOP can be absolutely invaluable as an ''optimisation''. RSF will also upgrade itself to use a similar scheme, [FastClass] for its internal reflection shortly.
+
+The basic idea of RSACBridgeProxy is quite simple - it is an application-scope bean that &quot;masquerades as&quot; (i.e. is a proxy for) different request-scope beans when accessed from different requests. By provided RSAC architecture (and I think any feasible one) a request is bound to a particular ''thread'', which guides the [RSACBeanLocator] to find the relevant container of request-scope beans.
+
+RSF provides a useful parent bean definition, also called {{RSACBridgeProxy}} that makes defining a bridge proxy bean as simple as possible - all you do is provide the name of the target request-scope bean as a property as follows:
+
+{{{
+  &lt;bean id=&quot;RSACSafeBeanLocatorProxy&quot; parent=&quot;RSACBridgeProxy&quot;&gt;
+    &lt;property name=&quot;targetBeanName&quot; value=&quot;RSACSafeBeanLocator&quot; /&gt;
+  &lt;/bean&gt;
+}}}
+
+Some caveats with bridged beans:
+
+* Naturally you must be careful only to access methods of bridged beans while actually executing in a proper request scope - otherwise you will simply trigger a creation exception. 
+* The cost of ''each access'' (i.e. method call) to a bridged bean is magnified by a ThreadLocal get and several other method calls incurred inside the proxy. Be aware of this when costing up your architecture.
+* You may not proxy [Peas] in this way - be aware that you will simply find default values when looking at the fields of any proxied bean, either in code or in the debugger! This is precisely the defined behavior - the proxy is a CGLib-synthesised class ''derived'' from the expected class or interface which has been default-constructed, holding a reference to the context whereby the real bean may be located dynamically via Spring's TargetSource's {{getTarget}} method.
+* However, you may proxy peas using a special mode of the RSACBridgeProxy - this is explained on its own page on [PeaProxies|PeaProxy].
+
+But the uses of this technique are quite fruity - for example, another RSF definition is as follows:
+
+{{{
+[ at request scope]
+  &lt;bean id=&quot;httpSession&quot; factory-bean=&quot;httpServletRequest&quot; factory-method=&quot;getSession&quot;/&gt;
+[ at application scope]
+ &lt;bean id=&quot;httpSessionProxy&quot; parent=&quot;RSACBridgeProxy&quot;&gt;
+    &lt;property name=&quot;targetBeanName&quot; value=&quot;httpSession&quot;&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+[ in code ]
+public class InSessionTSH implements TokenStateHolder {
+private HttpSession session;
+
+  public void setSession(HttpSession session) {
+    this.session = session;
+  }
+}}}
+
+Yes, a properly IoC-delivered proxy for the HttpSession, delivered over massive code distances into a bean which isn't even request-scope! Use this ability sparingly since it can cause considerable confusion - but in general is an elegant and clean solution to a quite knotty problem.
+
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

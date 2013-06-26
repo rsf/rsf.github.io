@@ -1,0 +1,53 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+NB - this page contains mainly historical reflections on a particular aspect of RSF architecture. I will try to refactor it to separate out the historical and current parts, but it touches in general on an interesting and fundamental part of the RSF philosophy and practice, so it is worth skimming through if you are that way inclined.
+
+----
+The ObstinateMap first appeared during various attempts to coerce JSF to directly use a [reasonable|BeanReasonableness] bean model as its direct request scope bean model. This was prompted by the observation that the default {{javax.beans.*}} introspector was capable of recognising a Map-valued property which would then &quot;masquerade&quot; as an object, with the [EL] path component at that point representing a key to the map, with the resulting property value being taken from the value of the map[1].
+
+The idea is for the root of the request bean scope as well (or even instead of) as containing some plain value beans, to be populated with [&quot;bean locators&quot;|BeanLocators], which were essentially representations of the ''entire'' data model of the app masquerading as very big maps, with the keys being some form of unique string, perhaps a database key. This aids [BeanReasonableness] in that now the identity of a request scope bean is completely unambiguous, even if beans with the same paths in different request scopes temporarily have different values as a result of pending changes. The value of this kind of reasonableness on app coherency is incalculable... 
+
+In order to get this to work correctly with JSF, a special kind of map was needed that would simply refuse to disgorge anything that might inadvertently cause the entire datamodel to be loaded, as JSF would frequently attempt on discovering anything implementing {{java.util.Map}}. Hence the ObstinateMap was created, which is still enshrined in the [PonderUtilCore] library, which as a first pass would serve as a &quot;trip-wire&quot; by throwing exceptions to show the location within JSF code where some dangerous operation was attempted, but would ultimately behave &quot;minimally&quot; with respect to them by divulging only the key/value pairs that had previously been requested using get/put.
+
+!! Fast EL
+This approach was abandoned in favour of the &quot;Fast [EL]&quot; architecture which is still present in RSF (carried over from the days of JSFUtil), since it was just too awkward to persuade the JSF bean architecture to wire a dependency ''from'' the action-invoking bean ''to'' the (different for every request) state-holding bean. In RSFUtil, Fast EL has been upgraded to solve this task even more fully by wiring the relevant object reference directly. Put simply, it was a &quot;fast track&quot; for some EL parameters to be bound earlier than others, in order to inform a bean of its intended identify before values were applied to it. The &quot;Fast EL&quot; architecture of JSFUtil was almost abandoned in the transition to RSFUtil as a gross [BeanReasonableness], but it was discovered that it could even be improved by accepting EL as the 'r-value' as well as an 'l-value'.
+
+!! BeanLocators
+A return to the original plan for the ObstinateMap is now planned - but since we are now in full control of the manipulation of the request writeable bean model, there is no real need for such caution in Maps, although it should be noted that the {{java.util.Map}} interface is so unnecessarily huge that there is still some value in having a wrapper for it like this. However, since we DO have full control over the EL evaluator, the approach taken will probably be to adopt a new interface, probably simply the BeanGetter interface from PonderUtilCore. 
+
+{{{
+public interface BeanGetter {
+  public Object getBean(String beanname);
+}
+}}}
+This is the minimum necessary abstraction, that of getting a bean. setBean() will not be implemented in this interface because of the somewhat unusual semantics behind entity creation in most ORM solutions, which require a full round-trip to the database before the ID of an object can be assigned. Instead, we will adopt &quot;placeholder IDs&quot; for objects under fresh construction and continue to use getBean() - e.g. application EL can safely refer to paths of the form 
+{{{ beanlocator.['new bean-1'].property1 }}}
+in a particular request scope and be sure to be consistently referring to an entity not yet created until the (possibly [multi-request|MultiRequest]) transaction is committed at some later time.
+
+Together with the reflection on [DeadBeans], which removes any need to be &quot;shadowing&quot; the client's data model while it is being built up, once again the ObstinateMap dies a death, to slumber in the Attic where dead code dreams...
+
+
+----
+[#1] Note that since the map key might in general be a string containing invalid characters for a Java property name (in particular containing some dots itself) this require(d/s) the extended EL syntax 
+
+{{{
+  #{beanname.['invalid property.name as Java'].property2}
+}}}
+
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

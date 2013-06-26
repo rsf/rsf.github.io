@@ -1,0 +1,71 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!! Universal View Bus
+
+The Universal View Bus (UVB) is a standard &quot;view&quot; (new in [RSF] 0.7) that supports a generalised [AJAX] strategy. The idea is that for a large class of logic-enabled clients ([AJAX] in particular, and operating a &quot;semantic&quot; as opposed to an [AHAH|http://en.wikipedia.org/wiki/AHAH] or &quot;markup&quot; strategy) the UVBView is the only view they will require. 
+
+__NOTE:__ If you are looking for instructions on using RSF, AJAX, and UVB then you want the [AJAX] page.
+
+!! UVB in detail
+
+Those familiar with the RSF form submission process will realise that it already represents a kind of &quot;generalised web service&quot; where ''any'' [bindings|Bindings] may be issued and processed by the RSF request cycle. All that needs to be completed by the UVB is to allow the client to select a set of bindings which are to be ''read back'' in the resulting view - in a sense the client dynamically &quot;invents&quot; its own view based on the request values which it is interested in.
+
+The complete template for the UVBView is as follows:
+{{{
+&lt;root&gt;
+  &lt;value rsf:id=&quot;:&quot;&gt;Value&lt;/value&gt;
+  &lt;value rsf:id=&quot;tml:&quot;&gt;message&lt;/value&gt;
+&lt;/root&gt;
+}}}
+
+The template consists of two repetitive colon domains, one for returning each binding requested by the client, and the other ({{tml:}}) which will be filled with any user-directed [messages|TargettedMessageList] queued during the action cycle.
+
+On the Java side, the body of the [UVBProducer|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/builtin/UVBProducer.java] which peers with this view is only 20 lines of code - most of which are dealing with formatting for the rendered messages.
+
+!! Using the RSF Javascript library ({{rsf.js}})
+In fact, since all the client-side interaction with UVB is handled by a the standard [RSF Javascript library|RSFJSLibrary], [rsf.js|https://saffron.caret.cam.ac.uk/svn/projects/RSFComponents/trunk/templates/src/webapp/content/js/rsf.js], the details of UVB are largely irrelevant to both client-side and server-side developers. On the server-side, nothing is required other than providing some &quot;reasonable&quot; kind of request model, as generally happens naturally whilst writing an RSF application. On the client-side, Javascript code can assemble the request for a [Partial Form Submission|PartialFormSubmission] (PFS) based on any set of controls by using the Javascript call
+{{{
+RSF.getUVBSubmissionBody(elements, queryEL)
+}}}
+where {{elements}} is a list of the DOM elements representing the form controls which are to be submitted, and {{queryEL}} is a list of EL paths to be read from the request model after the submission has concluded. This is the body of a POST request which may be submitted using any AJAX library preferred by the client. The resulting response may be processed by handing it to {{accumulateUVBResponse}} which will convert it from XML into a Javascript Object form, with one property in an Object member {{EL}} per required EL, and an Array member called {{message}} holding the TML information. There is also a convenience boolean member {{isError}} with a similar function to the same method in [TML|TargettedMessageList] which encodes whether this particular message state represents an erroneous submission.
+
+For further all-in-one convenience, RSF.js also includes a bare-bones AJAX updater that will assemble the body, asynchronously perform the query and execute a callback with the decoded response in scope, which may be called as getAJAXUpdater:
+
+{{{
+   RSF.getAJAXUpdater (sourceFields, AJAXURL, bindings, callback)
+}}}
+Here {{sourceFields}} and {{bindings}} are {{elements}} and {{queryEL}} as above, {{AJAXURL}} is the URL of the UVBView in the current application (this is by default mapped as a builtin view to RSF, referenced by the view id given from uk.org.ponder.rsf.builtin.UVBProducer.VIEW_ID. The [current source|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/builtin/UVBProducer.java] for the UVBProducer may be consulted in SVN. {{callback}} in this case is expected to be a one-arg function which will accept the decoded response body object (traditionally named {{UVB}}) as returned from {{accumulateUVBResponse}}. A sample call of getAJAXUpdater might begin as follows:
+
+{{{
+	return RSF.getAJAXUpdater(sourceFields, AJAXURL, bindings,
+	    function(UVB) {
+          var longresult = UVB.EL[longbinding];
+          var trueresult = UVB.EL[truebinding];
+...
+          updateAnnotation(annotationField, !UVB.isError, longresult, dateformat); 
+}}}
+
+An example in context can be seen in the implementation of the RSF date widget held in the [RSFComponents] project, in [yahoo-calendar-setup.js|https://saffron.caret.cam.ac.uk/svn/projects/RSFComponents/trunk/templates/src/webapp/content/js/yahoo-calendar-setup.js]
+
+!!Implementation notes
+Since the possibility of overlapping AJAX requests from the same browser is considerably higher than that of normal requests, it is even more important for UVB to preserve integrity and isolation between different requests - therefore the scope preservation between the Action cycle and Render cycle of UVBView is represented as a very short (&quot;one-step&quot;) [Flow|InformalFlows]. 
+
+Note that even though the two request cycles for an AJAX view represent completely distinct [RSAC] cycles, in 
+RSF 0.7 and onwards these are performed within the ''same'' HTTP cycle, since the standard prohibitions against rendering off POST views to browsers do not apply to AJAX views. This &quot;two in one&quot; result is achieved by use of the [LazarusRedirector], a bean which makes use of the [RSACLazarusList] to queue a further RSAC cycle after the current one has concluded.
+
+!! Pitfalls
+* Note that the ELs you give to the AJAX expressions are not enclosed in #{}'s.
+* As of 0.7.1 it seems that you must provide at least one return value. (can someone confirm this).
+* Remember that your root beans need to be inside the requestAddressableParent bean if you are writing to them.
+
+</pre>
+

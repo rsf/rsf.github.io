@@ -1,0 +1,47 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+A key innovation in RSF is the use of request-scope beans, managed by [RSAC] in an &quot;Inversion-of-Control&quot; (IOC) layer. These are defined in a Spring-formatted configuration file, but managed by highly optimised code appropriate for execution in lightweight environments such as the scope of an HTTP request. 
+
+As well as
+
+* solving the &quot;[An(a)emic Domain Anti-Pattern|http://www.martinfowler.com/bliki/AnemicDomainModel.html]&quot; by allowing RSF ORM to ''inject managed entities into their managing logic classes'' rather than either the reverse (as is now occurring with modern Spring/EJB3 approaches based on annotations and AOP), or by adopting the &quot;Anemic&quot; or &quot;Service-Oriented Architecture&quot; described in the Fowler article, whereby your entire domain model becomes mirrored in a stateless &quot;Service&quot; layer, 
+
+also
+
+* RSF's request scope beans also help enormously in integeration scenarios, whereby strange request-scope dependencies (HTTP Session, Portlet URL rewriters, Sakai Users or Sites) can be tunnelled long distances through request logic just in the way that application-scope Spring enables dependencies to be tunneled through application logic.
+
+%%(background-color: ffc0c0)
+Warning - don't read further than here if Computer Science bothers you :P - not necessary in order to understand RSF/RSAC!
+%%
+
+Further, the use of lazily-evaluated dependency wiring in request scope beans turns the request context into form of bean-driven [functional programming language|http://en.wikipedia.org/wiki/Functional_programming], which runs using a &quot;backward-chaining&quot; evaluation style reminiscent of [Prolog|http://en.wikipedia.org/wiki/Logic_programming]. In this mapping, beans take the role of function evaluations, with the following correspondence:
+
+{{{
+fetching dependencies  --&gt; translates to --&gt; evaluating arguments
+init-method            --&gt; translates to --&gt; execution
+factory-method         --&gt; translates to --&gt; returned results
+}}}
+
+In retrospect, one of the key precepts of [BeanReasonableness], that of (as far as possible) maintaining immutability of bean values, maps directly onto the foundation of functional programming, that of using construction rather than mutation. You may or may not think this is a useful or amusing result! - but, in my view the key point is that all the benefits of this idiom are possible, while still retaining the normal infrastructure of the Java language and platform, which is directly aimed at solving real-world problems. With AOP-based RSAC components like [very lazy beans|VeryLazyBeans] and the [RSACBridgeProxy], it is possible to seamlessly switch back and forth between the &quot;time runs backwards&quot; world of dependency-fetch computation, and the &quot;time runs forwards&quot; world of normal Java logic (crucial for, for example, proper exception handling and resource cleanup expressed across bean computations).
+
+In the wider sense, taking in the whole package of the above 3 operations, we see the whole operation of &quot;fetch bean B&quot; as actually &quot;attain the goal of fetching B&quot;, which naturally entails the discovery and achievement of all the subgoals of fetching B. The &quot;time runs backwards&quot; world of bean fetches is actually the &quot;goal attainment&quot; style of specifying a computation, used for example in [Prolog|http://en.wikipedia.org/wiki/Prolog] or the Maven build system. 
+
+In any case, as with all RSF schemes, use of this programming style is not forced on you - it is perfectly possible to implement a decent RSF app using traditional techniques of application scope beans, sprinkled with the occasional [ThreadLocal].
+
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

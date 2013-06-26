@@ -1,0 +1,66 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Part of the API of RSF is defined traditionally, in terms of public methods and interfaces. However, RSF also exposes what could be called a ''Spring API'' - that is, a set of named beans (of types determined by RSF interfaces) that application developers may (or sometimes must) define in their Spring configuration files.
+
+[Spring Framework|SpringFramework] is a marvellous framework whose purpose is to ''manage the transport of dependencies'' from one part of an application to another. This capability is sometimes also called [&quot;Inversion of Control&quot;|IoC]. Instead of being manually copied around from object to object, your dependencies are declared in a static configuration file, in Spring, called an ''application context'' file. At context startup time, these dependencies will be ''autowired'' based on a topological sorting of the bean graph defined in the configuration file.
+
+RSF is organised from a set of several such files, some specifying beans with application lifetimes, others with [request scope|RequestScopeBeans] lifetimes. The location of these files are configured in context parameters in the application's web.xml file - apart from the standard RSF core files, an application may define an arbitrary number of such files in arbitrary locations. However, the default RSF configuration gives some standard names to these files.
+
+|Scope|RSF Core|&quot;Blank&quot; Definitions|Default Application File
+|Application Scope| classpath:conf/[rsf-config.xml|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/conf/rsf-config.xml]|classpath:conf/[blank-applicationContext.xml|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/conf/blank-applicationContext.xml]|/WEB-INF/applicationContext.xml
+|Request Scope|classpath:conf/[rsf-requestscope-config.xml|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/conf/rsf-requestscope-config.xml]|classpath:conf/[blank-requestContext.xml|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/conf/blank-requestContext.xml]|/WEB-INF/requestContext.xml
+
+These configuration files are defined ''inside'' the JARs defining the RSF framework - in general, an RSF &quot;module&quot; (such as [RSFHibernate], or [SakaiRSF] will also be packaged as a self-contained Spring-configured library of this sort, and will add to the list of files to mention in {{web.xml}}. 
+
+An application will in general define at least one ''view'', for example:
+
+{{{
+&lt;!-- Define the component producer for the main view --&gt;
+  &lt;bean id=&quot;main-view&quot; class=&quot;uk.org.ponder.rsf.helloapp.components.MainProducer&quot;/&gt;
+}}}
+and also a list of [requestAddressibleBeans|requestWriteableBeans]. In general, in addition to defining beans for its own use, it may configure RSF by overriding some of the definitions from one of the &quot;blank&quot; configuration files (or even in extreme cases some of the core beans). Context files listed later in the web.xml file will simply override beans of the same name which appear in files listed earlier. For this reason the RSF context files should always be listed ''earlier'' than application definitions, as in the following extract from a &quot;typical&quot; web.xml file:
+
+{{{
+&lt;!-- Configure standard Spring application contexts. Be sure to mention
+    rsf config files first, so any overrides may be processed --&gt;
+  &lt;context-param&gt;
+    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+    &lt;param-value&gt;classpath:conf/rsf-config.xml,
+                 classpath:conf/rsf-blank-applicationContext.xml,
+                 /WEB-INF/applicationContext.xml,
+                 /WEB-INF/userconfig.xml
+    &lt;/param-value&gt;
+  &lt;/context-param&gt;
+}}}
+
+!!! Definition of RSF Spring API
+
+The following table will list all the beans constituting the ''Spring API'' of RSF (currently extremely incomplete):
+
+|Bean|Scope|Interface/Base Class|Purpose
+|templateResolverStrategy|Application|uk.org.ponder.rsf.templateresolver.SimpleTemplateResolverStrategy|Defines the rules used to look up the [view template|ViewTemplate] to be used for rendering the current request. RSF defines a very simple TemplateResolverStrategy called [CRITemplateResolverStrategy|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/templateresolver/CRITemplateResolverStrategy.java] that just uses the view ID and consumer ID to locate a single template file in a named directory.
+|actionResultInterpreter|Application|uk.org.ponder.rsf.flow.ActionResultInterpreter|Implements the &quot;flow&quot; of the application, defined by the state transitions to different views occuring after successful and unsuccessful POST requests. 
+|requestWriteableBeans|Application|uk.org.ponder.stringutil.StringList|A list of the names of the &quot;root beans&quot; in the request scope container that are considered addressible by EL incoming through the request. This makes the request submission process more secure, in preventing the execution of arbitrary EL. Note that no further checks are made on derived properties of the root beans, of which writeability is determined solely by the model.
+|copyPreservingBeans|Application|uk.org.ponder.stringutil.StringList|A list of EL paths whose values will be preserved by simple Object reference copying between requests participating in an RSF flow (whilst using the default definitions for {{statePreservationStrategies}} and related beans held in blank-requestContext.xml)
+
+(Many more to follow - consult blank-applicationContext.xml and blank-requestContext.xml)
+
+In a framework organised entirely around Spring, as RSF is, this creates an unprecedented level of fine-grained control over the structure of the application. Since Spring allows &quot;bean overrides&quot;, any RSF component, not just the mandatory application components listed above, may be replaced by listing it in the application's configuration files. 
+
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

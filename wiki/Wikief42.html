@@ -1,0 +1,28 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+(NB, somewhat involved and slightly out-of-date notes)
+
+A currently rendering [View] may have data stored for it under its [token|ViewToken] from a previous (erroneous or [Multi-Request|MRSA] POST submission, in the form of a [TokenRequestState] object, containing a [RequestSubmittedValueCache] (RSVC) and a [TargettedMessageList] (TML). 
+
+If there are contents in the RSVC, they MUST override any values for this request where they correspond to a component which specifies a value binding to the model. They are either there in the RSVC because 
+
+# This view is being rendered because an error has prevented submission of a previous request - in this case the RSVC represents the previously submitted values which are being returned to the user for amendment.
+# This view is being rendered as part of a [Multi-Request|MultiRequest], and the values have been submitted by the user at a previous stage. In order to preseve the pseudo-[long transaction|LongTransactions] environment, the user must continue to see these and dependent values as he has set them.
+
+This &quot;fixup&quot; is only problematic in that the request may refer ''at this moment'' to an bean/entity which does not yet exist. The values supplied to the component at this point then have the interpretation of ''initial defaults'' for the bean properties should the user not alter them. If the entity already ''did'' exist by this point, there would be no requirement for a fixup if the [ComponentProducer] were using the request bean model to retrieve these values, since they would ''already have been applied'' to the model by the &quot;Replay RSVC&quot; phase of processing.
+
+Analysis:
+# A &quot;static&quot; (non-code) producer needs no special &quot;RSVC fixup&quot; since its &quot;EL fixup&quot; will always query the RSVC-adjusted model.
+# A [producer|ComponentProducer] which CAN query the model SHOULD use it for its source of data values and not go &quot;behind the scenes&quot; to find any current state, unless it can GUARANTEE EITHER that the current view will NEVER be part of a Multi-Request, OR that any Multi-Request values have no side-effects on the request bean model. In both of these cases the fixup may safely overwrite their values applied to the component AFTER production, and the rendered view be consistent.
+
+</pre>
+

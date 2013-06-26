@@ -1,0 +1,41 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+When writing POST-based forms, a [UICommand] component is typically used to specify a bean that will handle the submit action.  In RSF, all POST requests are designed to return to the view that submitted them.  To forward to a view view, use a [NavigationCaseReporter].  If you have the NavigationCaseReporter correctly set up, the action handler method should return a string identifying the navigation case to be used (a valid RSF template id).
+
+Now it can happen that, in spite of doing the above correctly, the action handler bean may not be invoked.  The symptom is that your POST form view will appear ''after'' pressing submit.  Check your catalina.out log file for errors at this point.  Several things might be wrong:
+
+1.  The action handler bean is not declared properly in your spring context files. \\
+2.  An error happens while creating the bean (failed init, for example). \\
+3.  Your request decoder has not been included. \\
+
+This last deserves a bit more explanation.  When using POST, you typically set your form enctype to 'multipart/form-data'.  This signals the browser to package information collected via the form (including the binary form of any files being uploaded) into a multipart form.  At the server end, RSF needs a way to decode this requests.  The Sakai platform has a preferred way to manage this and it is built-in.  As such, in a Sakai environment, RSF doesn't have a choice, so it uses the Sakai method for decoding multipart forms.
+
+When you move outside of Sakai, RSF assumes that the developer will specify a multipart form resolver.  If not resolver is specified, the POST resolves to an empty data set.  Since this is (in fact) a valid request, RSF does the only thing it can, which is to return to the view that originated the POST.  To add a resolver, add the following to your applicationContext.xml file:
+
+{{{
+&lt;bean id=&quot;multipartResolver&quot; class=&quot;org.springframework.web.multipart.common.CommonsMultipartResolver&quot; /&gt;
+}}}
+
+If Maven 2.x is beingused to build the application, the following dependency will be needed:
+
+{{{
+&lt;dependency&gt;
+  &lt;groupId&gt;commons-fileupload&lt;/groupId&gt;
+  &lt;artifactId&gt;commons-fileupload&lt;/artifactId&gt;
+  &lt;version&gt;1.1&lt;/version&gt;
+&lt;/dependency&gt;
+}}}
+
+Naturally, this is only one possible resolver, others may be used.
+
+</pre>
+

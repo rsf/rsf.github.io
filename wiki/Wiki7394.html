@@ -1,0 +1,29 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+&quot;Repetitive Leaves&quot; in RSF are a small exception to the rule that only branch tags (that is, those peering with [UIBranchContainer]) may be given colon IDs in the template. This is designed to streamline the quite common case where the material to be repeated consists only of a single primitive RSF component. A classic example is of a simple list of links - for example the following template segment
+{{{
+&lt;a href=&quot;link1.htm&quot; rsf:id=&quot;link:&quot;&gt;Link 1&lt;/a&gt;, &lt;a href=&quot;link2.html&quot; rsf:id=&quot;link:&quot;&gt;Link 2&lt;/a&gt;
+
+}}}
+
+can be rendered into a comma-separated list of links of any size, for example, with a loop like the following:
+
+{{{
+  for(int i = 0; i &lt; links.length; ++ i) {
+    UILink.make(tofill, &quot;link:&quot;, linktext[i], links[i]);
+    }
+}}}
+
+This &quot;shorthand&quot; saves on constructing a UIBranchContainer for every iteration, as well as some redudant tags in the template in this simple case. Note that leaf components can ''not'' ordinarily be given colon {{rsf:id}}s except in this simple kind of case, unless of course they are being used in the role of being [seed components|SeedComponent] to an [Evolver].
+
+</pre>
+

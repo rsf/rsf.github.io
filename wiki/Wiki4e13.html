@@ -1,0 +1,285 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+%%(font-size: 2em; color:red;)
+RSF-SWF Planning page - for current info, go to the [RSF SpringWebFlow page|SpringWebFlow]
+%%
+''This page is not suitable for RSF users and is meant for those who want to get a sense of our development process only'' - RSF team
+
+This page documents the effort to integrate RSF as a view technology for [Spring Web Flow|SpringWebFlow]. As of RSF 0.5, RSF had a &quot;lightweight&quot; flow system modelled on a small subset of SWF, largely for demonstration purposes - this demonstrated the standard SWF &quot;Number Guessing&quot; sample running as an RSF application both in Servlets and Portlets.
+
+SWF has moved on considerably in the 2 years since that point, and is an even more attractive target for RSF integration than it was then. SWF is a form of &quot;universal&quot; application definition, whereby the application's structure becomes freed not only from a dependence on a particular web technology, but also on a particular delivery environment and even, in theory, programming language. Since SWF is based strongly on the Spring framework on which RSF is also based, there is expected to be a general harmonisation of programming idioms and aims (although with a few mismatches owing to RSF's stronger promotion of the &quot;request scope&quot; as a core abstraction). 
+
+Spring applications are currently missing a natural &quot;Spring-like&quot; front end, with the existing integrations for SWF (being JSF, Struts, and the SpringMVC family) being based on more old fashioned &quot;action&quot; oriented request processing and poor (to none) separation of markup and view logic. RSF-SWF is planned to provide a harmonious environment where users can enjoy the separation of their concerns equally at every level of application design, right out to the front end where designers may work on pure HTML in peace.
+
+!!!Integration Goals
+It is a key goal that an RSF-SWF app be not in any way &quot;special&quot; as an RSF app, but that users may be able to step out of the SWF world with no formality when required, to make use of general environmental RSF capabilities. This is since a key part of the integration goal is to enable the natural use of the predefined RSF &quot;widgets&quot; (many of which arising from work on the [Fluid project|http://fluidproject.org/]), which should be usable in SWF and non-SWF applications alike.
+
+The plan is to expose zero evidence by the time we reach the client side that we are dealing with an SWF app - in that the same binding and ID environment presented by all RSF applications will be in force. Further, those components which require the use of RSF [transit beans|TransitBeans] should continue to function, which implies that a standard RSF POST submission cycle and request scope should apparently be in force to the outside world.
+
+!!!Integration Plan
+!! Proxy bean(s) for EL target
+A key part of meeting these goals in the integration plan is to provide one (or two) central &quot;proxy beans&quot; within the RSF environment which provide the bridge to the internal &quot;SWF world&quot; operated by the flow definitions. These beans will be responsive to both standard RSF submission bindings, and also will act as a proxy for RSF action (method) bindings to move along the flow state.
+!! Special ViewParameters for SWF views
+An SWF &quot;GET&quot; link does not work as is standard in HTML/HTTP - rather than being a link to a particular ''view'' or ''resource'', it corresponds to a transition within the flow map. That is, it represents a instruction to ''decode'' a particular view by operating the flow transitions, rather than the view itself. It is impossible to prevent this change in interpretation from propagating to the [view producer|ComponentProducer] layer in RSF, since it is a fundamental alteration in semantics. In RSF, a &quot;standard&quot; [ViewParameters] object directly represents a resolution onto a particular view (in particular it encodes a View ID). 
+Therefore all __links__ in an RSF-SWF app which are interpreted as SWF transitions must be encoded as a special class of ViewParameters, even if (as is expected/hoped), the views themselves are using more concrete/simple VPs as their own inputs (to locate themselves).
+
+!Example - Phonebook app
+The remainder of this treatment will illustrate the motivation and mechanism of the integration by quoting various aspects of the JSP implementation of the standard SWF sample, the &quot;phonebook app&quot; and showing how these will be rendered in the RSF integration.
+
+Firstly to round out our discussion of GET links and ViewParameters, here is a &quot;template&quot; section from the phonebook application rendering a link (or rather list of links) [[from {{details.jsp}}]:
+{{{
+&lt;b&gt;Colleagues:&lt;/b&gt;
+  &lt;br&gt;
+  &lt;c:forEach var=&quot;colleague&quot; items=&quot;${person.colleagues}&quot;&gt;
+   &lt;a href=&quot;phonebook.htm?_flowExecutionKey=${flowExecutionKey}&amp;_eventId=select&amp;id=${colleague.id}&quot;&gt;
+   ${colleague.firstName} ${colleague.lastName}&lt;br&gt;
+  &lt;/a&gt;
+&lt;/c:forEach&gt;
+}}}
+The corresponding part of the flow definition is [[from {{detail-flow.xml}}]
+{{{
+&lt;view-state id=&quot;displayDetails&quot; view=&quot;details&quot;&gt;
+  &lt;render-actions&gt;
+    &lt;bean-action bean=&quot;phonebook&quot; method=&quot;getPerson&quot;&gt;
+      &lt;method-arguments&gt;
+        &lt;argument expression=&quot;flowScope.id&quot; /&gt;
+       &lt;/method-arguments&gt;
+       &lt;method-result name=&quot;person&quot; /&gt;
+     &lt;/bean-action&gt;
+   &lt;/render-actions&gt;
+   &lt;transition on=&quot;back&quot; to=&quot;finish&quot; /&gt;
+   &lt;transition on=&quot;select&quot; to=&quot;browseColleagueDetails&quot; /&gt;
+&lt;/view-state&gt;
+}}}
+
+As we see, the key information supplied to the link, appearing as the {{_eventId=select}} parameter, is actually a flow ''transition'', matching the {{   &lt;transition on=&quot;select&quot; to=&quot;browseColleagueDetails&quot; /&gt;}} section in the definition for this &quot;view state&quot; (labelled by being marked as {{view=&quot;details&quot;}} in the flow definition.
+
+
+This JSP sample is pretty nasty, not only does it irreversibly pollute the view template, it also exposes to the developer ALL the peculiar requirements of the SWF integration. This example illuminates what the space of SWF view parameters is intended to be, but also what we would like to assist the developer with as much as possible. As a draft ViewParameters then, we arrive at something like this:
+{{{
+public class SWFViewParameters extends SimpleViewParameters {
+   public String eventId;
+   public Map&lt;String, String[]&gt; parameters;
+}
+}}}
+We cannot avoid the fact that in SWF, view parameters are essentially &quot;unstructured&quot; - since we cannot guess the final view state, we also cannot guess what organisation would be appropriate for its state. However we at least *can* get link-safety on the {{eventId}} field, and also (since RSF was originally planned with an inspection of SWF concepts) can economise on the flow variables by using the {{flowtoken}} field that has always been present in the base class {{ViewParameters}}. %%(color:red;font-weight:bold)Probably need to do a bit of juggling here, since the interpretation may not match completely%%. We would make a direct correspondence between the SWF {{view}} value and an RSF {{viewId}}.
+
+We would *hopefully* be able to retain some kind of &quot;native&quot; VP support in the target view. This would require a *fixed* parseSpec on those VPs which would be in visible correspondence with the SWF parameter map, though. %%(color:red; font-weight:bold)__IDEA__ - perhaps we could instead of {{parameters}}, actually include ANOTHER vp object, one that is known to be good for the end view or views, whichever those are. %%
+
+So - in our RSF app, the UILink for this transition would look something like
+{{{
+for (Colleague colleague: colleagues) {
+   UILink.make(tofill, &quot;select-link:&quot;, 
+      new SWFViewParameters(&quot;select&quot;, &quot;id&quot;, colleague.id);
+}
+}}}
+assuming a convenience constructor that accepted a single key/value pair - we would probably make at least two of these. The problem with the &quot;nested ViewParams&quot; concept was that the 2nd ViewParams would necessarily have to omit the viewID of the view, which is not really up to the client to determine. This would look a bit odd.
+
+We probably want to add a &quot;fixup&quot; stage in RSF that would copy in the current {{flowtoken}} into any VP object found in the tree. This had previously been something up to the application developer, but on discovering an SWFVP it should be fairly clear that they are intending for flow semantics to become automated.
+
+!!Proxy bean, handling forms
+
+Back to the proxy bean, again illustrated from PhoneBook.
+
+Here is an SWF form in JSP, [[from {{searchCriteria.jsp}}]
+{{{
+  &lt;form:form commandName=&quot;searchCriteria&quot; method=&quot;post&quot;&gt;
+    &lt;table&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Search Criteria&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&lt;hr&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td colspan=&quot;2&quot;&gt;
+          &lt;form:errors cssClass=&quot;error&quot;/&gt;
+        &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td&gt;First Name&lt;/td&gt;
+          &lt;td&gt;&lt;form:input path=&quot;firstName&quot; /&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td&gt;Last Name&lt;/td&gt;
+          &lt;td&gt;&lt;form:input path=&quot;lastName&quot; /&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td colspan=&quot;2&quot; class=&quot;buttonBar&quot;&gt;
+          &lt;input type=&quot;hidden&quot; name=&quot;_flowExecutionKey&quot; value=&quot;${flowExecutionKey}&quot;&gt;
+          &lt;input type=&quot;submit&quot; class=&quot;button&quot; name=&quot;_eventId_search&quot; value=&quot;Search&quot;&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;		
+    &lt;/table&gt;
+  &lt;/form:form&gt;
+}}}
+
+Well, what do we see here? (apart from the terrible table-driven markup :P) More mixed stuff we want to shield the developer from. The &quot;_flowExecutionKey&quot; and special naming on the {{submit}} button as well as the strange new {{commandName}} argument are our key targets... to be fair, these are details which are also missing in the JSF integration for SWF, but there the penalty is that the developer needs to use the rest of JSF!
+
+Anyway, we need to consider what will be the treatment of {{UIForm}}, {{UIInput}} etc. and {{UICommand}}, to match our treatment of {{UILink}} above.
+
+For a start, all SWF &quot;events&quot; on action cycles will be invoked as if a synthetic &quot;method&quot; on the &quot;flow proxy bean&quot;. So, for our {{submit}} button above, we will have 
+
+{{{
+  UICommand.make(tofill, &quot;search-control&quot;, &quot;SWFProxyBean.search&quot;);
+}}}
+%%(color:red; font-weight:bold)Probably looking for a better name than SWFProxyBean%%
+
+This is pretty easy to implement in current RSF, since we already put in the key interface {{ActionTarget}} in order to do our 0.5 SWF ripoff.
+
+Next, the UIInput controls - SWF operates a traditional SpringMVC/Struts-type &quot;single bean submission model&quot; whereby the bean to be submitted against for each action cycle is a single one - set up in a definition like this one [[from search-flow-beans.xml]:
+{{{
+  &lt;!-- Search form action that setups the form and processes form submissions --&gt;
+    &lt;bean id=&quot;formAction&quot; class=&quot;org.springframework.webflow.action.FormAction&quot;&gt;
+      &lt;property name=&quot;formObjectClass&quot; value=&quot;org.springframework.webflow.samples.phonebook.SearchCriteria&quot;/&gt;
+      &lt;property name=&quot;validator&quot;&gt;
+        &lt;bean class=&quot;org.springframework.webflow.samples.phonebook.SearchCriteriaValidator&quot;/&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+}}}
+
+Note that this &quot;minicontext&quot; file is actually imported INTO the definition and hence scope of the flow with this directive in the flow definition:
+
+{{{
+   &lt;import resource=&quot;search-flow-beans.xml&quot;/&gt;
+}}}
+This is a &quot;bit funny&quot; in RSF terms, if only because we tend to favour &quot;exterior&quot; aggregation of context files rather than having internal references. Luckily it is nothing to do with us since we will always let SWF itself handle such things, but it is worth noting as a bit of an idiomatic shift.
+
+ANYWAY, also an idiomatic shift is the fact that the target of the form submission is a &quot;blank bean&quot; identified by the following &quot;constructor&quot; {{      &lt;property name=&quot;formObjectClass&quot; value=&quot;org.springframework.webflow.samples.phonebook.SearchCriteria&quot;/&gt;}}, rather than being a first-class request-scope bean as it would be in RSF. We will set up the standard that we will address &quot;this bean&quot;, whichever it is for the current form submission, as if it itself were the same SWFProxyBean we had before %%(color:red; font-weight:bold)Should it have a different name?%%
+
+So, the UIInputs for this view would be something like :
+
+{{{
+   UIInput.make(tofill, &quot;input-firstName&quot;, &quot;#{SWFProxyBean.firstName}&quot;);
+   UIInput.make(tofill, &quot;input-lastName&quot;, &quot;#{SWFProxyBean.lastName}&quot;);
+}}}
+
+This just leaves us with the form itself to map. %%(color:red; font-weight:bold)The {{commandName}} on the form SEEMS to be in correspondence with the view name? Why is this here?%% In the JSF app the form is identified simply by id, which we would not do in RSF to avoid polluting the client space. 
+
+The corresponding view state definition for this view is [[from {{search-flow.xml}}]
+{{{
+  &lt;view-state id=&quot;enterCriteria&quot; view=&quot;searchCriteria&quot;&gt;
+    &lt;render-actions&gt;
+      &lt;action bean=&quot;formAction&quot; method=&quot;setupForm&quot;/&gt;
+    &lt;/render-actions&gt;
+    &lt;transition on=&quot;search&quot; to=&quot;displayResults&quot;&gt;
+      &lt;action bean=&quot;formAction&quot; method=&quot;bindAndValidate&quot;/&gt;
+    &lt;/transition&gt;
+  &lt;/view-state&gt;
+}}}
+!!Mocking up the Action environment
+So on the face of it, the only configuration required to identify the incoming binding is for the {{transition}}, which we have already seen in the UICommand above. We would just use the binding {{#{SWFProxyBean.search} }} as we did there. If {{commandName}} doesn't do anything vital, we just need some way of communicating to the forthcoming action cycle that it needs to do &quot;special things&quot; with the model - but actually the action cycle does VERY LITTLE special with the model since as soon as we pass the formality of meeting the action method proxy, we are 100% in the SWF world as regards submission data. The bindings incoming over the EL would have been &quot;collected&quot; using a DARReceiver, and then used to &quot;fake up&quot; a submission environment into a RequestContext of the sort the Spring Binder would be expecting (we would probably initially only mock up one specific kind of these, the standard &quot;WebDataBinder&quot; that expects paired key/value pairs with a very &quot;skinny fossil&quot; with an underscore in front of the key to represent an &quot;expected request value&quot;.
+
+!!Action return
+SWF has a fairly rigid set of cases it expects to result from action returns, these are encoded in the {{ResponseInstruction}} returns which are given to the environment. In RSF, the return result from an action cycle is ALWAYS mapped into a ViewParameters, so we need some special kind of ARIInterpreter that kicks in - this is just like we already have for flow &quot;lite&quot;. This table relates the SWF flow conditions to the best corresponding ones from the existing RSF &quot;ARIResult&quot; system.
+
+See the MVC {{FlowController}} - there are 4 basic flow result cases.
+|Condition|Comment|RSF interpretation|RSF flow condition
+|handleApplicationView|forward to a view as part of an active conversation|A normal RSF ViewParameters - not SWFViewParams since we expect/hope we have fully located the desired flow state and hence viewId by this point.|AriResult.PROPAGATE
+|handleFlowDefinitionRedirect|restart the flow by redirecting to flow launch URL|&quot;restart&quot; seems an odd way of expressing it, but I suppose SWF has no concept of a view state that *had* not already been in a flow|AriResult.FLOW_START
+|handleFlowExecutionRedirect|redirect to active flow execution URL|This one is a bit peculiar, not sure why it requires a separate case to applicationView|AriResult.PROPAGATE, but with a different flowtoken?
+|handleExternalRedirect|redirect to external URL|Fairly clear|AriResult.FLOW_END, and with a {{resultingView}} of type RawViewParameters.
+
+!!Flow scopes and view producers
+The remaining piece of the puzzle is how to gain access to flow scoped variables from inside ViewProducers. For simple cases, we will expect these to be addressible directly via EL. However, for complex cases where the view structure will depend on the flow variables, this is an area in which there *will* be some redundancy, since the natural RSF idiom, given these *already* sit in Spring is simply to inject the bean results into the producers directly. We will have to handle this by a scheme somewhat similar to the &quot;bean inchuck&quot; scheme for SpringMVC integration - the user will have to write ''fake beans'' into the context that represent the name and type of the bean which is ''expected to be there'' on the render cycle, but the actual instance used will appear &quot;by magic&quot; at the start of the alteration cycle, overlaying the bean definition and preventing it from being instantiated.
+
+There are a couple of ways we have seen that variables can get into flow scope, here is one, using the {{&lt;render-actions&gt;}} directive [[from {{search-flow.xml}}]:
+
+{{{
+  &lt;view-state id=&quot;displayResults&quot; view=&quot;searchResults&quot;&gt;
+    &lt;render-actions&gt;
+      &lt;bean-action bean=&quot;phonebook&quot; method=&quot;search&quot;&gt;
+        &lt;method-arguments&gt;
+          &lt;argument expression=&quot;flowScope.searchCriteria&quot;/&gt;			
+        &lt;/method-arguments&gt;
+        &lt;method-result name=&quot;results&quot;/&gt;
+        &lt;/bean-action&gt;
+      &lt;/render-actions&gt;
+    &lt;transition on=&quot;newSearch&quot; to=&quot;enterCriteria&quot;/&gt;
+    &lt;transition on=&quot;select&quot; to=&quot;browseDetails&quot;/&gt;
+  &lt;/view-state&gt;
+}}}
+
+Personally I find this verbose &quot;bean-action&quot; stuff probably the worst aspect of SWF, but what else can you do if you want an abstract application model expressed with no code... The key point is that the {{&lt;method-result name=&quot;results&quot;/&gt;}} directive is intending to deposit a bean into flow scope that a Producer might expect to access, either by EL or direct injection. The &quot;inchuck&quot; method, assuming we wanted direct injection, would require us to make a &quot;fake bean&quot; definition in RSF request scope like this:
+
+{{{
+  &lt;bean id=&quot;results&quot; class=&quot;java.util.List&quot;/&gt;
+}}}
+Hopefully we would get away with the fact that this bean is technically uninstantiable since its class is uninstantiable - the whole point of this is to be able to make SpringIDE shut up, so that it sees the injection is proceeding from a compatible type, and also to tell the RSF injector (run by RSAC) what is the ''association'' between the name of the bean, and the producer property it is intended to be delivered by - so if we needed access to these &quot;results&quot; directly (which we certainly would, since we have a loop counter variable which depends on its size), we would have something like
+
+{{{
+  &lt;bean class=&quot;org.springframework.webflow.samples.phonebook.rsf.SearchResultsProducer&quot;&gt;
+    &lt;property name=&quot;searchResults&quot; ref=&quot;results&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+
+So then we would have injection on the producer that works in just the normal way
+
+{{{
+   public class SearchResultsProducer {
+   private List&lt;Person&gt; results;
+   public void setSearchResults(List&lt;Person&gt; results) {
+      this.results = results;
+   }
+}
+}}}
+
+
+%%(color:red; font-weight:bold)Unresolved points: 1. Can we really get away with uninstantiable &quot;fake&quot; types? 2. There are risks with flows that reuse the same flow scope name with completely different kinds of values. Probably for RSF 0.8 and beyond, we might want some way to actually import the PRODUCERS into the flow scope as well, although this creates a portability risk wrt. the app. We face a portability risk the other way though as well, since we would not easily be able to host apps which had flow scope name collisions.%%
+
+
+Another route that variables could get into flow scope is like this [[from {{search-flow.xml}}]:
+
+{{{
+  &lt;subflow-state id=&quot;browseDetails&quot; flow=&quot;detail-flow&quot;&gt;
+    &lt;attribute-mapper&gt;
+      &lt;input-mapper&gt;
+        &lt;mapping source=&quot;requestParameters.id&quot; target=&quot;id&quot; from=&quot;string&quot; to=&quot;long&quot;/&gt;
+      &lt;/input-mapper&gt;
+    &lt;/attribute-mapper&gt;
+    &lt;transition on=&quot;finish&quot; to=&quot;displayResults&quot;/&gt;
+  &lt;/subflow-state&gt;
+}}}
+
+This corresponds to the &quot;input&quot; definition on {{detail-flow.xml}} like this:
+{{{
+  &lt;input-mapper&gt;
+    &lt;input-attribute name=&quot;id&quot;/&gt;
+  &lt;/input-mapper&gt;
+}}}
+
+Hopefully this treatment of *all* flow scope things is fairly uniform under the hood, and we would be able to treat them with a global inchuck which had no real opinion about their source (of which there may be some others in SWF we have not yet seen). One integration point this *does* raise though is the required validity of this expression {{source=&quot;requestParameters.id&quot;}} which reminds us again of the requirement for this &quot;fake parameter map&quot; which is slightly uneasily bridging the world between ViewParameters and the SWF impression of the world. This is all mediated by the SWF {{RequestContext}} interface which will be one of our key points of customision. The main challenge with the integration will be juggling the apparent contents of, in particular, the request parameter map both on the render and action cycles so that the relevant expectations of RSF and SWF are maintained.
+
+!Wrapping request parameters - back-reflection on SpringMVC integration
+This is somewhat easier in SWF than in SpringMVC since the abstraction point is much more clearly defined - but having made this approach work in SWF, it might be possible to backport it to SpringMVC by using full Http/PortletRequestWrappers so that we could gain a slightly better idiom for UIInternalLinks than we currently have. At the moment RSF-SpringMVC integration in its current form could not be extended to PortletMVC since the interpretation of the UIInternalLink body is intended to be a raw &quot;relative resource URL&quot;, of the sort we might see in the template, which needs only a URLRewriteSCR rewrite. This is obviously not correct in a Portlet (and hence actually not correct at all) - resource URLs live in a completely different space to view URLs.
+
+Further thoughts on that... we don't really need/can use a ''wrapper'' for MVC - since MVC is stuck with the wrapper it has *directly* inherited from the container (although we could conceivably use a filter). But we perhaps need just a different kind of ViewParams for MVC apps, similar to the &quot;raw-ish&quot; SWFViewParams. The real key annoyance is giving SpringMVC a first-class idea of something like the &quot;viewID&quot;, the key RSF resolution point - this is already done for us in SWF by the {{view=&quot;thing&quot;}} declaration on a {{view-state}}. SpringMVC currently expects to resolve against views with UrlHandlerMappings, which nastily mix up the URL space between views and actions
+{{{
+  &lt;bean id=&quot;urlMapping&quot;
+      class=&quot;org.springframework.web.servlet.handler.SimpleUrlHandlerMapping&quot;&gt;
+    &lt;property name=&quot;mappings&quot;&gt;
+      &lt;props&gt;
+        &lt;prop key=&quot;/hello.htm&quot;&gt;springappController&lt;/prop&gt;
+        &lt;prop key=&quot;/priceincrease.htm&quot;&gt;priceIncreaseForm&lt;/prop&gt;
+      &lt;/props&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+}}}
+How does this work in PortletMVC? What is the meaning of the &quot;key&quot; when it is no longer a pathInfo String? Can it just be &quot;forced&quot; into yet another attribute in the way we do with RSFPortlet?
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

@@ -1,0 +1,115 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!! Spring MVC Step by Step - RSF Version
+
+We inherited a SpringMVC sample application from the [Spring documentation|http://www.springframework.org/docs/MVC-step-by-step/Spring-MVC-step-by-step.html] for the SpringMVC framework, which operates two simple views, one of which contains a form which modifies the &quot;persistent state&quot; (actually held in memory in this simple app) of the application by increasing prices of a collection of products.
+
+In Stage 1/1a on the previous page we reworked the view layer of this application from JSPs to [IKAT], RSF's pure HTML templating system, which greatly improved the separation between logic and presentation in this application.
+
+In this final stage, we will rework the rest of the code to form a full-blown RSF application. While preserving *all* of the business infrastructure (including Spring Validators) unchanged from the original app, we will also continue to use the same HTML templates from Stage 1. A lot of code will fall away from the app, since much of RSF's &quot;controller&quot; infrastructure is implicit - leaving it (we argue) much clearer and straightforward, with no longer the mixture of dependency ferrying, action processing and view preparation that is typical of a SpringMVC controller. Moreover, the resulting app will be completely *portable* (e.g. to JSR-168 portlets, or other kinds of hosting environment), since it will be free of any dependencies on the Servlet infrasturcture.
+
+!! Stage 2 - RSF request handling
+
+Part of the key transition to the RSF idiom occurred at Stage 1a, where we allowed the request-scope list {{products}} to be self-configured naturally using Spring (actually [RSAC]) rather than being &quot;pushed&quot; into the request context using a controller.
+
+The core change to complete this transition is to use RSF's [Action] cycle to process the submission, rather than a SpringMVC controller. This is remarkably straightforward, since all we need to do is to &quot;liberate&quot; the command object, {{priceIncrease}} from the old {{PriceIncreaseFormController}} and elevate it to become a perfectly normal bean inhabitant of the request scope. We create a framework-free &quot;action bean&quot; named {{priceIncreaseAction}} to coordinate the form submission effect with the {{priceIncrease}} bean, leading to the following definitions at request scope:
+
+{{{
+  &lt;bean id=&quot;priceIncrease&quot; class=&quot;uk.org.ponder.rsf.springmvcstep.bus.PriceIncrease&quot;&gt;
+    &lt;property name=&quot;percentage&quot; value=&quot;20&quot;/&gt;
+  &lt;/bean&gt;
+
+  &lt;bean id=&quot;priceIncreaseAction&quot;
+    class=&quot;uk.org.ponder.rsf.springmvcstep.bus.PriceIncreaseAction&quot;&gt;
+    &lt;property name=&quot;priceIncrease&quot; ref=&quot;priceIncrease&quot;/&gt;
+    &lt;property name=&quot;productManager&quot; ref=&quot;prodMan&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+
+Note that the initialisation of {{priceIncrease}}, which was formerly done in code as part of the nested &quot;form command object&quot; is now done within the Spring file.
+
+{{PriceIncreaseAction}} is a simple collection of accessors plus a zero-arg method suitable to be the target of an [action binding|EL]:
+
+{{{
+public class PriceIncreaseAction {
+  private PriceIncrease priceIncrease;
+  private ProductManager productManager;
+  
+  public void setPriceIncrease(PriceIncrease priceIncrease) {
+    this.priceIncrease = priceIncrease;
+  }
+  public void setProductManager(ProductManager productManager) {
+    this.productManager = productManager;
+  }
+  
+  public String increase() {
+    productManager.increasePrice(priceIncrease.getPercentage());
+    return &quot;success&quot;;
+  }
+
+}
+}}}
+
+All we need to do to bind all of these elements together to fire during the submission of the &quot;increase prices&quot; form is to emit the following two bindings from the view producer for this view, {{PriceIncreaseProducer}}: 
+
+{{{
+  UIInput.make(form, &quot;percentage&quot;, &quot;#{priceIncrease.percentage}&quot;);
+  UICommand.make(form, &quot;submit&quot;, &quot;#{priceIncreaseAction.increase}&quot;);
+}}}
+
+Finally, we reconfigure the existing Validator {{PriceIncreaseValidator}}, unchanged, as an RSF [BeanGuard], which will be triggered automatically through any write access to the {{priceIncrease}} bean:
+
+{{{
+ &lt;bean id=&quot;priceIncreaseGuard&quot; parent=&quot;writeGuardParent&quot;&gt;
+    &lt;property name=&quot;guardedPath&quot; value=&quot;priceIncrease&quot;/&gt;
+    &lt;property name=&quot;guard&quot;&gt;
+      &lt;bean class=&quot;uk.org.ponder.rsf.springmvcstep.bus.PriceIncreaseValidator&quot;/&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+}}}
+
+
+With these remarkably Spring-idiomatic and straightforward changes, the SpringMVC controller layer of the application may now be disposed of - all of the disparate elements of the {{PriceIncreaseFormController}} have been segregated out into areas of common function, largely in the form of Spring definitions and framework-free beans.
+
+!!Navigational changes
+In being &quot;upgraded&quot; to a fully-fledged RSF application, the view producers may now participate in RSF's ViewParameters system, which now insulates them from the details of the URL mapping (if any) applied by the outer application. Therefore wherever links ({{UIInternalLink}}) were emitted leading to views within the application, we replace the URL arguments with ViewParameters objects derived from the [ViewID]s of the respective views - e.g.
+
+{{{
+   UIInternalLink.makeURL(form, &quot;home&quot;, &quot;hello.htm&quot;);
+}}}
+becomes
+{{{
+    UIInternalLink.make(form, &quot;home&quot;, new SimpleViewParameters(
+        HelloProducer.VIEW_ID));
+}}}
+
+The same system is used to govern the resulting navigation following the form submission. We have a simple rule, which always redirects to the initial view - using the [NavigationCaseReporter] system, we add the following return to {{PriceIncreaseProducer}}:
+{{{
+  public List reportNavigationCases() {
+    List togo = new ArrayList();
+    togo.add(new NavigationCase(&quot;success&quot;, new SimpleViewParameters(
+        HelloProducer.VIEW_ID)));
+    return togo;
+  }
+}}}
+
+!!Environment changes
+We remove the Servlet-bound Spring context file {{springapp-servlet.xml}} completely, placing all definitions in the {{applicationContext.xml}} and {{requestContext.xml}} files. The {{web.xml}} elements referring to the SpringMVC Dispatcher servlet are replaced with the corresponding definitions for the RSF {{ReasonableSpringServlet}}.
+!!! Summary
+We have taken this sample app through two successive transformations, firstly from JSP as the view layer to pure HTML with IKAT, and then finally to a full RSF app. Throughout the process, we preserved unchanged all the business definitions in code and in Spring files, as well as the Spring Validator attached to the form. During the final stage, we preserved unchanged the HTML templates, as well as making only small changes to the RSF ViewProducers. The resulting app is now reskinnable by non-coders armed with standard HTML tools, as well as no longer being tied to the Servlet environment. Arguably, it also enjoys a better structure, with more clearly separated areas of responsibility between view generation, request decoding and action processing, away from the somewhat tangled responsibilities of a SpringMVC FormController.
+----
+Head   - [Spring MVC Step by Step - IKAT versions|SpringMVCStep]\\
+Page 1 - Spring MVC Step by Step - RSF version\\
+----
+
+</pre>
+

@@ -1,0 +1,27 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The basic functioning of RSF ORM, and in particular the Hibernate implementation of it is explained on [RSFHibernate]. However, the key strategy for dealing with ORM and  similar issues in RSF is really intended to be [OTP], which rather than being a specific ORM implementation or adaptation, is a generalised &quot;idiom&quot; for dealing with the stateful parts of ones request model - which is described on its [own page|OTP].
+
+Tools may want to take advantage of this approach without using the rest of RSF, for example in the implementation of pure web services. The first key to this is setting up an [RSAC] context of your own - this is easy, since the [RSACBeanLocator] is just another Spring bean. More details on how to operate your own RSAC context are at [RSACByItself].
+
+Once your request logic is making appropriate use of request beans, the next step is to set up your own AlterationWrapper that will bracket your request scope logic. The RSF HibernateAlterationWrapper is good as a basic template, although it currently has a dependence on two RSF-specific beans, {{requestType}} and {{ARIResult}} which it uses to guide its decision about whether this request will require a transaction commit or not. If there is any interest, it would be quite straightforward for me to factorise this class to leave behind a core or perhaps parent definition that users in non web-app contexts could customise directly. In the meantime, please &quot;cut and paste&quot; the code :P &quot;Unfortunately&quot; in the 0.6 release I made the {{willCommit}} method private.
+
+After the AlterationWrapper is set up, everything else follows directly from RSAC - you can inject query results into the relevant request beans, and also inject the relevant HibernateEntityBeanLocators (HEBLs) into request beans that need to create new entities.  
+
+In terms of helping with Sakai Hibernate development, the Sakai cookbook sample is a good, minimal example of all the steps you need to take to set up your model in Sakai - from defining the Hbm2Java task in Maven, the project structure and Sakai deployment targets, and also the correct Sakai Hibernate mapping. Cloning these projects is a good way to get off the ground quickly.
+
+For more complex models, there are some things that RSF-ORM can't really help with in terms of Hibernate, although in my view these more than anything reflect problems in the design of Hibernate. The central problem, as I see it, is that the rules by which Hibernate dynamically proxies entity methods to implement &quot;lazy properties&quot; or &quot;lazy collections&quot; are insufficiently flexible, since they are configured once only at application time. In difficult &quot;real-life&quot; scenarios you really want to be able to control which methods are lazy or not on a ''per request'' basis, but this you cannot do. Sometimes your data model decomposes into nice &quot;units&quot; whereby you can eagerly load everything up to a certain boundary, which is either impenetrable (not mapped by Hibernate at all), or lazily loaded, and you can specify that updates will cascade up to this boundary.
+
+At the moment, RSF ORM makes no attempt to interfere with relations between different entities - the HEBLs will only issue {{Session.update}} on the precise objects that they dispense to you as new entities, and you are stuck with whatever cascade behaviour you have configured into Hibernate. Given that the HEBLs are backed by a full reflective architecture that does actually understand the type relationships in the bean container, it's possible that a more dynamic &quot;cascade&quot; system could be built on them, but I don't think there's enough expertise around at the moment to understand exactly how this should work.
+
+</pre>
+

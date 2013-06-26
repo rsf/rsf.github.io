@@ -1,0 +1,33 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+XPP is the [Xml Pull Parser|http://www.extreme.indiana.edu/xgws/xsoap/xpp/] specification. RSF currently uses the absolutely blistering [XPP3 or MXParser|http://www.extreme.indiana.edu/xgws/xsoap/xpp/mxp1/index.html] implementation written at Indiana to parse its template files. The great performance of this parser (compared to dreary SAX and DOM solutions) is largely what is responsible for RSF templates being so low-cost (around 3ms for 10k template - compare this with a JSP compilation). Note that the parser is still probably the major time consumer by my reading of profile traces, but there is very little to be done about this - XPP code is ''tight'' in that it uses practices such as duplicating this test \\ {{    if(pcEnd &gt;= pc.length) ensurePC(pcEnd);}} \\ OUTSIDE the function call rather than always incurring it[1]. I suspect that XML files simply couldn't be parsed significantly faster. I recommend it to you all. 
+
+Note that despite the [near-miraculous|JavaPrimitiveBenchmarks] improvements in allocation performance in Sun's JVMs at 1.5 from 1.4, allocation is ''still'' the major cost of most &quot;normal&quot; Java code (and indeed most code in any language) and the primary speed advantage of XPP over, say, SAX is that it allows a near allocation-free parse loop by not mentioning Strings in its API. XPP (and RSF) rarely allocate Strings in bulk, preferring to compact data into char arrays where possible, but the allocation of the char arrays themselves remains a major cost.
+
+A tabled item is to rewrite the [SAXalizer] and leaf parser architecture to use XPP3 (as well as [FastClass], which by in one step making it practically the fastest deserializer out there now might start to justify the effort I have probably foolishly invested in it over the years. This wouldn't really involve much work and would be done in response to any users discovering it to be the bottleneck in their environment.
+----
+[#1] Another amusing quotation from the XPP3 source (which, by the way, forms a single 3500-line source file which in any other context would represent the most crushingly bad error of design):
+{{{
+  if(startsWithXmlns &amp;&amp; xmlnsPos &lt; 5) {
+    ++xmlnsPos;
+    if(xmlnsPos == 1) { if(ch != 'm') startsWithXmlns = false; }
+    else if(xmlnsPos == 2) { if(ch != 'l') startsWithXmlns = false; }
+    else if(xmlnsPos == 3) { if(ch != 'n') startsWithXmlns = false; }
+    else if(xmlnsPos == 4) { if(ch != 's') startsWithXmlns = false; }
+}}}
+
+In Java, this sort of coding style (maximal use of primitive types, avoidance of arrays) really matters in inner loops - you can see some of this in the {{write()}} method of the [XMLWriter] in PonderUtilCore - you'd be amazed how much time could be spent XML-encoding and decoding things in the typical app and I'm amazed how little time is spent improving such code.
+
+Note there is an Apache Incubator project called [XMLIO|http://jakarta.apache.org/commons/sandbox/xmlio/] designed for this but will perform very poorly since not only does their XMLWriter extend FilterWriter, but passes around complete strings to the XMLEncoder for each write. 
+
+</pre>
+

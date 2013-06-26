@@ -1,0 +1,69 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Here's a short reminder on what elements you have at your disposal:
+{{{
+----             Horizontal ruler
+\\               Forced line break
+[link]           Create hyperlink to &quot;link&quot;, where &quot;link&quot; can be either an internal 
+                 WikiName or an external link (http://)
+[text|link]      Create a hyperlink where the link text is different from the actual 
+                 hyperlink link.
+
+*                Make a bulleted list (must be in first column). Use more (**) 
+                 for deeper indentations.
+#                Make a numbered list (must be in first column). Use more (##, ###) 
+                 for deeper indentations.
+
+!, !!, !!!       Start a line with an exclamation mark (!) to make a heading. 
+                 More exclamation marks mean bigger headings.
+
+__text__         Makes text bold.
+''text''         Makes text in italics (notice that these are single quotes ('))
+{{text}}         Makes text in monospaced font.
+;term:def        Defines 'term' with 'def'.  Use this with empty 'term' to make short comments.
+
+|text|more text| Makes a table. Double bars for a table heading.
+}}}
+
+* To make a code block, use triple {'s to open, and triple }'s to close.
+* Don't try to use HTML, since it just won't work.
+* To embed images just put them available on the web using one of the approved formats, and they will get inlined automatically. To see the list of approved formats, go check [SystemInfo].
+
+! Table of contents: ''TableOfContents'' allows you to create a TOC for all headings on the page
+{{{ [{TableOfContents}] }}}
+The resulting list is wrapped inside a DIV tag, which can be used to create the style and look of the TOC.\\
+Parameter: -- __title__ : (string) The title for the table of contents (H2). By default, uses no heading. 
+
+! Alias and Redirects: ''SET'' allows you to create an alias to a wiki page or redirect to an external page
+{{{ [{SET alias='PageAliases'}] }}}
+{{{ [{SET redirect='http://www.jspwiki.org'}] }}}
+
+To get rid of them/fix them, manually put {{Edit.jsp}} or {{PageInfo.jsp}} into the URL (as there's no way to get to the page itself anymore).
+
+! Inserting pages: ''InsertPage'' plugin allows you to include the contents of another page into the current page.
+{{{
+[{InsertPage page='EditPageHelp' 
+             style='font-size: 85%; margin: 10px; padding: 5px; border: 1px solid black; background: #dedede;' 
+             maxlength=50}]
+}}}
+Parameters:\\
+-- __page__ = ''WikiName''.  The WikiName of the page you want to insert.\\
+-- __style__ = ''CSS definition''.  A style you want to use to include the page with.\\
+-- __maxlength__ = ''integer''.  If the page exceeds this length in characters, it will be truncated and a text &quot;More...&quot; linking to the page will be appended.\\
+-- __section__ = ''integer''.  Inserts only a part of a page.  The sections are separated with &quot;{{{----}}}&quot; and are counted starting from one (1), that is, the first section on a page is number 1.\\
+-- __default__ = ''string''.  If the page does not exist, will insert this default.  If not defined, inserts a suggestion to create the page.
+
+''(Wondering where this text comes from?  It's on a page called [Edit Page Help], which you can edit too!)''
+
+
+</pre>
+

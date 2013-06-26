@@ -1,0 +1,858 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html id="top" xmlns="http://www.w3.org/1999/xhtml">
+
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=UniversalRuntimeException&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+    RSF Wiki: UniversalRuntimeException
+  </title>
+  
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" media="screen, projection, print" type="text/css"
+     href="templates/default/jspwiki.css"/>
+
+<link rel="stylesheet" type="text/css" media="print" 
+     href="templates/default/jspwiki_print.css" />
+<!-- INCLUDERESOURCES (stylesheet) -->
+
+<!-- INCLUDERESOURCES (inlinecss) -->
+
+
+
+<noscript>
+<style type="text/css">
+#hiddenmorepopup { display:block; }
+</style>
+</noscript>
+
+
+<script type="text/javascript" src="scripts/mootools.js"></script>
+<script type="text/javascript" src="scripts/prettify.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-common.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-commonstyles.js"></script>
+<!-- INCLUDERESOURCES (script) -->
+
+
+
+
+
+<meta name="wikiContext" content='diff' />
+<meta name="wikiBaseUrl" content='http://rsf.fluidproject.org/wiki/' />
+<meta name="wikiPageUrl" content='/wiki/Wiki.jsp?page=%23%24%25' />
+<meta name="wikiEditUrl" content='/wiki/Edit.jsp?page=UniversalRuntimeException' />
+<meta name="wikiJsonUrl" content='/wiki/JSON-RPC' />
+<meta name="wikiPageName" content='UniversalRuntimeException' />
+<meta name="wikiUserName" content='207.119.0.6' />
+<meta name="wikiTemplateUrl" content='/wiki/templates/default/' />
+<meta name="wikiApplicationName" content='RSF Wiki' />
+
+<script type="text/javascript">//<![CDATA[
+/* Localized javascript strings: LocalizedStrings[] */
+var LocalizedStrings = {
+"javascript.edit.allsections":"( All )",
+"javascript.slimbox.error":"<h2>Error</h2>There was a problem with your request.<br />Please try again",
+"javascript.slimbox.remoteRequest":"Remote Request {0} of {1}",
+"javascript.slimbox.close":"Close &#215;",
+"javascript.quick.edit":"[Edit]",
+"javascript.sort.descending":"Descending order. Click to reverse sort order",
+"javascript.expand":"Click to expand",
+"javascript.group.validName":"Please provide a valid name for the new Group",
+"javascript.slimbox.next":"Next&raquo;",
+"javascript.filter.all":"( All )",
+"javascript.edit.areyousure":"Without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.quick.edit.title":"Edit section {0}...",
+"javascript.slimbox.directLink":"Direct Link to the target",
+"javascript.prefs.areyousure":"Without clicking the Save User Preferences button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.sbox.clone.suffix":"-New",
+"javascript.slimbox.info":"Image {0} of {1}",
+"javascript.tip.default.title":"More...",
+"javascript.edit.resize":"Drag to resize the text area",
+"javascript.edit.findandreplace.nomatch":"No match found!",
+"javascript.sort.ascending":"Ascending order. Click to reverse sort order",
+"javascript.slimbox.close.title":"Close [Esc]",
+"javascript.edit.toolbar.makeSelection":"Please make first a selection.",
+"javascript.favs.hide":"Click to hide Favorites",
+"javascript.sectionediting.label":"Section Overview",
+"javascript.slimbox.previous":"&laquo;Previous",
+"javascript.favs.show":"Click to show Favorites",
+"javascript.collapse":"Click to collapse",
+"javascript.category.title":"Click to show category [{0}] ...",
+"javascript.sort.click":"Click to sort",
+"javascript.edit.startOfPage":"( Start of page )"
+};
+
+
+/* INCLUDERESOURCES (jsfunction) */
+
+//]]></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="search" href="Wiki702d.html?page=FindPage"
+    title='Search RSF Wiki' />
+<link rel="help"   href="Wikia3b7.html?page=TextFormattingRules"
+    title="Help" />
+
+ <link rel="start"  href="Wikib2ab.html?page=Main"
+    title="Front page" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki_print.css"
+    title="Print friendly" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki.css"
+    title="Standard" />
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+<link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  
+    <meta name="robots" content="noindex,nofollow" />
+  
+  
+    <meta name="robots" content="noindex,follow" />
+  
+</head>
+
+<body class="view">
+
+<div id="wikibody" class="fav-left">
+ 
+  
+
+
+
+
+
+
+<div id="header">
+
+  <div class="titlebox"></div>
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=UniversalRuntimeException" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=UniversalRuntimeException"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+
+  <div class="pagename">UniversalRuntimeException</div>
+
+  <div class="searchbox">
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Search.jsp"
+        class="wikiform"
+           id="searchForm" accept-charset="UTF-8">
+
+  <div style="position:relative">
+  <input onblur="if( this.value == '' ) { this.value = this.defaultValue }; return true; "
+        onfocus="if( this.value == this.defaultValue ) { this.value = ''}; return true; "
+           type="text" value="Quick Navigation"
+           name="query" id="query"
+           size="20" 
+      accesskey="f" />
+  <button type="submit"
+  		 name="searchSubmit" id="searchSubmit"
+  		value="Go!"
+  		title="Go!"></button>
+  </div>
+  <div id="searchboxMenu" style='visibility:hidden;'>
+    <div id="searchTools">
+      <a href="#" id='quickView' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Wiki.jsp?page=__PAGEHERE__','View the selected page' );"
+        title="View the selected page">view</a>
+      <a href="#" id='quickEdit' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__','Edit the selected page' );"
+        title="Edit the selected page">edit</a>
+      <a href="#" id='quickClone' class='action'	
+      onclick="return SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__', 'Clone the selected page', true );"
+        title="Clone the selected page">clone</a>
+      <a href="#" id="advancedSearch" class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Search.jsp?query=__PAGEHERE__','UniversalRuntimeException' )"
+        title="Advanced Search [ f ]">find</a>
+    </div>
+    <div id="searchResult" >
+	  Quick search
+      <span id="searchTarget" >(type ahead)</span>
+      <span id="searchSpin" class="spin" style="position:absolute;display:none;"></span>
+	  <div id="searchOutput" ></div>
+    </div>
+    <div id="recentSearches" style="display:none;">
+      Recent Searches
+      <span><a href="#" id="recentClear">(Clear)</a></span>
+    </div>
+  </div>
+
+</form></div>
+
+  <div class="breadcrumbs">Your trail:&nbsp;<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UserNameTag">UserNameTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ValueBinding">ValueBinding</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VariableTag">VariableTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VeryLazyBeans">VeryLazyBeans</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewID">ViewID</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewRender">ViewRender</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogEntryPlugin">WeblogEntryPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogPlugin">WeblogPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WikiFormsExampleText">WikiFormsExampleText</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=XPP">XPP</a></div>
+
+</div>
+
+  <div id="content">
+
+    <div id="page">
+      
+
+
+
+
+
+<div id="actionsTop" class="pageactions"> 
+  <ul>
+
+    
+    
+    
+
+    
+    <li id="morebutton">
+      <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=MoreMenu" class="action more">More...</a>
+    </li>
+
+  </ul>
+</div>
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="tabmenu">
+
+  
+
+  
+
+  
+  
+
+  
+
+  <a id="menu-pagecontent" href='http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UniversalRuntimeException' accesskey="v" ><span class='accesskey'>V</span>iew</a>
+
+  <a id="menu-attach" accesskey="a" ><span class='accesskey'>A</span>ttach</a>
+
+  
+  <a class="activetab" id="menu-info" accesskey="i" ><span class='accesskey'>I</span>nfo</a>
+
+  </div>
+<div class="tabs">
+
+  <div id="pagecontent" class="hidetab" >
+
+      
+  </div>
+
+
+  <div id="attach" class="hidetab" >
+
+    
+
+
+
+
+
+
+
+
+
+
+<div id="addattachment">
+<h3>Add new attachment</h3>
+
+
+<div class="formhelp">Only authorized users are allowed to upload new attachments.</div>
+
+</div>
+
+
+
+  </div>
+
+
+  
+  <div id="info" >
+
+  <p>
+  This page (revision-1) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=UniversalRuntimeException&amp;r1=-1&amp;r2=1"
+        title="Show changes of last page update" >
+        24-Jul-2007 06:47
+      </a> by UnknownAuthor
+
+  
+  </p>
+
+  
+
+  
+  
+      <p>Only authorized users are allowed to rename pages.</p>
+  
+
+  
+  
+      <p>Only authorized users are allowed to delete pages.</p>
+  
+
+  <div class="collapsebox-closed" id="incomingLinks">
+  <h4>Incoming links</h4>
+    <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UniversalRuntimeException" accesskey="" title="">UniversalRuntimeException</a>
+    <ul><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Acronyms">Acronyms</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=AlterationWrapper">AlterationWrapper</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SpringFramework">SpringFramework</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Structure">Structure</a>
+</li></ul>
+  </div>
+
+  <div class="collapsebox-closed" id="outgoingLinks">
+  <h4>Outgoing links</h4>
+    <div class="ReferredPagesPlugin">
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UniversalRuntimeException" title="ReferredPagesPlugin: depth[1] include[.*] exclude[^$] format[compact]">UniversalRuntimeException</a>
+<ul>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=AlterationWrapper">AlterationWrapper</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CTRL1Programming">CTRL1Programming</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UserPreferences">UserPreferences</a></li>
+</ul>
+</div>
+
+  </div>
+
+  <div class="clearbox"></div>
+
+  
+  
+     
+
+
+
+
+
+
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Diff.jsp" method="get" accept-charset="UTF-8">
+<div class="collapsebox" id="diffcontent">
+  <h4>
+       <input type="hidden" name="page" value="UniversalRuntimeException" />
+       Difference between version <select id="r1" name="r1" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select> and <select id="r2" name="r2" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select>
+  </h4>
+
+  
+
+  <div class="diffbody">
+    <table class="diff" border="0" cellspacing="0" cellpadding="0">
+<tr><td class="diff">At line 1 added 100 lines</td></tr>
+<tr><td class="diffadd">The UniversalRuntimeException (URE) is one of the fundamental objects that any developer working with the RSFUtil (or indeed PonderUtilCore[1]) source cannot avoid bumping into quite quickly.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">To start with, I can do little better than reproducing the comment that appears at the head of the [.java file|https://saffron.caret.cam.ac.uk/svn/projects/PonderUtilCore/trunk/src/uk/org/ponder/util/UniversalRuntimeException.java]:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">%%( background-color: #eeeeee; border: 1px dotted black; padding: 1em; )</td></tr>
+<tr><td class="diffadd">The root of unchecked runtime exceptions thrown by the libraries. There is a</td></tr>
+<tr><td class="diffadd">general movement to make most if not all exceptions runtime exceptions (by [not only</td></tr>
+<tr><td class="diffadd">me|http://c2.com/cgi/wiki?CheckedExceptionsConsideredHarmful][2]!), since exception specifications often add verbosity without facility.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Checked exceptions are most appropriate for signalling problems between</td></tr>
+<tr><td class="diffadd">libraries with a wide degree of separation. Within a single body of code,</td></tr>
+<tr><td class="diffadd">unchecked exceptions should be used to propagate error conditions to the next</td></tr>
+<tr><td class="diffadd">boundary.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">This class has a useful (and growing) body of schemes for absorbing the</td></tr>
+<tr><td class="diffadd">target exceptions from other types of wrapping exceptions and rewrapping</td></tr>
+<tr><td class="diffadd">them.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">What we wish to preserve is a) the ultimate stack trace from the cause of the</td></tr>
+<tr><td class="diffadd">problem and b) a set of increasingly detailed messages that can be accreted</td></tr>
+<tr><td class="diffadd">onto the exception as it winds up the stack.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">A UniversalRuntimeException also contains a Class representing its</td></tr>
+<tr><td class="diffadd">&quot;category&quot;, a point in the inheritance hierarchy that may be used to classify</td></tr>
+<tr><td class="diffadd">the nature of exceptions, as being distinct from the wrapped target exception</td></tr>
+<tr><td class="diffadd">intended to record its cause. An object of the category need not ever be</td></tr>
+<tr><td class="diffadd">created, the inheritance hierachy may be queried via {{Class.isAssignableFrom()}}.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The exception category defaults to the concrete class of the exception being</td></tr>
+<tr><td class="diffadd">wrapped.</td></tr>
+<tr><td class="diffadd">%%</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">In outline, </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">%%( background-color: #ffc0c0; border: 1px dotted black; padding: 1em; )</td></tr>
+<tr><td class="diffadd">No API in RSF will EVER throw a checked exception. You may expect only UniversalRuntimeExceptions, or RuntimeExceptions of some other type.</td></tr>
+<tr><td class="diffadd">%%</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">No, don't panic, this policy is not as utterly irresponsible as it sounds. UREs merely ''wrap'' checked exceptions that they encounter, they do not swallow them. </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!Stack traces</td></tr>
+<tr><td class="diffadd">Every' type of {{printStackTrace()}} method exposed by the exception has been reimplemented to forward (recursively if necessary) the operation to the wrapped exception.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">This ensures that only ONE exception trace will ever appear even in very complex scenarios, and it will be the exception of the VERY FIRST &quot;root cause&quot; exception.</td></tr>
+<tr><td class="diffadd">!!Invocation style</td></tr>
+<tr><td class="diffadd">The standard usage of UniversalRuntimeException you will see throughout the codebase looks as follows:</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">try {</td></tr>
+<tr><td class="diffadd">   .... old-style checked-exception API ....</td></tr>
+<tr><td class="diffadd">} catch (Exception e) {</td></tr>
+<tr><td class="diffadd">   throw UniversalRuntimeException.accumulate(e, &quot;What I learned in this catch block&quot; );</td></tr>
+<tr><td class="diffadd">}</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">Note that </td></tr>
+<tr><td class="diffadd"># You do not invoke the constructor of the URE, only the static {{accumulate()}} method. This avoid unnecessary object creation, since (as will increasingly be the case in a large body of URE-compliant code), the exception will most likely ''already'' be a URE, and the wrapping code will detect this and simply return the same object from the accumulate method. </td></tr>
+<tr><td class="diffadd"># You have the opportunity to add some edifying annotation (hence the name {{accumulate}}) to the exception's message, summarising the knowledge you have at this stack level about the context or likely cause of the exception. URE messages can prove startlingly edifying at the bottom of a long chain of catchers, often explaining the total context of the problem with eerie lucidity. Always try to add as much context as you can in these accumulate blocks - you probably know at least something relevant - but do not duplicate information likely to already be known by your callee.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!! Ultimate catching</td></tr>
+<tr><td class="diffadd">Eventually, sometimes a very long way away, someone will want to catch an exception who actually has the facility to take some intelligent action on it. I tend to find there are very few such points in an application, usually concentrated in a layer just below the top. In this case they may expose the wrapped exception to the full battery of analysis by recovering it using the {{getTargetException()}} method.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!! Results</td></tr>
+<tr><td class="diffadd">95% of catching logic typically written is worthless - how many times have you seen something like this[3]?</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">   catch (IllegalArgumentException e) {</td></tr>
+<tr><td class="diffadd">      e.printStackTrace();</td></tr>
+<tr><td class="diffadd">    }</td></tr>
+<tr><td class="diffadd">    catch (IllegalAccessException e) {</td></tr>
+<tr><td class="diffadd">      e.printStackTrace();</td></tr>
+<tr><td class="diffadd">    }</td></tr>
+<tr><td class="diffadd">    catch (InvocationTargetException e) {</td></tr>
+<tr><td class="diffadd">      e.printStackTrace();</td></tr>
+<tr><td class="diffadd">    }</td></tr>
+<tr><td class="diffadd">}}} </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Not only is this enormously detrimental to code clarity, it is also entirely unhelpful to calling code. There are many equally worthless variations on this theme, of various degrees of blameworthiness, and it is startlingly hard to easily write a catch block in Java that is both readable and responsible.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Replace your {{try..catch}} blocks with the standard block above which uses ''throw UniversalRuntimeException'', and the URE will ensure that:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd"># Root cause exceptions are always passed on upstream</td></tr>
+<tr><td class="diffadd"># The least possible clutter appears in intervening code</td></tr>
+<tr><td class="diffadd"># At most one stack trace appears in your logs[4]</td></tr>
+<tr><td class="diffadd"># As few as possible intervening wrapping exceptions intervene between the ultimate catcher and their desired target exception (note that UREs silently eat and auto-unwrap all other wrapping exceptions, such as InvocationTargetExceptions, SAXExceptions, other UREs, removing them from the chain).</td></tr>
+<tr><td class="diffadd"># It is EXTREMELY easy to write complex callback code such as the [AlterationWrapper] without having to panic about exception signatures.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Note that [Spring|http://www.springframework.org/about] (check &quot;Mission Statement&quot;) itself has long adopted a policy of the removal of all checked exceptions as being grossly inconsistent with a dependency-free bean environment - the URE merely extends this to its maximum level of convenience.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">----</td></tr>
+<tr><td class="diffadd">%%(font-size:85%)</td></tr>
+<tr><td class="diffadd">[#1] Note that many parts of PonderUtilCore exist ''solely'' to apply sensible exception-handling semantics to other parts of the JDK - take a look at [StreamCloseUtil] for example. This is also one of the major purposes of [PrintOutputStream]. Check in PonderUtilCore before you write any URE-wrapping code that it isn't already there.\\</td></tr>
+<tr><td class="diffadd">[#2] There used to be a great article here for a good many years - any ideas what happened to it? Here is a [better one|http://www.mindview.net/Etc/Discussions/CheckedExceptions/] by Bruce Eckel and commented by Kevlin Henney, however.\\</td></tr>
+<tr><td class="diffadd">[#3] A - probably as often as you pressed [CTRL-1|CTRL1Programming] in Eclipse :P\\</td></tr>
+<tr><td class="diffadd">[#4] How many times, browsing through Tomcat logs, have you seen the same enormous exception trace reproduced 3 or even more times, each time with just a bit more stack trace stuck on it? Of course it is always the ''worthless'' part of the stack trace that is reproduced the greatest number of times, and more often than not some idiot near the top of the chain has trampled on the valuable bit...</td></tr>
+<tr><td class="diffadd">%%</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">----</td></tr>
+<tr><td class="diffadd">%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%</td></tr>
+<tr><td class="diffadd">[{INSERT WeblogPlugin}]</td></tr>
+<tr><td class="diffadd">[{INSERT WeblogEntryPlugin}]</td></tr>
+</table>
+ 
+  </div>
+</div>
+</form>
+
+  
+  
+
+	
+    
+    
+
+    
+
+    <div class="zebra-table sortable table-filter">
+    <table class="wikitable" >
+      <tr>
+        <th>Version</th>
+        <th>Date Modified</th>
+        <th>Size</th>
+        <th>Author</th>
+        <th>Changes ...</th>
+        <th class='changenote'>Change note</th>
+      </tr>
+
+      
+      
+      <tr>
+        <td>
+          <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UniversalRuntimeException&amp;version=-1" accesskey="" title="">
+            
+          </a>
+        </td>
+
+	    <td style="white-space:nowrap;" sortvalue="Tue, 24 Jul 2007 06:47:40">
+        24-Jul-2007 06:47
+        </td>
+        <td style="white-space:nowrap;text-align:right;">
+          
+          7.427&nbsp;kB
+        </td>
+        <td>UnknownAuthor</td>
+
+        <td>
+          
+
+          
+        </td>
+
+         <td class="changenote">
+           
+           
+         </td>
+
+      </tr>
+      
+      
+
+    </table>
+    </div>
+    
+    
+  </div>
+
+
+  <div style="clear:both;" ></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+<div id='actionsBottom' class="pageactions"> 
+    
+
+    <a href="#top" 
+      class="action quick2top" 
+      title="Go to top" >&laquo;</a>
+
+    
+       This page (revision-) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=UniversalRuntimeException&amp;r1=-1&amp;r2=1">24-Jul-2007 06:47</a> by UnknownAuthor
+    
+
+    
+
+   
+
+  
+
+   
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div id="favorites">
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=UniversalRuntimeException" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=UniversalRuntimeException"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+  
+  <div id="hiddenmorepopup">
+  <ul id="morepopup">
+     
+       	
+     
+       
+     
+    
+       
+     
+       <li>
+       
+       <a class="action rawpage wikipage" 
+               href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UniversalRuntimeException&amp;skin=raw"
+              title="View Page Source">View Page Source
+       </a>
+       
+       
+       </li>
+      
+        
+  
+      
+      
+      
+
+      
+	  <li class='separator'>
+        <div id="moremenu" ></div>
+      </li>
+  </ul>
+  </div>
+  
+  
+
+  
+
+  
+
+  
+  <div class="leftmenu">
+    <p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main">Main page</a><br />
+<tt> </tt><i><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ThisWiki">About</a></i><br />
+</p><p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=GettingStarted">Getting Started</a><br />
+</p>
+<p><b>Documentation</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Developers">Developers</a><br />
+<tt>  </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Javadocs">Javadocs</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Designers">Designers</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SampleRSFApps">Sample RSF Apps</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Presentations">Presentations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Acronyms">Acronyms</a><br />
+</p>
+<p><b>Downloads</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CurrentCode">Current Release</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=TrunkCode">Trunk</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CodeDistributions">Distributions</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=OldCode">Old Versions</a><br />
+</p>
+<p><b>Community</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=QampA">Q&amp;A</a><br />
+<tt> </tt><a class="external" href="http://ponder.org.uk/rsf/">Forums</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=EmailLists">Mailing Lists</a><br />
+<tt> </tt><a class="external" href="http://www.caret.cam.ac.uk/jira/browse/RSF">Issue Tracker</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=People">People</a><br />
+</p>
+<p><b>Design</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Roadmap">Roadmap</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Integrations">Integrations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Concepts">Concepts</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Philosophy">Philosophy</a><br />
+</p>
+<div style="font-style:italic;font-size:0.8em;">
+<b>Pages</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=FindPage">Find</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RecentChanges">Recent Changes</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UnusedPages">Unused</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UndefinedPages">Undefined</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PageIndex">Index</a>
+</div>
+<p />
+    
+  </div>
+  
+  <div class="leftmenufooter">
+    <hr />
+<p><b>Referenced by</b><br />
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Acronyms">Acronyms</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=AlterationWrapper">AlterationWrapper</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SpringFramework">SpringFramework</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Structure">Structure</a><br />
+</p>
+    
+  </div>
+
+  
+
+  
+  
+  <div class="wikiversion">JSPWiki v2.8.2
+  <span class="rssfeed">
+    
+  </span>
+  </div>  
+  
+</div>
+
+	<div class="clearbox"></div>
+  </div>
+
+  
+
+
+
+
+
+ 
+<div id="footer">
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  <div class="copyright"></div>
+
+  <div class="wikiversion">
+    JSPWiki v2.8.2
+  </div>
+
+  <div class="rssfeed">
+    
+  </div>
+
+</div>
+
+</div>
+
+</body>
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=UniversalRuntimeException&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:19 GMT -->
+</html>

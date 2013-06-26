@@ -1,0 +1,133 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+We are currently working on the &quot;basic&quot; Cookbook app that lets us manipulate lists of {{Recipe}} objects in a straightforward CRUD application. As in Ruby on Rails, RSF features a &quot;scaffold&quot; system where apps of this type can be automatically generated based purely on ORM information, in this case stored in the .hbm file. However, since right now we are explaining the RSF approach to ORM itself, it's worthwhile to build this app by hand to start with so you can see how this works in simple cases.
+!!! List view
+Let's first build the &quot;list&quot; view. It's much easier to first see the &quot;picture on the box&quot;,
+so here is what the completed view will look like:
+
+[{Image src='cookbook-basic-recipe-list.png' align='center'}]
+
+!! HTML template
+One of the central benefits of RSF is its HTML templating system, so let's start by designing the [appearance of this web page|https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernateCookbook/trunk/basic/src/webapp/content/templates/recipes.html] first in pure HTML (as you probably would in real life). In other frameworks this would just be a &quot;mockup&quot; of the UI, whereas using RSF (with [IKAT]) it is virtually &quot;ready to eat&quot; - just liberally sprinkle with {{rsf:id}} attributes. All of the components here are simple leaf components, except for the one that represents the table row, which will need to be repeated in the final view. As you may recall from the [Number Guessing app|NumberGuessing_3] where we met tables for the first time, you present repeating (or otherwise dynamically resolved) components to the IKAT renderer by giving them IDs containing the colon character, in this case for {{recipe-row:}}. Other than these {{rsf:id}}s, the template is pure XHTML, and will preview in any browser. Note that you will need to be more careful about authoring these templates than with HTML, since XML does not permit any sloppiness with unbalanced tags or incorrect cases.
+
+{{{
+&lt;!DOCTYPE html      PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+     &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+&lt;html xmlns:rsf=&quot;http://ponder.org.uk/rsf&quot;&gt;
+&lt;head&gt;
+&lt;title&gt;All Recipes&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;Listing recipes&lt;/h1&gt;
+&lt;form rsf:id=&quot;basic-form&quot; method=&quot;post&quot;&gt;
+&lt;table border=&quot;1&quot;&gt;
+ &lt;tr&gt;
+  &lt;td&gt;&lt;p align=&quot;center&quot;&gt;&lt;b&gt;Title&lt;/b&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p align=&quot;center&quot;&gt;&lt;b&gt;Description&lt;/b&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p align=&quot;center&quot;&gt;&lt;b&gt;Date&lt;/b&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p align=&quot;center&quot;&gt;&lt;b&gt;Instructions&lt;/b&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;p align=&quot;center&quot;&gt;&lt;/p&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+  &lt;tr rsf:id=&quot;recipe-row:&quot;&gt;
+   &lt;td rsf:id=&quot;recipe-title&quot;&gt;Hot Chips&lt;/td&gt;
+   &lt;td rsf:id=&quot;recipe-description&quot;&gt;Only for the brave!&lt;/td&gt;
+   &lt;td rsf:id=&quot;recipe-date&quot;&gt;2004-11-11&lt;/td&gt;
+   &lt;td rsf:id=&quot;recipe-instructions&quot;&gt;Sprinkle hot-pepper sauce on corn chips&lt;/td&gt;
+   &lt;td&gt;&lt;a href=&quot;recipe-show.html&quot; rsf:id=&quot;recipe-show&quot;&gt;Show&lt;/a&gt;&amp;nbsp; 
+   &lt;a href=&quot;recipe-edit.html&quot; rsf:id=&quot;recipe-edit&quot;&gt;Edit&lt;/a&gt;&amp;nbsp; 
+   &lt;input type=&quot;submit&quot; rsf:id=&quot;recipe-destroy&quot; value=&quot;Destroy&quot;/&gt; 
+   &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;a href=&quot;recipe-edit.html&quot; rsf:id=&quot;recipe-create&quot;&gt;New recipe&lt;/a&gt;&lt;/p&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+}}}
+
+!! Component tree
+
+Now lets turn to the [component tree|ComponentTree] that will back this view at request-time. Here and in the next few pages we will develop this in the XML style - turn to the [final page|HibernateCookBook_4] to see how this is rendered in Java.
+
+It's clear that to generate the runtime view we will need to cause some kind of replication in the view tree, based on the results from a request-time query that we issue through Hibernate. In Java this would be achieved through simple looping, but in XML must be specified declaratively. We previously met the [UIReplicator] component in the [last page|NumberGuessing_3] of the Number Guessing sample, where we built up the table of previous guesses row by row. 
+
+The driving force behind the replicator is the [EL reference|EL] held in the {{valuebinding}} field - this is a reference which should resolve (at request-time) to a ''List'' of Java objects, which will drive the iteration and replication of components - one instance of the component held in the {{component}} field of the replicator will be generated for each list members. The only extra &quot;magic&quot; required is some jiggery with EL references and ViewParameters in the replicating component that will refer to the specific entity being replicated. Using the [&quot;One True Path&quot;|OTP] philosophy of RSF, you must make EL references to entities (in this case Recipes) at their base path which is of the form {{#{Recipe.id.field} }}. Therefore whenever you try to fetch fields of the Recipe for each row, the prefix of the EL must be rewritten to locate each successive Recipe's fields. 
+
+This is clearer with the example in view - here are the first few lines from the [component tree for this view|https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernateCookbook/trunk/basic/src/webapp/WEB-INF/producers/recipes.xml]: 
+
+{{{
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;view&gt;
+  &lt;component type=&quot;form&quot; id=&quot;basic-form&quot;&gt;
+    &lt;component type=&quot;replicator&quot; id=&quot;reciperep&quot;&gt;
+      &lt;valuebinding&gt;#{recipes-all}&lt;/valuebinding&gt;
+      &lt;idstrategy type=&quot;idremap&quot; basepath=&quot;#{Recipe}&quot; /&gt;
+      &lt;component type=&quot;branchcontainer&quot; id=&quot;recipe-row:&quot;&gt;
+        &lt;component type=&quot;output&quot; id=&quot;recipe-title&quot;&gt;
+          &lt;valuebinding&gt;#{*.title}&lt;/valuebinding&gt;
+        &lt;/component&gt;
+}}}
+
+
+!! Query bean reference
+
+So, as the first replicator field, the recipe is being driven by the list held at {{#{recipes-all} }}. Looking into this application's {{[requestContext.xml|https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernateCookbook/trunk/basic/src/webapp/WEB-INF/requestContext.xml]}}, we can see this is defined to be an HQL query bean (a standard bean supplied as part of RSF's Hibernate integration library} as follows:
+
+{{{
+&lt;!--  A simple &quot;DAO&quot; return all entities of type Recipe --&gt;
+  &lt;bean id=&quot;recipes-all&quot; parent=&quot;HQLQuery&quot;&gt;
+    &lt;property name=&quot;HQLString&quot; value=&quot;from Recipe&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+
+
+This uses the standard Spring &quot;parent bean&quot; definition syntax which you can refresh your knowledge of in the [Spring documentation|http://www.springframework.org/docs/reference/beans.html#beans-ref-element] - although it is worth remembering that the request context is not being operated by Spring code but by [RSAC], and you should not expect ''all'' Spring syntax to be valid. More and more will be supported as time goes on.
+
+!! ID remapping
+Returning to the Replicator, the next line defines our ''ID remapping strategy'':
+{{{
+    &lt;idstrategy type=&quot;idremap&quot; basepath=&quot;#{Recipe}&quot; /&gt;
+}}}
+
+This line is necessary as a result of RSF's [&quot;One True Path&quot;|OTP] model. The list of beans we are iterating over has EL paths of the form {{#{recipes-all.1} }}, {{#{recipes-all.2}  }}, etc., but when any user submission from this page is processed, we cannot use these references since it would mean re-executing the query! To avoid this efficiency risk, the EL references are rewritten ''at source'' by the Replicator, by a rule encoded by this ID remapping strategy [1]. The &quot;idremap&quot; strategy is appropriate for ORM models - it will replace the &quot;ID wildcard&quot; character (by default {{*}}) where it appears in EL paths or other references inside this replicator, with the base path {{#{Recipe} }} followed by the ID field (by default {{id}}) held in the list member.
+
+!! Replication target
+
+The final argument to UIReplicator is the chunk of components (held in a [UIBranchContainer]) that needs replicating. These can mention [EL] references starting with the special wildcard character {{*}}, for example as we see above {{#{*.title} }}, which will be rewritten to OTP path of the entity, for example {{#{Recipe.2.title} }}. In order to create links to pages centred on the ID, you can also use the {{*}} character in encoded [ViewParameters] objects. For example, this prototoype
+
+{{{
+        &lt;component type=&quot;internallink&quot; id=&quot;recipe-show&quot;&gt;
+          &lt;viewparams&gt;/recipe-show/*&lt;/viewparams&gt;
+        &lt;/component&gt;
+}}}
+
+will be expanded to links that link to the view parameters encoded by {{/recipe-show/2}}, for example.
+
+The final section of the view definition is a non-component, {{&lt;defaultview&gt;true&lt;/defaultview&gt;}}, specifying that this is the default view for our application - that is, any unknown view requests or other first-level errors will issue a client redirect to this view.
+
+----
+%%( font-size: small)
+[#1] Those who are interested can read the comments for IDRemapStrategy [here|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/expander/IDRemapStrategy.java] the definition for UIReplicator [here|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/components/UIReplicator.java], and (for the strong of stomach) the code for TemplateExpander [here|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/expander/TemplateExpander.java].
+NB that IDStrategy is not an interface since the only two examples of it (DirectIndexStrategy and IDRemapStrategy) work in such startingly different ways that it was thought best just to fold the code straight into TemplateExpander...
+%%
+----
+Head   - [Hibernate Cookbook|HibernateCookBook]\\
+Page 1 - Query beans, templates and views\\
+Page 2 - [Switches, Replicators and transit beans|HibernateCookBook_2]\\
+Page 3 - [The main app - entity selectors and Javascript|HibernateCookBook_3]\\
+Page 4 - [Let's hear that one more time - this time in Java|HibernateCookBook_4]\\
+----
+
+
+</pre>
+

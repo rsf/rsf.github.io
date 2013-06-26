@@ -1,0 +1,93 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+A [DataView|http://saffron.caret.cam.ac.uk/projects/RSFUtil/trunk/site/apidocs/uk/org/ponder/rsf/view/DataView.html] is the direct way to return non-markup responses from RSF - this is primarily used for JSON payloads, but can also be used for any other form of custom response, such as images, PDF documents, Excel spreadsheets, etc.
+
+A DataView is in outline extremely similar to a standard [ViewProducer|ComponentProducer], only the return type, rather than being a component tree, is a plain {{Object}} which is interpreted by the system in a number of ways. 
+
+!!A simple JSON DataView
+
+To create a simple DataView returning JSON, implement the {{DataView}} interface to determine the JSON content type, return the [viewID] for the view, and then finally implement the {{getData}} method to return the object you want encoded.
+
+Note that, just like a [ViewProducer|ComponentProducers], a DataView may also implement [ViewParamsReporter|http://saffron.caret.cam.ac.uk/projects/RSFUtil/trunk/site/apidocs/uk/org/ponder/rsf/viewstate/ViewParamsReporter.html] in order to determine a more detailed class of [ViewParameters] which is uses to represent its view state (URL) information.
+
+{{{
+public class JSONCatalogView implements DataView {
+  public static final String VIEW_ID = &quot;catalog&quot;;
+  
+  public String getViewID() {
+    return VIEW_ID;
+  }
+  
+  private CatalogService catalogService;
+  
+  public void setCatalogService(CatalogService catalogService) {
+    this.catalogService = catalogService;
+  }
+
+  public String getContentType() {
+    return ContentTypeInfoRegistry.JSON;
+  }
+
+  public Object getData(ViewParameters viewparams) {
+    return catalogService.getSalesItems();
+  }
+  
+}
+}}}
+
+Here we show a simple bean which has one dependency, a {{CatalogService}} from which we can fetch the data we want encoded. This is a sample DataView from the [RSFAjaxJSON] sample application which you can check out of [SVN here|https://source.caret.cam.ac.uk/rsf/projects/RSFSamples/trunk/AjaxJSON]. In this case, the return type of CatalogService is as from
+
+{{{
+public interface CatalogService {
+	public SalesItem[] getSalesItems();
+	public void setSalesItems(SalesItem[] items);
+}
+}}}
+
+Essentially any Java object type is acceptable as ready to be encoded to JSON - as well as standard POJOs, the standard framework encoder will accept Lists, Maps and arrays of POJOs also.
+
+!! Other content types
+
+As of RSF 0.7.3, DataViews are also the preferred way of returning most other non-markup responses. By returning the name of some other content type from the {{getContentType}} method, you can return data representing content of any other type --- the builtin framework content types are listed in [ContentTypeInfoRegistry|https://source.caret.cam.ac.uk/rsf/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/content/ContentTypeInfoRegistry.java]. If your content type is not listed there, instead return {{ContentTypeInfoRegistry.CUSTOM}} from {{getContentType}}, and you can then inject the {{HttpServletResponse}} object directly (available under the standard bean name {{httpServletResponseProxy}} and send any custom headers yourself.
+
+!!! Sending the data
+
+Practically any sensible form is appropriate for returning your data. RSF will accept either an {{InputStream}}, a {{Reader}}, a raw array of bytes, or a {{String}}, and appropriately relay these to the output stream in the environment. Note that character data will be encoded as {{UTF-8}}.
+
+!!Accepting Input
+
+To create a view capable of receiving input, say, in the form of JSON, additionally implement [DataInputHandler|http://saffron.caret.cam.ac.uk/projects/RSFUtil/trunk/site/apidocs/uk/org/ponder/rsf/view/DataInputHandler.html] which allows you to determine a range of supported HTTP methods (typically POST, PUT) for accepting data. For example, here is the {{JSONCatalogView}} seen above, with additional methods for accepting input (the {{DataView}} methods have been skipped here):
+
+{{{
+public class JSONCatalogView implements DataView, DataInputHandler, TypeDecodable {
+
+.....
+
+  public String getHandledMethods() {
+    return &quot;post, put&quot;;
+  }
+
+  public void handleInput(ViewParameters viewparams, String method, Object data) {
+    catalogService.setSalesItems((SalesItem[]) data);
+  }
+
+  public Object getDecodeTarget() {
+    return new SalesItem[] {};
+  }
+  
+}
+}}}
+
+{{getHandledMethods}} returns a comma-separated list of supported HTTP methods, and the {{handleInput}} method is called to actually accept the data. You will probably want to implement also the [TypeDecodable] interface to instruct the framework what kind of Java object you want the (JSON) data to be decoded into - this method returns an &quot;exemplar&quot; of the appropriate type. If you do not do this, you will receive the raw InputStream to perform the decoding yourself.
+
+</pre>
+

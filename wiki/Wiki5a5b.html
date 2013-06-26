@@ -1,0 +1,208 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!! AJAX and RSF
+
+[RSF] works well with [AJAX|http://en.wikipedia.org/wiki/AJAX] and [Javascript] (either together with client-side frameworks or as bits of Javascript you write yourself). Because RSF is designed to work in a standard [RESTful|http://en.wikipedia.org/wiki/Representational_State_Transfer] way it does not require or use Javascript for navigation, posting data, or any framework activities. This is notable because it is in contrast to the way many other Java [web frameworks|http://en.wikipedia.org/wiki/Web_application_framework] operate.
+Developers can choose to use RSF Javascript libraries for widgets, validation (eventually), and other specialized built-in RSF actions, but these are optional and are only used to enhance the user experience.
+
+There are multiple ways to use AJAX in RSF which are detailed below. We highly encourage looking at the [sample apps|SampleRSFApps] for examples of AJAX in RSF as a complement to this page. The sample applications are heavily commented and in many cases offer better explanations of how things work.
+
+!! Returning a simple JSON payload
+
+To define an RSF view which returns a simple JSON payload, encoded from a set of Java objects, use a [DataView|DataViews]. DataViews can also return other kinds of non-markup content types (images, PDF files, etc.).
+
+!! UVB shortcut (Recommended where a markup-based approach is not appropriate - see below)
+
+RSF provides a special [producer|ComponentProducer] called the [Universal View Bus|UniversalViewBus] (or UVB for short). When this is combined with the [RSF Javascript library|RSFJSLibrary] (rsf.js) it allows a developer to make AJAX requests with minimal programming effort - in particular with no new request-handling code on the server-side.
+
+! Using UVB to handle an AJAX request and response cycle
+* In your template, create a form and a field which we will use to put data in to send along in the AJAX request, you could use any type of field you like to hold data but the field does have to be placed inside a form:
+{{{
+&lt;form rsf:id=&quot;input_form&quot; style=&quot;display:inline;&quot;&gt;
+   &lt;input rsf:id=&quot;input_field&quot; id=&quot;input_field&quot; type=&quot;text&quot; size=&quot;20&quot; maxlength=&quot;20&quot; /&gt;
+&lt;/form&gt;
+&lt;div id=&quot;result_field&quot;&gt;&lt;/div&gt;
+}}}
+** Remember to write the client-side XML id {{id=&quot;input_field&quot;}} on this element as well as the {{rsf:id}} to ensure that the RSF renderer writes a client side id when it rewrites the element. We will need the XML id later when we refer to the element via Javascript. (The id you write in the markup need not agree with RSF's id, but if you want to write a preview function call in place of the comment below, you can use this id there).
+* In your template, create a placeholder {{&lt;script&gt;}} tag which will hold the call to your init method, this will allow you to pass information from the server to the Javascript, such as the IDs for the fields controlled by RSF, as well as the [EL] bindings
+{{{
+&lt;script rsf:id=&quot;init_js&quot; type=&quot;text/javascript&quot;&gt;
+    // a real function call with real values which come from the 
+    // &quot;emitJavascriptCall&quot; method will be placed here by RSF
+&lt;/script&gt;
+}}}
+ (Note that you can write an actual function call here in the markup too, to set up an environment that would let you preview your dynamic behaviour from your template file in the filesystem)
+* In your {{my-app.js}} file (may need to create one), create an init method to set up for an AJAX request. This method should take params which include elBindings and fieldIds for RSF controlled fields (e.g. input)
+** Use the {{getAJAXUpdater}} function to create a trigger function
+** Attach that trigger function to events or just run it yourself
+{{{
+function initMyAjaxStuff(fieldId, elBinding) {
+   // get the field we are working with
+   var inputField = document.getElementById(fieldId);
+   // get the URL from the form
+   var ajaxUrl = inputField.form.action;
+
+   var callback = function(results) {
+      // this function (callback) defines what to do 
+      // when the ajax response is received,
+      // the response will be placed in the &quot;results&quot; variable
+
+      // result.EL is a map of ELbinding -&gt; JS Object
+      var resultField = document.getElementById(&quot;result_field&quot;);
+      // get out the object (which is a string array in 
+      // this case) and decode it
+      var resultArray = RSF.decodeRSFStringArray(results.EL[elBinding]);
+      // output the array on the screen
+      resultField.innerHTML = resultArray;
+   }
+
+   // setup the function which initiates the AJAX request
+   var updater = RSF.getAJAXUpdater([inputField], ajaxUrl, [elBinding], callback);
+   // setup the input field event to trigger the ajax request function
+   inputField.onchange = updater; // send request when field changes
+}
+}}}
+** Remember to add your {{my-app.js}} file to your template
+{{{
+&lt;script type=&quot;text/javascript&quot; language=&quot;JavaScript&quot; src=&quot;../js/my-app.js&quot;&gt;&lt;/script&gt;
+}}}
+* In your producer, pass the UVB Producer URL into the DOM so that it can be accessed by your Javascript and used as the target for the AJAX request. In this example we are putting the URL in the form action:
+{{{
+UIForm form = UIForm.make(tofill, &quot;input_form&quot;);
+// this puts the URL to the UVB producer in the form so we can get to it
+form.viewparams = new SimpleViewParameters(UVBProducer.VIEW_ID);
+}}}
+* In your producer, use a [UIInitBlock|InitBlock] to pass the needed data (fieldIds, elBindings, etc.) from the producer (server) to the template javascript (client) while triggering the init method, in this example we are showing how to get the full ID of an RSF controlled field (first param) and also pass along an [EL] binding (second param)
+{{{
+  UIInput inputfield = UIInput.make(form, &quot;input_field&quot;, &quot;myAjaxBean.search&quot;);
+  UIInitBlock.make(tofill, &quot;init_js&quot;, &quot;initMyAjaxStuff&quot;, new Object[] {inputfield, &quot;myAjaxBean.results&quot;});
+}}}
+** This init block will generate a Javascript call in the output XHTML that looks like:
+{{{
+initMyAjaxStuff(&quot;input_field&quot;, &quot;myAjaxBean.results&quot;);
+}}}
+** Note that if you really need for some reason to take control of the rendering of the Javascript call, you can instead use the RSF utility call {{HTMLUtil.emitJavascriptCall}} which is what the UIInitBlock renderer uses internally. However you are generally recommended not to mix the client-side and server-side worlds by explicitly bashing together Javascript code in Java, unless you absolutely need to.
+
+* Create a bean which will do the processing when it receives the parameters from the AJAX request (this is just a standard bean), if you are sending more than one ajax request value then you will have to trigger the handleAjaxCall method in another way, see the [Sample RSF apps|SampleRSFApps] for examples
+{{{
+public class AjaxHandlerBean {
+   public String search;
+
+   private String[] results;
+   public String[] getResults() {
+      handleAjaxCall();
+      return results;
+   }
+
+   public void handleAjaxCall() {
+      if (search == null || search.equals(&quot;&quot;)) {
+         // this should not happen so die here
+         throw new RuntimeException(&quot;Blank AJAX search&quot;);
+      } else {
+         // make an array of stuff to return
+         results = new String[] {search,&quot;aaron&quot;,&quot;is&quot;,&quot;totally&quot;,&quot;cool&quot;};
+      }
+   }
+}
+}}}
+* Add the AjaxHandlerBean definition to the ''requestContext.xml'' file
+{{{
+&lt;bean id=&quot;myAjaxBean&quot;
+      class=&quot;uk.org.ponder.rsf.ajax.autocomplete.AjaxHandlerBean&quot;&gt;
+&lt;/bean&gt;
+}}}
+* Add the id of your AJAX handler bean (myAjaxBean) to the list of [request addressible beans|RequestWriteableBeans]  (with requestAddressibleParent) in your {{applicationContext.xml}} file, this is needed so that UVB can write data into the the bean
+{{{
+&lt;bean parent=&quot;requestAddressibleParent&quot;&gt;
+   &lt;property name=&quot;value&quot; value=&quot;myAjaxBean&quot; /&gt;
+&lt;/bean&gt;
+}}}
+* You should be able to start up your application and change the field to trigger an AJAX request which should return an array from the server which has the search string in it (yes, completely pointless but it illustrates the cycle), then the value will be placed in the {{&lt;div&gt;}}
+
+! What if I just want to trigger a method on the server using an AJAX request and do not want to pass any values?
+
+This is exactly the same as the code demonstrated above, just change the following:
+* Leave off the search property ({{public String search;}}) from the AJAX handler bean
+* Don't pass an inputField when calling the ''emitJavascriptCall'' method (only pass the [EL] binding)
+* Change the initMyAjaxStuff function to only use one param
+{{{function initMyAjaxStuff(elBinding) {}}}
+* Change the call to the getAJAXUpdater to leave out the input fields
+{{{var updater = RSF.getAJAXUpdater([], ajaxUrl, [elBinding], callback);}}}
+
+! What if I don't care about the results of the AJAX request?
+
+This is exactly the same as the code demonstrated above, just change the following:
+* Do not bother returning a real result, just return empty string from the AJAX handler bean
+{{{
+public String getResults() {
+   handleAjaxCall();
+   return &quot;&quot;;
+}
+}}}
+* Change the callback method to not do anything {{ var callback = function(results) { } }}, you may want to still check to see if there were failures during the call by looking at {{results.isError}}
+
+! Sample application
+There is a [sample RSF application|SampleRSFApps] which demonstrates everything shown above in SVN at:
+[https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/AjaxAutocompleteSimple/]
+
+
+!! AJAX handler view
+
+!&quot;Semantic&quot; AJAX, or XML views
+This will be the method that is most similar to the standard way AJAX is manually handled in a webpage, where there is no special framework support. It involves creating a [view producer|http://saffron.caret.cam.ac.uk/projects/RSFUtil/apidocs/uk/org/ponder/rsf/view/ViewComponentProducer.html] which will be the target for your AJAX requests and an xml template to control the layout. When this [producer|ComponentProducer] is triggered (by an AJAX request) it will (possibly) receive [ViewParameters] which contain the data being passed in (you are responsible for choosing how to encode and decode any data you are passing in your request). It will then work like a normal view producer and template combination and the data will be placed into the template based on the rsf:ids in the template. Then the XML will be sent back via an AJAX response. This requires the most manual work but provides for as much flexibility as you need. In this case your producer should implement {{[ContentTypeReporter|http://saffron.caret.cam.ac.uk/projects/RSFUtil/trunk/site/apidocs/uk/org/ponder/rsf/content/ContentTypeReporter.html]}} and return the value {{[ContentTypeInfoRegistry.AJAX|http://saffron.caret.cam.ac.uk/projects/RSFUtil/trunk/site/apidocs/uk/org/ponder/rsf/content/ContentTypeInfoRegistry.html]}}. Give your template a {{.xml}} extension. In views like this you will generally use the components [UIOutput|PrimitiveComponents], {{UIVerbatim}} and {{UIBranchContainer}}.
+
+!Markup-driven AJAX, or HTML views
+It is also very easy to create a view rendering an HTML fragment, for use with an [AHAH|http://en.wikipedia.org/wiki/AHAH] strategy. Simply create a template for the markup fragment you want, and write a producer using all the usual RSF [components|PrimitiveComponents]. For views like this you will implement {{[ContentTypeReporter|http://saffron.caret.cam.ac.uk/projects/RSFUtil/trunk/site/apidocs/uk/org/ponder/rsf/content/ContentTypeReporter.html]}} and return the value {{[ContentTypeInfoRegistry.HTML_FRAGMENT|http://saffron.caret.cam.ac.uk/projects/RSFUtil/trunk/site/apidocs/uk/org/ponder/rsf/content/ContentTypeInfoRegistry.html]}}
+
+!Custom responses
+For stepping outside the RSF rendering system completely, you can register a custom request handler using a [HandlerHook] - this can render any kind of response at all, since it takes manual control of the {{HttpServletResponse}} or other environment. The drawback of this approach is that your application will not be portable to non-Servlet environments.
+!! AJAX frameworks
+
+RSF fully supports the use of [AJAX frameworks|http://en.wikipedia.org/wiki/Ajax_framework] and has been tested with the following frameworks:
+* [jQuery|http://jquery.com/]
+* [Dojo Toolkit|http://www.dojotoolkit.org/]
+* [Yahoo! UI Library (YUI)|http://developer.yahoo.com/yui/] - used in the RSF data picker widget
+''Other frameworks should work fine with RSF, we just have not tested them''
+
+If the framework allows you to construct your own AJAX requests then you can use the UVB shortcut and simply pass the data back to the framework once UVB gives you the AJAX response. If not, then you will have to make as AJAX handler view to process the requests from your framework (the framework would then handle the responses for you). This is often an attractive option as it takes the most advantage of the AJAX framework but it does require extra work.
+
+We recommend you avoid AJAX frameworks that [pollute the global namespace|http://www.ajaxprogrammer.com/?p=24] or [extend the core Javascript objects|http://phrogz.net/JS/Classes/ExtendingJavaScriptObjectsAndClasses.html]. Using frameworks like this will cause your app to not play nicely in portlet environments or other environments where the javascript ends up being shared between apps. Unfortunately, this includes any frameworks that use [prototype|http://www.prototypejs.org/] (more info on the [prototype extensions|http://www.prototypejs.org/learn/extensions].
+
+!!!jQuery usage note
+I (jmarca) have found that jQuery does not like the ids that are generated automatically by RSF.  As noted in the [jQuery FAQ|http://docs.jquery.com/Frequently_Asked_Questions#How_do_I_select_an_element_that_has_weird_characters_in_its_ID.3F], jQuery chokes on characters that have a meaning in CSS, as it uses [CSS selectors|http://docs.jquery.com/Selectors] to do some fancy DOM searching.  To prove this, I put the following code in my javascript.  In the example, &quot;formId&quot; is created more or less following the [LogonTest example|http://www2.caret.cam.ac.uk/rsfwiki/Wiki.jsp?page=LogonTest_2]
+
+{{{
+ constructorFn.initLogin=function(formId) {
+   // get the field we are working with
+   var loginForm  = jQuery(&quot;#&quot;+formId);
+   var bechity    = jQuery(&quot;#login-not-logged-in-pane::login-form&quot;);
+   var bechityboo = jQuery(&quot;#login-not-logged-in-pane\\:\\:login-form&quot;);
+    ...
+}}}
+
+If you run this in Firefox with Firebug enabled, you will see the following output as you step over these lines:
+
+[screenshot.png]
+
+I don't know how to solve this problem in Java, but my Javascript solution is as follows:
+
+{{{
+ constructorFn.initLogin=function(formId) {
+    // jQuery chokes on colons
+    var formIdNoColon = formId.replace(/(\:)/g,&quot;\\$1&quot;);
+    // get the field we are working with
+    var loginForm = jQuery(&quot;#&quot;+formIdNoColon);
+    ...
+}}}
+
+</pre>
+

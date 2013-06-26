@@ -1,0 +1,87 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The &quot;One True Path&quot; (OTP) philosophy (or convention) is the cornerstone of the treatment of ORM (Object-relational mapping) in RSF. It states that for every (persistent) entity in the system, it can be found at one &quot;true&quot; or &quot;canonical&quot; {{EL}} path. This is derived from its entity name (as defined by the ORM solution, e.g. Hibernate) and its entity ID in a simple way - for example, an entity of type {{Recipe}} with an id of {{ea6b}} can be found at the (request) [EL] path
+
+{{{
+#{Recipe.ea6b}
+}}}
+
+Note that this &quot;same&quot; entity will obviously appear at a great many other EL paths (for example as members of (HQL) query beans). The OTP path is generally special since it is typically the only path at which data can be 'written', and also enjoys some guarantees of quick access. However note that for some query patterns, individual queries by id will not be the most effective access pattern, and the OTP pattern might need to be adapted. The OTP path is generally the ''shortest'' EL path at which a particular entity can be accessed.
+
+This approach is practical in RSF because of its combination of [RSAC] and [EL bindings|EL] which allow dependencies on request entities to be injected INTO beans representing application logic, rather than the other way round as happens in so many other frameworks.
+!!Quick OTP using the [EntityBeanLocator]
+
+[EntityBeanLocator] is a standard framework interface in RSF, that comes with a default implementation which makes writing an OTP space for an entity very easy, given just a standard &quot;DAO-type&quot; API managing the entity. This API would expose standard methods such as &quot;find by ID&quot;, &quot;save&quot;, &quot;remove&quot; etc. Go to the dedicated page on [EntityBeanLocator] for the &quot;quick path&quot;, or carry on reading here to learn more about low-level mechanics for OTP.
+
+!! An OTP BeanLocator written out longhand
+Although RSF automates the creation of OTP &quot;locators&quot; in many cases (for example, when using RSFHibernate, or EntityBeanLocator), it's useful to see a complete locator written out longhand:
+
+{{{
+public class ScaleBeanLocator implements BeanLocator {
+  public static final String NEW_PREFIX = &quot;new &quot;;
+
+  private LocalScaleLogic localScaleLogic;
+  // Injection method for application-scope &quot;service&quot; which manages the entities
+  public void setLocalScaleLogic(LocalScaleLogic localScaleLogic) {
+    this.localScaleLogic = localScaleLogic;
+    }
+  // Local cache of entities which have been referenced via EL, indexed by Id
+  private Map delivered = new HashMap();
+
+  // Implements the BeanLocator interface
+  public Object locateBean(String path) {
+    Object togo = delivered.get(path);
+    if (togo == null) {
+      if (path.startsWith(NEW_PREFIX)) {
+        togo = localScaleLogic.newScale();
+      } else {
+        togo = localScaleLogic.fetchScale(path);
+        }
+      delivered.put(path, togo);
+      }
+    return togo;
+    }
+
+    public void saveAll() {
+      for (Iterator it = delivered.keySet().iterator(); it.hasNext();) {
+        String key = (String) it.next();
+        EvalScale scale = (EvalScale) delivered.get(key);
+        if (key.startsWith(NEW_PREFIX)) {
+          // could be a special case in some models
+          }
+        localScaleLogic.saveScale(scale);
+        }
+      }
+    }
+}}}
+
+The key point to notice is the private HashMap {{delivered}} of the {{EvalScale}} entities which this locator deals in. This is a private cache which is built up in this request-scope locator of all the entities which have been so far referred to via EL - every time a previously unreferenced {{EvalScale}} is referred to over the request, the backing service {{LocalScaleLogic}} is queried for the {{EvalScale}}, and it is stashed in the {{delivered}} map before it is returned. 
+
+At the end of a request, where we know some {{EvalScale}} modifications have been done, we call call the {{saveAll()}} method (perhaps using a [UICommand|PrimitiveComponents] [method binding|Bindings] of something like {{#{
+scaleBeanLocator.saveAll} }} which will then traverse the map, using the backing service again to save every value which has been modified.
+
+!!&quot;New&quot; entities convention
+Part of the OTP standard is the treatment of &quot;new&quot; entities that are being created during the request cycle. By convention, these are all given names beginning with the string &quot;{{new }}&quot; (that is, lower-case &quot;new&quot; followed by a single space) - the string following this prefix is arbitrary, with the natural idea that mentioning the same suffix will refer to the same &quot;new&quot; bean within the request cycle. At the end of the cycle, &quot;new&quot; beans are committed/persisted by some ORM-dependent semantics. For example, when using RSFHibernate, they are registered with the {{receiveNewEntity}} method of [HibernateEntityBeanManager|https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernate/trunk/src/java/uk/org/ponder/rsf/hibernate/HibernateEntityBeanManager.java], and then all passed in sequence to {{session.save()}} on successful action request end. This is reasonable behaviour for a wide range of applications, but as you can observe these are all pretty short classes that are easy to reimplement and replace. The key point is that adhering to OTP EL semantics enables an enormous variety of implementations to be supported without altering application code or idioms.
+
+!!Examples and related concepts
+See [page 4|HibernateCookBook_4] of the &quot;Hibernate Cookbook&quot; app for an example of OTP in action, in this case using the automatic locators created by RSFHibernate.
+
+OTP is related to the concept of [BeanExploders] - the address space provided by both schemes look identical to users, but where each OTP bean is different as a result of being fetched from persistent store, each exploded bean is a &quot;throwaway&quot; copy of the &quot;same&quot; bean.
+
+OTP can be seen as part of the [BeanReasonableness] initiative, in that it is designed to avoid the &quot;same&quot; path referring to &quot;different&quot; beans[1]. .It enables the bean classes produced by an ORM solution such as [Hibernate|http://www.hibernate.org] to be ''directly'' usable within a web application without the usual need for a &quot;controller&quot; or &quot;bridging&quot; layer designed to abstract away their usually obnoxious semantics. 
+
+There is some more historical and less well-focused discussion on OTP in the page on [ObstinateMap]s.
+----
+[#1]In computer-theoretic terms, BeanReasonableness could be seen as another way of looking at [referential transparency|http://en.wikipedia.org/wiki/Referential_transparency]
+
+</pre>
+

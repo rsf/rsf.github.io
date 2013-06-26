@@ -1,0 +1,35 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The RequestSubmittedValueCache (RSVC) has turned out to be one of the central abstractions (or rather non-abstractions) of RSF. It contains a simple, flat log of all the component bindings in their form just after decoding from the (POST) request, encoded into a [SubmittedValueEntry] object. Users should seldom be troubled with how these are actually encoded in terms of request parameters, but for those who want/need to know the details, each entry is assembled from two request parameters as follows:
+
+|key|value|comments
+|[component ID|ID]|submitted (new) value| This is the natural action of the (HTML) component
+|component ID-fossil|[EL binding|EL]old value| This is the &quot;[fossilized binding]&quot; appended to the form to &quot;shadow&quot; the component]
+
+The RSVC also may need to keep a log of any &quot;[fast EL|EL]&quot; submitted with this request, in order to accurately reconstruct the bean state at a later time.
+
+|key|value|comments
+|EL &quot;l-value&quot;| &quot;r-value&quot;| The l-value is certainly an [EL] expression of the form #{bean.property1.property2} etc. The r-value may be a simple String (leaf decoding may be applied), an EL itself, or even an XML-encoded rendering of a more complex object.
+
+The RSVC has become more important as a result of its role in [RSVC replay|RSVCReplay] to implement an equivalent to [long transaction|LongTransaction] functionality, or [Multi-Request State|MultiRequestState]
+
+----
+TODO: In addition to replaying simply submitted VALUES, we also need to replay submitted ACTIONS since these will have had some collateral effect on the bean state. Note that anyone taking advantage of this strategy must make sure that their action components and other leaves are &quot;reasonable&quot; to the extent that they are not reliant on cleanup or lack thereof in between requests - this is only important for non-flow-scope beans participating in a flow-scope sequence, such as action beans and transit beans (validators &amp;c).
+
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

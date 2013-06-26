@@ -1,0 +1,70 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!! Spring Web Flow
+
+[Spring Web Flow (SWF)|http://www.springframework.org/webflow] is a self-contained library which manages the flow of a multi-request sequence of operations performed by a single user of a webapp. The configuration is managed by an XML-formatted file listing the states and transition conditions forming the flow - this may make use of [OGNL] expressions to express complex predicates. SWF is an official [SpringFramework] subproject.
+
+Spring Web Flow is a form of &quot;universal&quot; application definition, whereby the application's structure becomes freed not only from a dependence on a particular web technology, but also on a particular delivery environment and even, in theory, programming language. 
+
+!! RSF integration
+
+[RSF]'s integration with Spring Web Flow is treated on its own page at [RSF-SpringWebFlow]. This page includes notes about the integration work and porting the [Phonebook SWF Sample App|http://www.ervacon.com/products/swf/intro/index.html]. This is a good place to start if you are looking at using web flows in RSF.
+
+! RSF benefits for SWF developers
+
+Key benefits SWF developers can gain from using RSF-SWF include:
+* __Pure HTML templating__ - previewable markup can be edited directly by designers, without non-standard tags and names
+* __A &quot;Spring-only&quot; world__ - all configuration files use standard Spring format and IoC is used throughout the framework and applications
+* __Universal portability__ - port all kinds of SWF applications and flows (both JSP-style and JSF-style) into a common environment
+* __Some courtesies__ - RSF-SWF defaults to &quot;friendly&quot; behaviour on submission errors, and comes out-of-the-box with refreshable flow end states
+
+These benefits are detailed on the [RSF for SWF|RSFforSWF] page.
+
+! SWF benefits for RSF developers
+Key benefits RSF developers can gain from using RSF-SWF include:
+* __Centralised view logic__ - application logic and navigation are collected into a single, modular definition
+* __Isolated scopes__ - protect data from interference from outside the flow
+* __Safe modification__ - easily retrieve snapshots of previous flow-scoped data 
+* __Universal portability__ - port all kinds of applications to other frameworks, including theoretically those in other languages
+* __Design tools__ - gain access to powerful application design functions such as the Spring-IDE flow editor
+
+These benefits are detailed on the [SWF for RSF|SWFforRSF] page.
+
+
+!! SWF sample applications
+Several of the [Spring Web Flow samples|http://spring.ervacon.com/] have been ported to the RSF-SWF environment. In each case the flow definitions and application structure are left intact. You can try out the [RSF ports of SWF samples|http://ponder.org.uk/RSFSamplesIntro/faces/main] on our server or check out the listing of [RSF sample apps|SampleRSFApps].
+
+!Phonebook sample
+This is the first SWF app ported to RSF. A detailed tutorial of porting the [original SWF Phonebook sample|http://spring.ervacon.com/swf-phonebook/] is available at [PhonebookSWFSample]. Since this is in some ways the &quot;core&quot; SWF sample, around which much of the tutorial material is based, the port of this sample is referred to on the main [RSF Spring Web Flow|RSFSpringWebFlow] page. [Try this app|http://ponder.org.uk/SWFPhonebook-RSFSWF/faces] on our server.
+
+!SellItem sample
+Experience porting the [Sell Item - A Spring Web Flow Sample|http://spring.ervacon.com/swf-sellitem/] to run in RSF is documented on [Porting Sell Item - RSF SWF sample|PortingSellItemSWFSampleToRSF]. This page will take you through the steps necessary to port a Spring web flow app to use RSF and will give you an idea of the work required. There are additional notes on the [SellItemSWFSample] page and you can [try this app|http://ponder.org.uk/SWFSellItem-RSFSWF/faces] on our server.
+
+!SellItem JSF version
+As well as porting the basic Spring Web Flow sample, we also port the version of the application written using Spring Web Flow's JSF integration, sellItem-JSF to RSF-SWF. The flows in these two &quot;Sell Item&quot; samples are not the same, since the JSF version must defer to the JSF framework for binding. The differences between the two applications, and more advanced integration issues, are discussed on the [SellItemSWFSample] page.
+
+!Shipping Rate
+Porting the [Shipping Rate - An Ajax-enabled Spring Web Flow Sample|http://spring.ervacon.com/swf-shippingrate/] to run in RSF is documented on [Shipping Rate - RSF SWF sample|PortingShippingRateSWFSampleToRSF]. This is another example of the steps needed to port an SWF app to RSF. [Try this app|http://ponder.org.uk/SWFShippingRate-RSFSWF/faces] on our server.
+
+
+!Hotel Booking 
+The [Hotel Booking application|http://www.springframework.org/node/510] is the sample delivered with the latest milestone M1 release of the upcoming Spring Web Flow 2.0. RSF-SWF is already compatible with this milestone release, and the sample has been ported to RSF, and is documented on [Hotel Booking - RSF SWF sample|HotelBookingSWFSample]. This page demonstrates the use of the native RSF AJAX-enabled controls transparently within the SWF context, as well as RSF's new compact validation syntax.
+
+
+!! Articles on Spring Web Flow
+Here are a few useful and comprehensive articles about Spring Web Flow:
+* [TheServerSide: SWF tutorial|http://www.theserverside.com/articles/article.tss?l=SpringWebFlow] (May 2005)
+* [JavaLobby: Spring Web Flow Examined|http://www.javalobby.org/articles/spring-webflow/]
+* [JavaBeat: Spring Web Flow - Introduction|http://spring.javabeat.net/articles/2007/05/spring-web-flow-swf-1.php]
+
+</pre>
+

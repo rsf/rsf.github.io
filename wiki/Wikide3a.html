@@ -1,0 +1,37 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+For the best understanding of IKAT, it would probably be best to go to [DansIKATExplanation] (Dan's comment - this page is an attempt to come to a clear description of IKAT by Dan having a go at what he understood). [Dan|People]'s explanation is much clearer and direct than anything I could come up with, and talks about green strawberries. Hopefully we will have lots of examples on this site soon, since trying to understand the algorithm in itself is pretty pointless without some idea of what it enables you to ''do''.
+----
+Antranig's original explanation:
+
+The IKAT algorithm is described here - not in pseudocode order, but in an order that involves as few forward references to concepts as possible. For those interested in a more code-based presentation I can only recommend they look at the [ViewTemplate.java|ViewTemplate] file where it is defined.
+
+# The &quot;base state&quot; of IKAT is to be rendering linearly through the template file, simply copying from input to output, until a tag mentioning the {{rsf:id}} attribute is met. The &quot;base state&quot; is also referred to as &quot;template-driven rendering&quot;.
+# At any time in the &quot;base state&quot;, IKAT has in its hands the &quot;current container&quot;, which is an instance of [UIContainer] in which child components are to be looked up.
+# Also at any time in the &quot;base state&quot; IKAT is aware of both the current nesting depth (in terms of template XML tags) and also the initial nesting depth at which it entered the base state.
+# IKAT begins in the &quot;base state&quot; at the head of the &quot;root template&quot; file, which is specially designated by the lookup from the [TemplateResolver]. There may be several other template files also added to the resolution set. In this initial state, the current container is set to the root container of the [View] object accepted as argument.
+# When IKAT encounters an {{rsf:id}}, it will take one of three actions depending on the value of the attribute.
+## For an {{rsf:id}} containing neither a colon {{:}} nor an equals character {{=}}, IKAT will interpret the attribute value as the [ID] of a [leaf component|Component], the [Peer] of the current template tag, which must occur as a child of the current container. IKAT looks up the component, and passes it together with the current template position to the current [RenderSystem], which will look up a suitable [ComponentRenderer] based on the type of the component, and write transformed template data to output based on an inspection of both the template data and component field values. After leaf rendering, IKAT continues in the base state at a new template location determined by the renderer (either after the opening tag, or after the closing tag just seen in the template).
+## For an {{rsf:id}} containing an equals character, IKAT extracts the suffix following the {{=}} (prefix reserved for future expansion, currently {{scr}}) and uses it as an index into a request-scope container of {{StaticComponentRenderers}}. Similar to the case above, IKAT invokes the SCR and steps along in the template, remaining in the base state.
+## For an {{rsf:id}} containing a colon, IKAT leaves the base state and enters the &quot;extended state&quot;, also referred to as &quot;component-driven rendering&quot;. At this point IKAT assembles the list of all children of the &quot;current container&quot; sharing the prefix of the ID (before the colon). Each of these children must themselves be a container whose ID will necessarily contain a colon. IKAT iterates over each of these &quot;prefix-sharing children&quot; (PSC), executing the following steps for each one:
+### For each (PSC) of the current container in the &quot;extended state&quot;, the [IKAT function call|IKATFunctionCall] is invoked, the key step of the IKAT algorithm. IKAT assembles a [resolution set|ResolutionSet] consisting of ALL open tag locations in ALL templates which share the prefix of the PSC. The &quot;best match&quot; is chosen by a procedure explained on the [IKAT function call|IKATFunctionCall] page. The current template location (index and file) are ''pushed on the stack'', and IKAT resumes execution in the &quot;base state&quot; with the current container set equal to the PSC.
+### When the &quot;function call&quot; returns, and there is at least one further child left, IKAT will briefly enter the &quot;glue state&quot; where it scans along the template simply copying all data it finds until the next instance of a tag with the current prefix, OR ELSE falls below the nesting depth at which it started doing so[1].
+# If while in the base state, IKAT encounters a tag with a nesting depth ''lower'' than the initial depth, the &quot;function call&quot; will &quot;return&quot; - IKAT will restore the values of the &quot;current container&quot;, template index pointer and initial nesting depth from the stack frame, and resume scanning in the &quot;extended state&quot; at the restored index pointer.
+# If while in the base state IKAT falls off the end of the root template file, rendering is concluded.
+
+----
+[#1] NB - there is some scope for fusing the &quot;glue state&quot; with the &quot;base state&quot; if we can think of any benefits to this. Currently &quot;glue&quot; is not allowed to contain further components, and I can't at the moment think of any reason to allow anything so confusing. The &quot;glue state&quot; is meant to allow &quot;spacer&quot; components between repeated elements to be encoded in the template, and has been enormously slimmed down from an initial highly ambitious scheme whereby all possible transitions between child suffices would be mapped within the template in order to locate much more relevant &quot;multi-coloured glue&quot;. So far the only &quot;glue&quot; that has ever been used is rather drab and grey consists of an &amp;nbsp; or a hyphen...
+
+
+
+</pre>
+

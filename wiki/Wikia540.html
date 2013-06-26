@@ -1,0 +1,111 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The &quot;Ziggurat Of Integration&quot; is the name given to the following diagram of the callback structure of RSF's integration with [Spring Web Flow] as adjusted for RSF 0.7.2RC3 - this crucial change switched the integration from the previous &quot;ballistic&quot; style, modelled directly on the standard SpringMVC integration for SWF, and the more &quot;macroscopic&quot; style required to keep the flow open for some measurable portion of the RSF lifecycle. Without this change, it would be impossible for RSF binding targets to be held at flow scope in SWF.
+
+%%(text-align:center)
+[ImageHolder/ziggurat-smaller.jpg]
+%%
+
+Each horizontal level of the diagram represents a level of the call stack, with alternating layers between RSF and SWF. 
+
+This structure is highly complex because of the following factors:
+
+# The ''only'' reliable structure in the Java language is the {{finally}} block, which can only protect code executions which are made ''up'' the stack. 
+# Java has no support for co-routines implemented using the &quot;yield&quot; primitive of languages like Ruby or Python.
+# Java is a strongly-typed language, which requires argument and result types of all nested expressions to be computed in advance.
+# The 3rd transition to the &quot;peak&quot; of the ziggurat has to be ''upwards'' because it is ''optional'' - the RSF system may decide during its own binding phase to countermand an event that has been signalled over the request.
+
+Point 1. is very crucial, and an issue that the SWF team themselves encoutered during their integration with JSF. Since the JSF system is &quot;foreign&quot; to interception, there is no possible model for the reliable execution of code on behalf of a third party. This architectural problem, and its extension, that JSF has no sensible model for exception semantics, is one that led the RSF developers to abandon JSF in the first place. Until SWF version 2.0M1, in order to ensure reliable request semantics, an JSF-SWF application needs to be deployed together with a &quot;cleanup filter&quot;, to firmly close any opened flow states, that were opened at one phase of a JSF PhaseListener, but could not be closed owing to the unreliable operation of the remainder of the request (a JSF &quot;Phase&quot; may be unpredictably skipped in many cases, for example in the case of an unexpected exception or simply through being countermanded by client code anywhere in the system).
+
+SWF as of 2.0M2 will avoid this fragility wrt. the JSF integration by both &quot;inverting&quot; the request logic as well as taking over the entire JSF &quot;Lifecycle&quot; engine to ensure that certain guarantees can be made with respect to its execution.
+
+In RSF, the &quot;first level&quot; of the ziggurat comes for free, in the form of the standard [AlterationWrapper] semantics which allow arbitrary instances of client framework interception to be &quot;contributed&quot; into the RSF framework simply by means of Spring definitions. This is used for example in [RSFHibernate] to compute the nature of session/transaction bracketing required on a per-request basis. 
+!! Explanation of call levels
+As we proceed &quot;up&quot; the ziggurat, each level of wrapping provides arguments to the call stack one level deeper. These sections explain the three &quot;upward&quot; transitions in the ziggurat in more detail:
+
+! Level 1 - RSF to SWF for AlterationWrapper
+Argument supplied: the FlowExecutionKey coming in over the request.
+
+The effect is to cause SWF to unlock and open the specific flow, if it exists. The RSF request interior is supplied as a &quot;payload&quot; to this argument. This is the central point of complexity since we must compute the types of all the &quot;upcoming&quot; callbacks at this point, because of the succeeding levels of callback.
+
+! Level 2 - SWF to RSF for AlterationWrapper interior
+Argument supplied: SWF FlowExecution, so that the SWF model may be decoded and &quot;chucked in&quot; to the currently executing RSAC. This level and the succeeding only execute on RSF Action cycles. During the &quot;flat section&quot; at this RSF level, RSF will decode and apply any EL bindings targetted at the model, including the &quot;method binding&quot;, if any, targetted at the SWFEventBean, representing a requested SWF even for this cycle.
+
+! Level 3 - RSF to SWF for operating event
+Argument supplied: SWF event ID.
+
+This extra level is required, since we need *separate* access within RSF to the flow model state after the processing of any event, due to the flexibility in our integration to operate data binding either within RSF or within the SWF system (via &quot;Spring Binding&quot; and the historical FormAction class). RSF's record of the message list required for rendering on the subsequent cycle can only be acquired after this call level has returned. However, if RSF is operating its *own* binding, in the case a binding error occurs between Levels 2 and 3, RSF may decide to short-circuit any further event processing (in line with standard RSF semantics - execution of a method binding is skipped if an error state is arrived at during binding). This diagram could be much simplified if the Level 3 transition could actually be a *return* to the previously executing SWF level. However, since RSF might decide to skip this level, it is forced to be a forward transition, with the resulting complexity to the type system.
+
+
+!! Java types for call transitions
+
+!Level 1
+Invocation of RSF of the &quot;SWFFlowExecutorImpl&quot;, whose flow is modelled on the SWF framework standard &quot;FlowExceutorImpl&quot;. However, the RSF version accepts an additional argument payload:
+{{{
+  public void operate(String flowExecutionKey, SWFExecutionPayload payload,
+      final ExternalContext context) throws FlowException {
+}}}
+
+The type of SWFExecutionPayload is
+{{{
+public interface SWFExecutionPayload {
+  /** Accept an SWF FlowExecution within the body of a flow state, and return
+   * and event which is to be signalled, or &lt;code&gt;null&lt;/code&gt; if no event is
+   * required.
+   */
+  public void executeInRequest(FlowExecution execution, ResponseInstructionGetter rig);
+}
+}}}
+
+!Level 2
+Once the flow is opened, the next layer of the payload is unwrapped within the SWFFlowExecutorImpl:
+
+{{{
+      try {
+        final FlowExecution flowExecution = executionRepository
+            .getFlowExecution(key);
+        payload.executeInRequest(flowExecution,
+            new ResponseInstructionGetter() {
+              public ResponseInstruction getResponse(String eventId) {
+                ... body logic
+      
+              }
+            });
+      }
+      finally {
+        lock.unlock();
+      }
+}}}
+This shows the reliable execution of SWF flow cleanup supplied by the {{finally}} block bracketing the entire execution.
+
+This invokes back to RSF via the specially constructed type {{ResponseInstructionGetter}}
+{{{
+public interface ResponseInstructionGetter {
+  public ResponseInstruction getResponse(String event);
+}
+}}}
+
+!Level 3
+RSF may now *choose* at any time during the bracketted logic to invoke the ResponseInstructionGetter it was constructed by the Level 2 SWF execution, in order to honour the processing of an event:
+
+{{{  
+public ARIResult handleEvent(String eventId) {
+    ResponseInstruction ri = responseInstructionGetter.getResponse(eventId);
+    executor.interpretResponseInstruction(ri, (SWFViewParams) incoming);
+    return executor.getARIResult();  
+  }
+}}}
+
+This method is present on the SWFAlterationWrapper which was handed control at level 2.
+
+</pre>
+

@@ -1,0 +1,370 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!! Intro
+
+This document is meant for designers working as part of a team that is building a web application that uses RSF for its presentation layer. It assumes comfort with HTML, CSS, file systems, Dreamweaver a plus. It assumes that the initial &quot;design&quot; is pretty much set and deals mostly with the mechanics on how to produce RSF templates that will make your colleagues smile.
+
+To keep it simple - only markup will be dealt with - no behaviours, AJAX, etc.
+
+# First part will explain how things work, best practices.
+# Second part will go over creating templates with Dreamweaver and a [Dreamweaver library|http://www-personal.umich.edu/~gsilver/rsf-guide/dw-sakai-rsf.zip]. This last part is focused mainly on __Sakai__ rendering idioms. 
+# Third and last will aggregate tips, ruminations, notes on aspects of the whole process. 
+	
+!! 1 - Working with RSF 
+
+RSF is a pure HTML templating system. This means that the markup you create ends up being the bones of the presentation layer of the application - putting you in total control of it. 
+
+Lets take a look at an example. This is a simple table that you can preview in the browser. You have written it, populated it with plausible content, tested it with users, edited it, etc. The only odd thing about it is the __rsf:id__ attributes. These have the following purposes:
+
+
+__Line 7__: ''&lt;span rsf:id=&quot;headertitle1&quot;&gt;Header title 1&lt;/span&gt;'' - this is a leaf node. The value inside the &lt;span /&gt; will be substituted by a value determined by the __rsf:id__ \\
+__Line 15__:  ''&lt;tr rsf:id=&quot;row:&quot;&gt;'' - this is a branch, in this case indicating an iteration - the values of the children will be determined by the branch logic - it will cycle through all the items this table represents, and determine for the first cell/img if there is an attachment involved (and render a paperclip), for the second cell/span the name of the item (and render that), for the last cell/a if the user has the right to edit it (in which case she will get a link).
+
+And that is it. There are some subtleties but we will cover these later. 
+{{
+# &lt;table rsf:id=&quot;tableFlat:&quot; class=&quot;tableFlat&quot; summary=&quot;Descriptive data table summary&quot;&gt;
+#   &lt;caption ''rsf:id=&quot;caption&quot;''&gt;Caption&lt;/caption&gt;
+#   &lt;thead&gt;
+#     &lt;tr&gt;
+#       &lt;th class=&quot;attach&quot; id=&quot;attach&quot;&gt; &lt;/th&gt;
+#       &lt;th id=&quot;id1&quot;&gt;
+#         &lt;span ''rsf:id=&quot;headertitle1&quot;''&gt;Header title 1&lt;/span&gt;
+#       &lt;/th&gt;
+#       &lt;th id=&quot;id2&quot;&gt;
+#         &lt;span ''rsf:id=&quot;headertitle2&quot;''&gt;Header title 2&lt;/span&gt;
+#       &lt;/th&gt;
+#     &lt;/tr&gt;
+#   &lt;/thead&gt;
+#   &lt;tbody&gt;
+#     &lt;tr ''rsf:id=&quot;row:&quot;''&gt;
+#       &lt;td headers=&quot;attach&quot; class=&quot;attach&quot;&gt;
+#         &lt;img ''rsf:id=&quot;paperclip&quot;'' src=&quot;library/images/sakai/attachments.gif&quot; alt=&quot;Attachments&quot; /&gt;
+#       &lt;/td&gt;
+#       &lt;td headers=&quot;id1&quot;&gt;
+#         &lt;span ''rsf:id=&quot;cellcontents&quot;''&gt;Cell contents&lt;/span&gt;
+#       &lt;/td&gt;
+#       &lt;td headers=&quot;id2&quot;&gt;
+#         &lt;a ''rsf:id=&quot;item-modify&quot;'' href=&quot;modify.html&quot;&gt;Edit&lt;/a&gt;
+#       &lt;/td&gt;
+#     &lt;/tr&gt;
+#     &lt;tr ''rsf:id=&quot;row:&quot;''&gt;
+#       &lt;td  headers=&quot;attach&quot; class=&quot;attach&quot;&gt;
+#         &lt;img'' rsf:id=&quot;paperclip&quot;'' src=&quot;library/images/sakai/attachments.gif&quot; alt=&quot;Attachments&quot; /&gt;
+#       &lt;/td&gt;
+#       &lt;td headers=&quot;id1&quot;&gt;
+#         &lt;span ''rsf:id=&quot;cellcontents&quot;''&gt;Cell contents&lt;/span&gt;
+#       &lt;/td&gt;
+#       &lt;td headers=&quot;id2&quot;&gt;
+#         &lt;a ''rsf:id=&quot;item-modify&quot;'' href=&quot;modify.html&quot;&gt;Edit&lt;/a&gt;
+#       &lt;/td&gt;
+#     &lt;/tr&gt;
+#     &lt;tr ''rsf:id=&quot;row:&quot;''&gt;
+#       &lt;td  headers=&quot;attach&quot; class=&quot;attach&quot;&gt;
+#         &lt;img ''rsf:id=&quot;rsf-id-paperclip&quot;'' src=&quot;library/images/sakai/attachments.gif&quot; alt=&quot;Attachments&quot; /&gt;
+#       &lt;/td&gt;
+#       &lt;td headers=&quot;id1&quot;&gt;
+#         &lt;span ''rsf:id=&quot;cellcontents&quot;''&gt;Cell contents&lt;/span&gt;
+#       &lt;/td&gt;
+#       &lt;td headers=&quot;id2&quot;&gt;
+#         &lt;a'' rsf:id=&quot;item-modify&quot;'' href=&quot;modify.html&quot;&gt;Edit&lt;/a&gt;
+#       &lt;/td&gt;
+#     &lt;/tr&gt;
+#   &lt;/tbody&gt;
+# &lt;/table&gt;
+}}
+   
+!!! Recommended procedures
+
+Regardless of how you create your markup - here are some guidelines:
+
+!! write them as you see them 
+
+Write your template so as to account for all the possible variables once it is running in the application. Although a table only needs one row (&lt;tr&gt;) branch to run correctly (iterate over all the members of the list and create as many rows, for example), you might want to put in 10 of them to see how it looks. The application will ignore the extras but having your template fully populated will help you visualize it.
+
+!! comment lavishly
+
+Despite the fact that RSF templates are pretty much the presentation layer of the application, comments are needed to provide guidance to the developers. You might want to add an identifying word to your comments so that you can remove them after a testing phase is complete. Comment everything, early and often!
+
+For example. Assume that a view has a table. If there are no items you do not want __any__ part of the table to show. Instead you want to render a status message. Comments will help developers make sure that is what happens:
+{{
+# &lt;!-- designNote: message below gets rendered if there are no items for tableFlat:--&gt; 
+# &lt;p rsf:id=&quot;emptylistmessage&quot; class=&quot;messageInstruction&quot;&gt;A helpful status message&lt;/p&gt; 
+# &lt;!-- designNote: table below only gets rendered if there is  one item or more --&gt;
+# &lt;table rsf:id=&quot;tableFlat:&quot; class=&quot;tableFlat&quot; summary=&quot;Descriptive data table summary&quot;&gt;
+#   . . . . . . . 
+# &lt;/table&gt;
+}}      
+!! use real links
+
+{{
+# &lt;a rsf:id=&quot;add_new_item&quot; href=&quot;add_new_item.html&quot; &gt;Add new item &lt;/p&gt;
+}}    
+Clicking on this link will take you to that view template. This useful for user testing, and for indicating what should happen to the developer.
+
+!! using rsf:ids 
+
+This is a bit more complex. In fact - you might negotiate with the developers that you will not be adding __rsf:ids__ at all. They will rely on your lavish comments and your crystal clear documentation to figure these out. If this is so - comment! And if you are using the Dreamweaver library - remove all the stub __rsf:ids __from the templates.
+
+But if not - here are some guidelines.
+
+* __Put rsf-id first__:  make the __rsf:id__ the first attribute of the element - this helps developers scan your template 
+* __Be meaningful:__  give the __rsf:id__ a meaningful name that presages what should happen when the producer gets ahold of it and the nature of whatever gets sent to the browser. 
+* __Be consistent:__ stick to the same naming convention for __rsf:ids__ (another negotiation with developers might be needed here: camelCase, under_score, dash-madness, etc.). 
+* __Be logical:__ make __rsf:id__ reflect the logic of the view - 
+basically our choices are branch __(rsf:id=&quot;rsf-id:&quot;) or __leaf __(rsf:id=&quot;rsf-id&quot;)__  If your markup cannot express what it should in the application - you are dealing with a branch. A branch indicates 1) a fork in the display (render this or render that); or 2) a repetition (render as many of these as there are); or 3) a hierarchy -  a good example of this would be  a categorized listing with multiple nesting levels. An element of each level is determined by the parent, and in turn it determines it's children.
+
+A leaf represents just a one to one value. 
+
+* __Be prepared: __ think of your page as an application with dynamic content and behaviours. If you take a look at the markup for the table above you will notice:
+
+{{
+#       &lt;td headers=&quot;id1&quot;&gt;
+#         &lt;span ''rsf:id=&quot;cellcontents&quot;''&gt;Cell contents&lt;/span&gt;
+#       &lt;/td&gt;
+}}
+The __rsf:id__ could have been an attribute of the cell and it would have been much more economical. But since we have no assurance that there will be a value for that __rsf:id__ we associate it with a &lt;span /&gt; so that the cell gets rendered in any case, otherwise we might get a column shift in that row. 
+* __Be multilingual:__ Add all values of __rsf:ids__ that resolve to literals to a __myappname.properties__ file - this is icing on the cake and will really help when you localize your application for other languages and make the language of your application consistent.
+
+So - for example, the markup
+
+# &lt;h3 ''rsf:id=&quot;msg=page_title&quot;''&gt;A title &lt;/h3&gt;
+
+Means that the application will look up __myappname.properties__ (sample below) the value of &quot;page_title&quot; and use it to substitute the words &quot;A title&quot; with &quot;A title&quot;, &quot;Un título&quot;, &quot;Un titre&quot; etc., depending on the language of the user. 
+
+{{
+# page_title=A title
+# table_caption=Table caption 
+# table_subject_header=Subject
+# . . . . . . . . 
+}}
+This is all about speeding things up and maintaining control of the presentation layer. Structure __myappname.properties__ by groups of entries, each group representing a particular view's entries. If some literals are common to the whole application - group them together as a first group and use them in your templates religiously (instant consistency! just add property file!). For example: 
+
+{{
+(&quot;common&quot; below should have a hashmark octothorpe pound sign to denote it is a comment - but in this wiki it is used to denote a list item) \\
+common \\
+item=Item\\
+save=Save\\
+cancel=Cancel\\
+edit=Edit\\
+. . . . . . . . \\
+(&quot;list of items view&quot; below should have a hashmark octothorpe pound sign to denote it is a comment - but in this wiki it is used to denote a list item) \\
+list of items view \\
+page_title=List of items\\
+table_caption=List items. Column 1 indicates if there is an attachment, column 2 the item name, column 3 a link to edit item if allowed. \\
+table_subject_header=Subject\\
+. . . . . . . . \\
+(&quot;edit item view&quot; below should have a hashmark octothorpe pound sign to denote it is a comment - but in this wiki it is used to denote a list item) \\
+edit item view\\
+subject_input_label=Subject\\
+. . . . . . . . \\
+}}
+
+__Note: __if your strings are complex - that is - they consist of a __literal__ and a __variable__ - use a ''normal'' __rsf:id__ and make sure that the comments and the model reflect this.
+
+For example: 
+{{
+# &lt;!-- designNote: notice the model below for rsf:id value --&gt; 
+# &lt;p ''rsf:id=&quot;view_x_of_y&quot;'' class=&quot;instructionMessage instruction&quot;&gt;Viewing 1-10 of 34 messages&lt;/p&gt; 
+}}  
+!! Format well
+
+Keeping to a consistent format for indentation will keep you and the developers from running melancholy mad, specially when things get complicated. Dreamweaver does this decently - it looks like: 	{{Command/Apply Source Formatting}} 
+
+!! Make well formed and valid
+
+Make sure it is well formed and valid XHTML. This will:
+
+# allow it to work as a template at __all!__
+# allow you to pinpoint rendering problems as browser deviations from the norm
+# make you feel very virtuous 
+	
+Dreamweaver works here as well - or you can use some other tool you are comfortable with, even the [W3C validation service|http://validator.w3.org/#validate_by_uri+with_options] - it will complain __bitterly__ about the rsf:ids, so ignore those warnings but fix the rest.
+
+!! 2 - Creating the pages with Dreamweaver 
+	
+!!Setting up
+If you want to use the [Dreamweaver library|http://www-personal.umich.edu/~gsilver/rsf-guide/dw-sakai-rsf.zip] and snippet collection:
+
+# Download and unpack the library
+# Put Sakai snippets folder into snippet library - this will depend on system. 
+
+For Windows, it will be in: 
+{{E:\Documents and Settings\(username)\Application Data\Macromedia\Dreamweaver 8\Configuration\Snippets}}
+
+For OSX it will be:  {{/Applications/Adobe Dreamweaver CS3/Configuration/Snippets}}
+# Put site stub (templates, CSS, javascript) where you keep these things. If you are reading this you already know more about Dreamweaver than I do, so you probably know where.
+
+!! Doing it
+
+Again - it is assumed the initial design is done. The flow/navigation has been defined, the views sketched out a grosso modo. The sequence follows:\\
+
+# Designate a default view - this may be the initial view of the application, given the role and any other contextual information that applies.
+# Create a new page for this default view. If you are using the DW library this will be based on the  __sakai-generic.dwt__ template. This will create a stub with the right declarations and links to css files and so forth. The part you will add markup to will be:
+{{
+# &lt;body&gt;
+#  &lt;div class=&quot;portletBody&quot;&gt;
+#   __ - - - - - here! - - - - - __
+#  &lt;/div&gt;
+# &lt;/body&gt;
+}}
+
+# Save this page - giving it a very descriptive name
+# Start dragging and dropping elements of the clip library as needed into your page. Working in code view will give you better results as you will know exactly where you are dropping things.
+
+As an example the page will have:
+
+# a menu so that people can navigate to a different view 
+# a menu so that people can select actions to perform in the current view 
+# a list where each item has 3 attributes, as well as a set of possible actions on each item
+    
+The names for these elements in the snippet library are:
+
+# navToolBar
+# actionToolBar
+# tableFlat
+
+Each element will provide all the markup needed. Let's take a look.
+
+! The navigation toolbar (navToolBar)
+
+{{
+# &lt;ul  rsf:id=&quot;navToolBar:&quot; class=&quot;navToolBar&quot;&gt;
+# &lt;li rsf:id=&quot;rsf-id-stub:&quot;&gt;
+# &lt;a rsf:id=&quot;rsf-id-stub&quot; href=&quot;#&quot; title=&quot;title&quot;&gt;Go somewhere&lt;/a&gt;
+# &lt;li rsf:id=&quot;rsf-id-stub:&quot;&gt;
+# &lt;a rsf:id=&quot;rsf-id-stub&quot; href=&quot;#&quot; title=&quot;title&quot;&gt;Go there&lt;/a&gt;
+# &lt;li rsf:id=&quot;disabled&quot; class=&quot;disabled&quot;&gt;Disabled Destination
+# &lt;li rsf:id=&quot;current&quot; class=&quot;current&quot;&gt;You are here
+# &lt;/ul&gt;
+}}
+
+The snippet assumes that the navigation toolbar should be a branch. The producer will generate everything inside of it. In this case your markup is two things: 1) a placeholder - something that allows you to preview how it will look, do some user testing, etc, and 2) an indication to the developers of what should be sent to the browser. \\
+Here are the edits I would do on this generic snippet:
+
+# Change all the __list items and links __(and their __attributes__) to something that will make sense in this view in this application. 
+# Remove all the __rsf:ids__ that do not have a corresponding value 
+# Change all the __rsf:ids__ to something meaningful (this will help the developer) 
+# Change the __href__ attribute values so that the link is pointing at another template that represents what would happen when application is running. The &quot;Edit this thing&quot; link should point to &quot;edit-thing.html&quot; template, for example (this will help everyone) 
+
+The action toolbar presents the same set of choices, so will not deal with it, but here it is:\\
+
+{{
+! The action toolbar (actionToolBar)
+# &lt;ul  rsf:id=&quot;actionToolBar:&quot; class=&quot;actionToolBar&quot;&gt;
+# &lt;li rsf:id=&quot;rsf-id-stub:&quot;&gt;
+# &lt;a rsf:id=&quot;rsf-id-stub&quot; href=&quot;#&quot; title=&quot;title&quot;&gt;Add New Item&lt;/a&gt;
+# &lt;li rsf:id=&quot;rsf-id-stub:&quot;&gt;
+# &lt;a rsf:id=&quot;rsf-id-stub&quot; href=&quot;#&quot; title=&quot;title&quot;&gt;Add New folder&lt;/a&gt;
+# &lt;li rsf:id=&quot;disabled&quot; class=&quot;disabled&quot;&gt;Disabled Action
+# &lt;li rsf:id=&quot;current&quot; class=&quot;current&quot;&gt;Current Action
+# &lt;/ul&gt;
+}}	
+      
+! a list (tableFlat)
+
+{{
+#&lt;table  rsf:id=&quot;tableFlat:&quot; class=&quot;tableFlat&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; summary=&quot;Descriptive data table summary&quot;&gt;
+#&lt;caption rsf:id=&quot;rsf-id-stub&quot; title=&quot;a title&quot;&gt;
+#Caption
+#&lt;/caption&gt;
+#&lt;thead rsf:id=&quot;rsf-id-stub&quot;&gt;
+#&lt;tr rsf:id=&quot;rsf-id-stub:&quot;&gt;
+#&lt;th rsf:id=&quot;attach&quot; id=&quot;attach&quot; class=&quot;attach&quot;&gt; &lt;/th&gt;
+#&lt;th rsf:id=&quot;id1:&quot; id=&quot;id1&quot;&gt;
+#&lt;a rsf:id=&quot;rsf-id-stub:&quot; href=&quot;#&quot; title=&quot;title&quot;&gt;
+#&lt;img rsf:id=&quot;rsf-id-stub&quot; src=&quot;library/images/sakai/sortascending.gif&quot; alt=&quot;alt&quot; border=&quot;0&quot; width=&quot;11&quot; height=&quot;11&quot;/&gt;
+# Header title
+# &lt;/a&gt;
+# &lt;/th&gt;
+# &lt;th rsf:id=&quot;id2:&quot; id=&quot;id2&quot;&gt;
+# &lt;a rsf:id=&quot;rsf-id-stub:&quot; href=&quot;#&quot; title=&quot;title&quot;&gt;
+# &lt;img rsf:id=&quot;rsf-id-stub&quot; src=&quot;library/images/sakai/sortascending.gif&quot; alt=&quot;alt&quot; border=&quot;0&quot; width=&quot;11&quot; height=&quot;11&quot;/&gt;
+# Header title
+# &lt;/a&gt;
+# &lt;/th&gt;
+# &lt;/tr&gt;
+# &lt;/thead&gt;
+# &lt;tbody rsf:id=&quot;rsf-id-stub&quot;&gt;
+# &lt;tr rsf:id=&quot;rsf-id-stub:&quot;&gt;
+# &lt;td rsf:id=&quot;attach&quot; headers=&quot;attach&quot; class=&quot;attach&quot;&gt;&lt;/td&gt;
+# &lt;td rsf:id=&quot;rsf-id-stub:&quot; headers=&quot;id1&quot;&gt;
+# &lt;a rsf:id=&quot;rsf-id-stub&quot; href=&quot;''edit-thing.html''&quot; title=&quot;title&quot;&gt; ''Edit this thing''&lt;/a&gt;
+# &lt;/td&gt;
+# &lt;td rsf:id=&quot;rsf-id-stub&quot; headers=&quot;id2&quot;&gt;Cell contents&lt;/td&gt;
+# &lt;/tr&gt;
+# &lt;/tbody&gt;
+# &lt;/table&gt;
+}}
+
+The markup above should be familiar - I have cut all data rows but one (all the backend producer needs in any case). Edits I would do:
+# Add/substract columns  as needed 
+# Edit the content - make it meaningful for the template as a standalone.
+# Change all the __list items and links __(and their __attributes__) to something that will make sense in this view in this application.
+# Make all __ids unique__
+# Change all the __rsf:id__s to something meaningful (this will help the developer) 
+# Change the __href__ attribute values so that the link is pointing at another template that represents what would happen when application is running. The &quot;Edit this thing&quot; link should point to &quot;edit-thing.html&quot; template, for example (this will help everyone) 
+
+
+!! Adjusting the markup
+
+Notice that the snippets include a lot of attribute placeholders. In the table above you will see a __summary__, a __caption__, header __id__ and cell __headers__. The images have __alt__. The only placeholder attributes included in the snippets are the ones ''required'' to create minimally meaningful markup (mmm!) - there are many other possible attributes - these are your call and will depend on the context. For example: in a long list that repeats the &quot;Edit&quot; link - it could be argued that the &lt;a&gt; should include a title attribute that incorporates the name of the thing being edited, making each link distinct. Thus:
+{{
+# &lt;a ''rsf:id=&quot;item-modify&quot;'' href=&quot;modify.html&quot; title=&quot;Edit (item name)&quot; &gt;Edit&lt;/a&gt;
+}}
+Notice the lack of __rsf:id__ for the title - this is because everything inside the &lt;a&gt; will be replaced at runtime. But the __title__ attribute as written will notify the developers of your intentions. 
+
+!! Previewing it 
+
+Save your file and preview in a browser. Now may also be a good time to apply formatting, validate.
+
+!! More....
+
+! Process
+
+I found myself following this process when building templates. This might work for you as well:
+
+# Create stub template on the basis of sakai-generic DW template
+# Populate with the snippets, __in code view__ so I could see what I was doing
+# Adjust the __content__ of the template __in design view__
+# Adjust the markup (non visible attributes, rsf:ids, comments, etc.) in code view
+# Apply source formatting
+# Preview and validate
+
+!On style
+
+Since the template links to external CSS files reference the files in the location where these in the Dreaweaver site, and will change to reference the location of the same in the server, this is going to really cramp your style once past the first iteration, as you will be  getting the templates back with the new path. 
+
+You can ask that the {{&lt;link /&gt;}} elements be __rsf:id'd__. Then they will change from
+{{
+#&lt;link href=&quot;/library/skin/tool_base.css&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot; media=&quot;all&quot; /&gt;
+#&lt;link href=&quot;/library/skin/default/tool.css&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot; media=&quot;all&quot; /&gt;
+}} 
+to
+{{
+#&lt;link href=&quot;library/skin/tool_base.css&quot; rsf:id=&quot;scr=portal-matter&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot; media=&quot;all&quot; /&gt;
+#&lt;link href=&quot;library/skin/default/tool.css&quot; rsf:id=&quot;scr=portal-matter&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot; media=&quot;all&quot; /&gt;
+}}
+notice the __rsf:id=&quot;scr=portal-matter&quot;__ - this will ensure that when running in the server it will point to the right files regardless of the value of the href attribute - which now can hold the values that will make these files work fine in the Dreamweaver milieu. Hoorah! 
+
+!Doing Demos/Testing with your RSF templates
+
+You will probably want to use the same set of files to do testing and demos as you are using for the templates. A given single template will work to present complex flows - some parts will be rendered, others not, for example, or a list will be sorted with a click, etc. How to replicate this behaviour in static files?
+
+One solution is to add this to the template with javascript. A better one is to duplicate the template, edit the new one to display the change and save it with the suffix &quot;-demo&quot; as well as edit the old one and create a link to the new one. The workflow will work (for demos and testing) and the developers will then know that this is an interim template that should be ignored.
+
+See: [this example|http://www.umich.edu/~gsilver/tt2/templates/UBookBookAddbyISBN.html] - click on the &quot;Search&quot; button and you will get __UBookBookAddbyISBN-d.html__ - which is the __for demo__ variant of what the original template (__UBookBookAddbyISBN.html__) will do once it is running (the extras provided by __UBookBookAddbyISBN-d.html__ also are in __UBookBookAddbyISBN.html__ but commented out).
+
+
+
+
+</pre>
+

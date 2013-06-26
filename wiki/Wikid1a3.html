@@ -1,0 +1,53 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The code &quot;required&quot; for RSF is currently split into 3 modules, [RSFUtil|http://saffron.caret.cam.ac.uk/cgi-bin/cvsweb/rep/RSFUtil/], [ServletUtil|http://saffron.caret.cam.ac.uk/cgi-bin/cvsweb/rep/ServletUtil/] and [PonderUtilCore|http://saffron.caret.cam.ac.uk/cgi-bin/cvsweb/rep/PonderUtilCore/], with decreasing levels of dependence. 
+
+My philosophy in creating a module is to reflect the introduction of an important dependence. ServletUtil is the point at which a dependence on both the Servlet API and Spring is introduced. PonderUtilCore consists of libraries with (essentially) no external dependence.
+
+!!RSFUtil
+The only external dependence introduced at the level of RSFUtil is on [XPP], a very fast XML parser. RSFUtil actually defines the whole of RSF, the name is a bit of a historical accident resulting from the development process[1]. RSFUtil is divided into various packages having responsibility for rendering (IKAT), representing the component tree and operating RSAC, as well as defining one head Servlet, the [ReasonableServlet] that is the main entry point from web.xml. 
+
+Most of RSFUtil is defined and configured using the technologies that it presents to clients (including Spring and [RSAC]), and so it enters into a much looser component-based assemblage with its clients rather than the traditional heavyweight &quot;Push API&quot; style of framework. RSFUtil really defines a [Spring API|SpringAPI] to its clients consisting of bean names and properties which must be defined (and, where above the [bean line|BeanLine], interfaces to be implemented), but since nothing really differs between the &quot;client interface&quot; and RSF infrastructure itself, there is no reason why users shouldn't even supply their implementations of &quot;core&quot; RSF components, since Spring specifies clear &quot;bean override&quot; semantics. Although anything truly generically applicable should really be folded back into core RSF, or a new extension abstraction created - this has already happened several times in response to user requests over the 0.6.x cycle.
+
+!!J-ServletUtil
+(J-)ServletUtil introduces dependence on both [Spring|http://www.springframework.org] and {{javax.servlet.*}}. One of the generally useful things done on the servlet side is an abstraction over the rather unorthogonal RequestDispatch system within J2EE - [ServletForwardPackage|http://saffron.caret.cam.ac.uk/cgi-bin/cvsweb/rep/ServletUtil/src/uk/org/ponder/servletutil/ServletForwardPackage.java] may prepare for either local RequestDispatch within the same JVM or a remote dispatch via raw HTTP. However, this code is not actually used within RSF itself.
+
+The {{springutil}} part of ServletUtil among other things contains the [RSACBeanLocator|http://saffron.caret.cam.ac.uk/cgi-bin/cvsweb/rep/ServletUtil/src/uk/org/ponder/springutil/rsac/RSACBeanLocator.java] which implements the [RSAC] container for RSF. Also in springutil is the SpringMessageLocator which adapts to the MessageLocator interface defined in PonderUtilCore, allowing message users to stay below the [Bean Line|BeanLine]. These implementations are known to be compatible with version of Spring from 1.1.5 through 2.0, although since RSF's internal Spring files have been upgraded to the new &quot;concise&quot; format, RSF itself requires versions of Spring subequent to 1.2.
+
+!!PonderUtilCore
+PonderUtilCore contains framework-free utility libraries which are used throughout RSF - you can think of it as a kind of &quot;[Commons Lang|http://jakarta.apache.org/commons/lang/]&quot; in the big. PonderUtilCore has become somewhat larger than necessary through years of accumulation, but since it introduces no dependencies into the project and has such a flat dependence structure of its own, there has so far been little incentive to refactor it.
+
+A lot of PonderUtils consists of harmless type-wrapping code (intutil, doubleutil, charutil) of the sort that every Java programmer ends up writing a lot of. However one thing it does contain is the [UniversalRuntimeException] (URE) which will tend to impact every user of the system both practically and in terms of philosophy. Some of the rest of PonderUtilCore exists only to adapt various JDK operations to the URE, such as StreamCloseUtil. This code generally has a long history, some of which has been made obsolete by JDK developments in the last 5 years, and should be due for a spring-clean.
+
+The only really sizeable contents of PonderUtilCore is the [SAXalizer] which grew out of a serialization framework I wrote starting in around 2000.
+
+PonderUtilCore has no real external dependencies except for Log4J, and an indirect one on the [Oswego concurrency library|http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/util/concurrent/intro.html] from Doug Lea, if you are not running JDK 1.5. As such, PonderUtilCore is considered to be &quot;below the [Bean Line|BeanLine]&quot;.
+
+A near-term part of the roadmap is reorganising and trimming PonderUtilCore into a &quot;true&quot; core (containing primitive utilities, UniversalRuntimeException and stream utilities) that users might accept as a dependency separate from RSAC/RSF, and renaming the current bulk as PonderUtilMain.
+
+!!RSFHibernate
+RSFHibernate, which doesn't necessarily bring in many ''build'' dependencies, brings in a truly vast number of runtime dependencies in any app which is deployed with it. So far as possible I have tried to document and explain these in the [project.xml|https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernateCookbook/trunk/basic/project.xml] file for the basic Hibernate &quot;Cookbook&quot; sample project.
+
+
+----
+[#1] RSFUtil spent the first 6 months of its life called JSFUtil, and month by month increasingly gathered functionality as it was taken out of the hands of JSF. Finally, one day, presented with an impossible reskinning requirement RSFUtil came into existence by the simple development process of removing the JSF jars from the classpath, renaming JSF from packages and names and &quot;getting rid of the compile errors&quot;[2]\\
+[#2] This is only a semi-ironic description of my development process... Many people criticise such a style of [CTRL-1 Programming|CTRL1Programming], but, like Spring I think it is one of the significant and valuable transformations in the way people think about coding, and couldn't have come about too soon[3].\\
+[#3] Eclipse is really one of the first instrusions of the much trumpeted [&quot;Intentional Programming&quot;|http://research.microsoft.com/research/pubs/view.aspx?type=Technical%20Report&amp;id=4] into people's everyday lives. Thankfully Microsoft can't patent electrons...
+
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

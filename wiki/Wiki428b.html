@@ -1,0 +1,45 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+[UIBranchContainer|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/components/UIBranchContainer.java] is an RSF component, derived from [UIContainer|Container]. In addition to the function of simply containing other components, the purpose of a branch container is to  peer with a branching tag (with an {{[rsf:id|ID]}} containing a colon character) in the [view template|ViewTemplate]. Branch containers mark the points at which IKAT rendering logic &quot;branches&quot; by performing an IKAT resolution to find the appropriate template segment for rendering the current component. See the pages on the [IKAT] renderer and [IKAT algorithm|IKATAlgorithm] for more details.
+
+
+The standard usage of UIBranchContainer is to build one and link it to the component tree using one of its &quot;constructor&quot; {{make}}.
+
+!Taking a simple branch
+
+A simple branch, where we are indicating that the renderer is to take a simple choice, either by showing/suppressing a section of markup, or jumping to a different part of the template, is created by using the 2-arg constructor, for example:
+{{{
+  UIBranchContainer.make(tofill, &quot;content-not-logged-in-pane:&quot;);
+}}}
+
+When seeing a branch container in the tree, together with a corresponding colon-named tag in the markup, the RSF renderer will consider all tags in the current template set with a matching rsf:id in order to find the target point to branch to. If there is no branch container in the tree that matches a particular tag, that tag an all of its descendents in the template will be suppressed from the output markup.
+
+An example of this method can be seen in the [LogonTest|LogonTest_2] sample.
+
+!Making a loop
+
+Where a part of the template is to be replicated, for example creating a list, or a table row or column, we need to use the 3-arg constructor, so that the replicates can be distinguished in ID once they are rendered:
+
+{{{
+  for (int i = 0; i &lt; values.length; ++i) {
+    UIBranchContainer radiobranch = UIBranchContainer.make(form,
+          &quot;animalrow:&quot;, Integer.toString(i));
+}}}
+
+An example of this method can be seen in the [ComponentTest] sample.
+
+!Joints
+
+A refinement of a UIBranchContainer, called [UIJointContainer], is generally used when [creating reusable UI components|BuildingRSFComponents] or widgets. In effect it consists of two UIBranchContainers fused together, which causes the renderer to take a forced branch.
+
+</pre>
+

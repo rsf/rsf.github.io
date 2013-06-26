@@ -1,0 +1,42 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+UIJointContainer is a primitive RSF [component] which is very closely related to a [UIBranchContainer]. In fact a UIJointContainer is nearly functionally identical to two UIBranchContainers, one nested immediately in inside the other. This is reflected by the fact that the UIJointContainer &quot;constructor&quot; accepts two ids, one for the outer, and one for the inner branch, as follows:
+
+{{{
+  /**
+   * Create a new UIJointContainer and add it to the component tree.
+   * 
+   * @param parent The container to receive this newly created joint container.
+   * @param ID The &quot;client ID&quot; or &quot;source ID&quot; of this container, that is, the
+   *          rsf:id under which the host template and producer refer to the
+   *          component.
+   * @param jointID The &quot;joint ID&quot; or &quot;target ID&quot; of this container, that is,
+   *          the rsf:id under which the implementing or component template
+   *          refer to the component.
+   */
+  public UIJointContainer(UIContainer parent, String ID, String jointID) {
+}}}
+
+UIJointContainers are typically used by [Evolvers|BuildingRSFComponents] or other Producers which are trying to implement reusable UI component (&quot;widgets&quot;). The idea is that the first ID is the ''client's'' {{rsf:id}}, which appears in the page template wanting to use the component, and the second ID appears in the implementation template defining the component. The UIJointContainer thus forms a &quot;joint&quot; from one template to the other, forcing the renderer to make a branch from the demand site in the page template to the implementation site in the component template.
+
+Note that UIJointContainers are constructed using standard Java {{new}} rather than the static {{make()}} methods that are more usual in RSF. This is primarily to get around the idiocy within the Java specification which causes static methods to be ''inherited'' amongst classes - any {{make()}} methods we declared in UIJointContainer would conflict with those in the base class {{UIBranchContainer}}. In fact the use of {{new()}} with UIJointContainer is slightly helpful in that it reflects the fact that the constructed component is nearly ''always'' used in the following lines of code.
+
+For example,
+{{{
+  UIJointContainer page = new UIJointContainer(tofill, &quot;page-replace:&quot;, &quot;page:&quot;);
+  pageproducer.fillComponents(page);
+}}}
+
+
+
+</pre>
+

@@ -1,0 +1,37 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+ShortViewURLConstructor replaces the Wiki.jsp page with a servlet at the /wiki/ servlet.  This allows you to have URLs of the form {{{http://www.example.com/JSPWiki/wiki/PageName}}}, which can be useful in many ways.
+
+ShortViewURLConstructor will attempt to guess your wiki location from your {{jspwiki.baseURL}} -setting, but if it gets it wrong, you can use the {{jspwiki.shortURLConstructor.prefix}} -setting to point at a different location.
+
+!Troubleshooting
+
+If you get a 404 error when you're using this, check that your {{web.xml}} contains the following lines:
+
+{{{
+   &lt;servlet&gt;
+       &lt;servlet-name&gt;WikiServlet&lt;/servlet-name&gt;
+       &lt;servlet-class&gt;com.ecyrd.jspwiki.WikiServlet&lt;/servlet-class&gt;       
+   &lt;/servlet&gt;
+
+   &lt;servlet-mapping&gt;
+       &lt;servlet-name&gt;WikiServlet&lt;/servlet-name&gt;
+       &lt;url-pattern&gt;/wiki/*&lt;/url-pattern&gt;
+   &lt;/servlet-mapping&gt;
+}}}
+
+----
+
+Back to [URLConstructors].
+
+</pre>
+

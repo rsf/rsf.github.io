@@ -1,0 +1,43 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The straightforward attempt to implement [RSAC] using the admirably-structured [Spring] framework itself immediately ran into terrible performance problems. It became immediately apparent that the Spring authors had never intended Spring containers to be used in this lightweight fashion, with construction times running into the tens of milliseconds, an unacceptable overhead for a web request.
+
+&quot;Summer Lightning&quot; is a ground-up reimplementation of as many of the features of Spring as were found necessary during the development of RSF, which actually turned out to be an awful lot. Right now you can depend on
+
+* factory-beans and factory-methods
+* FactoryBean interface
+* init-methods and destroy-methods
+* ApplicationContextAware (passes the genuine web-scope one)
+* BeanFactoryAware (passes the request-scope one)
+* InitializingBean
+* BeanNameAware
+* Setting of list-valued properties, and limited type conversions
+* Parent beans and parent factories.
+* Singletons and non-singleton definitions
+
+What is NOT supported:
+
+* Autowiring of any kind
+* Constructor arguments (rather fiddly - write a factory instead!)
+* %%(text-decoration: line-through;)Any strange AOP stuff%% Now includes LOTS of strange AOP stuff!
+* multidimensional arrays (does anyone want these?!)
+
+However, the initial performance results were highly encouraging. On constructing a reasonably sizeable bean container on which genuine Spring had taken 24ms, the RSAC implementation took a little less than 400 microseconds, which would be an acceptable per-request overhead. This was also without the use of i) [FastClass] or ii) JDK 1.5, which profiling suggests would halve this time further. For now it is &quot;quite fast enough&quot;, and there are hopes in the meantime that genuine Spring could someday be reengineered to take on this use case.
+
+Fuller performance details are on the [RSACPerformance] page.
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

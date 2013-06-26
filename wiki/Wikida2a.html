@@ -1,0 +1,23 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The RSFComponents multiproject defines a steadily growing set of reusable UI components or &quot;widgets&quot; for use in RSF. The github project URL URL for this project is https://github.com/rsf/RSFComponents - this tree defines a single Eclipse project, consisting of three top-level Maven projects.
+
+* {{evolvers}} - Java code definitions for the [Evolvers] in the project, packaged as a JAR to be included in client projects.
+* {{templates}} - HTML, CSS and Javascript forming the templates backing the evolvers. These files are packaged as a WAR which may be hosted independently/centrally for a number of RSF projects, or may be imported into a single project's own space using a [partial WAR|PartialWAR] build strategy.
+* {{test}} - a WAR project defining a webapp which tests and demonstrates all the components in the project, allowing differing implementations of the same Evolver interface to be dynamically swapped, as well as the request Locale.
+
+The current component set includes a double selection control widget and a fully internationalised date widget, based on the Yahoo YUI client-side calendar widget. A superset of this project is the Sakai RSF Components project which also includes a rich text entry component based on the FCKEditor. It's worth noting that although this initial set might seem small, there are numerous cases which require custom components in other frameworks which in RSF can be handled directly by the renderer. For example RSF requires no table/list widgets etc. even in cases where these rows contain complex controls. However, it is planned to expand this set over time with e.g. colour selection dialogs and various forms of tree control.
+
+A presentation of some of the widgets in this set, complete with a full guide to writing your own components using pure and fully previewable (in both appearance and behaviour) HTML is on its own page at [BuildingRSFComponents]
+
+</pre>
+

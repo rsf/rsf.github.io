@@ -1,0 +1,29 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+An is a specialised kind of [Producer|ComponentProducer] which accepts an already constructed RSF primitive component as a ''seed component'' to repackage in an elaborated form, associated with its own section of markup. Evolvers and similar Producers are the vehicles for creating reusable &quot;widgets&quot; in RSF.
+
+For example, the standard RSF evolver interface {{TextInputEvolver}} is as follows:
+
+{{{
+public interface TextInputEvolver {
+  public UIJointContainer evolveTextInput(UIInput toevolve);
+}
+}}}
+
+This is the interface to a family of components which perform the function of inputting text. The reason for casting the interface this way, is that UIInput already compactly summarises all of the configuration that might be required for such a component - it specifies the EL binding, the ID, parent and any initial value for the component, as well as coming with a complete array of constructors. In this role, the UIInput is called a ''seed component''.
+
+Evolver implementations are typically injected using Spring/[RSAC] into the client producer (which may be a [ViewProducer|ComponentProducer] or another subsidiary producer) which invokes it at the point(s) in its construction of the [view tree|ComponentTree] where it requires the subtree production from the evolver to appear.
+
+Much more detail on Evolvers and constructing RSF widgets in general is on the [BuildingRSFComponents] page.
+
+</pre>
+

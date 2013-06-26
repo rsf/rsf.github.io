@@ -1,0 +1,33 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+From this page you can download source distributions (suitable for unzipping directly into your Eclipse workspace) for RSF and its sample apps. The 3 JAR files constituting the framework (rsfutil-0.6.jar, 
+j-servletutil-1.0.jar and ponderutilcore-1.0.jar) may be found on CARET's public [Maven repository|http://www2.caret.cam.ac.uk/maven/]. This location has been added to the {{project.properties}} files of the sample projects and should cause the jars to be fetched automatically on build. However, you are ''warmly recommmended'' to make use of the source distributions, since RSF prides itself on being a framework that tries to avoid building barriers between user and framework code. Advanced uses of RSF in any case will depend on knowing your way round RSF's [4 Spring configuration files|SpringAPI].
+
+The practice of providing &quot;ready-to-go&quot; WAR files in the previous [0.5 release|Downloads] of RSF has been abandoned, through public protest.
+
+This release is of RSF version 0.6 - have a look at the [Roadmap] page to get an idea of what features will be required to get to a 1.0 level.
+
+!!Source distribution
+
+Note that the names of the Eclipse projects (and of their corresponding directories) in these distributions do not exactly match the names in the SVN repository - in particular, RSFUtil corresponds to the directory J-RSFUtil and ServletUtil to J-ServletUtil. Since Eclipse projects are sorted in alphabetical order, I found this the only method to get projects to appear at a predetermined point in the list.
+
+Note that all source is kept in CARET's public SVN server {{saffron}}, where all of this code may be found in the [projects|https://saffron.caret.cam.ac.uk/svn/projects/] directory.
+
+[http://www2.caret.cam.ac.uk/rsfwiki/attach/ImageHolder/new.jpg] NB - if you downloaded the Sakai samples prior to 27th March, note that these contained an error in the web.xml file for SakaiRSFNumberGuess. This is fixed in SVN and in the files below.
+
+|[RSF-base-source-0.6.zip]|The base source distribution of RSF, containing code for PonderUtilCore, ServletUtil, and RSFUtil itself.
+|[RSF-samples-source-0.6.zip]|The RSF example applications, including the simple &quot;Hello World&quot; app, the &quot;Number Guessing Game&quot;, and 3 versions of the &quot;Hibernate Cookbook&quot;.
+|[RSF-sakai-source-0.6.zip]|The [Sakai|http://www.sakaiproject.org/] integration library for RSF (RSFSakai) together with the project packaging needed to host the number guessing sample within Sakai.
+|[RSF-all-source-0.6.zip]|The base distribution, samples, Sakai code and any other related projects
+
+</pre>
+

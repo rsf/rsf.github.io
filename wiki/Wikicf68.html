@@ -1,0 +1,48 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+%%( background-color: #c0c0c0; border: 1px dotted black; padding: 0.2em; font-size: 200%; text-align: center)
+--= OLD=--
+%%
+
+%%( background-color: #c0c0c0; text-align: center)
+This page predates the release of RSF 0.6 - Note that while the RSVC Preservation Strategy approach has been &quot;implemented&quot;, it was never brought to being fully functional since it became apparent that there were quite a number of features more vital to users. If there is any user demand for it, this might be finished after the 1.0 release.
+%%
+
+Some UI operations can't be fully committed to persistent state in the scope of a single request cycle since they are functionally incomplete (read - wizards). In the typical &quot;wizard&quot; or similar pattern, some user state accumulates from page to page, and at the end may be either committed completely, or cancelled and backed out of.
+
+There are a broad variety of approaches to this problem - an intriguing one involving [long transactions|LongTransaction] or application transactions as supported by Hibernate, which was tried by our CTO at CARET, [Ian Boston|IanBoston] - this ultimately didn't work out for reasons I hope he will append here. Many frameworks invent a special kind of scope for such &quot;incomplete&quot; state - or, still worse, throw it into a [session|SessionConsideredHarmful].
+
+RSF, aided by the concept of [BeanReasonableness] and the [DARApplier] tries to make this sort of &quot;multi-request state&quot; safe and easy to use.
+
+One of the responsibilities of the [ActionResultInterpreter](ARI), at the end of every [action|Action] invocation, is to decode any response from the bean action and compute the resulting view id. The other responsibility is to return a boolean indicating whether any accumulated multi-request bean state will ''propagate'' or not.
+
+%%( background-color: #ffc0c0; border: 1px dotted black; padding: 1em; )
+OLD MODEL:
+(At this point in the request cycle, the request writeable bean model is to be declared [dead|DeadBeans], and equivalent to the same model expressed in [peas|Peas], or alternatively its decomposition in terms of [DataAlterationRequest]s, and so may be safely serialized somewhere, pending any further requests that it should be relevant to.)
+%%
+\\
+%%( background-color: #c0ffc0; border: 1px dotted black; padding: 1em; )
+NEW MODEL:
+
+If the result of the [ARI|ActionResultInterpreter] has [ARIResult] {{PROPAGATE}}, instead of being instantly thrown away, the [RSVC|RequestSubmittedValueCache] accumulated during this request cycle bean model will be stored in the [TokenRequestState|State] under the outgoing [ViewToken] ID. When/if a view with that token is requested by the client, before any normal request processing begins this stored list of alterations will be replayed into the model will be - in this way, the user has the illusion of living in a [&quot;long transaction&quot;|LongTransaction] since any request for data issued via [EL] will hit this &quot;cache&quot; by preference. It's worth considering carefully the tradeoffs that this strategy offers to application developers, versus the original one that would have let them (reasonably) easily retain long transaction support, which appears at this [RSVCVersusDeadBeansMRSA] page.
+%%
+\\
+%%( background-color: #ffffc0; border: 1px dotted black; padding: 1em; )
+NEWER MODEL:
+
+You may select from EITHER of the above models on a bean-by-bean basis! Depending on whether your beans are &quot;dead&quot; or not and your preferences for server memory usage, you may register each request bean with a [StatePreservationStrategy], allowing a free choice of both preservation model (OLD, or NEW) above, as well as its storage destination as encoded in a [TokenStateHolder] bean - whether in memory, in session, in cluster, or wherever you see fit.
+
+
+%%
+
+</pre>
+

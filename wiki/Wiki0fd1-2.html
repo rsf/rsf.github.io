@@ -1,0 +1,40 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+From this page you can download source distributions (via SVN) and binary JARs for RSF and its sample apps. The 3 JAR files constituting the framework (rsfutil-0.7.1.jar, 
+j-servletutil-1.2.1.jar and ponderutilcore-1.2.1.jar) may be found on CARET's public [Maven repository|http://www2.caret.cam.ac.uk/maven/] at {{http://www2.caret.cam.ac.uk/maven/}} . This location has been added to the {{project.properties}} files of the sample projects and will cause the jars to be fetched automatically on build. 
+
+However, you are ''warmly recommmended'' to make use of the source distributions, since RSF prides itself on being a framework that tries to avoid building barriers between user and framework code. Advanced uses of RSF in any case will depend on knowing your way round RSF's [4 Spring configuration files|SpringAPI].
+
+This release is of RSF version 0.7.1 - have a look at the [Roadmap] page for a change log from 0.7 and beyond, and to get an idea of what features will be required to get to a 1.0 level.
+
+!!Source distribution - SVN Externals
+As of RSF 0.6.1, a set of [SVN externals|http://svnbook.red-bean.com/en/1.0/ch07s03.html] have been provided to make it easy to check the complete set of tagged projects for a release out of SVN in one step. There are currently 4 source bundles that you may like to check out:
+
+|[svn co https://saffron.caret.cam.ac.uk/svn/bundles/rsf-core/|https://saffron.caret.cam.ac.uk/svn/bundles/rsf-core/] | The base source distribution for RSF, including RSFUtil, J-ServletUtil, PonderUtilCore and RSFHibernate
+|[svn co https://saffron.caret.cam.ac.uk/svn/bundles/rsf-samples/|https://saffron.caret.cam.ac.uk/svn/bundles/rsf-samples/] | The RSF example applications, including the simple &quot;Hello World&quot; app, the &quot;Number Guessing Game&quot;, and 3 versions of the &quot;Hibernate Cookbook&quot;.
+|[svn co https://saffron.caret.cam.ac.uk/svn/bundles/rsf-jsr168/|https://saffron.caret.cam.ac.uk/svn/bundles/rsf-sakai/] | Sun [JSR-168] integration library for RSF ([RSFPortlet]) together with JSR-168 builds for the Number Guessing and Cookbook samples.
+|[svn co https://saffron.caret.cam.ac.uk/svn/bundles/rsf-sakai/|https://saffron.caret.cam.ac.uk/svn/bundles/rsf-sakai/] | The [Sakai|http://www.sakaiproject.org/] integration library for RSF (SakaiRSF) together with Sakai-packaged builds for the Number Guessing and Cookbook samples. Just type &quot;maven sakai&quot;.
+|[svn co https://saffron.caret.cam.ac.uk/svn/bundles/rsf-all/|https://saffron.caret.cam.ac.uk/svn/bundles/rsf-all/] |All modules related to RSF, including all the above packages
+
+%%( background-color: #ffc0c0; margin: 0.3em)
+NB the above links will appear empty in your browser, this is not an error! The externals will be correctly followed when you check out with a SVN client.
+%%
+Note that the names of the Eclipse projects (and of their corresponding directories) in these distributions do not exactly match the names in the SVN repository - in particular, RSFUtil corresponds to the directory J-RSFUtil and ServletUtil to J-ServletUtil. Since Eclipse projects are sorted in alphabetical order, I found this the only method to get projects to appear at a predetermined point in the list.
+
+Note that all source is kept in CARET's public SVN server {{saffron}}, where all of this code may be found in the [projects|https://saffron.caret.cam.ac.uk/svn/projects/] directory.
+
+!! Binary distribution
+
+An &quot;all-in-one&quot; zip file of the core parts of the framework and its dependencies is available: [RSF-0.7-with-dependencies|Downloads_0.7/rsf-0.7-with-dependencies.zip].
+
+</pre>
+

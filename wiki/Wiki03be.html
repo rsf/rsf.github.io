@@ -1,0 +1,39 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Since RSF will &quot;execute&quot; arbitary [EL] coming in over the request, it is vital that the request-scope container is &quot;censored&quot; in some way to avoid a considerable security risk. This is done via an application-scope model held by RSF, that determines whether a particular bean path should be &quot;request addressible&quot; -  that is, whether it is safe to read or write to the path via EL submitted over the request. 
+
+You may contribute paths to this request addressible model using the standard RSF framework [Spring|SpringAPI] parent definition {{requestAddressibleParent}}. Any path which is not explicitly registered this way will trigger a {{SecurityException}} on an [action] cycle which receives EL trying to target it. Both value and action [bindings] need to be applied to paths which are made request addressible.
+
+
+Here is a sample definition from the RSF &quot;NumberGuessing&quot; sample which marks all the properties of 6 request-scope beans as fully readable and writeable over the request. This definition would be placed at application scope, probably in your {{applicationContext.xml}} file:
+
+{{{
+  &lt;bean parent=&quot;requestAddressibleParent&quot;&gt;
+    &lt;property name=&quot;value&quot;&gt;
+       &lt;value&gt;numberGuess, fourDigitNumberGuess, numberGuessAction, 
+          fourDigitNumberGuessAction, numberGuessFlow, 
+          fourDigitNumberGuessFlow&lt;/value&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+}}}
+
+Before RSF 0.7.2, access was only checked for the root bean path - that is, this list had to be a list of bean ids which were marked to have all writeable propertied accessble. As of RSF 0.7.2, this list may be a list of [EL] expressions, possibly with wildcard path segments which allow fine-grained access specifications per-method or per-property. This syntax is the same as that used for [BeanGuard] expressions.
+
+You should be careful not to expose any unintended readable/writeable properties in your request-addressible beans.
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

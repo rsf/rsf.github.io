@@ -1,0 +1,64 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+A particular kind of [value binding|Bindings] with a special status in the framework is a __Resulting View Binding__ (RVB). These are used in the case that a piece of data is required to enter the [ViewParameters] for a resulting view after an [action] (form submission/POST), but this data is not available until the end of action processing. The classic example of this case is where a view depends on an ID assigned by a database, although there are many other similar cases. 
+
+!!Simple example
+
+For a simple example, assume that we have a ViewParameters object that looks like this, for an entity called &quot;Blog&quot;:
+
+{{{
+public class BlogViewParameters extends SimpleViewParameters {
+  public BlogViewParameters(String viewId) {
+    this.viewID = viewId;
+    }
+  public String blogId;
+}}}
+
+Imagine that, at the end of a particular POST request, the ID for a freshly created Blog has been placed at the request path {{#{Blog.new 1.id} }}. We want to write a binding, such that, at the end of the submission of a particular form, the id is transferred from one place to the other automatically by the framework - that is, it ''reads'' from the request path {{Blog.new 1.id}} and ''writes'' to the outgoing ViewParameters path {{blogId}}. The line to achieve this would be 
+
+{{{
+  UIForm myForm = ....
+  myForm.addResultingViewBinding(&quot;blogId&quot;, &quot;Blog.new 1.id&quot;);
+}}}
+
+!!Relation with NavigationCases
+Note that it is still necessary to set up the [NavigationCase] from the producer as a whole determining the type of ViewParameters that the form redirect requires - this is ''static'' information (the same for every request) whereas the resulting view binding is talking about ''dynamic'' information which is different for every request. In the NavigationCase, you would simply leave the ''blogId'' field in the ViewParameters empty, to be filled in &quot;later&quot; by the RVB. 
+
+{{{
+public class EditBlogViewProducer implements ViewComponentProducer, NavigationCaseReporter {
+  public static String VIEWID = &quot;editBlog&quot;;
+
+  public void fillComponents(UIContainer tofill, ViewParameters viewparams) {
+    UIForm myForm = UIForm.make(tofill, &quot;blogForm&quot;);
+...
+    myForm.addResultingViewBinding(&quot;blogId&quot;, &quot;Blog.new 1.id&quot;);
+    }
+  
+  public List reportNavigationCases() {
+    return ListUtil.instance(new NavigationCase[] {
+      new NavigationCase(new BlogViewParameters(BlogViewProducer.VIEW_ID));
+      }
+    }
+}}}
+
+!!Relation with [ActionResultInterceptor] (ARI2)
+
+ARI2 is an older system in RSF that was aimed at some of the same tasks as ResultingViewBindings. However ARI2 is rather &quot;over-general&quot; and as a result is not very declarative or transparent - it requires the user to implement an interface and write manual code to perform the copying of state from place to place. Use of RVB covers a large majority of the cases that ARI2 would handle, and makes it much clearer to readers of your code the relationship between the pieces of state involved - as well as involving much less typing :)
+
+ARI2 is best reserved for &quot;global&quot; cross-cutting concerns - when you need to apply a static &quot;navigational policy&quot; across a series of views or an entire app. Resulting View Bindings, like all [Bindings] are simply targetted at a single submission.
+
+!!Versioning note
+
+Whilst RVB entered the framework first at version 0.7.2, the implementation suffered from a few bugs and limitations which were not resolved until 0.7.3. For manual encoding of RVB bindings, you can look to the implementation methods in RSFUtil.addResultingViewBinding.
+
+</pre>
+

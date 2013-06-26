@@ -1,0 +1,114 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The UniversalRuntimeException (URE) is one of the fundamental objects that any developer working with the RSFUtil (or indeed PonderUtilCore[1]) source cannot avoid bumping into quite quickly.
+
+To start with, I can do little better than reproducing the comment that appears at the head of the [.java file|https://saffron.caret.cam.ac.uk/svn/projects/PonderUtilCore/trunk/src/uk/org/ponder/util/UniversalRuntimeException.java]:
+
+%%( background-color: #eeeeee; border: 1px dotted black; padding: 1em; )
+The root of unchecked runtime exceptions thrown by the libraries. There is a
+general movement to make most if not all exceptions runtime exceptions (by [not only
+me|http://c2.com/cgi/wiki?CheckedExceptionsConsideredHarmful][2]!), since exception specifications often add verbosity without facility.
+
+Checked exceptions are most appropriate for signalling problems between
+libraries with a wide degree of separation. Within a single body of code,
+unchecked exceptions should be used to propagate error conditions to the next
+boundary.
+
+This class has a useful (and growing) body of schemes for absorbing the
+target exceptions from other types of wrapping exceptions and rewrapping
+them.
+
+What we wish to preserve is a) the ultimate stack trace from the cause of the
+problem and b) a set of increasingly detailed messages that can be accreted
+onto the exception as it winds up the stack.
+
+A UniversalRuntimeException also contains a Class representing its
+&quot;category&quot;, a point in the inheritance hierarchy that may be used to classify
+the nature of exceptions, as being distinct from the wrapped target exception
+intended to record its cause. An object of the category need not ever be
+created, the inheritance hierachy may be queried via {{Class.isAssignableFrom()}}.
+
+The exception category defaults to the concrete class of the exception being
+wrapped.
+%%
+
+In outline, 
+
+%%( background-color: #ffc0c0; border: 1px dotted black; padding: 1em; )
+No API in RSF will EVER throw a checked exception. You may expect only UniversalRuntimeExceptions, or RuntimeExceptions of some other type.
+%%
+
+No, don't panic, this policy is not as utterly irresponsible as it sounds. UREs merely ''wrap'' checked exceptions that they encounter, they do not swallow them. 
+
+!!Stack traces
+Every' type of {{printStackTrace()}} method exposed by the exception has been reimplemented to forward (recursively if necessary) the operation to the wrapped exception.
+
+This ensures that only ONE exception trace will ever appear even in very complex scenarios, and it will be the exception of the VERY FIRST &quot;root cause&quot; exception.
+!!Invocation style
+The standard usage of UniversalRuntimeException you will see throughout the codebase looks as follows:
+{{{
+try {
+   .... old-style checked-exception API ....
+} catch (Exception e) {
+   throw UniversalRuntimeException.accumulate(e, &quot;What I learned in this catch block&quot; );
+}
+}}}
+Note that 
+# You do not invoke the constructor of the URE, only the static {{accumulate()}} method. This avoid unnecessary object creation, since (as will increasingly be the case in a large body of URE-compliant code), the exception will most likely ''already'' be a URE, and the wrapping code will detect this and simply return the same object from the accumulate method. 
+# You have the opportunity to add some edifying annotation (hence the name {{accumulate}}) to the exception's message, summarising the knowledge you have at this stack level about the context or likely cause of the exception. URE messages can prove startlingly edifying at the bottom of a long chain of catchers, often explaining the total context of the problem with eerie lucidity. Always try to add as much context as you can in these accumulate blocks - you probably know at least something relevant - but do not duplicate information likely to already be known by your callee.
+
+!! Ultimate catching
+Eventually, sometimes a very long way away, someone will want to catch an exception who actually has the facility to take some intelligent action on it. I tend to find there are very few such points in an application, usually concentrated in a layer just below the top. In this case they may expose the wrapped exception to the full battery of analysis by recovering it using the {{getTargetException()}} method.
+
+!!! Results
+95% of catching logic typically written is worthless - how many times have you seen something like this[3]?
+
+{{{
+   catch (IllegalArgumentException e) {
+      e.printStackTrace();
+    }
+    catch (IllegalAccessException e) {
+      e.printStackTrace();
+    }
+    catch (InvocationTargetException e) {
+      e.printStackTrace();
+    }
+}}} 
+
+Not only is this enormously detrimental to code clarity, it is also entirely unhelpful to calling code. There are many equally worthless variations on this theme, of various degrees of blameworthiness, and it is startlingly hard to easily write a catch block in Java that is both readable and responsible.
+
+Replace your {{try..catch}} blocks with the standard block above which uses ''throw UniversalRuntimeException'', and the URE will ensure that:
+
+# Root cause exceptions are always passed on upstream
+# The least possible clutter appears in intervening code
+# At most one stack trace appears in your logs[4]
+# As few as possible intervening wrapping exceptions intervene between the ultimate catcher and their desired target exception (note that UREs silently eat and auto-unwrap all other wrapping exceptions, such as InvocationTargetExceptions, SAXExceptions, other UREs, removing them from the chain).
+# It is EXTREMELY easy to write complex callback code such as the [AlterationWrapper] without having to panic about exception signatures.
+
+Note that [Spring|http://www.springframework.org/about] (check &quot;Mission Statement&quot;) itself has long adopted a policy of the removal of all checked exceptions as being grossly inconsistent with a dependency-free bean environment - the URE merely extends this to its maximum level of convenience.
+
+----
+%%(font-size:85%)
+[#1] Note that many parts of PonderUtilCore exist ''solely'' to apply sensible exception-handling semantics to other parts of the JDK - take a look at [StreamCloseUtil] for example. This is also one of the major purposes of [PrintOutputStream]. Check in PonderUtilCore before you write any URE-wrapping code that it isn't already there.\\
+[#2] There used to be a great article here for a good many years - any ideas what happened to it? Here is a [better one|http://www.mindview.net/Etc/Discussions/CheckedExceptions/] by Bruce Eckel and commented by Kevlin Henney, however.\\
+[#3] A - probably as often as you pressed [CTRL-1|CTRL1Programming] in Eclipse :P\\
+[#4] How many times, browsing through Tomcat logs, have you seen the same enormous exception trace reproduced 3 or even more times, each time with just a bit more stack trace stuck on it? Of course it is always the ''worthless'' part of the stack trace that is reproduced the greatest number of times, and more often than not some idiot near the top of the chain has trampled on the valuable bit...
+%%
+
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

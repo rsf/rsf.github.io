@@ -1,0 +1,62 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Iterates through the change history of the page.
+
+The &quot;current page&quot; always becomes the particular version of the page currently in iteration.
+
+----
+
+!Usage
+
+&lt;wiki:HistoryIterator id=&quot;&lt;variable name&gt;&quot;&gt;
+;:''HTML or JSP''
+&lt;/wiki:HistoryIterator&gt;
+
+!Parameters
+
+;__id__: Name of the variable to create.
+
+!Example
+{{{
+&lt;table&gt;
+    &lt;wiki:HistoryIterator id=&quot;currentPage&quot;&gt;
+        &lt;tr&gt;
+            &lt;td&gt;
+                 &lt;wiki:LinkTo version=&quot;&lt;%=Integer.toString(currentPage.getVersion())%&gt;&quot;&gt;
+                      &lt;wiki:PageVersion/&gt;
+                 &lt;/wiki:LinkTo&gt;
+            &lt;/td&gt;
+
+            &lt;td&gt;
+                 &lt;wiki:PageDate/&gt;
+            &lt;/td&gt;
+
+            &lt;td&gt;&lt;wiki:Author /&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;wiki:PageSize /&gt;&lt;/td&gt;
+
+            &lt;wiki:PageType type=&quot;page&quot;&gt;
+                 &lt;td&gt;
+                     &lt;% if( currentPage.getVersion() &gt; 1 ) { %&gt;
+                     &lt;wiki:DiffLink version=&quot;&lt;%=Integer.toString(currentPage.getVersion())%&gt;&quot; 
+                                    newVersion=&quot;&lt;%=Integer.toString(currentPage.getVersion()-1)%&gt;&quot;&gt;
+                        from version &lt;%=currentPage.getVersion()-1%&gt; to &lt;%=currentPage.getVersion()%&gt;
+                     &lt;/wiki:DiffLink&gt;
+                     &lt;% } %&gt;
+                 &lt;/td&gt;
+             &lt;/wiki:PageType&gt;
+        &lt;/tr&gt;
+    &lt;/wiki:HistoryIterator&gt;
+&lt;/table&gt;
+}}}
+
+</pre>
+

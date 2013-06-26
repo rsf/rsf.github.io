@@ -1,0 +1,102 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+An AlterationWrapper is an application scope bean which implements the [RunnableInvoker] interface, which is registered into RSF using the {{alterationWrapperParent}} parent definition. AlterationWrapper is a central part of the support of RSF for diverse ORM solutions such as [Hibernate|http://www.hibernate.org] since it enables the transaction, session and exception handling strategy of the webapp to be application defined. It is also useful for non-ORM purposes, where access to the model (or the main request phase in general) needs to be guarded by custom logic - see the [LogonTest|LogonTest_3] sample program for an example of using the AlterationWrapper for security purposes.
+
+The RunnableInvoker interface is a great [OLI] that looks like this:
+
+{{{
+public interface RunnableInvoker {
+  public void invokeRunnable(Runnable torun);
+}
+}}}
+
+If {{MyAlterationWrapper}} is a class implementing {{RunnableInvoker}}, one would register it as an AlterationWrapper into RSF using a definition like this at application scope:
+{{{
+  &lt;bean id=&quot;hibernateAlterationWrapperProxy&quot; parent=&quot;alterationWrapperParent&quot;&gt;
+    &lt;property name=&quot;value&quot;&gt;
+      &lt;bean class=&quot;MyAlterationWrapper&quot;&gt;
+        .. dependencies here
+      &lt;/bean&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+}}}
+If (as is quite likely) the wrapper is itself a request-scope bean, you would use an [RSACBridgeProxy] to wrap the reference to the wrapper in the place of the inner bean definition above - for example, where {{myRequestScopeBean}} is a bean at request scope implementing {{RunnableInvoker}}, 
+
+{{{
+  &lt;bean parent=&quot;alterationWrapperParent&quot;&gt;
+    &lt;property name=&quot;value&quot;&gt;
+      &lt;bean parent=&quot;RSACBridgeProxy&quot;&gt;
+        &lt;property name=&quot;targetBeanName&quot; value=&quot;myRequestScopeBean&quot; /&gt;
+      &lt;/bean&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+}}}
+
+The AlterationWrapper implementing this interface is handed a Runnable (most likely an anonymous inner class) by RSF, holding all of the code which will be executed which might be expected to touch persistent state. The wrapper then invokes the Runnable, wraps by any bracketing code required by the persistence strategy for the framework. For example, a basic HibernateAlterationWrapper might look as follows:
+{{{
+public class HibernateAlterationWrapper implements RunnableInvoker {
+  private SessionFactory sessionfactory;
+  public void setSessionFactory(SessionFactory sessionfactory) {
+    this.sessionfactory = sessionfactory;
+  }
+...
+  public void invokeRunnable(Runnable towrap) {
+    try {
+      Session session = sessionfactory.openSession();
+      Transaction trans = session.beginTransaction();
+      try {
+        towrap.run();
+        }
+      catch (Exception e) {
+        HibernateUtil.rollbackTransaction(transaction);
+        throw UniversalRuntimeException.accumulate(e);
+        }
+      finally {
+        HibernateUtil.closeSession(session);
+        }
+      }
+    catch (Exception e) {
+      throw UniversalRuntimeException.accumulate(e);
+      }
+    }
+  }
+}}}
+
+Note:
+* The use of the [UniversalRuntimeException] here to avoid a polluted interface. This is one of the times when it really comes into its own.
+* There are no threads being created here! We are just using Runnable as a convenient nullary single-method interface.
+
+There are a number of benefits to this approach:
+
+# The AlterationWrapper is a perfectly normal bean and may be initialised, looked up and wired in in the normal way.
+# The &quot;ideal case&quot; can be achieved for exception handling code - the {{try}}, {{catch}} and any {{finally}} block can all be visible in the same method body. This adds enormously to clarity and one's confidence in code robustness[1].
+# Since this runnable is invoked &quot;fairly late&quot; in processing it could concievably benefit from more fine-grained information that RSF has about the current request (probably most critically, the ViewParameters).
+# Mutual dependency between RSF, the ORM framework and application code is completely avoided. If you replace Hibernate or your transaction strategy, you simply wire a different AlterationWrapper into Spring.
+
+Note that the traditional scheme for achieving this sort of cleanliness is [AOP] - my analysis of the costs and benefits:
+
+# On the con side, this approach involves the creation of one extra object and two more function calls over the AOP, which my measurements place at somewhere below the 100ns mark with JDK 1.5 on modern hardware. Since this occurs once ''per request'' I think we could live with the cost.
+# On the pro side, there is incredible reduction in anarchy of design, and we get an AOP-agnostic approach to request wrapping
+
+Note that the AlterationWrapper might be considerably elaborate, for example if a really enterprising user were trying to apply an ORM-derived [long transaction|LongTransactions] strategy to RSF, or completely empty if the request bean model implementing the data model took complete responsibility for transactional state.
+
+----
+[#1] Compare this to something like JSF's &quot;PhaseListener&quot; approach for example. JSF's exception handling policy is lamentably poor - in fact there isn't one, being one of the crucial drawbacks of the whole framework. Adding &quot;cleanup&quot; code that one wants to be __ABSOLUTELY SURE__ will be executed to a particular JSF phase simply garners no confidence given the relevant code is rather messy and generally invisible. And, lo and behold, when I did so I frequently found that the cleanup code would fail to execute...\\
+
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

@@ -1,0 +1,53 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!! RSF Development Environment Guide
+
+This guide should help [RSF] and even Java development beginners to quickly get a development environment setup which they can use to work on RSF applications. This will explain the development technologies and how to get your environemnt setup. This guide will probably take an unfamiliar user 20-30 minutes.
+
+The RSF development team currently uses the following technologies
+* [Subversion|http://subversion.tigris.org/] 1.4.x (''Source code versioning and control'')
+* [Eclipse|http://www.eclipse.org/] 3.2 or 3.3 (''Java IDE'')
+** [Web Tools Platform (WTP) Project|http://www.eclipse.org/webtools/main.php] 2.0 (''Web development tools'')
+** [Spring IDE|http://springide.org/blog/] plugin 2.0 (''Spring development tools'')
+** [Subclipse|http://subclipse.tigris.org/] plugin 1.2.x (''SVN development tools'')
+
+!! Subversion
+
+[Subversion|http://subversion.tigris.org/] is used for all RSF source code versioning and control. You should have a the command line version of SVN installed so that you can checkout the various releases of RSF and [sample RSF apps|SampleRSFApps]. Strictly speaking you can skip this if you plan to never checkout the RSF source code but we highly recommend installing it since it is small and very useful. The easiest way to install Subversion is to use the binary packages on the [downloads page|http://subversion.tigris.org/project_packages.html].
+
+!! Eclipse
+
+[Eclipse|http://www.eclipse.org/] is the IDE of choice for developing in Java. We use version 3.2 or higher with the [Web Tools Platform (WTP) Project|http://www.eclipse.org/webtools/main.php]. It is easiest to simply grab the __Web Tools Platform All-In-One Packages__ which you can find on the downloads page of the WTP project.
+
+! Web Tools Platform (WTP) Project
+[Web Tools Platform (WTP) Project|http://www.eclipse.org/webtools/main.php] is an marvelous collection of tools that is highly recommended for anyone doing web development. The most convenient package is the __Web Tools Platform All-In-One Packages__ download available at the [Eclipse download site|http://download.eclipse.org/webtools/downloads/] (approx 250MB download).
+
+! Spring IDE plugin
+[Spring IDE|http://springide.org/blog/] provides autocomplete and editor assistance when working with [Spring Framework|http://www.springframework.org/] configuration files. Since RSF's request context files are Spring format files, you can get the full benefits of Spring IDE on RSF right away. Installation instructions are on the Spring IDE project site.
+
+! Subclipse plugin
+The [Subclipse plugin|http://subclipse.tigris.org/] allows SVN commits, checkouts, and much more from within Eclipse. It is much easier to use than the Subversion command line for general development usage with your own projects (however, the command line is better for checking out things like RSF bundles). Installation instructions are avaialble on the project site.
+
+! Maven and Eclipse notes
+Once you have Maven and Eclipse properly installed, you should use it *at least once* on each project to download all of its dependencies, *before* attempting to fix up the Eclipse build environment.  To do this, open up a command prompt window,  navigate to your workspace where you checked out the RSF code and then go into each rsf subfolder and type &quot;maven&quot;.  Note that it in general %%(color:red;)does not make sense%% to try to share Eclipse build products (typically in the {{bin}} directory) with Maven build products (typically in the {{target}} directory), yes, you will really need to have parallel builds otherwise chaos and nastiness will ensue. But you *should* keep Maven and Eclipse in step at least to the extent of directing Eclipse at the versions of jar dependencies held in your Maven repository. This should be done by declaring an Eclipse variable {{MAVEN_REPO}} ({{M2_REPO}} for Maven 2) pointing at your Maven repository, and adding each jar using &quot;Extend Variable&quot; as a dependency to the Eclipse project. There is apparently some tool that will do this automatically but I have never got it to work correctly.
+
+!! RSF Framework logging
+All of the framework samples contain a standard {{log4j.properties}} file which configures RSF framework logging to a reasonably verbose level. This is strongly recommended for development since otherwise you will miss informative warnings of various problems that occur at runtime, both during rendering and form submission. For production you are recommended to set the {{PonderUtilCore}} logging level to {{warn}} or higher. The standard {{log4j.properties}} file, which should be placed at {{/WEB-INF/classes}} is linked here: [log4j.properties|https://saffron.caret.cam.ac.uk/svn/projects/RSFHelloWorld/trunk/src/webapp/WEB-INF/classes/log4j.properties].
+
+!! Tomcat Debugging Note
+The [Debugging with Tomcat|DebuggingWithTomcat] page summarises some useful tips for starting and debugging Tomcat apps from within Eclipse. Attempting to work with large scale Java apps without using a debugger will cost you a lot of time so we highly recommend using the debugger.
+
+!! What next?
+With your development environment fully set up, you should probably head over to [getting started|GettingStarted] and checkout the [sample RSF apps|SampleRSFApps].
+
+</pre>
+

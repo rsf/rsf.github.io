@@ -1,0 +1,38 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+These days creating a web framework ranks as one of the most contagious, not to say deadly diseases at large in the programming community, so firstly I should outline why on earth I thought the world needed another one.
+
+I have to say before I go any further that the &quot;philosophy&quot; section of any webapp designer always seems to read surprisingly similar to this one, making it the more surprising that the resulting frameworks are so very different. For example, who could disagree with this [statement of philosophy|http://tapestry.apache.org/tapestry4/#What+is+Tapestry%27s+philosophy%3F]?
+
+Before launching into more specific philosophies, it's worth presenting a bit of &quot;meta-philosophy&quot; - it's my strong belief that any framework, as well as being as simple as possible, should not present an &quot;unexpected learning curve&quot;. That is, it should make doing easy things very easy, make doing moderately hard things fairly easy, but not make doing extremely hard things frustratingly difficult. There is a plethora of &quot;quick fix&quot; solutions out there these days (naming no names) that very enticingly draw in users with an extremely accessible introductory &quot;face&quot; to the technology, but rapidly bog them down in inconsistency and obscurity as their needs get more ambitious. I hope you will agree that the &quot;simple&quot; part of RSF is about as simple as anything else, but more than anything it is designed for modular growth, centered on a very small and (ultimately!) stable core, which can only come from the demands and ideas of its users. More power to them!
+
+!!Presentation and Logic
+
+Arguably, the central hazard facing web programming today is the mixing of presentation and logic. Anyone who has used JSPs for any length of time (ironically including users of this fine JSPWiki which is actually a pretty good app) is familiar with the &quot;battleground&quot; the JSPs represent, being a central point of change and contention amongst developers, designers and clients.
+
+A central RSF design goal is to decouple the world of (HTML) designers from that of coders. Arguments rage backwards and forwards over the skill set a &quot;web designer&quot; should have today, but it cannot be ignored that there is a large population highly skilled in the use of straightforward web design tools (aka Dreamweaver) whose work can be incorporated at best awkwardly in the current bulky crop of webapps. &quot;Reskinning&quot; an app to ANY level really should be as simple as dropping in a new HTML file, but only the cream of the current crop of frameworks allow this, and in doing so either shackle you to some other part of their architecture (read: Tapestry) and/or produce template files that are still strewn with confusing &quot;cryptically present&quot; logical constructs (read: OGNL) that designers could easily be confused by or cause damage with.
+
+The IKAT system deals with this task by allowing designers to edit a template version of their view which has had the minimum possible decoration applied to it. In particular, all logical constructs have been removed, leaving a simple system of IDs which allow the relevant parts of the template file to be indexed. The worst result a designer can produce with a bad template is a view with missing elements - a large majority of clients could simply reskin their apps themselves.
+
+!!Performance 
+
+The second RSF design goal is raw performance. Java frameworks are constantly getting a bad press because of their frequently EXTREMELY grotty performance, and when one looks beneath the hood it is no surprise why. Simple benchmarking of Java primitives such as reflection, even uncontended synchronization, and cloning reveal numerous performance pitfalls lurking in standard libraries and even in widely-used modern libraries. For example, the JDK standard java.io.Writer involves a synchronized lock for every write call, and almost every bean manipulation and serialization framework relies on the standard javax.beans code with really terrible reflection performance. Where such operations are on the &quot;critical path&quot;, RSF routes around them, while at the same time refusing to compromise on the cleanliness of the programming model facing clients. For example, replacement of java.io.Writer and a highly tuned XML encoder increased page rendering speed more than 30%, and removal of costly Spring introspection and conversion logic from the bean container speeded request initialisation by a factor of 60 (so far).
+
+!!Reasonableness
+
+An arguable target, but so many frameworks impose what could be simply called &quot;unreasonableness&quot;. For example, despite having a clean bean model, JSF abuses it during table rendering in peculiar ways that cause a single &quot;bean&quot; to take on multiple identities during an iteration process that the client has no control over. Hibernate, on the other hand, similarly allows a linguistically clean data model, but one that behaves in surprising ways when the lazy evaluation of properties are triggered. As far as possible, every RSF entity consists of ''true'' POJOs which exhibit no surprising runtime behaviour and are trivially serialisable. The RSF bean model is specified to be &quot;as immutable as possible&quot;, i.e. a given bean, if it exists at all, will have a fixed value except insofar as it is about to be reflecting an imminent change in persistent state. The [pea|Peas] model is another step towards reasonableness, laying bare to all users that data is simply data. Too much code (in the opinion of the author) today occupies the uneasy middle ground of proxies and abstract base classes. Better designs more clearly separate code, which lives behind pure interface, from data, which lives in concrete &quot;structs&quot;. There is more specific discussion on [BeanReasonableness]
+
+!!Minimality
+Arguably another kind of &quot;reasonableness&quot;, but so many [frameworks|FrameworkSize] out there are bloated, enormous and confusing and ultimately end up tripping over themselves. I'm even getting highly worried about the size of Spring these days, since its explosive growth from the 1.1.2 era of &quot;a neat tidy little IoC container with good web awareness&quot;. Although I comfort myself that what is called the &quot;Spring Framework&quot; is actually &quot;Spring plus every relatively useful plugin that anyone has made for it that someone else might reasonably want to use&quot;. RSF may get like this one day, but currently the core implementation is around 5000 lines [[argh! 10000 now!] and I intend  the core itself to never get much bigger. It should be the sort of size that someone who is interested could productively drive around in an afternoon (or even an hour for a quick reader) to decide whether they like it or not. [Kevlin Henney|http://www.two-sdg.demon.co.uk/curbralan/kevlin.html], a fairly visionary kind of programmer, once memorably said in a talk I attended &quot;Code that doesn't exist can't contain bugs&quot;, and this is just the sort of code I want in RSF.
+
+</pre>
+

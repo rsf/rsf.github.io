@@ -1,0 +1,714 @@
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html id="top" xmlns="http://www.w3.org/1999/xhtml">
+
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Wiki.jsp?page=PortingShippingRateSWFSampleToRSF by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:02:12 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+    RSF Wiki: PortingShippingRateSWFSampleToRSF
+  </title>
+  
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" media="screen, projection, print" type="text/css"
+     href="templates/default/jspwiki.css"/>
+
+<link rel="stylesheet" type="text/css" media="print" 
+     href="templates/default/jspwiki_print.css" />
+<!-- INCLUDERESOURCES (stylesheet) -->
+
+<!-- INCLUDERESOURCES (inlinecss) -->
+
+
+
+<noscript>
+<style type="text/css">
+#hiddenmorepopup { display:block; }
+</style>
+</noscript>
+
+
+<script type="text/javascript" src="scripts/mootools.js"></script>
+<script type="text/javascript" src="scripts/prettify.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-common.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-commonstyles.js"></script>
+<!-- INCLUDERESOURCES (script) -->
+
+
+
+
+
+<meta name="wikiContext" content='view' />
+<meta name="wikiBaseUrl" content='http://rsf.fluidproject.org/wiki/' />
+<meta name="wikiPageUrl" content='/wiki/Wiki.jsp?page=%23%24%25' />
+<meta name="wikiEditUrl" content='/wiki/Edit.jsp?page=PortingShippingRateSWFSampleToRSF' />
+<meta name="wikiJsonUrl" content='/wiki/JSON-RPC' />
+<meta name="wikiPageName" content='PortingShippingRateSWFSampleToRSF' />
+<meta name="wikiUserName" content='207.119.0.6' />
+<meta name="wikiTemplateUrl" content='/wiki/templates/default/' />
+<meta name="wikiApplicationName" content='RSF Wiki' />
+
+<script type="text/javascript">//<![CDATA[
+/* Localized javascript strings: LocalizedStrings[] */
+var LocalizedStrings = {
+"javascript.edit.allsections":"( All )",
+"javascript.slimbox.error":"<h2>Error</h2>There was a problem with your request.<br />Please try again",
+"javascript.slimbox.remoteRequest":"Remote Request {0} of {1}",
+"javascript.slimbox.close":"Close &#215;",
+"javascript.quick.edit":"[Edit]",
+"javascript.sort.descending":"Descending order. Click to reverse sort order",
+"javascript.expand":"Click to expand",
+"javascript.group.validName":"Please provide a valid name for the new Group",
+"javascript.slimbox.next":"Next&raquo;",
+"javascript.filter.all":"( All )",
+"javascript.edit.areyousure":"Without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.quick.edit.title":"Edit section {0}...",
+"javascript.slimbox.directLink":"Direct Link to the target",
+"javascript.prefs.areyousure":"Without clicking the Save User Preferences button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.sbox.clone.suffix":"-New",
+"javascript.slimbox.info":"Image {0} of {1}",
+"javascript.tip.default.title":"More...",
+"javascript.edit.resize":"Drag to resize the text area",
+"javascript.edit.findandreplace.nomatch":"No match found!",
+"javascript.sort.ascending":"Ascending order. Click to reverse sort order",
+"javascript.slimbox.close.title":"Close [Esc]",
+"javascript.edit.toolbar.makeSelection":"Please make first a selection.",
+"javascript.favs.hide":"Click to hide Favorites",
+"javascript.sectionediting.label":"Section Overview",
+"javascript.slimbox.previous":"&laquo;Previous",
+"javascript.favs.show":"Click to show Favorites",
+"javascript.collapse":"Click to collapse",
+"javascript.category.title":"Click to show category [{0}] ...",
+"javascript.sort.click":"Click to sort",
+"javascript.edit.startOfPage":"( Start of page )"
+};
+
+
+/* INCLUDERESOURCES (jsfunction) */
+
+//]]></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="search" href="Wiki702d.html?page=FindPage"
+    title='Search RSF Wiki' />
+<link rel="help"   href="Wikia3b7.html?page=TextFormattingRules"
+    title="Help" />
+
+ <link rel="start"  href="Wikib2ab.html?page=Main"
+    title="Front page" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki_print.css"
+    title="Print friendly" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki.css"
+    title="Standard" />
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+<link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  
+  
+</head>
+
+<body class="view">
+
+<div id="wikibody" class="fav-left">
+ 
+  
+
+
+
+
+
+
+<div id="header">
+
+  <div class="titlebox"></div>
+
+  <div class="applicationlogo" > 
+    <a href="Wikib2ab.html?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="Logincd1e.html?redirect=PortingShippingRateSWFSampleToRSF" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="UserPreferencescd1e.html?redirect=PortingShippingRateSWFSampleToRSF"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+
+  <div class="pagename">PortingShippingRateSWFSampleToRSF</div>
+
+  <div class="searchbox">
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Search.jsp"
+        class="wikiform"
+           id="searchForm" accept-charset="UTF-8">
+
+  <div style="position:relative">
+  <input onblur="if( this.value == '' ) { this.value = this.defaultValue }; return true; "
+        onfocus="if( this.value == this.defaultValue ) { this.value = ''}; return true; "
+           type="text" value="Quick Navigation"
+           name="query" id="query"
+           size="20" 
+      accesskey="f" />
+  <button type="submit"
+  		 name="searchSubmit" id="searchSubmit"
+  		value="Go!"
+  		title="Go!"></button>
+  </div>
+  <div id="searchboxMenu" style='visibility:hidden;'>
+    <div id="searchTools">
+      <a href="#" id='quickView' class='action'
+      onclick="SearchBox.navigate( 'Wiki195c.html?page=__PAGEHERE__','View the selected page' );"
+        title="View the selected page">view</a>
+      <a href="#" id='quickEdit' class='action'
+      onclick="SearchBox.navigate( 'Logine830.html?page=__PAGEHERE__','Edit the selected page' );"
+        title="Edit the selected page">edit</a>
+      <a href="#" id='quickClone' class='action'	
+      onclick="return SearchBox.navigate( 'Logine830.html?page=__PAGEHERE__', 'Clone the selected page', true );"
+        title="Clone the selected page">clone</a>
+      <a href="#" id="advancedSearch" class='action'
+      onclick="SearchBox.navigate( 'Search136d.html?query=__PAGEHERE__','PortingShippingRateSWFSampleToRSF' )"
+        title="Advanced Search [ f ]">find</a>
+    </div>
+    <div id="searchResult" >
+	  Quick search
+      <span id="searchTarget" >(type ahead)</span>
+      <span id="searchSpin" class="spin" style="position:absolute;display:none;"></span>
+	  <div id="searchOutput" ></div>
+    </div>
+    <div id="recentSearches" style="display:none;">
+      Recent Searches
+      <span><a href="#" id="recentClear">(Clear)</a></span>
+    </div>
+  </div>
+
+</form></div>
+
+  <div class="breadcrumbs">Your trail:&nbsp;<a class="wikipage" href="Wikibd65.html?page=Component">Component</a>, <a class="wikipage" href="Wiki37eb.html?page=Downloads_0.6.4">Downloads_0.6.4</a>, <a class="wikipage" href="Wiki250f.html?page=BeanGuards">BeanGuards</a>, <a class="wikipage" href="Wiki71cb.html?page=TargetListAggregatingBean">TargetListAggregatingBean</a>, <a class="wikipage" href="Wiki9935.html?page=StaticComponentRenderer">StaticComponentRenderer</a>, <a class="wikipage" href="Wiki2ca1.html?page=Fixup">Fixup</a>, <a class="wikipage" href="Wikic8cd.html?page=OGNL">OGNL</a>, <a class="wikipage" href="Wikif020.html?page=RSFSpringWebFlow">RSFSpringWebFlow</a>, <a class="wikipage" href="Wikicbb4.html?page=SWFforRSF">SWFforRSF</a>, <a class="wikipage" href="Wiki17d1.html?page=PortingSellItemSWFSampleToRSF">PortingSellItemSWFSampleToRSF</a></div>
+
+</div>
+
+  <div id="content">
+
+    <div id="page">
+      
+
+
+
+
+
+<div id="actionsTop" class="pageactions"> 
+  <ul>
+
+    
+    
+    
+
+    
+    <li id="morebutton">
+      <a href="Wiki81b4.html?page=MoreMenu" class="action more">More...</a>
+    </li>
+
+  </ul>
+</div>
+
+      
+
+
+
+
+
+
+
+
+<div class="tabmenu">
+
+  
+
+  
+
+  
+  
+  
+    
+  
+    
+  
+
+
+
+  <a class="activetab" id="menu-pagecontent" accesskey="v" ><span class='accesskey'>V</span>iew</a>
+
+  
+
+  
+  <a id="menu-attach" accesskey="a" ><span class='accesskey'>A</span>ttach</a>
+  
+    
+  <a id="menu-info" href='PageInfo8531.html?page=PortingShippingRateSWFSampleToRSF' accesskey="i" ><span class='accesskey'>I</span>nfo</a>
+    
+  
+
+</div>
+<div class="tabs">
+
+  <div id="pagecontent" >
+
+    
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="section-PortingShippingRateSWFSampleToRSF-PortingTheShippingRateSWFSampleToRSFWithSWF"> Porting the Shipping Rate SWF sample to RSF with SWF<a class="hashlink" href="#section-PortingShippingRateSWFSampleToRSF-PortingTheShippingRateSWFSampleToRSFWithSWF">#</a></h2>
+<p>This page documents my efforts to port the <a class="external" href="http://spring.ervacon.com/swf-shippingrate/">Shipping Rate - An Ajax-enabled Spring Web Flow Sample</a><img class="outlink" src="images/out.png" alt="" /> <a class="wikipage" href="Wiki13ab.html?page=SpringWebFlow">Spring Web Flow (SWF)</a> app to using the <a class="wikipage" href="Wikif020.html?page=RSFSpringWebFlow">RSF/SWF integration</a>.<br />
+This conversion took approximately 6 hours to complete (including documenting the process). Breakdown is as follows: approximately 1 hour to make the original app work with Maven2, 1 hour to understand the structure of the sample app, 1 hour for initial structure setup and cleanup, 1 hour to convert the JSPs to html templates with rsf:ids, 1 hour to write the RSF producers, 1 hour to for miscellaneous changes (updates to .xml, .properties).<br />
+I would estimate that a real app conversion for an app this size would take only 3 hours since documenting the process and understanding the app would not be required. You could probably save almost another hour if the app was already using maven2.<br />
+Feel free to send me (<a class="wikipage" href="Wiki1535.html?page=People">Aaron Zeckoski</a>) questions or comments (or using the <a class="wikipage" href="Wikif345.html?page=EmailLists">mailing list</a>).
+</p>
+<p />
+<table class="wikitable" border="1"><tr class="odd"><th> <b>Sample Code (SVN):</b> </th><td> <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFShippingRate/orig">original code (with maven2 build)</a><img class="outlink" src="images/out.png" alt="" /> </td><td> <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFShippingRate/RSFSWF">RSF SWF version</a><img class="outlink" src="images/out.png" alt="" /></td></tr>
+</table><a class="external" href="http://ponder.org.uk/SWFShippingRate-RSFSWF/faces">Try out Shipping Rate RSF SWF on our server</a><img class="outlink" src="images/out.png" alt="" />
+<h3 id="section-PortingShippingRateSWFSampleToRSF-MyDevelopmentEnvironment"> My development environment<a class="hashlink" href="#section-PortingShippingRateSWFSampleToRSF-MyDevelopmentEnvironment">#</a></h3>
+<ul><li>Java 1.5
+</li><li>Tomcat 5.5.12
+</li><li>Maven2
+</li><li>Eclipse 3.2
+</li><li>Windows XP <i>(any OS should be fine)</i>
+</li></ul><b>NOTE:</b> Want <a class="wikipage" href="Wiki0048.html?page=ContainerSetupGuide">instructions setting up a similar development environment</a>?
+<h3 id="section-PortingShippingRateSWFSampleToRSF-GettingStarted"> Getting started<a class="hashlink" href="#section-PortingShippingRateSWFSampleToRSF-GettingStarted">#</a></h3>
+First thing I had to do was get the SWF sample code up and running on my machine.
+<ol><li>Went to the <a class="external" href="http://www.springframework.org/download">Spring Download page</a><img class="outlink" src="images/out.png" alt="" /> and grabbed version 1.0.4 of SWF (this just goes over to sourceforge for the <a class="external" href="http://downloads.sourceforge.net/springframework/spring-webflow-1.0.4.zip?modtime=1182395228&amp;big_mirror=0">spring-webflow-1.0.4.zip</a><img class="outlink" src="images/out.png" alt="" />)
+</li><li>Extracted the package and grabbed the shippingrate app (spring-webflow-1.0.4\projects\spring-webflow-samples\shippingrate) and copied it over to my desktop
+</li><li>Imported the sample app in eclipse and added a maven2 <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFShippingRate/orig/pom.xml">pom.xml file</a><img class="outlink" src="images/out.png" alt="" /> (also adjusted the <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFShippingRate/orig/.classpath">.classpath file</a><img class="outlink" src="images/out.png" alt="" /> to all required jars to use M2_REPO variable).
+<ul><li><b>TIP:</b> Look at the <tt>ivy.xml</tt> file to get the required dependency list and versions
+</li><li><b>TIP:</b> Don't forget to define a <i>M2_REPO</i> classpath variable in eclipse which points to your local maven2 repository
+</li></ul></li><li>Built the project using maven2 by running <tt>mvn install</tt>
+</li><li>Started up tomcat and accessed the app at: <i><a class="external" href="http://localhost:8080/SWFShippingRate-orig-1.0/">http://localhost:8080/SWFShippingRate-orig-1.0/</a><img class="outlink" src="images/out.png" alt="" /></i>
+</li><li>Checked in the <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFShippingRate/orig">code for the original version</a><img class="outlink" src="images/out.png" alt="" /> to the CARET SVN
+</li></ol><h3 id="section-PortingShippingRateSWFSampleToRSF-CreatingTheRSFVersion"> Creating the RSF version<a class="hashlink" href="#section-PortingShippingRateSWFSampleToRSF-CreatingTheRSFVersion">#</a></h3>
+<h4 id="section-PortingShippingRateSWFSampleToRSF-InitialStructureSetupAndCleanup"> Initial structure setup and cleanup<a class="hashlink" href="#section-PortingShippingRateSWFSampleToRSF-InitialStructureSetupAndCleanup">#</a></h4>
+<ol><li>Branched the <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFShippingRate/orig">original code</a><img class="outlink" src="images/out.png" alt="" /> to create the <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFShippingRate/RSFSWF">RSFSWF version</a><img class="outlink" src="images/out.png" alt="" />.
+</li><li>Adjusted the maven2 <tt>pom.xml</tt> to remove unneeded dependencies (webmvc, web, etc.) and added in the rsf-util and spring-aop dependencies.
+<ul><li>Also changed the Spring version to 2.0.4 to make it easier for maven2 to sync and require less specified dependencies in the <tt>pom.xml</tt>
+</li></ul></li><li>Added rsf-swf and rsfutil jars to the eclipse classpath (using the M2_REPO variable)
+</li><li>Added in an RSF standard <tt>content</tt> directory under <tt>/src/main/webapp</tt>
+</li><li>Added in RSF standard <tt>content/templates</tt>, <tt>content/css</tt>, and <tt>content/images</tt> directories
+</li><li>Moved *.jsp files to <tt>content/templates</tt> and renamed all files to .html
+<ul><li>Removed the old <tt>jsp</tt> directory
+</li></ul></li><li>Updated the headers of all .html files to remove taglibs and added in standard RSF headers (also removed meta tag)
+</li><li>Moved *.jpg to <tt>content/images</tt> and removed old <tt>/src/main/webapp/images</tt> directory
+</li><li>Copied in the rsf logo and fixed the relative path to all images in the templates
+<ul><li>Added logos to the front page, they were not used in the original app
+</li></ul></li><li>Moved <tt>/src/main/webapp/style.css</tt> file to <tt>content/css</tt>
+</li><li>Added the css to the index header
+<ul><li>Adjusted css since body font size was too small to read on high definition screens
+</li></ul></li><li>Added <tt>/src/main/webapp/WEB-INF/messages/messages_en.properties</tt> file for internationalized messages
+</li><li>Created an <tt>rsf</tt> package in <tt>org.springframework.webflow.samples.shippingrate</tt>
+</li><li>Added <tt>params</tt> and <tt>producers</tt> packages to the <tt>rsf</tt> package
+</li></ol><h4 id="section-PortingShippingRateSWFSampleToRSF-ActualRealConversionWork"> Actual real conversion work<a class="hashlink" href="#section-PortingShippingRateSWFSampleToRSF-ActualRealConversionWork">#</a></h4>
+<ol><li>Updated the <tt>/src/main/webapp/WEB-INF/web.xml</tt> file to include the RSF standard contexts and servlets
+<ul><li>This basically means completely overwriting what is there except you can keep the <tt>classpath:org/springframework/webflow/samples/shippingrate/domain/services.xml</tt>
+</li><li>Here is a link to the <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFShippingRate/RSFSWF/src/main/webapp/WEB-INF/web.xml">new web.xml file</a><img class="outlink" src="images/out.png" alt="" /> for easy reference
+</li></ul></li><li>Create an <tt>applicationContext.xml</tt> and <tt>requestContext.xml</tt> file in <tt>/src/main/webapp/WEB-INF</tt>
+<ul><li>Here are links to each for easy reference: <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFShippingRate/RSFSWF/src/main/webapp/WEB-INF/applicationContext.xm">applicationContext.xml</a><img class="outlink" src="images/out.png" alt="" />, <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFShippingRate/RSFSWF/src/main/webapp/WEB-INF/requestContext.xm">requestContext.xml</a><img class="outlink" src="images/out.png" alt="" />
+</li><li><i>OPTIONAL:</i> added an RSF config set under <a class="external" href="http://springide.org/blog/">SpringIDE</a><img class="outlink" src="images/out.png" alt="" /> which includes all spring files
+</li></ul></li><li>Removed the <tt>/src/main/webapp/WEB-INF/shippingrate-servlet.xml</tt> (it mostly has webmvc beans which we do not need)
+<ul><li>Copied over the 3 flow bean definitions from within this file (<tt>flowExecutor</tt>, <tt>flowRegistry</tt>, and <tt>formAction</tt>) to the <tt>applicationContext.xml</tt>
+</li><li>Updated the header of the <tt>applicationContext</tt> to include the flow xmlns <tt>xmlns:flow=&quot;http://www.springframework.org/schema/webflow-config&quot;</tt>
+</li></ul></li><li>Went through each .html template and removed the JSP code and replaced it with <i>rsf:ids</i>
+<ul><li>This mostly involved the removal of non-standard html tags like <tt>&lt;c:...</tt> and <tt>&lt;spring:...</tt>
+</li><li>This also involved some moving around of tags to improve the xhtml
+</li><li>Also removed hidden input fields which were carrying along the flow id
+</li></ul></li><li>Created <a class="wikipage" href="Wikid407.html?page=ComponentProducer">producers</a> for each of the html files in the producers package
+<ul><li>This is the <i>best practice</i> way to create RSF view producers
+</li></ul><ol><li>Create a class named &lt;template&gt;Producer which implements <tt>ViewComponentProducer</tt>
+</li><li>Create a <tt>public final static String VIEW_ID = &quot;&lt;template&gt;&quot;;</tt> which is set to the template without .html
+</li><li>Make the <tt>getViewID</tt> method return the VIEW_ID variable
+</li></ol></li><li>Added all producer bean definitions to the <tt>requestContext.xml</tt> file
+</li><li>Made the IndexProducer implement <tt>DefaultView</tt> so it is the starting page for the app
+</li><li>Added real code to the <tt>IndexProducer</tt> to create the links to initiate the flow inside a form so we can start it using an ajax call
+<ul><li>Added in special form tag to allow us to get the flow start url <br /><tt>&lt;form rsf:id=&quot;rate_flow_link_form&quot; action=&quot;selectCustomer.html&quot; /&gt;</tt>
+</li><li>Create the form: <tt>UIForm form = UIForm.make(tofill, &quot;rate_flow_link_form&quot;);</tt>
+</li><li>Create a link to start a flow and put it in a form: <tt>form.viewparams = new SWFLaunchViewParams(&quot;getRate-flow&quot;);</tt>
+</li></ul></li><li>Added real code to the <tt>SelectCustomerProducer</tt> to connect data to the form and associate the submit with the flow
+<ul><li>Use the RSF convention of <tt>SWFBindingBean</tt> to proxy data to the flow formObject, this points to the <tt>org.springframework.webflow.samples.shippingrate.domain.RateCriteria.java</tt> object (defined by the <i>formObjectClass</i> in the <i>formAction</i> bean) which has fields on it like <tt>.residential</tt>, <br />For example: <tt>UISelect choices = UISelect.make(form, &quot;customer_choices&quot;, customerOptions, customerLabels, &quot;SWFBindingBean.residential&quot;);</tt>
+<ul><li><b>NOTE:</b> Here we are putting data into the <i>rateCriteria</i> bean (defined by the <i>formObjectClass</i> in the <i>formAction</i> bean)
+</li></ul></li><li>Use the RSF convention of <tt>SWFEventBean</tt> to continue the flow, this ties to the <tt>view-state</tt> in the flow <br />(<tt>/src/main/webapp/WEB-INF/flows/getRate-flow.xml</tt>) and the related <i>transition</i> which will have an <i>on</i>, <br />For example: <tt>&lt;transition on=&quot;submit&quot; to=&quot;selectSender&quot;&gt;</tt> for <b>view-state id=selectCustomerType</b>
+</li></ul></li><li>Added the injection for the <tt>RateService</tt> to the remaining producers
+<ul><li>it is used in every view except <tt>IndexProducer</tt> and <tt>SelectCustomerProducer</tt>
+</li></ul></li><li>Added functional code to the remaining producers (this is basic Java and RSF code so I will not go into detail here)
+<ul><li>This did involve injecting the <tt>RateCriteria</tt> bean into the final view so that we could send it to the <tt>RateService</tt>
+</li></ul></li><li>Added the validation messages from  <tt>/src/main/java/org/springframework/webflow/samples/shippingrate/domain/RateCriteriaValidator.java</tt> to the <tt>/src/main/webapp/WEB-INF/messages/messages_en.properties</tt>
+<ul><li>This is because RSF only allows internationalized messages
+</li><li>We had to add one additional validation message because of an internal Spring exception message which RSF does not have access to
+</li></ul></li><li>Committed the changed code to the <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/">CARET SVN repository RSF samples trunk</a><img class="outlink" src="images/out.png" alt="" />
+</li></ol><h4 id="section-PortingShippingRateSWFSampleToRSF-RunningTheSampleApp"> Running the sample app<a class="hashlink" href="#section-PortingShippingRateSWFSampleToRSF-RunningTheSampleApp">#</a></h4>
+<ol><li>Built and deployed the project using maven2 by running <tt>mvn install cargo:deploy</tt> from the main directory
+</li><li>Started up tomcat and accessed the app at: <i><a class="external" href="http://localhost:8080/SWFShippingRate-SWFRSF-1.0/faces/">http://localhost:8080/SWFShippingRate-SWFRSF-1.0/faces/</a><img class="outlink" src="images/out.png" alt="" /></i>
+</li><li>Tested the various flows
+</li></ol><h4 id="section-PortingShippingRateSWFSampleToRSF-DifferencesInAppFunction"> Differences in app function<a class="hashlink" href="#section-PortingShippingRateSWFSampleToRSF-DifferencesInAppFunction">#</a></h4>
+<h4 id="section-PortingShippingRateSWFSampleToRSF-SummaryOfNeededChanges"> Summary of needed changes<a class="hashlink" href="#section-PortingShippingRateSWFSampleToRSF-SummaryOfNeededChanges">#</a></h4>
+<ul><li>No flows were changed and the logic for the application was not touched
+</li><li>The &quot;views&quot; (JSPs) were transformed into RSF views (producers and templates) and various RSF bits were added (contexts)
+</li><li>A few other RSFisms like internationalized messages and the web.xml had to be updated or added
+</li></ul>
+
+
+
+
+
+
+        
+  </div>
+
+
+  
+
+  
+  <div id="attach" class="hidetab" >
+
+    
+
+
+
+
+
+
+
+
+
+
+<div id="addattachment">
+<h3>Add new attachment</h3>
+
+
+<div class="formhelp">Only authorized users are allowed to upload new attachments.</div>
+
+</div>
+
+
+
+  </div>
+
+  
+    
+  <div id="info" class="hidetab" >
+
+  </div>
+
+    
+  
+
+<div style="clear:both;" ></div>
+</div>
+
+      
+
+
+
+
+
+
+
+<div id='actionsBottom' class="pageactions"> 
+    
+
+    <a href="#top" 
+      class="action quick2top" 
+      title="Go to top" >&laquo;</a>
+
+    
+       This page (revision-) was last changed on <a href="Diff402b.html?page=PortingShippingRateSWFSampleToRSF&amp;r1=-1&amp;r2=1">15-Aug-2007 03:04</a> by UnknownAuthor
+    
+
+    
+
+   
+
+  
+
+   
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div id="favorites">
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="Logincd1e.html?redirect=PortingShippingRateSWFSampleToRSF" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="UserPreferencescd1e.html?redirect=PortingShippingRateSWFSampleToRSF"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+  
+  <div id="hiddenmorepopup">
+  <ul id="morepopup">
+     
+       	
+     
+       
+     
+    
+       
+     
+       <li>
+       
+       <a class="action rawpage wikipage" 
+               href="Wiki65a9.html?page=PortingShippingRateSWFSampleToRSF&amp;skin=raw"
+              title="View Page Source">View Page Source
+       </a>
+       
+       
+       </li>
+      
+        
+  
+      
+      
+      
+
+      
+	  <li class='separator'>
+        <div id="moremenu" ></div>
+      </li>
+  </ul>
+  </div>
+  
+  
+
+  
+
+  
+
+  
+  <div class="leftmenu">
+    <p><a class="wikipage" href="Wikib2ab.html?page=Main">Main page</a><br />
+<tt> </tt><i><a class="wikipage" href="Wiki4d3f.html?page=ThisWiki">About</a></i><br />
+</p><p><a class="wikipage" href="Wikid6f0.html?page=GettingStarted">Getting Started</a><br />
+</p>
+<p><b>Documentation</b><br />
+<tt> </tt><a class="wikipage" href="Wiki4c8c.html?page=Developers">Developers</a><br />
+<tt>  </tt><a class="wikipage" href="Wikib1ce.html?page=Javadocs">Javadocs</a><br />
+<tt> </tt><a class="wikipage" href="Wikia56b.html?page=Designers">Designers</a><br />
+<tt> </tt><a class="wikipage" href="Wiki4509.html?page=SampleRSFApps">Sample RSF Apps</a><br />
+<tt> </tt><a class="wikipage" href="Wikif010.html?page=Presentations">Presentations</a><br />
+<tt> </tt><a class="wikipage" href="Wiki45f9.html?page=Acronyms">Acronyms</a><br />
+</p>
+<p><b>Downloads</b><br />
+<tt> </tt><a class="wikipage" href="Wiki30c9.html?page=CurrentCode">Current Release</a><br />
+<tt> </tt><a class="wikipage" href="Wiki0e27.html?page=TrunkCode">Trunk</a><br />
+<tt> </tt><a class="wikipage" href="Wiki1a8d.html?page=CodeDistributions">Distributions</a><br />
+<tt> </tt><a class="wikipage" href="Wikiadaf.html?page=OldCode">Old Versions</a><br />
+</p>
+<p><b>Community</b><br />
+<tt> </tt><a class="wikipage" href="Wiki84f4.html?page=QampA">Q&amp;A</a><br />
+<tt> </tt><a class="external" href="http://ponder.org.uk/rsf/">Forums</a><img class="outlink" src="images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="Wikif345.html?page=EmailLists">Mailing Lists</a><br />
+<tt> </tt><a class="external" href="http://www.caret.cam.ac.uk/jira/browse/RSF">Issue Tracker</a><img class="outlink" src="images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="Wiki1535.html?page=People">People</a><br />
+</p>
+<p><b>Design</b><br />
+<tt> </tt><a class="wikipage" href="Wiki580c.html?page=Roadmap">Roadmap</a><br />
+<tt> </tt><a class="wikipage" href="Wiki654d.html?page=Integrations">Integrations</a><br />
+<tt> </tt><a class="wikipage" href="Wikia360.html?page=Concepts">Concepts</a><br />
+<tt> </tt><a class="wikipage" href="Wiki151d.html?page=Philosophy">Philosophy</a><br />
+</p>
+<div style="font-style:italic;font-size:0.8em;">
+<b>Pages</b><br />
+<tt> </tt><a class="wikipage" href="Wiki702d.html?page=FindPage">Find</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5fc7.html?page=RecentChanges">Recent Changes</a><br />
+<tt> </tt><a class="wikipage" href="Wikife97.html?page=UnusedPages">Unused</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5130.html?page=UndefinedPages">Undefined</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5f9e.html?page=PageIndex">Index</a>
+</div>
+<p />
+    
+  </div>
+  
+  <div class="leftmenufooter">
+    <hr />
+<p><b>Referenced by</b><br />
+<a class="wikipage" href="Wiki13ab.html?page=SpringWebFlow">SpringWebFlow</a><br />
+</p>
+    
+  </div>
+
+  
+
+  
+  
+  <div class="wikiversion">JSPWiki v2.8.2
+  <span class="rssfeed">
+    
+  </span>
+  </div>  
+  
+</div>
+
+	<div class="clearbox"></div>
+  </div>
+
+  
+
+
+
+
+
+ 
+<div id="footer">
+
+  <div class="applicationlogo" > 
+    <a href="Wikib2ab.html?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  <div class="copyright"></div>
+
+  <div class="wikiversion">
+    JSPWiki v2.8.2
+  </div>
+
+  <div class="rssfeed">
+    
+  </div>
+
+</div>
+
+</div>
+
+</body>
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Wiki.jsp?page=PortingShippingRateSWFSampleToRSF by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:02:14 GMT -->
+</html>
+

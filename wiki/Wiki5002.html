@@ -1,0 +1,61 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The interface HandlerHook can be implemented by a bean that needs to bypass the portability offered by RSF and is wanting to take control of the complete request cycle in RSF. The interface is somewhat minimal reflecting the fact that the required dependencies of a HandlerHook cannot be known, since in general they will be highly non-portable (for example HttpServletRequest) and environmental:
+
+{{{
+/** Register a hook in the &quot;handler chain&quot; from the RootBeanHandler.
+ * The hook returns &lt;code&gt;true&lt;/code&gt; if it has successfully handled this
+ * request, in which case further processing should terminate.
+ */
+public interface HandlerHook {
+  public boolean handle();
+}
+}}}
+It's worth noting that HandlerHook fulfils a very similar function to the [HandlerInterceptor|http://www.springframework.org/docs/api/org/springframework/web/servlet/HandlerInterceptor.html] interface supplied as part of SpringMVC. However unlike HandlerInterceptor, our interface is considerably more slimline, and also completely portable, not even containing any RSF dependencies. This is possible through RSF's widespread use of request-scope IoC. We need just one interface for every environment RSF is deployed into.
+
+For efficiency reasons HandlerHooks must be declared at application scope. This would initially seem to represent a problem since many of the required dependencies will lie in the request scope - however RSF defines application-scope proxies for the majority of request-scope properties that it knows about (ViewParameters, HttpServletRequest, etc.) which can bridge to the HandlerHook. For example, an application-scope declaration of a HandlerHook might look as follows:
+
+{{{
+  &lt;bean id=&quot;darwinHandlerHook&quot; 
+    class=&quot;uk.org.ponder.darwin.rsf.DarwinHandlerHook&quot;&gt;
+    &lt;property name=&quot;httpServletRequest&quot; ref=&quot;httpServletRequestProxy&quot;/&gt;
+    &lt;property name=&quot;httpServletResponse&quot; ref=&quot;httpServletResponseProxy&quot;/&gt;
+    &lt;property name=&quot;requestTypeProxy&quot; ref=&quot;requestTypeProxy&quot;/&gt;
+    &lt;property name=&quot;viewParametersProxy&quot; ref=&quot;viewParametersProxy&quot;/&gt;
+    &lt;property name=&quot;pageRenderer&quot; ref=&quot;pageRenderer&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+
+HandlerHooks are registered with RSF using the standard parent definition (via [TLAB|TargetListAggregatingBean]) of {{handlerHookParent}}. For example the above HandlerHook would be registered using this definition:
+
+{{{
+  &lt;bean parent=&quot;handlerHookParent&quot;&gt;
+    &lt;property name=&quot;value&quot; ref=&quot;darwinHandlerHook&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+
+On the other hand, one may choose to declare the HandlerHook itself at request scope, where its dependencies may be acquired directly, and instead register a proxy for the HandlerHook. This may be done very compactly using a compound Spring definition like the following at application scope:
+
+{{{
+  &lt;bean parent=&quot;handlerHookParent&quot;&gt;
+    &lt;property name=&quot;value&quot;&gt;
+      &lt;bean parent=&quot;RSACBridgeProxy&quot;&gt;
+        &lt;property name=&quot;targetBeanName&quot; value=&quot;reportHandlerHook&quot; /&gt;
+      &lt;/bean&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+}}}
+
+In this case {{reportHandlerHook}} would be a request-scope bean registered with [RSAC]. More information on the [RSACBridgeProxy] which appears above is on its own page.
+
+</pre>
+

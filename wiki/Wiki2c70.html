@@ -1,0 +1,46 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!! RSF - Reasonable Server Faces
+
+Reasonable Server Faces (RSF) is an [open source|Licence] web programming framework written in [Java|http://java.sun.com/], and built on the [Spring framework|http://www.springframework.org/]. It has roughly the same scope as Sun's [JSF], taking responsibility for the entire request processing cycle through HTTP request decoding, maintaining a bean model, invoking actions, directing errors, interpreting results and rendering views. It also takes upon itself the task of maintaining relevant state between requests. Clients (at the [Java|http://java.sun.com/] level) should never be troubled by the fact they are dealing with HTTP or HTML, whereas clients (at the UI level) should never be troubled by the fact that they are dealing with anything BUT HTML (referred to as &quot;separation of concerns&quot;).\\
+The core RSF values and philosophy are explained on the [Philosophy] page. 
+
+! Summary of RSF features
+
+* [Pure XHTML templating], with a lightning-fast renderer ([IKAT]) and no custom tags!
+** Rendering system produces completely [valid XHTML|TemplateValidity] (allows clean and fully &quot;accessible&quot; views)
+** &quot;[Right first time|RightFirstTime]&quot; rendering gets URLs, styling and layout correct even in complex portal/multiple client environments
+** No [Javascript] is required to operate so it is extremely friendly to [Javascript] and [AJAX]-rich development
+* The [Spring Framework|http://www.springframework.org/] is used for [IoC] by both developers and the framework throughout, no need to learn another file format or semantics
+** Includes a request scope application context ([RSAC]) both for clean request-scope programming free of ThreadLocals, as well as for request model.
+* Handles the complete request lifecycle from view layer rendering down to data access and persistence
+** Developers don't have to deal with HttpServletRequest, URLs, or HTML tags in their code
+* Allows a pure bean programming model (like [JSF|http://java.sun.com/j2ee/javaserverfaces/index.jsp], NO interfaces or base classes appear in your data model)
+* Highly modular and pluggable architecture
+** Allows &quot;take-it-or-leave-it&quot; integration with RSF - use just the renderer standalone (like a much smarter [Velocity|http://jakarta.apache.org/velocity/]), use the renderer plus request decoder, or use the whole framework with your favorite components plugged in.
+** Fine-grained modularity allows you to plug in your favorite flow architecture (e.g. [Spring Web Flow|http://www.springframework.org/webflow]), your favorite persistence layer (e.g. [Hibernate|http://www.hibernate.org/], iBatis), &amp;c.
+** RSF itself built using [Spring|http://www.springframework.org/] and [RSAC], so even core components can be replaced by just editing a config file
+* Facilitates designs where [zero server state|ZeroServerState] is held between requests - both &quot;model&quot; and &quot;component tree&quot; are discarded at request end
+** Abstract component tree isolates view producers from the rendering technology.
+* Build &quot;components&quot; using libraries of HTML rather than libraries of code.
+* Lightweight, [minimal|FrameworkSize] and fast - the core framework remains well below 20k lines.
+
+! RSF uses the following Java technologies
+* [Spring Framework|http://www.springframework.org/] 1.2.8+ (''Java IoC/AOP framework'')
+** [SpringAPI] - RSF Spring bean configuration API
+** [SpringWebFlow] - RSF [Spring Web Flow|http://www.springframework.org/webflow] integration
+* [Hibernate|http://www.hibernate.org/] 3.1+ (''Java ORM'')
+** [RSFHibernate] - RSF ORM with [OTP] using Hibernate
+** [RSFORMByItself] - RSF ORM without the presentation layer
+
+</pre>
+

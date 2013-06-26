@@ -1,0 +1,96 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Programming with RSF regularly brings up certain objects or concepts, some new and some familiar (to those who have used other frameworks such as Spring or JSF).
+
+
+%%( background-color: #ffc0c0; border: 1px dotted black; padding: 0.2em; )
+NEW!!! Now sorted into alphabetical order!
+%%
+
+__Action__\\
+{{  }}An (application-defined) RSF [Action] may be invoked by the framework in order to handle an action (POST) request.
+
+__Action Result Interpreter__\\
+{{  }}The [ActionResultInterpreter] marks the last stage of action request processing, and an important site for application configuration. It inspects the result of the just-concluded [Action] and computes the next view to be shown.
+
+__Bean Exploder__\\
+{{  }}The [BeanExploder] is a bean definition for a [request-scope bean|RequestScopeBeans] that &quot;explodes&quot; a bean prototype into a freely-addressed, lazily evaluated address space. The key to RSF's ORM philosophy, as well as the solution to the Spring &quot;lost non-singleton&quot; problem.
+
+__Bean Line__\\
+{{  }}The [BeanLine|Bean Line] is a hypothetical line of dependency dividing code with a dependence on a framework from code without it.
+
+__Bean Locator__\\
+{{  }}[BeanLocator] is a one-method interface that abstracts the location of a bean by name from its container. It is the central interface enabling [BeanReasonableness], by exposing an application's entire data model in a uniform address space.
+
+__Bindings__\\
+{{  }}A [Binding] is an association expressed in [EL] to a part of the request model. In RSF, the behaviour of an [action] submission is expressed as a set of encoded bindings held in the client form, which may cause data to be read or written when the request is received. 
+
+__Component Producer__\\
+{{  }}The job of a [component producer|ComponentProducer] (or plain &quot;Producer&quot;) is to populate the [View] tree with [components|Component].
+
+__Component Tree__\\
+{{  }}The [ComponentTree] or [View] is the main product of the [component producer|ComponentProducer]. It consists of a tree of [UIComponent|component] objects, which specifies the abstract properties of the view to be rendered in this cycle, devoid of dependence on the rendering technology. In an MVC architecture, the component tree would constitute the controller layer.
+
+__Evolver__\\
+{{  }}An [Evolver] is a specialised kind of [Producer|ComponentProducer] which accepts an already constructed RSF primitive component as a ''seed component'' to repackage in an elaborated form, associated with its own section of markup. Evolvers and similar Producers are the vehicles for creating reusable &quot;widgets&quot; in RSF.
+
+__Flow__\\
+{{  }}An RSF [flow|Flow] is a chained collection of related requests, which combine rules for navigation together with a propagation of some state from the request bean map along the chain.
+
+__Levelization__\\
+{{  }}[Levelization] is the organization (in the mind of the designer) of a codebase into a strict hierarchy based on knowledge or dependence.
+
+__Oblets__\\
+{{  }}Oblets are OTP over TSH.
+
+__Obstinate Map__\\
+{{  }}The [Obstinate Map|ObstinateMap] is a concept that every now and then seems necessary in order to adapt bean models with dissimilar underlying semantics (primarily those from e.g. Hibernate with lazy evaluation semantics). Now evolved into the [BeanLocator] system.
+
+__OLI__\\
+{{  }}[OLI] (One Line Interface) programming is highly valued in RSF. Many even quite modern frameworks feature unnecessarily fat and poorly decomposed interfaces (of which Java Collections is a prime example), or yet worse, no interfaces at all! The natural endpoint of a lightweight and flexible architecture is a preponderance of interfaces which contain just a single method.
+
+__OTP__\\
+{{  }}The [One True Path (OTP)|OTP] is an [EL] addressing idiom that is key to RSF's support for ORM 
+technologies.
+
+__Parachute Rendering__\\
+{{  }}[ParachuteRendering] is a key concept of [IKAT]'s [component|Components] rendering model, where maximum use is made of contextual inspection of the view template before deciding on a rendering strategy.
+
+__Peas__\\
+{{  }}A [Pea|Peas] is like a bean only smaller - it uses direct field access for properties rather than getters and setters.
+
+__Request Scope Application Context__\\
+RSF, in addition to being built out of application-scope [Spring|http://www.springframework]-configured beans, also allows the definition of request-scope beans in standard Spring-formatted files. These form the [RequestScopeApplicationContext|RSAC].
+
+__RSF EL (Expression Language)__\\
+{{  }}RSF adopts an [expression language|EL] in order to map locations in the client's bean model to and from a string representation.
+
+__RSVC Replay__\\
+{{  }}The [RequestSubmittedValueCache] is a log of all values received from the user during a request cycle. RSF can [replay|RSVCReplay] this log to implement a lightweight and straightforward alternative to the [long transaction|LongTransaction] functionality provided by some ORM solutions.
+
+__Scoped beans__\\
+{{  }}RSF [scoped beans|ScopedBeans] are complementary to its [Flow] beans, in that these are both schemes for letting normal request-scope beans be given longer lifetimes by copying them back and forth between requests (typically via an HTTP session). Unlike Flow beans, scoped beans are not tied to a particular series of requests, but will persist until programmatically destroyed or their backing storage expires, whichever happens soonest.
+
+__Seed component__\\
+{{  }}A seed component is a primitive RSF component used as an argument to an [Evolver].
+
+__View Parameters__\\
+A [ViewParameters] object holds a deserialized representation of the location of the view for the current request. This is held in a view-neutral &quot;bean tree&quot;.
+
+__View Template__\\
+The [view template|ViewTemplate] is a file (or collection of files) in the target XML dialect that is supplied to the [IKAT] renderer as its &quot;model&quot; for the output file it is to produce. These differ from the target dialect only through having one extra attribute, the {{rsf:id}} applied to any tags which require rewriting by the render process.
+
+__View Token__\\
+{{  }}RSF allocates a unique [token|ViewToken] to every view that it renders, allowing much more reliable browser semantics than are possible with [session|SessionConsideredHarmful]-based solutions.
+
+</pre>
+

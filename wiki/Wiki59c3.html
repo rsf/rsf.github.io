@@ -1,0 +1,45 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The special {{[rsf:id|IDs]}} {{payload-component}} is reserved, and is designed to help out with the very common situation where otherwise one might need to create a {{[UIBranchContainer]}} containing a single component.
+
+The situation comes up quite often, where there is a piece of markup surrounding a component which is optional, which you want to suppress in addition to the component when the component is not there. For example, imagine the following bit of template:
+{{{
+&lt;span rsf:id=&quot;label-branch:&quot;&gt;This is the description for &lt;span rsf:id=&quot;component&quot;&gt;My Component&lt;/span&gt;&lt;/span&gt;
+}}}
+The component {{component}} (probably a UIOutput} is optional, and the [producer|ComponentProducer] may choose to leave it out. But without the branch here, what might be left behind is the text &quot;This is the description for&quot; which is clearly nonsensical. So, without {{payload-component}}, the conditional one would test in the producer would suppress the entire {{label-branch:}} as well as the {{component}} inside.
+
+{{{
+if (showcomponent) {
+  UIBranchContainer mybranch = UIBranchContainer.make(tofill, &quot;label-branch:&quot;);
+  UIOutput.make(mybranch, &quot;component&quot;, &quot;My Component&quot;);
+  }
+}}}
+
+Considering that the ids for all branch containers are resolved within a global scope, this would be an increasing risk, as well as being very annoying. The special {{payload-component}} id lets us deal with this situation using only leaf components and only the original component in the producer.
+
+In the template, we apply the &quot;real&quot; id to the entire tag in the template that we want suppressed if the component is missing - and to the tag ''inside'' it which will actually peer with the component when it is present, we give the special id {{payload-component}} - like this:
+
+{{{
+&lt;span rsf:id=&quot;component&quot;&gt;This is the description for &lt;span rsf:id=&quot;payload-component&quot;&gt;My Component&lt;/span&gt;&lt;/span&gt;
+}}}
+This structure is &quot;invisible&quot; in the producer - we simply deal with the &quot;real&quot; component as follows:
+
+{{{
+if (showcomponent) {
+  UIOutput.make(tofill, &quot;component, &quot;My Component&quot;);
+  }
+}}}
+
+As of RSF 0.7, {{payload-component}} works with payloads which are both normal leaves and [repetitive leaves|RepetitiveLeaves].
+
+</pre>
+

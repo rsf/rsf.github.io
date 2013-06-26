@@ -1,0 +1,45 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+%%( background-color: #c0c0c0; border: 1px dotted black; padding: 0.2em; font-size: 200%; text-align: center)
+--= OLD=--
+%%
+
+%%( background-color: #c0c0c0; text-align: center)
+This page predates the release of RSF 0.6 - Note that while the RSVC Preservation Strategy approach has been &quot;implemented&quot;, it was never brought to being fully functional since it became apparent that there were quite a number of features more vital to users. If there is any user demand for it, this might be finished after the 1.0 release.
+%%
+
+The &quot;RSF Replay&quot; phase of RSF [request handling|HandlerSequence] occurs before the evaluation of any [EL] expressions which might query the application's data model. It is a lightweight and fairly foolproof replacement for functionality that might otherwise be provided by the application's underlying ORM solution's [long transaction|LongTransactions] support.
+
+This phase is discussed from other points of view in other pages, mainly those above, but in essence, 
+
+# If the [view parameters|ViewParameters] for this request contains a [view token|ViewToken], this is used as a key into the [TokenStateHolder] to discover any [TokenRequestState](TRS). There will be storage here if this request is either i) part of a [multi-request cycle|MultiRequest] or ii) an error return from a user submission.
+# If the TRS contains a [RequestSubmittedValueCache] (RSVC), each entry there is evaluated as EL (causing loading of any request beans) and the user submitted values (among other entries) are ''re-applied'' to the data model, re-creating the bean state that was present at the end of the previous request in the cycle.
+
+This solution involves various tradeoffs from a [long transaction|LongTransactions] strategy, which must be considered very carefully:
+
+* RSVC may well be ''slower'' than LTs, especially for wizards with very many stages (although note this is probably offset by possible reductions in memory requirements in high-load environments):
+** It is an important consideration of RSF that its [EL] evaluate as quickly as reasonably possible, shortly aided by [FastClass].
+** The RSVC replay will probably ''not'' cause more database transactions than the equivalent LT approach, since most of the same entities will need to be queried during the &quot;re-attachment&quot; process as will be queried by the batched EL operations - and this querying is always envisaged to be the slowest part of an RSF app.
+** However, application designers should be aware that the request binding part of their code may be invoked repeatedly, and should take care that any expensive processing is deferred to the [invoke application|Action] phase. Ideally, request binding will perform simple type conversions and setting properties.
+* RSVC may be slightly less ''robust'' than LTs in terms of reliably recreating the identical bean state at previous request end, at least until the RSVC log is extended to cache not only value bindings for [input|UIInput] components but also for output components. It is important for application coherency that the &quot;state&quot; of a request not only includes data model values ''received from'' a user, but also those sent to him. This footnote[1] on the &quot;auction&quot; example (taken from the book, &quot;Hibernate in Action&quot; provides a compelling scenario for this problem.
+* However, RSVC allows much ''earlier detection'' of conflicts than is possible with LTs - the LT, being completely isolated from the database environment, ''must'' wait until the final stage of a multi-stage wizard before reporting a version exception. The RSVC (especially if it is augmented to map version fields from the entity model into hidden fields in the form) can signal a conflict at the first request after it occurs, possibly preventing the submission of a lot of data that might be invalid.
+* RSVC also is much more economical on server resources. Since the RSVC is purely ''dead data'' (it is a flat list of structures with String fields), it is easily serializable, which has two important benefits:
+** Firstly, on low server memory, the RSVC log (especially for older data) can be stored on disk with the minimum overhead of data conversion code. This is in contrast to LT state which MUST remain in memory and is not in any way serialisable (at least with current ORM solutions).
+** Secondly - an important robustness consideration. Many modern webapp containers (such as Tomcat) provide a &quot;safety net&quot; whereby if the server is shut down gracefully, any data stored in Session containers that is Serializable is written to disk, to be used to reconstruct the session state on startup. This state must be lost while using an LT solution, but may be preserved with RSF.
+* RSVC is also pretty ''straightforward''. Long transactions while attractive on paper, seem to involve really quite tricky grubbing around during the reattachment phase, which can fail in really quite obscure ways (in our local experience).
+
+However, all this said, RSF does not ''prevent'' the use of ORM-layer long transactions - the architecture is sufficiently modular that ComponentProducers, AlterationWrappers &amp;c may conspire to present the ''same'' component tree at subsequent requests, and the RSVC [fixup|Fixups] stage skipped. The purpose of RSF is to provide some ''reasonable'' default behaviour that should cover most user requirements, and work correctly irrespective of the ORM or other technology backing their data model. 
+
+An expanded version of this discussion appears on the [RSVCVersusDeadBeansMRSA] page.
+
+</pre>
+

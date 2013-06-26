@@ -1,0 +1,23 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+[ImageHolder/parachute-small.jpg] &quot;Parachute Rendering&quot; is a term used to describe the general [IKAT] philosophy of rendering RSF &quot;[components|Components]&quot; by a contextual inspection of ''what is in the template already'' rather than just blindly stamping on it, as I believe it is fair to say ''all'' other frameworks do, at least those that even permit HTML templates in the first place.
+
+The IKAT rendering philosophy is one of ''minimal disturbance'' to the template contents - for example, all attributes on a tag peering with a component are preserved, unless they are specifically required to be overwritten by the renderer. 
+
+The &quot;parachute&quot; idiom is based on the imagery that the renderer is &quot;dropped in&quot; onto the template from the great height of the code level, to inspect the &quot;situation on the ground&quot; - it uses this to inform its decision as to what rendering strategy to use for a particular component instantiation. This is as contrasted to the &quot;bunker mentality&quot; of JSF, Wicket and others whereby the rendering is decided as part of a &quot;renderkit&quot; or other distant server-side contraption. Parachute rendering puts the maximum power in the hands of the HTML designers and UI team who are in charge of the final deployment of an app to make quite drastic alterations to its appearance without requiring the expense and fragility of code changes. 
+
+The current &quot;paradigm example&quot; of parachute rendering in RSF is the renderer for the [UISelect] control, which currently makes a two-way decision based on whether the HTML tag it is peering with is a {{&lt;select&gt;}} or not. If it is a select, it will use it - if it is not, it will simply use the tag as a repository for any [fossilized bindings|FossilizedBinding] required and expect that the meat of the selection functionality will be provided with radiobuttons and checkboxes elsewhere on the page. You can see this in action on the [ComponentTest] test app.
+
+This is just the start! As the RSF component set becomes richer and richer with user-contributed components and templates, the set of available options to renderers will become wider and wider - for example, renderers which automatically recognise Javascript-submitted {{&lt;link&gt;&gt;}} forms, or special low-tech &quot;accessible&quot; templates.
+
+</pre>
+

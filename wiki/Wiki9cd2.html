@@ -1,0 +1,19 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+There may be some good reasons why the request parameter map received directly from the client does not match the Map expected by the rest of RSF. The {{normalizeRequestMap}} member of the [RenderSystem] interface gives the dialect-specific portion of the code a chance to process this map before RSF actions begin.
+
+Currently the only &quot;good reason&quot; known of relates to form submission controls. Since the {{&lt;button&gt;}} control is permanently broken by decree of Microsoft (even recent IE versions do not agree to encode the name of the actual control used for a submission), the RSF BasicHTMLRenderSystem must use the ''name'' of the submission control to encode ''all'' EL and component binding information, and what is more the [Action] name to be triggered by the control. This is packed into a ''long'' string consisting of a stretch of URL attribute stanzas separated by &amp; and =.
+
+The BasicHtmlRenderSystem unpacks such encoded information and returns it into the supplied writeable Map, sot it may appear as if it had been submitted normally. The main benefit of this approach is to allow RSF applications to function correctly in non-Javascript enabled clients.
+
+</pre>
+

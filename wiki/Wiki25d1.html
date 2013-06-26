@@ -1,0 +1,31 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+BeanLocator is the core RSF interface which &quot;locates&quot; a bean in its immediate container (given a single path component):
+
+{{{
+public interface BeanLocator {
+  public Object locateBean(String path);
+}
+
+}}}
+
+Any bean found implementing BeanLocator (or indeed java.util.Map) will be navigable via RSF [EL] to the next path component by means of the locateBean (or get()) method, in addition to support for Java beans style paths mapping to properties via introspection (and of course [Peas]). 
+
+Other pages relevant to BeanLocator are [OLI] for a tour of RSF's One Line Interfaces, and [OTP] for the use of BeanLocator in the wider context of RSF's ORM idiom.
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

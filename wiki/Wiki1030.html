@@ -1,0 +1,47 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+%%( background-color: #c0c0c0; border: 1px dotted black; padding: 0.2em; font-size: 200%; text-align: center)
+--= OLD=--
+%%
+
+%%( background-color: #c0c0c0; text-align: center)
+This page predates the release of RSF 0.6 - whilst any reasoning here is probably still roughly valid, specific descriptions of the way RSF does things are probably not valid. The page may be left here either as a historical note, and/or because it refers to a part of RSF that no longer bears this name. Read it with caution.
+%%
+
+!!! Persistent state
+The handling of persistent state in RSF is entirely a matter for the framework client, and RSF will try not to get in your way with whatever scheme you choose to adopt (whether based on Hibernate, iBatis or something wierd and wonderful of your own devising) - this matter is considered be &quot;below the [bean line|BeanLine]&quot; as far as RSF is concerned, although some assistance is planned for clients using proxying bean frameworks like Hibernate.
+
+!!! Inter-request state and Multi-request state (MRSA)
+However, RSF also spontaneously (and hopefully transparently) stores some state between requests (with a shorter lifetime) in order to manage the orderly abstraction that it maintains for clients, away from the somewhat peculiar semantics induced by the HTTP GET/POST protocol.
+
+!!Comparisons and motivation
+State in web frameworks is a real sore potato, or else a hot point. JSF, for example, has an interestingly configurable strategy allowing clients to choose between a solution whereby inter-request state is stored wholly on the client in a wodge of hidden fields, or on the server in a big lump of [session|SessionConsideredHarmful] state. By supplying the StateHandler interface, it also allows &quot;complete&quot; flexibility to the programmer to adopt hybrid or custom strategies - Oracle, for example in their [ADF components for JSF|http://www.oracle.com/technology/products/jdev/htdocs/partners/addins/exchange/jsf/index.html] provided an interesting hybrid strategy, slightly suggestive of the RSF solution, whereby a client-side token is used as an index into server state. As another example, Tapestry appears to keep a pool of application-wide &quot;template&quot; objects into which request-specific state is blown (reminiscent of an early [RSAC] implementation tried in RSF), on the observation that server-side memory state is highly precious, which it indeed is. I have heard that Microsoft's ASP.NET adopts a heavily client-based solution whereby the per-request state is heavily compressed into an encoded, serialised form blob (Comments?).
+
+In its current state RSF does not offer so much configurability in this area as JSF did, but observes that a lot of the pressure on JSF to be so flexible was created by the large quantity of (arguably) unnecessary data that the framework architecture obliged to be kept around, to wit, the entire view component tree complete with listeners, validators and even non-input components. RSF tries hard to define the ''bare minimum'' of inter-request state required for correct and robust handling, and store it in the place which appears to offer the best overall tradeoffs. At some point on the roadmap there are plans for a point of configuration where clients can choose between a client-based &quot;hidden field&quot; solution or a server-based &quot;token&quot; solution specifically for the [multi-request state|MultiRequestState], but most of the &quot;core&quot; RSF state needs to stay where it is, detailed as follows:
+
+!!Client and server storage
+The per-request state in RSF is generally split between client and server, with &quot;as much as possible&quot; sent to the client to live, as can be put there without compromising robustness.
+
+!Client storage - fossilized bindings
+For every view component capable of accepting user input, there is sent a &quot;shadow&quot; hidden field which is initialised by the [&quot;fossilized binding&quot;|FossilisedBinding] for the field, which stores its old value at the time of rendering, and a mapping from the component's unique [component ID|IDs] (full ID) to its [value binding|ValueBinding]. There is in addition a lump of extra storage encoded in the name of each form component capable of generating submission.
+
+!Server storage - TokenRequestState
+Storage on the server is indexed by the [view token|ViewToken], and is stored by the application bean [TokenRequestHolder] in instances of the class [TokenRequestState] (TRS).
+
+Information stored in TRS is recognised to be holding onto vastly precious server-side resources, and so is only placed when absolutely necessary, and continuously expired based on a TTL policy. The state there comes into the following categories:
+
+# Information on errors that occurred during the previous request cycle generating the current page. This is stored in a [TargettedMessageList], which enables messages to be delivered to stand next to relevant fields displayed in the UI. Errors are expected to mainly be generated during POST cycles, although there is support for displaying generalised errors arising through GET rendering in an untargetted way. The TTL of error state should be generally small, since it should  generally be sufficient for the user to see the error state only once following the erroneous request, with provision made for short-term network or load problems allowing the view to be refreshed a few times. There is not yet any implementation for expiring this state on a different schedule to the rest of TRS however.
+# In the case of a POST submission resulting in an error, the previously submitted user values should be maintained so that the following GET may render the input components with the user-submitted values attached so they may be edited and resubmitted. This is stored in the [RequestSubmittedValueCache] (RSVC), which stores a pre-[EL]-application cache of the incoming values on the submit. Once the rest of the RSF architecture is firmed up, it may be possible to do away with the need for this separate cache, and use a propagating bean state instead to achieve the same effect, with the cost of an extra round-trip to and from bean state. This requires the implementation of both [multi-request state|MultiRequestState] and [component fixups|Fixup] which are required anyway for the framework to be considered in any way complete (current plan - November!) (2005!)
+# Some user operations cannot be fully committed to persistent state in the scope of a single request cycle since they are functionally incomplete (read - wizards). RSF ''could'' attempt to propagate the request bean state between requests, but after investigation of some of the more dynamic sorts of bean model (read - Hibernate) this has been decided inpractical. Instead RSF stores a &quot;log&quot; of user activities to be replayed with increasing length at each stage of a multi-stage wizard, which will restore the bean model from scratch that would have persisted at that stage of the wizard had it been preserved. In fact, we discover we can store this log in the [RSVC|RequestSubmittedValueCache] itself along with user error values. More discussion on this issue in [multi-request state|MultiRequestState].
+
+</pre>
+

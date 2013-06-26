@@ -1,0 +1,49 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Each [RSF sample app|SampleRSFApps] uses a standard Maven build process, which should build and deploy it to a local Tomcat. This varies depending on whether you are using maven1 or maven2. Most projects should have a __readme.txt__ file which explains how to build them. For the ones that do not, you can use the following instructions.
+
+
+! Maven 2
+
+From within the main directory of the project (should have the ''pom.xml'' file) run {{mvn install cargo:deploy}}. This should build the project and deploy it to your tomcat webapps folder.
+
+Make sure you have a {{settings.xml}} file in {{$YOUR_USER_HOME/.m2}} directory, here is a [sample one|http://www2.caret.cam.ac.uk/rsfwiki/attach/ContainerSetupGuide/settings.xml]\\
+Set the {{&lt;appserver.home&gt;c:\opt\tomcat&lt;/appserver.home&gt;}} to point to your {{$TOMCAT_HOME}} directory.
+
+Build this project and deploy it in tomcat by running the following from this directory (the one with the readme):
+{{{
+mvn install rsf:deploy
+}}}
+
+More information on the [Maven 2 Setup] page.
+
+! Maven 1
+
+Adjust the configuration in the Maven 1 {{project.properties}} file, which by default looks like this:
+{{{
+maven.tomcat.home=E:/flowtalk-jakarta-tomcat-5.5.9/
+maven.repo.remote=http://mirrors.dotsrc.org/maven,http://www2.caret.cam.ac.uk/maven
+}}}
+
+The only critical change is to edit maven.tomcat.home to be the path to your tomcat home.
+
+Build this project and deploy it in tomcat by running the following from the main directory of the project (should have the ''project.xml'' and ''project.properties'' files) (the one with the readme):
+{{{
+maven deploy
+}}}
+
+
+! Maven troubleshooting
+If you are getting download errors from trying to build the sample applications, make sure you have not overridden the remote repository setting {{maven.repo.remote}} inside your personal build.properties file (by default in $HOME/build.properties). You will need to reference the CARET Maven repository as in the sample {{project.properties}} file shown above.
+
+</pre>
+

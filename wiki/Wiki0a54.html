@@ -1,0 +1,17 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Very lazy beans are defined in RSAC using the standard Spring {{lazy-init=&quot;true&quot;}} attribute. Since ALL RSAC beans are lazy by default even if marked as non-lazy, this leaves the lazy marker free to be used in this way. A very lazy bean is proxied using Spring AOP and the RSAC [RSACLazyTargetSource] to be only fetched from the RSAC container on first ''use'' in a client bean(i.e. first method invocation), rather than being fetched as a dependence ''before'' initialisation of the client.
+
+This is an essential ability where one needs to &quot;take a break&quot; from RSAC's request programming model, and bracket some set of bean fetches/uses in some &quot;time runs forwards&quot; type code such as a try/catch block. It can also be used to break circular construction dependence cycles - unlike Spring (subsequent to versions 1.2.1 or thereabouts), a cyclic set of bean definitions is an ''error'' and will always trigger a BeanInCreationException. This cycle can only be broken (if it is really necessary) by declaring one or more of the participants to be &quot;very lazy&quot;.
+
+</pre>
+

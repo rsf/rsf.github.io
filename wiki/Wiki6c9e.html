@@ -1,0 +1,170 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+[TargetListAggregatingBean|https://saffron.caret.cam.ac.uk/svn/projects/ServletUtil/trunk/src/uk/org/ponder/springutil/TargetListAggregatingBean.java] is an RSF (J-ServletUtil) innovation that solves a dependency-based problem that projects will suffer that make use of Spring in a sufficiently ambitious way.
+
+!!!The TLAB problem
+
+The problem occurs when a &quot;collector&quot; or &quot;manager&quot; bean ''A'', relies for its configuration on some unbounded collection of dependencies, ''b_1...b_n'' supplied by its clients. A concrete example of this might be a bean ''A'' which supplies a service of XML serialisation for beans of various types. Each of the clients might then need to contribute some definition ''b_i'' which contributes mapping information for their beans. Bean ''A'' cannot become fully initialized until all of these definitions ''b_i'' are in - ''A'' in fact *depends on* all of ''b_i'' and should not be used until it has received them all.
+
+The difficulty with expressing this in Spring is that in order to express this construction-order dependency, Spring requires that the list of dependencies be written out in ''A'''s bean definition. This is impossible in general since these are definitions supplied by ''A'''s clients and so could not form part of ''A'''s definition. 
+
+!!!Current approaches to the problem
+There are various approaches to resolving this in standard Spring, each of which have various problems.
+
+* The first bad solution is to declare the dependency in the other direction - that is, for ''b_i'' to each depend on ''A'', and as ''b_i'' are constructed, to call methods on ''A''. It's obvious that this is entirely wrong and will lead to ''A'' being potentially used at any number of points in the application before it is correctly configured.
+
+* One solution might be to supply a &quot;blank&quot; bean definition (i.e. one which ''A'' will recognise as some kind of &quot;no-op&quot;) with the name of ''b_1'' in A's context, which is then overridden by the client in his context. The problem here is that this could only deal with one ''b_i'' at a time. One fairly unsatisfactory strategy here (which has been tried painfully a number of times) could be to give all ''b_i'' a &quot;chain of responsibility&quot; interface, which obliges them to pass on any requests from A. So for example ''b_1'' is registered as a dependence of ''A'' - when ''b_2'' comes along, it must somehow know that the &quot;head of the chain&quot; is currently at ''b_1'' and register itself there. This is very unsatisfactory from lots of points of view - code must appear in each ''b_i'' to be responsible for this delegation, and also requires a form of knowledge tree amongst the ''b_i''s themselves.
+
+* Spring's standard solution to this problem is interface-based bean detection. Spring's [ListableBeanFactory|http://www.springframework.org/docs/api/org/springframework/beans/factory/ListableBeanFactory.html] contains a method 
+{{{
+String[] getBeanNamesForType(Class type, 
+  boolean includePrototypes, boolean includeFactoryBeans);
+}}} which will scour the current container for any bean whose definition allows one to statically deduce that it is derived from a particular interface or class. This scheme is also unsatisfactory from three points of view:
+
+** Class-based detection can in some cases be too coarse-grained. To go back to our concrete example, we can imagine a case where there are two serializers A and A' defined in the context, which actually require two different collections ''b_1...b_n'' and ''b'_1...b'_n'' to be delivered to them. It's clear that all of the ''b_i, b'_i'' will probably all implement the same interface and can't be resolved by this Spring scheme.
+** The collaborating beans ''b_i'' may simply not implement any common interface, either through lack of need or through being part of some existing unsuitable class hierarchy (for example, String!).
+** This approach imposes a Spring dependency on A, the consumer of these dependencies, which must make the ListableBeanFactory call. These dependencies are of course always unacceptable if avoidable :P
+
+
+!!! The TLAB solution
+
+With use of TargetListAggregatingBean, any number of &quot;collaborating&quot; beans may be specified, from which dependencies are collected and focused (&quot;aggregated&quot;) on a single list-valued property in the target bean. The actual &quot;implementation meat&quot; of TLAB is in [TLABPostProcessor|https://saffron.caret.cam.ac.uk/svn/projects/ServletUtil/trunk/src/uk/org/ponder/springutil/TLABPostProcessor.java] - this is a standard Spring BeanPostProcessor which intercepts the creation of any bean in the container, and injects the collected list of dependencies, indistinguishable to the target from their having been configured manually into the container.
+
+Much as [RSAC] is &quot;''One ThreadLocal to end them all''&quot;, TLAB is &quot;''One getBeanNamesForType to end them all''&quot;. TLAB must leverage the existing Spring functionality for auto-discovery, but now hides this in framework code where it ought to be, rather than exposing it to clients. Instead of each bean that requires aggregation defining its own &quot;detection&quot; interface, and issuing getBeanNamesForType by itself, TLABPostProcessor performs getBeanNamesForType once and for all for all beans of type TargetListAggregatingBean across the container. 
+
+TargetListAggregatingBean itself is simply a &quot;definition record&quot; which could in theory be folded into Spring's definition structure at some later date - it declares statically the names of the beans and properties collaborating in the aggregation relationship. 
+
+!Standard TLAB implementor 1 - StaticTLAB
+StaticTLAB is the &quot;standard&quot; implementation of the TargetListAggregatingBean interface which satisfies property demands from constant field values. You can see this implementation in action below in the first &quot;Case Study&quot;.
+!Standard TLAB implementor 2 - ByClassTLAB
+
+Note that users who do only have *one* target in the context and have a suitable interface definition for their contributors may fall back to the interface-driven strategy of standard Spring by using [ByClassTLAB|https://saffron.caret.cam.ac.uk/svn/projects/ServletUtil/trunk/src/uk/org/ponder/springutil/ByClassTLAB.java]. Note that this retains the advantage over the basic Spring approach of being non-intrusive to the target, and still allows you to upgrade to the more fine-grained approach should you subsequently decide the need for a second target in the context, without disturbing the target's code.
+
+
+!!! Using TLAB
+
+As a client, the particular TLAB definition will most likely have been provided as a Spring parent bean definition, so that collaborators can be declared with minimum fuss. The classic example from current RSF is the former [requestAddressibleBeans|requestWriteableBeans]. Here is an example of the new-style syntax:
+
+{{{
+  &lt;bean parent=&quot;requestAddressibleParent&quot;&gt;
+    &lt;property name=&quot;value&quot; value=&quot;logonAction, logon, destroyScope&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+This definition compactly identifies the three request-scope beans {{loginAction}}, {{logon}} and {{destroyScope}} as being addressible by [EL] coming in over the request. 
+
+!!! TLAB case study - requestAddressibleBeans
+
+The point of the new TLAB scheme is that as many definitions like this may appear as necessary scattered over the Spring contexts that the application is built up out of, which means that an application may be constructed of modular units consisting of a JAR containing Java definitions for beans with an internal Spring configuration file. And further that the ultimate target of these definitions receives the aggregated list as a dependency without any framework intrustion. If we follow these definitions upstream, we see that {{requestAddressibleParent}} is defined as 
+
+{{{
+  &lt;bean id=&quot;requestAddressibleParent&quot;
+    class=&quot;uk.org.ponder.springutil.StaticTLAB&quot; abstract=&quot;true&quot;&gt;
+    &lt;property name=&quot;targetPath&quot;
+      value=&quot;totalRequestAddressibleBeans.collect&quot; /&gt;
+  &lt;/bean&gt;
+}}}
+within [rsf-config.xml|SpringAPI]. 
+
+Further upstream this assembles the String list into the {{collect}} property {{totalRequestAddressibleBeans}} which is an instance of the utility class StringListAggregatingFactory, which just does the work of parsing and assembling comma-separated string values into a master StringList. Note that SLAF is already independent of the details of the requestAddressibleBean setup and is completely reusable (for example the very similar case of copyPreservingBeans appearing just below it in the config file).
+
+{{{
+  &lt;bean id=&quot;totalRequestAddressibleBeans&quot;
+    class=&quot;uk.org.ponder.springutil.StringListAggregatingFactory&quot; /&gt;
+}}}
+
+This StringList is now a fully stand-alone bean which can peaceably be injected anywhere - in this case its ultimate resting place is the {{defaultRSVCPreserver}}:
+{{{
+  &lt;bean id=&quot;defaultRSVCPreserver&quot;
+    class=&quot;uk.org.ponder.rsf.preservation.RSVCPreservationStrategy&quot;&gt;
+    &lt;property name=&quot;requestRSVC&quot; ref=&quot;requestRSVC&quot; /&gt;
+    &lt;property name=&quot;preservingBeans&quot; ref=&quot;totalRequestAddressibleBeans&quot; /&gt;
+    &lt;property name=&quot;tokenStateHolder&quot; ref=&quot;bandgapStateHolder&quot; /&gt;
+    &lt;property name=&quot;RSVCApplier&quot; ref=&quot;RSVCApplier&quot; /&gt;
+  &lt;/bean&gt;
+}}}
+
+!!! Case study 2 - Converting to TLAB
+
+In the work leading up to the 0.7 release of RSF, the existing [ContentTypeResolver|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/content/ContentTypeResolver.java] system was upgraded to use TLAB, alongside the improvements of allowing each ViewProducer to be responsible for declaring its own ContentTypeInfo autonomously via [ContentTypeReporter|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/content/ContentTypeReporter.java].
+
+The following steps show how a &quot;normal&quot; dependency (of which there was expected to be only one instance) can be upgraded to a TLAB-type dependency, whilst maintaining backwards compatibility for existing clients.
+
+Firstly, the upstream receiver [ContentTypeInfoFactory|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/content/ContentTypeInfoFactory.java] had its dependency changed from type ContentTypeResolver to List:
+
+{{{
+  public void setContentTypeResolvers(List resolvers) {
+    this.resolvers = resolvers;
+  }
+}}}
+
+so naturally the {{getContentType}} method is altered to follow the appropriate semantics for the aggregation - in this case it goes through each member of the list, querying each to see whether it returns a key, and returning the first returned value. All the changes to this receiver are only those required for the changes in its semantics, and nothing to do with framework requirements. In fact this is a fairly deeply internal part of RSF, but we apply the same rules here as everywhere else!
+
+The next step is to create the TLAB parent definition itself, which clients will inherit from to contribute to the new ContentTypeResolvers list-valued property. Since in this case it is simple lists of beans we are ferrying around, we don't need the intermediate &quot;focussing&quot; bean StringListAggregatingFactory that we used before:
+
+{{{
+  &lt;bean id=&quot;contentTypeResolverTLAB&quot; class=&quot;uk.org.ponder.springutil.StaticTLAB&quot;&gt;
+    &lt;property name=&quot;targetPath&quot; value=&quot;contentTypeInfoFactory.contentTypeResolvers&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+
+with this we may simply remove the existing dependency from contentTypeInfoFactory, which had used to read:
+
+{{{
+  &lt;bean id=&quot;contentTypeInfoFactory&quot;
+    class=&quot;uk.org.ponder.rsf.content.ContentTypeInfoFactory&quot;&gt;
+ ...
+ -&gt;REMOVE THIS   &lt;property name=&quot;contentTypeResolver&quot; ref=&quot;contentTypeResolver&quot; /&gt;
+ ...
+  &lt;/bean&gt;
+}}}
+
+We now leave this dependency blank, to be satisfied by the &quot;magic&quot; PostProcessor registered by the TLAB system[1]. Now to restore backwards compatibility, we merely need to create an child definition connecting our old bean definition {{contentTypeResolver}} to become a member of this list collaboration:
+
+{{{
+  &lt;bean parent=&quot;contentTypeResolverTLAB&quot;&gt;
+    &lt;property name=&quot;value&quot; ref=&quot;contentTypeResolver&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+
+After this, while continuing to support use of the old &quot;interface&quot; you can advise users that this bean use will become deprecated (unfortunately Spring does not yet provide a means of signalling that use of a particular name for a bean definition has become &quot;deprecated&quot; :P) ultimately to be phased out. In this case this will probably occur for RSF 0.8.
+
+!!! Limitations of TLAB
+
+The limitations of TLAB are essentially those handed on to us from our use of {{getBeanNamesOfType}} from Spring. You will note the extra two arguments on this method reflecting the extra caution required by those who randomly scour over the whole bean container trying to instantiate stuff. Since what is being done here is expressing a &quot;back-door&quot; dependency there is the possibility for all sorts of unfortunate perturbations of the container's start-up order, even including the creation of dependency cycles where none were previously visible. In particular since the types of most factory beans cannot be determined without actually firing them up, it's in general highly unwise to issue getBeanNamesOfType with 4th argument {{true}} (in fact early work on TLAB exposed a [long-standing Spring issue|http://opensource.atlassian.com/projects/spring/browse/SPR-2425] with these semantics) and TLAB does not do this.
+
+Therefore TLAB-aggregated dependencies must all be simple concrete beans - that is, non-factory non-prototype definitions for which the types can be statically determined.
+
+!!! Future directions
+
+A further refinement of the TLAB strategy would be to allow the collaborators amongst the aggregating list to make various mutual assertions about their ordering in the list - in effect to have the order of the final aggregation to reflect some kind of internal dependency structure, resulting perhaps in some different priority of processing by the receiver. The TLAB interface already exposes methods to support these assertions
+{{{
+  public Object getBindBefore();
+  public Object getBindAfter();
+}}}
+but they are not currently implemented.
+
+With the [new support|http://www.springframework.org/docs/reference/extensible-xml.html] in Spring 2.0 for schema-based extensions to the configuration file, it's quite possible that the TLAB syntax could be streamlined, both for provider and receiver in a TLAB relationship.
+
+!!! Implementation comment
+
+The current implementation of TLAB whilst self-contained and stable within current Springs is somewhat &quot;odd&quot; in the strategy used to register the TLABPostProcessor. Currently Spring contains &quot;guard&quot; code which is used to protect against the case of &quot;late&quot; registration of PostProcessors in the container lifecycle missing possible application to beans that are already present. Since the construction of the TLAB itself must naturally follow the creation of some other beans, this unavoidably would trigger the Spring guard code, despite this usage being &quot;safe&quot; - the TLABPostProcessor itself naturally does not require to be subject to its own PostProcessing, and itself and any further dependencies it has (part of framework code) should be happy to assert freedom from any other PostProcessors.
+
+A close inspection of the Spring source revealed that one point during the container lifecycle that might evade the &quot;guard&quot; checking accessible to client code is the registration point for ApplicationListeners. So the current strategy has the TLABPostProcessor initialised in fact by the [TLABLoaderListener|https://saffron.caret.cam.ac.uk/svn/projects/ServletUtil/trunk/src/uk/org/ponder/springutil/TLABLoaderListener.java].
+Whilst this is strictly speaking somewhat improper semantics, the relevant Spring code has not changed in quite a number of years and could probably be considered a pretty stable &quot;de facto&quot; part of the Spring standard. Should TLAB one day become part of Spring proper, this integration issue could be removed, as well as supplying a proper syntax for expressing a TLAB dependency so that the resulting definition does not appear incomplete.
+
+----
+%%(font-size: 80%)
+[#1]It's worth noting that one of the reasons constructor-based injection is such an arse is that it prohibits tricks like this one, although it's worth further noting that we could get round this if TLAB were part of Spring proper, and we had a &quot;legal&quot; way of writing the property value such that it was resolvable. Currently this would require us to create an extra &quot;focusing&quot; bean definition which would be an annoying piece of bureaucracy.
+%%
+
+</pre>
+

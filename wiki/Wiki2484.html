@@ -1,0 +1,43 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+This page explains the performance impact of [RSAC], and the performance/flexibility tradeoffs it offers the developer, together with an account of how it came to be developed.
+
+We all would have dearly loved to have used genuine Spring for RSF's request scope container, but [Andy|People]'s original experiments ran into what looked like insurmountable performance problems. Sometimes the first bean get could take over a second (admittedly on a very slow, heavily loaded machine).
+
+RSAC was initially developed and used very minimally and cautiously, but, like &quot;genuine Spring&quot;, was rapidly found to have a structurally igniting effect that consumed any app that you tried to build with it - from an initial cautious design with only a handful of vital request-scope beans, RSAC is currently running with around 50. This would alarm anyone with a decent concern in request efficiency, so at a fairly early stage we mounted a more thorough investigation into the Spring performance &quot;problem&quot;, in a project which is available in our SVN at [https://saffron.caret.cam.ac.uk/svn/projects/TestRSAC/|https://saffron.caret.cam.ac.uk/svn/projects/TestRSAC/].
+
+This fires up a container of 40 beans, with varying numbers of dependencies but empty implementation, in both RSAC and Spring, a few 10^5 times and throws them away. The results were quite interesting - on a pretty last-generation machine (P4-1.6Ghz), Spring was taking 24ms - this allayed any fears that Spring was slowing whole-application startup, but is clearly unacceptable as an overhead for any request handling. RSAC, by contrast, engineered with speed as the first concern and flexibility second, was taking around 400µs which is probably acceptable in any reasonable context. 
+
+This leads to a ball-park estimate of something like 10µs as the cost of an average request bean, which should be weighed against the cost of the equivalent ThreadLocal gets which would be the natural alternative - these are actually surprisingly fast and should conclude in 60ns on the same hardware, even with some contention.
+
+The architectural advantages of request-scope beans seem so huge that it would be a mistake to can them, so long as it can be demonstrated that the total per-request overhead can be bounded by some figure such as 1ms. Profiling real apps is notoriously difficult, especially when you are looking for time spent in &quot;little gaps&quot; such as bean constructions, but we are actively looking for ways to keep this overhead down in any reasonable way, that doesn't involve compromising architectural integrity.
+
+The most straightforward scheme is to replace reflection code RSF-wide by CGLib's [FastClass]. This will be easy to do since we have taken care to centralise all these functions in the [ReflectiveCache]. Estimates suggest that this would accelerate RSAC by something like 30%.
+
+A second strategy is to simply minimise the number of request-scope beans, by returning them to the application scope where possible. This is now achievable by means of one of RSAC's newest components, the [RSACBridgeProxy] - this uses Spring's &quot;AOP Alliance&quot; [TargetSource] scheme to create an application-scope proxy for a request-scope bean. This has the performance impact of swapping a one-time (per request) request-scope bean construction with a ThreadLocal get and a bunch of method calls per access - for &quot;near-leaf&quot; beans with few request-scope dependencies this can be a good tradeoff.
+
+Since this page was written, there have been significant performance enhancements in Spring, leading to an overall speedup of around 8x by the time version 2.0.5 was reached, as against the Spring 1.2.x performance commented on this page. This unfortunately still leaves Spring around 6x slower at instantiation than RSAC, and so RSAC development has reluctantly continued. Detailed measurements are held in the README.txt file in the TestRSAC project.
+
+Comments welcome.
+
+----
+%%(font-size:80%)
+
+%%
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+
+</pre>
+

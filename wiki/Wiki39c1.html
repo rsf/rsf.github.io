@@ -1,0 +1,65 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+OLI (One Line Interface) programming is highly valued in RSF. Many even quite modern frameworks feature unnecessarily fat and poorly decomposed interfaces (of which Java Collections is a prime example), or yet worse, no interfaces at all! The natural endpoint of a lightweight and flexible architecture is a preponderance of interfaces which contain just a single method.
+
+The paradigmatic RSF OLI has to be the classic BeanLocator:
+
+{{{
+public interface BeanLocator {
+  public Object locateBean(String path);
+}
+}}}
+
+Even Spring, a framework generally showcasing the highest good design, is missing this essential piece of infrastructure, which should really be a superinterface of their &quot;BeanFactory&quot;. See the [EL] page for discussion of some applications.
+
+The natural inverse to BeanLocator is BeanResolver:
+
+{{{
+public interface BeanResolver {
+  public String resolveBean(Object bean);
+}
+}}}
+
+Resolver references can be attached to [UIBound] components in order to apply custom rendering just before the values hit the rendering layer (adjustment of returning values can be performed by a LeafObjectParser or in more advanced cases by a DARReshaper).
+
+A really favorite OLI is RunnableInvoker:
+
+{{{
+public interface RunnableInvoker {
+  public void invokeRunnable(Runnable torun);
+}
+}}}
+
+This can remove the need for a lot of destabilising AOP-based hackery, and simply is much more aesthetic and expressive than an Interceptor (you might like to think of this as an AOP-free equivalent of an &quot;around advice&quot;). Both the HibernateAlterationWrapper and BeanFetchBracketer are examples of RunnableWrappers in action.
+
+Receding somewhat in elegance is RSF's ActionResultInterpreter, which is the basis of all stateful flow processing:
+
+{{{
+public interface ActionResultInterpreter {
+  public ARIResult interpretActionResult(ViewParameters incoming, Object result);
+}
+}}}
+
+For example, JSF-style rule-based navigation is supported via the JSFNavActionResultInterpreter, with Spring Web Flow-style FSA-based navigation via FlowLiteARI. 
+
+Other OLIs include &quot;resolvers&quot; such as ARIResolver and TemplateResolver which supply an invaluable level of indirection between communicating parts of RSF. ARIResolver enables multiple ARI strategies to be coordinated within a single app, and TemplateResolver allows the construction of arbitrarily complex strategies for determining the appropriate HTML template for the current request, taking into account such factors as accessibility guidelines, locale, user preference, client type etc.
+
+See also: ViewExceptionStrategy, ActionErrorStrategy, VersionCheckPolicy, RenderHandler, and of course ComponentProducer.
+!! TLI
+
+For some reason, the next natural level up for interfaces appears to feature three methods rather than one. Classic TLIs include 
+LeafObjectParser for rendering and parsing single String values (for XML attributes, input fields and the like), [TokenStateHolder] (managing the RSF multi-request state architecture), [StatePreservationStategy] (one level upstream from TSH) and RenderSystem.
+
+While many RSF interfaces fail to hit OLI nirvana itself, I think it's fair to say that the preponderance of small interfaces (in the range 1-5 methods, for example) is very much greater than in most other frameworks. Smaller interfaces imply smaller burdens on implementors and make applications much more manoeverable. Smaller interfaces create smaller cross-sections for coupling, and where framework dependencies do exist, make it much easier to convert from one form to another. Smaller interfaces also imply smaller classes, that are naturally as a result more readable and testable. Please consult JSF's &quot;[UIComponent|http://java.sun.com/javaee/javaserverfaces/1.1_01/docs/api/javax/faces/component/UIComponent.html]&quot; for an example of one of the worst interfaces created in recent public code - and it isn't even an interface.
+
+</pre>
+

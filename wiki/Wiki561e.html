@@ -1,0 +1,668 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+ This page will present the [RSF-SWF integration|RSFSpringWebFlow] from the point of view of one of the core [Spring Web Flow] samples, the &quot;Phonebook&quot; app. This is a simple application with 3 flow views which allows the user to search and browse a phonebook.\\
+|| __Sample Code (SVN):__ | [original code (with maven2 build)|https://source.caret.cam.ac.uk/rsf/projects/RSFSamples/trunk/SWFPhonebook/orig] | [RSF SWF version|https://source.caret.cam.ac.uk/rsf/projects/RSFSamples/trunk/SWFPhonebook/RSFSWF]
+[Try out Phonebook RSF SWF on our server|http://ponder.org.uk/SWFPhonebook-RSFSWF/faces]
+
+!!Phonebook application - Original SWF version
+The best starting point for users new either to [Spring Web Flow] or to this application is Erwin Vervaet's excellent [tutorial|http://www.ervacon.com/products/swf/intro/index.html] to the original SWF version of this app held at [Ervacon|http://www.ervacon.com/products/swf/intro/index.html]. This tutorial presents all the basics for defining and executing flows as part of an SWF application, and is a prerequisite for following our ports of the app on this page.
+
+The original code for this application has been checked into the RSF repository without changes, except for providing it with a Maven 2 build which is the standard build system for the RSF framework and sample apps, and will be used for our ported versions. The original Ivy build for the sample (which is standard for Spring and its samples) has been retained in this version, but Ivy builds have not been supplied for the RSF versions.
+
+SVN check out original version of Phonebook SWF application - [SWFPhonebook-orig|https://source.caret.cam.ac.uk/rsf/projects/RSFSamples/trunk/SWFPhonebook/orig]
+%%(text-align:center)
+[ImageHolder/swfphonebook-orig.png]
+%%
+
+__Versioning Note__: The samples are currently updated in trunk to RSF version 0.7.2RC2, for which artefacts are in the Caret Maven 2 development repository at [http://www2.caret.cam.ac.uk/maven2dev/|http://www2.caret.cam.ac.uk/maven2dev/].
+
+The RSF-Spring Web Flow integration JAR is in SVN trunk at [https://source.caret.cam.ac.uk/rsf/projects/RSF-SWF/trunk|https://source.caret.cam.ac.uk/rsf/projects/RSF-SWF/trunk]
+
+To work with Maven 2 for RSF JARs and samples, you should consult the [Maven 2 Setup] page for the necessary  environment.
+
+!!Porting the application - RSF and SWF goals and tradeoffs
+
+It is no accident that this sample has been selected as the &quot;core&quot; sample for Spring Web Flow tutorials and illustrations, since it is an excellent showcase for the design tradeoffs that afflict web programming in general. In this tutorial we will firstly port the sample from using JSP + SpringMVC as its web framework, to using RSF and its pure templating layer, IKAT - whilst retaining all SWF definitions intact. This will demonstrate the benefits RSF can offer to SWF development by providing a Spring-all-the-way environment that lets developers enjoy all the benefits of IoC-driven programming that they have come to expect from Spring development, whilst maintaining a &quot;clean face&quot; of XHTML to designers, unpolluted by custom tags or strange environmental dependencies. 
+
+Secondly, we will port the application further to the equivalent pure RSF application, discarding the Spring Web Flow definitions in favour of the RSF Spring equivalents. This will illustrate the interesting tradeoffs that this application exposes underlying the designs of both RSF and SWF, and we will take stock of what has been gained and lost in this translation, and consider the scenarios in which the different strategies might be appropriate.
+
+!!! Porting from SWF on SpringMVC + JSP to SWF on RSF
+The first step in the design of any RSF application typically involves the construction of suitable view templates. These are either designed from scratch, or ported from an existing application either by &quot;screen-scraping&quot; (in the case its view layer is too far from plain HTML, for example a JSF or non-Java app) or by porting existing templates.
+
+!!Step 1 - porting the view layer
+
+ For this app, our existing templates, written in JSPs, were not *too* taglib-laden and it made sense to simply copy all the .jsp files from the original sample, rename them as .html files, and clean up the tag structure. 
+
+
+For example, searchCriteria.jsp, at the path webapp/WEB-INF/jsp, in the RSF app becomes searchCriteria.html at the path webapp/content/templates. This is a pure XHTML file which can be previewed directly in the browser, and designed with standard web tools. 
+
+!Header
+
+The first change is the replacement of the JSP taglib header with a standard XHTML header:
+
+{{{
+&lt;%@ page contentType=&quot;text/html&quot; %&gt;
+&lt;%@ page session=&quot;false&quot; %&gt;
+&lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot; %&gt;
+&lt;%@ taglib prefix=&quot;form&quot; uri=&quot;http://www.springframework.org/tags/form&quot; %&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+	&lt;title&gt;Search the Phonebook&lt;/title&gt;
+	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot;&gt;
+	&lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot; type=&quot;text/css&quot;&gt;
+&lt;/head&gt;
+}}}
+becomes
+
+{{{
+&lt;!DOCTYPE html      PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+     &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+&lt;html xmlns:rsf=&quot;http://ponder.org.uk/rsf&quot;&gt;
+&lt;head&gt;
+  &lt;title&gt;Search the Phonebook&lt;/title&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;../css/style.css&quot; type=&quot;text/css&quot;/&gt;
+&lt;/head&gt;
+
+}}}
+Note that we have rebased the locations of css and image files slightly to fit the &quot;standard&quot; layout of an RSF webapp in its /content directory. None of this path structure is mandatory and can be easily changed with a Spring definition.
+%%(text-align:center)
+[ImageHolder/swfphonebook-structure.png]
+%%
+
+!Form tag
+
+For every JSP tag, it is replaced with its standard HTML equivalent - and supplied with an {{rsf:id}} attribute, the single extension of RSF to the XHTML schema, forming a kind of &quot;label&quot; which lets the RSF renderer, [IKAT|PureXHTMLTemplating] match up Java-side and client-side definitions.
+
+For example the JSP form tag converts from 
+{{{
+  &lt;form:form commandName=&quot;searchCriteria&quot; method=&quot;post&quot;&gt;
+}}}
+
+to 
+{{{
+  &lt;form rsf:id=&quot;search-form&quot; action=&quot;searchResults.html&quot; method=&quot;post&quot;&gt;
+}}}
+
+Note that as well as removing the non-standard tag and attribute {{commandName}}, we also take the trouble to add a suitable {{action}} definition to this form for HTML previewing purposes. As it happens, in the application structure, {{searchResults.html}} ''is'' the resulting view that navigation will typically pass through on submission of this form, and so filling in this action allows the entire application structure to be previewed by users and designers more realistically, long before any code is written. Previewability of both markup and behaviour is a very strong theme in RSF development.
+
+!Input field
+
+The input fields convert from, for example 
+{{{
+  &lt;form:input path=&quot;firstName&quot; /&gt;
+}}}
+
+to
+{{{
+  &lt;input rsf:id=&quot;first-name&quot; /&gt;
+}}}
+
+!Submit button
+
+and the submission control from 
+{{{
+  &lt;input type=&quot;hidden&quot; name=&quot;_flowExecutionKey&quot; value=&quot;${flowExecutionKey}&quot;&gt;
+  &lt;input type=&quot;submit&quot; class=&quot;button&quot; name=&quot;_eventId_search&quot; value=&quot;Search&quot;&gt;
+}}}
+
+to
+{{{
+  &lt;input rsf:id=&quot;submit&quot; type=&quot;submit&quot; class=&quot;button&quot; value=&quot;Search&quot;/&gt;
+}}}
+
+This last represents a particularly big savings - the framework-dependent definitions {{_flowExecutionKey}} and {{_eventId_search}} were reflecting JSP's very poor level of abstraction in shielding us from the fact we are hosting an SWF application which requires various housekeeping information to be kept in its URLs. This is the sort of detail which would be confusing to a designer and could very easily become corrupted during a roundtripping process, as well as making the template fragile to alterations in the server-side environment. As we will see, once we have once drawn up our RSF templates for these views, they will remain completely unchanged in the further versions of this app, even as we remove SWF entirely, and experiment in the final RSF app with the use of GET or POST forms for this form submission.
+
+!Errors
+
+As a final detail, the errors tag changes from 
+{{{
+   &lt;form:errors cssClass=&quot;error&quot;/&gt;
+}}}
+to
+{{{
+  &lt;div rsf:id=&quot;message-for:*&quot; class=&quot;error&quot;/&gt;
+}}}
+
+
+This is a standard RSF ID value indicating that all the error messages targetted at this view should be placed in the supplied DIV. If we were interested in previewing the use of the positioning and CSS class, we could place some sample messages within this &lt;div&gt;, and they would be removed at render-time in favour of the real application errors, if any.
+
+!General tidying
+
+Since IKAT accepts only well-formed XHTML, various other small-scale tidying was required, for example converting the {{index}} view away from the capital-letters markup style, and making sure small tags like &lt;hr/&gt;, &lt;img/&gt; and &lt;/p&gt; were properly closed throughout the app. RSF gives accurate line and column diagnostics in each case XML is violated.
+
+!!Surveying the template structure 
+
+After converting all of our 4 views (the stub index.jsp view is promoted to becoming a proper view of the application) our app is disturbingly demonstrable. Try checking out the RSF-SWF version from SVN at [SWFPhonebook-RSFSWF|https://source.caret.cam.ac.uk/rsf/projects/RSFSamples/trunk/SWFPhonebook/RSFSWF] and open up the {{index.html}} file in your browser from the file system. Every link and submission control in the application works and navigates to the &quot;expected&quot; view, giving a full preview of the final application experience before a single line of code is put to paper. 
+%%(text-align:center)
+[ImageHolder/swfphonebook-filesystem.png]
+%%
+
+At this point design cycles between users and developers could iterate, to improve the templates and review the application design, with the only cost being the possible loss of {{rsf:id}} attributes. This cannot cause any application corruption and is easy to detect, through part of the rendered view simply going missing. In the case formal verification is required, RSF features the [TemplateCheckingTool], an RSF application which can be used to verify that a new set of RSF templates is equivalent in rsf:id structure to another, regardless of markup differences. In practice the {{rsf:id}} structure should be an aid to developer-designer communication and not a hindrance, since it provides almost precisely the minimum agreement (a named set of labels) required to be able to talk about a particular section of the application view reliably.
+!!Step 2 - Packaging the application
+
+Rendering in RSF is performed by beans known as [Producers|ComponentProducer] or component producers - these are configured using standard Spring definitions, either at application scope (if possible), or as is more usual in RSF at request scope ([RSAC]).
+
+RSF's request scope beans are typically configured in a file named requestContext.xml. The location of these files are configured in web.xml using a definition very similar to the standard Spring {{contextConfigLocation}}. All of RSF is built out of a set of Spring contexts, and currently these must be configured manually in web.xml. Typically each RSF JAR contributes one or two Spring context files, both at request and application scope. The definitions for our app, which would be standard for any RSF-SWF application in web.xml are as follows:
+
+{{{
+  &lt;!-- In contrast to the standard sample, we load all Spring definitions in the same
+       application context. RSF will support the use of subcontexts in the style of
+       the Spring &quot;FrameworkServlet&quot; in version 0.8 --&gt;
+	&lt;context-param&gt;
+		&lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+		&lt;param-value&gt;
+            classpath:conf/rsf-config.xml,
+            classpath:conf/blank-applicationContext.xml,
+            classpath:conf/rsf-swf-applicationContext.xml,
+            /WEB-INF/applicationContext.xml,
+            /WEB-INF/phonebook-webflow-config.xml,
+            classpath:org/springframework/webflow/samples/phonebook/stub/services-config.xml
+            &lt;/param-value&gt;
+	&lt;/context-param&gt;
+	
+    &lt;!-- Configure &quot;resource scope&quot; Spring application contexts (RSAC).
+     Be sure to mention rsf config files first, so any overrides may be
+    processed --&gt;
+  &lt;context-param&gt;
+    &lt;param-name&gt;requestContextConfigLocation&lt;/param-name&gt;
+    &lt;param-value&gt;classpath:conf/rsf-requestscope-config.xml,
+                 classpath:conf/blank-requestContext.xml,
+                 classpath:conf/rsf-swf-requestContext.xml,
+                 /WEB-INF/requestContext.xml
+    &lt;/param-value&gt;
+  &lt;/context-param&gt;
+}}}
+
+The assembly of these contexts will be automated in the next major RSF release, 0.8.
+
+All that is left is the definition and mapping of the RSF servlet itself. The &quot;ReasonableSpringServlet&quot; is a short hand which as well as mounting the RSF URL space, initialises the application Spring context.
+
+{{{
+  &lt;servlet&gt;
+    &lt;servlet-name&gt;ReasonableServlet&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;uk.org.ponder.rsf.servlet.ReasonableSpringServlet&lt;/servlet-class&gt;
+    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+  &lt;/servlet&gt;
+  
+  &lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;ReasonableServlet&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/faces/*&lt;/url-pattern&gt;
+  &lt;/servlet-mapping&gt;
+}}}
+!! Settling the view structure 
+An RSF [ViewProducer|ComponentProducer] is paired up with each of the html files which we drew up above. The linkage between a producer and its template is achieved through its [ViewID]. As a simple example, here is the markup and producer for the startup view of our application, {{index.html}}:
+
+{{{
+&lt;!DOCTYPE html      PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+     &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+&lt;html xmlns:rsf=&quot;http://ponder.org.uk/rsf&quot;&gt;
+&lt;head&gt;
+&lt;title&gt;Phonebook - A Spring Web Flow Sample (RSF Edition)&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div align=&quot;left&quot;&gt;Phonebook - A Spring Web Flow Sample (RSF Edition)&lt;/div&gt;
+  &lt;hr/&gt;
+  &lt;div align=&quot;left&quot;&gt;
+    &lt;p&gt;
+      &lt;a rsf:id=&quot;search-criteria&quot; href=&quot;searchCriteria.html&quot;&gt;Phonebook&lt;/a&gt;
+    &lt;/p&gt;
+    &lt;p&gt;
+      This sample application illustrates core features of the web flow system.
+    &lt;/p&gt;
+  &lt;/div&gt;
+  &lt;hr/&gt;
+  &lt;div align=&quot;right&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+}}}
+
+With {{IndexProducer.java}}:
+
+{{{
+public class IndexProducer implements ViewComponentProducer, DefaultView {
+  public static final String VIEW_ID = &quot;index&quot;;
+  public String getViewID() {
+    return VIEW_ID;
+  }
+
+  public void fillComponents(UIContainer tofill, ViewParameters viewparams,
+      ComponentChecker checker) {
+    UIInternalLink.make(tofill, &quot;search-criteria&quot;, 
+        new SWFLaunchViewParams(&quot;search-flow&quot;));
+  }
+
+}
+}}}
+
+This would be configured in {{requestContext.xml}} as a simple, dependency-less bean (it could actually also have been placed at application scope):
+
+{{{
+  &lt;bean class=&quot;org.springframework.webflow.samples.phonebook.rsf.producers.IndexProducer&quot; /&gt;
+}}}
+
+RSF automatically locates all ViewProducers at startup that are defined either at request or application scope.
+
+!!SWFViewParams - RSF and SWF navigation schemes
+
+The RSF and SWF approaches to navigation are quite different. Read on at the main page on [SWFViewParams], which is the standard RSF-SWF framework base class, representing all the view states within an RSF application which are participating in the SWF system. 
+
+A link to an RSF-SWF flow launch or transition is done using one of the special ViewParameters types supplied with the integration, being {{SWFLaunchViewParams}} and {{SWFEventViewParams}}.
+
+The constructor we saw in the above view takes a single argument which is the Id of the flow to be started {{new SWFLaunchViewParams(&quot;search-flow&quot;)}}. However as we will see later, the SWFViewParams classes can also take an additional argument which is a ''further'' ViewParameters object which is intended to be &quot;tunnelled&quot; through the flow. Whilst the emitter of an SWF link does not know in general __which__ view precisely will result, by virtue of trying to pass parameters to it, they almost certainly know which general category of view it is. In RSF this concept of a view category is precisely reflected in the ViewParameters object which it accepts, which summarises in a type-safe &quot;bean-like&quot; model the complete information it intends to receive over the request. To skip ahead a little, and show this &quot;tunnelling&quot; in action, let's look at a definition from SearchResultsProducer.java which renders a link to the &quot;details&quot; view/flow:
+
+{{{
+      UIInternalLink.make(row, &quot;details-view&quot;, person.getUserId(), 
+          new SWFEventViewParams(&quot;select&quot;, new PersonViewParams(person.getId())
+          ));
+}}}
+
+Here we see that whilst the results view does not in general have knowledge that the following view is to be the details view in particular (this information is held in the flow definition), it certainly knows that it is some form of view which is centred on a person, which it is able to represent in a transparent and typesafe way by passing the PersonViewParams object as the argument. This argument will be &quot;tunnelled&quot; through the flow, temporarily &quot;deconstituted&quot; into its raw URL information (in the form of a parameter named {{id}}) which will be addressible in the standard SWF representation as {{requestParameters.id}} to any flow definitions that require it, and then &quot;reconstituted&quot; back into a full ViewParameters object delivered to the Details view, once its view ID has been looked up from the flow. 
+
+In this case, it is the flow definition itself which makes all use of the request information from the details view, using the following render-action defined in {{detail-flow.xml}}:
+{{{
+&lt;render-actions&gt;
+  &lt;bean-action bean=&quot;phonebook&quot; method=&quot;getPerson&quot;&gt;
+    &lt;method-arguments&gt;
+      &lt;argument expression=&quot;flowScope.id&quot; /&gt;
+    &lt;/method-arguments&gt;
+    &lt;method-result name=&quot;person&quot; /&gt;
+  &lt;/bean-action&gt;
+&lt;/render-actions&gt;
+}}}
+So in fact there is no need to declare the PersonViewParams as the accepted type for DetailsView, but we could do this if there were some part of the render logic that was independently interested in knowing the id.
+
+!!Accessing the flow - request-scope injection
+
+RSF producers are a natural fit for Spring, since their pattern for access uses just the same IoC pattern that Spring users enjoy elsewhere in the design. To access an SWF flow variable in an RSF producer, one simply injects it - for example, here is a section from {{search-flow.xml}} which define a render action performed on entering the &quot;displayResults&quot; state:
+
+{{{
+  &lt;render-actions&gt;
+    &lt;bean-action bean=&quot;phonebook&quot; method=&quot;search&quot;&gt;
+      &lt;method-arguments&gt;
+        &lt;argument expression=&quot;flowScope.searchCriteria&quot;/&gt;			
+      &lt;/method-arguments&gt;
+    &lt;method-result name=&quot;results&quot;/&gt;
+    &lt;/bean-action&gt;
+  &lt;/render-actions&gt;
+}}}
+
+investigating the target argument in the &quot;phonebook&quot; bean, we see it is written as follows:
+
+{{{
+public interface Phonebook {
+  public List&lt;Person&gt; search(SearchCriteria criteria);
+}}}
+
+The bean called &quot;results&quot; is deposited in the flow scope, and to access it from our SearchResultsProducer, was can simply inject it as follows:
+
+{{{
+public class SearchResultsProducer implements ViewComponentProducer {
+...
+  private List&lt;Person&gt; results;
+  
+  public void setResults(List&lt;Person&gt; results) {
+    this.results = results;
+  }
+  
+  public void fillComponents(UIContainer tofill, ViewParameters viewparams,
+      ComponentChecker checker) {
+...
+    for (Person person: results) {
+      UIBranchContainer row = UIBranchContainer.make(tofill, &quot;person-row:&quot;);
+      UIOutput.make(row, &quot;first-name&quot;, person.getFirstName());
+    ...
+  }
+
+}}}
+
+Being in request scope, it is safe and moral to inject this render action result into the producer and use it for rendering replicated branches in the view, like any other dependency. The definition for this producer, in {{requestContext.xml}} is as follows:
+
+{{{
+  &lt;bean class=&quot;org.springframework.webflow.samples.phonebook.rsf.producers.SearchResultsProducer&quot;&gt;
+    &lt;property name=&quot;results&quot; ref=&quot;results&quot; /&gt;
+  &lt;/bean&gt;
+}}}
+
+On the beginning of every alteration cycle, RSF automatically transfers any beans which are in a visible Spring Web Flow scope (flow, conversation, flash, session) into its own request scope so they can be accessed in this way.
+
+The corresponding template section appears as follows:
+{{{
+  &lt;tr rsf:id=&quot;person-row:&quot;&gt;
+    &lt;td rsf:id=&quot;first-name&quot;&gt;Juergen&lt;/td&gt;
+    &lt;td rsf:id=&quot;last-name&quot;&gt;Hoeller&lt;/td&gt;
+...
+}}}
+
+Note that no logic, only labels, appear in the template - all actual looping and branching logic is written as normal Java logic in IoC-driven beans. Thus we achieve a complete separation of concerns at all levels of the architecture.
+
+!!Form submissions - the SWFBindingBean and friends
+We have seen how to translate most aspects of this SWF app to SWF-RSF, except for handling of form submissions. The core SWF form submission model is based around the core framework class &quot;FormAction&quot;, which is a broad toolkit of methods for accepting submission arguments (binding), validation and controlling responses. In this integration mode, RSF defers completely to the SWF form submission model, which is self-contained and makes no direct reference to SpringMVC definitions (although is based on its concepts). RSF form submissions, however, are encoded by means of &quot;EL bindings&quot;, references into parts of its [request addressible context|RequestWriteableBeans]. To bridge between these two models, the integration defines a special &quot;proxy bean&quot; called {{SWFBindingBean}} which acts as a representative via [EL] for any form object for which SWF is expecting submissions on at the current flow state. For example, the following definitions in {{SearchCriteriaProducer.java}}
+
+{{{
+  UIForm form = UIForm.make(tofill, &quot;search-form&quot;);
+  UIInput.make(form, &quot;first-name&quot;, &quot;SWFBindingBean.firstName&quot;);
+  UIInput.make(form, &quot;last-name&quot;, &quot;SWFBindingBean.lastName&quot;);
+  UICommand.make(form, &quot;submit&quot;, &quot;SWFEventBean.search&quot;);
+}}}
+
+encode two bindings onto the current SWF form object, at the relative paths &quot;firstName&quot; and &quot;lastName&quot;, associated with two input fields on the current view.
+
+The corresponding SWF flow definition is
+{{{
+	&lt;view-state id=&quot;enterCriteria&quot; view=&quot;searchCriteria&quot;&gt;
+		&lt;render-actions&gt;
+			&lt;action bean=&quot;formAction&quot; method=&quot;setupForm&quot;/&gt;
+		&lt;/render-actions&gt;
+		&lt;transition on=&quot;search&quot; to=&quot;displayResults&quot;&gt;
+			&lt;action bean=&quot;formAction&quot; method=&quot;bindAndValidate&quot;/&gt;
+		&lt;/transition&gt;
+	&lt;/view-state&gt;
+}}}
+Here the standard bean &quot;formAction&quot;, which is defined in {{search-flow-beans.xml}} as an instance of {{FormAction}} as follows:
+
+{{{
+&lt;!-- Search form action that setups the form and processes form submissions --&gt;
+  &lt;bean id=&quot;formAction&quot; class=&quot;org.springframework.webflow.action.FormAction&quot;&gt;
+    &lt;property name=&quot;formObjectClass&quot; value=&quot;org.springframework.webflow.samples.phonebook.SearchCriteria&quot;/&gt;
+    &lt;property name=&quot;validator&quot;&gt;
+      &lt;bean class=&quot;org.springframework.webflow.samples.phonebook.SearchCriteriaValidator&quot;/&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+}}}
+
+For the duration of this submission, {{SWFBindingBean}} is an alias for the bean held within {{formAction}}, which is an instance of the class {{SearchCriteria}}.
+
+Finally we complete this form with a method binding to the {{SWFEventBean}} which will cause the form submission to be actually accepted and processed via the &quot;bindAndValidate&quot; method attached to the event {{search}}:
+
+{{{
+  UICommand.make(form, &quot;submit&quot;, &quot;SWFEventBean.search&quot;);
+}}}
+
+!! Build issues
+
+For a Maven 2 build, we must take a little care to harmonise Spring Web Flow's with RSF's transitive dependencies on Spring. The current RSF distribution (of trunk/snapshot at 0.7.2M5-SNAPSHOT) transitively depends on the latest Spring release (2.0.6), whereas the Spring Web Flow release we are working with (1.0.4) binds to Spring 2.0.4. In addition SWF resolves the Spring component JARs individually, whereas RSF depends on the collected &quot;umbrella&quot; JAR. We resolve this conflict in favour of SWF's distribution by excluding RSF's upstream Spring dependencies, by bringing in the RSF-SWF integration JAR with the following definition in our POM:
+{{{
+ &lt;dependency&gt;
+      &lt;groupId&gt;uk.org.ponder.rsfutil&lt;/groupId&gt;
+      &lt;artifactId&gt;rsf-swf&lt;/artifactId&gt;
+      &lt;version&gt;${rsfutil.version}&lt;/version&gt;
+       &lt;exclusions&gt;
+        &lt;exclusion&gt;
+      &lt;!-- The 1.0.4 webflow release binds to the 2.0.4 Spring releases. Take
+      SWF's Spring rather than RSF's --&gt;
+          &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+          &lt;artifactId&gt;spring&lt;/artifactId&gt;
+        &lt;/exclusion&gt;
+      &lt;/exclusions&gt;
+    &lt;/dependency&gt;
+}}}
+In order to complete the build, we need to add back in the {{spring-aop}} JAR which RSF depends on, but SWF does not - but at a version
+agreeing with SWF's dependent Spring version:
+{{{
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-aop&lt;/artifactId&gt;
+      &lt;version&gt;2.0.4&lt;/version&gt;
+    &lt;/dependency&gt;
+}}}
+!!!Porting from SWF on RSF to pure RSF
+
+We concluded porting our SWF on SpringMVC/JSP app to an RSF front-end, whilst keeping untouched
+* Our flow definitions
+* Our application model and services
+* Our validators
+Finishing our exploration of design options that RSF can provide, we will now port this app to the &quot;equivalent&quot; pure RSF app, without use of Spring Web Flow. In this port we will keep unchanged both the top and bottom layers - that is, we will use exactly the same XHTML view templates that we developed for the RSF-SWF application, as well as the same application model, {{Phonebook}} service and the {{SearchCriteria}} validator - RSF proper features full support for Spring Validators as well as its own &quot;POJO&quot; validators.
+
+Essentially all that will change in this application are our ViewProducers. The principal changes will be the ViewParameters targets for navigation. Rather than tunnelling through the SWFViewParams &quot;proxies&quot; for navigation destinations, our links and forms will target their resulting views directly.
+!!Flow navigation becomes direct navigation
+For example, the index page link which leads to the criteria page changes from 
+
+{{{
+    UIInternalLink.make(tofill, &quot;search-criteria&quot;, new SWFLaunchViewParams(&quot;search-flow&quot;));
+}}}
+
+to
+{{{
+    UIInternalLink.make(tofill, &quot;search-criteria&quot;, new SimpleViewParameters(SearchCriteriaProducer.VIEW_ID));
+}}}
+
+becoming a direct navigation link to the {{SearchCriteriaProducer}} page, with a view id of {{searchCriteria}}.
+
+!! ViewParameters, and locating service results
+Before we finish up at the {{searchCriteria}} view itself, which is certainly the most interesting view in the app, we will look at the {{searchResults}} view which reflects a slightly different strategy for locating the person list. Looking back at the SWF app, the work of fetching the search results was done via a {{render-action}} attached to the {{displayResults}} view state within the flow. In an RSF app, it is idiomatic to i) draw up the minimal state which must be put into URL state ([ViewParameters]) and then to ii) inject any &quot;services&quot; or other environmental beans into the ViewProducer (which is just a standard Spring bean) which is necessary to let it look up this minimal state to its results.
+
+This different workflow reflects the emphasis RSF places on achieving [zero server state|ZeroServerState] wherever possible. The framework assists you to achieve this where it is appropriate, but the side-effect is requiring a bit more thought and modelling by developers of the request cycle, and conscious choices about which state is stored where.
+
+For our {{searchResults}} view, the incoming view state (URL state) consists of exactly the information which is held in the SearchCriteria object. Since the purpose of the RSF ViewParameters scheme is to model view state as far as possible as a &quot;pure bean&quot; model with proper type-safety, we may simply aggregate this type directly into the {{SearchCriteriaViewParams}}:
+
+{{{
+public class SearchCriteriaViewParams extends SimpleViewParameters {
+  public SearchCriteria searchCriteria = new SearchCriteria();
+  
+  public String getParseSpec() {
+    return super.getParseSpec() + &quot;,:searchCriteria.*&quot;;
+  }
+  
+  public SearchCriteriaViewParams() {}
+  public SearchCriteriaViewParams(String viewId) {
+    super(viewId);
+  } 
+}
+}}}
+
+For simple &quot;leaf&quot; types RSF will infer a default [ParseSpec] which will map them into URL attributes. To map a more complex type we need to make a declaration like the one above - more details on the [ViewParameters] and [ParseSpec] pages.
+
+The incoming ViewParameters type of {{SearchResultsProducer}} now changes to be our {{SearchCriteriaViewParams}}:
+
+{{{
+public class SearchResultsProducer implements ViewComponentProducer, ViewParamsReporter {
+...
+  public ViewParameters getViewParameters() {
+    return new SearchCriteriaViewParams();
+  }
+}}}
+
+Whereas in the SWF version, we had our search results injected directly from the flow scope, the search operation itself being triggered by the {{render-action}}, in the RSF version, we inject the underlying {{Phonebook}} service directly and fetch the results outselves.
+
+{{{
+...
+  private Phonebook phonebook;
+  
+  public void setPhonebook(Phonebook phonebook) {
+    this.phonebook = phonebook;
+  }
+
+  public void fillComponents(UIContainer tofill, ViewParameters viewparamso,
+      ComponentChecker checker) {
+    SearchCriteriaViewParams viewparams = (SearchCriteriaViewParams) viewparamso;
+    UIForm form = UIForm.make(tofill, &quot;restart-form&quot;, new SimpleViewParameters(SearchCriteriaProducer.VIEW_ID));
+    UICommand.make(form, &quot;submit&quot;);
+    
+    List&lt;Person&gt; results = phonebook.search(viewparams.searchCriteria);
+    
+    for (Person person: results) {
+      UIBranchContainer row = UIBranchContainer.make(tofill, &quot;person-row:&quot;);
+      UIOutput.make(row, &quot;first-name&quot;, person.getFirstName());
+      UIOutput.make(row, &quot;last-name&quot;, person.getLastName());
+      UIOutput.make(row, &quot;person-phone&quot;, person.getPhone());
+      UIInternalLink.make(row, &quot;details-view&quot;, person.getUserId(), 
+          new PersonViewParams(DetailsProducer.VIEW_ID, person.getId()));
+    }
+  }
+}}}
+
+The loop body is extremely similar to that in the SWF version, except that we use direct link destinations to the {{DetailsProducer}} rather than a flow transition. 
+
+The bean declaration of {{SearchResultsProducer}} in {{requestContext.xml}} changes to 
+
+{{{
+  &lt;bean class=&quot;org.springframework.webflow.samples.phonebook.rsf.producers.SearchResultsProducer&quot;&gt;
+    &lt;property name=&quot;phonebook&quot; ref=&quot;phonebook&quot; /&gt;
+  &lt;/bean&gt;
+}}}
+
+!!The search submission - GET or POST?
+
+The {{SearchCriteriaProducer}} is the most interesting part of the application, certainly from the point of view of this RSF port. As we mentioned earlier, the use of GET or POST transitions is the kind of implementation decision that Spring Web Flow shields the developer from. This can be considered either desirable or undesirable depending on your mindset and goals as a developer - with each gain in abstraction, there is a corresponding reduction in expressiveness, and the values of these relative tradeoffs are key determiners in the behaviour of an application or framework. RSF abstracts the ''concepts'' and physical implementation of HTTP GET and POST into its concept of a &quot;render cycle&quot; and &quot;action cycle&quot; respectively (with naming/semantics mirroring those common in the JSR-168 Portlet or WSRP world), but the distinction between them is strictly maintained at the application and design level.
+
+In terms of trying to represent the original application as faithfully as we can in RSF, supporting the {{SearchCriteriaValidator}} in the original SWF application, which was used to reject empty search requests, is a key point. As the current RSF architecture stands, validators are only permitted to operate on action cycles (where some substantive alteration is in progress on the bean model), and so the initial implementation we'll provide (and also the default in SVN) will be of {{SearchCriteria}} via a POST form. However, search GET forms are pretty idiomatic on the web at large, and it could be argued that &quot;validation&quot; of search criteria doesn't always fit in with user expectations. Implementing this form as a GET transition simplifies our application a fair bit (partly due to being obliged to ditch the validation step), and reduces the server load by substituting two requests by one, and is a valid application decision that RSF supports. We will show a GET version of this producer {{SearchCriteriaProducerGET}} later - swapping this into our app only involves changing one Spring bean declaration, and results in no changes anywhere else in the application code or view template layer.
+
+!POST submission and navigation
+
+Firstly the rendering code for this view {{SearchCriteriaProducer.java}} is pretty straightforward:
+
+{{{
+    UIForm form = UIForm.make(tofill, &quot;search-form&quot;);
+    UIInput.make(form, &quot;first-name&quot;, &quot;searchCriteria.firstName&quot;);
+    UIInput.make(form, &quot;last-name&quot;, &quot;searchCriteria.lastName&quot;);
+    UICommand.make(form, &quot;submit&quot;);
+}}}
+
+The default for any RSF [UIForm|PrimitiveComponents] is to become a POST (action) form submitting to the current ViewParameters. We set up EL bindings for our two form fields onto the {{searchCriteria}} object directly (rather than via the SWFBindingBeanProxy) before - this bean is mapped directly into our request scope with the following {{requestContext.xml}} definition:
+
+{{{
+  &lt;!-- This bean is not used in the GET version of the app --&gt;
+  &lt;bean id=&quot;searchCriteria&quot;
+    class=&quot;org.springframework.webflow.samples.phonebook.SearchCriteria&quot; /&gt;
+}}}
+
+In order to free this bean for access over the request, we must explicitly list it in the [requestAddressibleBeans|requestWriteableBeans] declaration - the alternative would be quite a security risk:
+
+{{{
+  &lt;bean parent=&quot;requestAddressibleParent&quot;&gt;
+    &lt;property name=&quot;value&quot; value=&quot;searchCriteria&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+
+The next difference to our SWF-RSF version is that we do not place any method binding onto our submission control, {{submit}}. This is because there is no explicit application action we wish to trigger on this cycle, other than validation, followed possibly by navigation to the following view.
+
+
+!Validation
+In RSF, validation semantics are expressed declaratively in the application context Spring file, in definitions known as [BeanGuards]. These specify triggering rules which provide for guaranteed execution logic in an action cycle, triggered by attempts to read or write bean values over the request. In this case, the rule we want to encode is that any write access to members of the {{searchCriteria}} object we set up earlier, should be followed by a trigger of the Spring Validator {{SearchCriteriaValidator}}.
+
+We can declare both the validator and the guarding rule compactly in one definition as follows:
+{{{
+  &lt;bean parent=&quot;writeGuardParent&quot;&gt;
+    &lt;property name=&quot;guard&quot;&gt;
+      &lt;bean class=&quot;org.springframework.webflow.samples.phonebook.SearchCriteriaValidator&quot;/&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;guardedPath&quot; value=&quot;searchCriteria&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+
+If the validation fails, the request is declared to be &quot;in error&quot;, and the default navigation will be replaced by error navigation, for which the framework default is to return to the originating view. In this case, any input fields will filled in with their input values (as opposed to being refetched from the view), and a list of error/validation messages may be displayed to the user.
+
+!Normal and error action navigation
+
+The standard RSF framework scheme for defining action navigation rules is using the [navigation case|NavigationCase] system, a declarative navigation system inherited in outline from JSF. A view exports NavigationCase rules to the framework by implementing NavigationCaseReporter and returning a list of static rules, which map action return results to resulting ViewParameters. In this case we require a single default rule - in the case of a request not in error we require navigation to the {{SearchResults}} page:
+
+{{{
+  public List reportNavigationCases() {
+    List togo = new 
+    togo.add(new NavigationCase(
+       new SearchCriteriaViewParams(SearchResultsProducer.VIEW_ID)));
+    return togo;
+  }
+}}} 
+
+Since these rules are __static__, that is, independent of runtime information, they are sometimes insufficient to fill in all the details of resulting navigation state. In RSF this is performed by the parallel action navigation scheme implemented by the [ActionResultInterceptor] interface, affectionately known as ARI2. NavigationCases and ARI2 cooperate to build up coarse-scale and fine-scale action navigation information, respectively. It ''would'' be possible to set up navigation using only ARI2, but since this involves Java code, the resulting navigation structure would be less transparent.
+
+{{{
+  public void interceptActionResult(ARIResult result, ViewParameters incoming,
+      Object actionReturn) {
+    if (result.resultingView instanceof SearchCriteriaViewParams) {
+      SearchCriteriaViewParams outgoing = 
+        (SearchCriteriaViewParams) result.resultingView;
+      outgoing.searchCriteria = criteria;
+    }
+  }
+}}}
+
+The {{instanceof}} check, as well as ensuring typesafety, is implicitly testing that the navigation in progress is not for the &quot;error case&quot;, which would be causing a navigation to the current view with ViewParameters of type SimpleViewParameters. Part of the power of RSF's ViewParameters system is its ability to make assertions about views or categories of views using standard OO type relationships. 
+
+This code block executes at the very end of the action cycle on which the form submission against {{searchCriteria}} has been successfully processed, and makes sure to transfer the submitted field values into the outgoing URL statement, by means of a simple assignment of beans.
+
+This image shows the application state after a successful submission, following navigation to the search results view. As you can see, the page URL is both easily readable and also bookmarkable.
+%%(text-align:center)
+[ImageHolder/swfphonebook-rsfsearch.png]
+%%
+
+!! Submitting search arguments through GET
+
+The alternative implementation of {{SearchCriteriaProducer}}, {{SearchCriteriaProducerGET}}, is very much simpler, since it saves on
+* NavigationCases
+* The request-scope bean {{searchCriteria}}, including declaring it requestAddressible
+* The validation declaration and guard
+* ActionResultInterceptor navigation rule
+
+The only changes we need make are to the producer, which now reads as follows:
+
+{{{
+public class SearchCriteriaProducerGET implements ViewComponentProducer {
+  public static final String VIEW_ID = &quot;searchCriteria&quot;;
+  public String getViewID() {
+    return VIEW_ID;
+  }
+
+  public void fillComponents(UIContainer tofill, ViewParameters viewparams,
+      ComponentChecker checker) {
+    UIForm form = UIForm.make(tofill, &quot;search-form&quot;, 
+        new SearchCriteriaViewParams(SearchResultsProducer.VIEW_ID));
+    UIInput.make(form, &quot;first-name&quot;, &quot;searchCriteria.firstName&quot;);
+    UIInput.make(form, &quot;last-name&quot;, &quot;searchCriteria.lastName&quot;);
+    UICommand.make(form, &quot;submit&quot;);
+  }
+}
+}}}
+
+The 3rd argument to the {{UIForm}} implicitly identifies it as a GET form, since it is targetted at a specific ViewParameters, that of the desired resulting view {{SearchResultsProducer}}. Any EL bindings supplied within such a form (e.g. {{searchCriteria}} are implicitly assumed to be bindings against the ''outgoing ViewParameters'' for the form, rather than against the bean model as a whole which would be the default for a POST form. Once again the {{UICommand}} submission is action-free, which is now the only possibility for a GET form. Since on the resulting view we recreate *exactly* the same ViewParameters state as we did via the POST model, nothing else in the application requires to be changed, including the view template.
+
+To switch to this version of the application, simply alter the commenting on this portion of {{requestContext.xml}}:
+{{{
+  &lt;!-- To switch to the POST version of this app, comment out this definition in favour
+  of the following one for SearchCriteriaProducerPOST --&gt;
+&lt;!-- 
+  &lt;bean class=&quot;org.springframework.webflow.samples.phonebook.rsf.producers.SearchCriteriaProducerGET&quot; /&gt;
+  --&gt;
+  &lt;bean class=&quot;org.springframework.webflow.samples.phonebook.rsf.producers.SearchCriteriaProducer&quot;&gt;
+    &lt;property name=&quot;searchCriteria&quot; ref=&quot;searchCriteria&quot; /&gt;
+  &lt;/bean&gt;
+}}}
+
+What we have sacrificed here is the validation of the search arguments - however, as we see, this application doesn't misbehave too badly. The result of making no entry for first or last name is simply to return search results for the entire database, which is a fairly valid application response. This was not the design choice made by the original application, and so we must consider that the GET form version presented here is not &quot;faithful&quot; but it is worth highlighting it as a neighbouring and potentially desirable implementation strategy available with RSF. RSF may support GET form validation in a future version.
+
+!!! Application review - SWF and RSF
+
+We have now 3 complete versions of the original Phonebook application (as well as a further alternative for one view in the 3rd) and we should now take stock of the relationships and tradeoffs between them, as well as an inventory of the parts of the application which have been conserved.
+!!Conservation
+|| ||SWF on SpringMVC + JSP||SWF on RSF||Pure RSF
+||View|[ImageHolder/cross.png]JSPs|[ImageHolder/tick.png]IKAT XHTML|[ImageHolder/tick.png]
+||Application model + services|[ImageHolder/tick.png]|[ImageHolder/tick.png]|[ImageHolder/tick.png]
+||Spring Validation|[ImageHolder/tick.png]|[ImageHolder/tick.png]|[ImageHolder/tick.png]
+||Spring Web Flow Definition|[ImageHolder/tick.png]|[ImageHolder/tick.png]|[ImageHolder/cross.png]
+||ViewParameters definitions|[ImageHolder/cross.png]|(partial)|(partial)
+
+The first key point to observe is that at no point have we needed to make any alterations in the core application artefacts ({{Phonebook}}, {{SearchCriteria}}, {{Person}}, etc.) and have preserved a clean &quot;framework-free&quot; pure bean model. This might seem an obvious point, but there are still a number of web frameworks that cannot achieve this easily! In addition, we have also conserved our Spring Validator definition across all application versions.
+
+The second, more palpable point is the portability of the pure XHTML templating definitions, from our SWF+RSF application to not just one but two independent realisations of the application as pure RSF. As well as being directly usable to UI designers, this gives security to developers that they are free to migrate back and forth between different frameworks without incurring any costs in this area.
+!!Comparison
+We conclude our treatment of this sample with a contrast of the strategies and properties of the SWF+RSF application and the pure RSF application, and speculation about in what contexts the different approaches might be valuable.
+!Reduced encapsulation
+The first point to observe is that in porting to pure RSF we have to a good extent diluted the value points of SWF - our navigation definitions are no longer centralised, but interspersed around the application's ViewProducers. Whilst there are methods within RSF for centralising these definitions outside the Java code, this is not typically the way RSF developers have tended to work - the centralisation and coherence of the navigation targets and rules is typically fully forgone in favour of having this information directly to hand within Java code. A lot of this contrast reflects the differing procedures and cultures which might be used to construct an application design. RSF has initially positioned itself as being &quot;design-led&quot; whereas an SWF application could be said to be &quot;function-led&quot; - that is, an SWF application design is sketched out in abstract *including* the rules for navigation transition strongly considered as part of the application specification. An RSF application reflects a possibly different cultural split - that between &quot;user experience&quot; designers who would tend to make weaker assertions about application rules but stronger ones about markup and request behaviour, and &quot;developers&quot; who would be responsible for &quot;everything else&quot;. An SWF-RSF app promises to be able to easily support both models of application design, with a resulting 3-way split in the design communities, supporting the roles of &quot;designers&quot;, &quot;application specifiers&quot; and &quot;coders&quot;.
+!Improved idiom and efficiency
+Having talked about the more abstract design aspects, we should look at some concrete application points. The clearest low-level win of the RSF version of the app is its improved URL structure - as well as correctly supporting browser back buttons and refresh as the SWF app did, every URL which appears in the application is fully bookmarkable - in particular the search results page, in both GET and POST versions of the app. Whilst there are special techniques which might be used to provide reasonable behaviour on bookmarking SWF flow URLs, this requires a good amount of extra effort and is not very idiomatic - the whole model of a flow is that it is a specific realisation of application navigation on behalf of a single user at a single time. A corresponding benefit is the lower demands on server resources by the RSF app - in general it will require half as many server requests (due to requiring no redirects except in the case of a POST), and will also consume no server storage for session- or flow-scoped storage. However - this is just a reflection of the design of this particular sample. In our next sample, [SellItemSWFSample], the app structure will not lend itself to producing bookmarkable URLs in this way.
+!Free exploitation of tradeoffs
+These two points are really the key tradeoffs between an RSF and SWF application - an SWF application provides a fully encapsulated application model, in which storage and navigation are treated in a portable, self-contained environment, apart from any rendering code. An RSF application, whilst being just as portable an application environment, trades some of this encapsulation for performance and an improved &quot;web idiom&quot;. The value point of the RSF-SWF integration is that it allows developers and designers to freely navigate between these points within the space of design tradeoffs with the minimum of disruption, retaining a clean Spring-driven IoC environment, and fully previewable and portable set of view templates at each point.
+
+</pre>
+

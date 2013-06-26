@@ -1,0 +1,236 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!!SpringMVC Step by Step Sample
+
+This is a very clear and carefully presented sample contributed by Thomas Risberg to the [Spring documentation|http://www.springframework.org/docs/MVC-step-by-step/Spring-MVC-step-by-step.html] for SpringMVC. It manages to show off pretty much the complete spectrum of core SpringMVC idioms and APIs in the shortest possible space, which is why I chose it to illustrate RSF's SpringMVC integration capabilities - I recommend it to anyone as the first port of call in trying to understand how SpringMVC works.
+
+Firstly, since the actual code for the example doesn't seem to be available in source form anywhere, I have imported it into the [SpringMVCStep-orig|https://saffron.caret.cam.ac.uk/svn/projects/SpringMVCStep/trunk/orig] project held in the RSF SVN - this is a direct copy of the source as presented at the end of [step 3|http://www.springframework.org/docs/MVC-step-by-step/Spring-MVC-step-by-step-Part-3.html] of the tutorial, with only the following minimal changes
+
+* The original Ant build has been replaced by a standard Maven build 
+* The &quot;no-package&quot; code has been imported into a fully qualified package {{uk.org.ponder.rsf.springmvcstep}} - e.g. the original {{bus}} package for business model definitions becomes {{uk.org.ponder.rsf.springmvcstep.bus}}
+* The original Spring 1.1.x-style context definitions have been updated to the modern 1.2.x &quot;concise&quot; definition form
+
+Other than that, the code is identical to the way Thomas presented it, and is ready to auto-deploy (after editing project.properties) by the default Maven build. 
+
+!!!Stage 1 - IKAT as a view layer for SpringMVC
+
+The first reworking of this app illustrates the &quot;minimum-impact&quot; integration with RSF. We simply replace the view definitions from the original sample, which were written using JSPs, with pure HTML templates and ViewProducers rendered using [IKAT]. This involves changing only the definition of the SpringMVC ViewResolver bean to be an IKATViewResolver rather than an InternalResourceViewResolver - the rest of the SpringMVC code, including the entire Controller layer remains untouched. This IKAT version of SpringMVC Step-by-step is held in SVN at [SpringMVCStep-IKAT|https://saffron.caret.cam.ac.uk/svn/projects/SpringMVCStep/trunk/IKAT]
+
+!! {{web.xml}} and libraries
+
+In order to set up the IKAT environment, as well as including the standard RSF JARs into {{lib}} for the webapp (via Maven {{project.xml}}, the {{web.xml}} needs to import the definitions for the RSF Spring contexts - the following stanza is added to {{web.xml}} :
+
+{{{
+ &lt;!-- Configure standard Spring application contexts. Be sure to mention
+    rsf config files first, so any overrides may be processed. The first two
+    config files are loaded from inside the rsfutil.jar  --&gt;
+  &lt;context-param&gt;
+    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+    &lt;param-value&gt;
+      classpath:conf/rsf-config.xml,
+      classpath:conf/blank-applicationContext.xml
+      &lt;/param-value&gt;
+  &lt;/context-param&gt;
+  &lt;!-- Configure &quot;resource scope&quot; Spring application contexts (RSAC).
+     Be sure to mention rsf config files first, so any overrides may be
+    processed --&gt;
+  &lt;context-param&gt;
+    &lt;param-name&gt;requestContextConfigLocation&lt;/param-name&gt;
+    &lt;param-value&gt;classpath:conf/rsf-requestscope-config.xml,
+                 classpath:conf/blank-requestContext.xml,
+                 classpath:conf/springmvc-requestContext.xml&lt;/param-value&gt;
+  &lt;/context-param&gt;
+}}}
+
+!!JSPs to HTML
+Next, we replace the JSP view definitions with the properly factored HTML + ViewProducer combination which constitute an IKAT view.
+
+
+For example, the following definition of the front page view {{hello.jsp}}
+
+{{{
+&lt;%@ include file=&quot;/WEB-INF/jsp/include.jsp&quot; %&gt;
+
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;&lt;fmt:message key=&quot;title&quot;/&gt;&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;&lt;fmt:message key=&quot;heading&quot;/&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;fmt:message key=&quot;greeting&quot;/&gt; &lt;c:out value=&quot;${model.now}&quot;/&gt;
+&lt;/p&gt;
+&lt;h3&gt;Products&lt;/h3&gt;
+&lt;c:forEach items=&quot;${model.products}&quot; var=&quot;prod&quot;&gt;
+  &lt;c:out value=&quot;${prod.description}&quot;/&gt; &lt;i&gt;$&lt;c:out value=&quot;${prod.price}&quot;/&gt;&lt;/i&gt;&lt;br&gt;&lt;br&gt;
+&lt;/c:forEach&gt;
+&lt;br&gt;
+&lt;a href=&quot;&lt;c:url value=&quot;priceincrease.htm&quot;/&gt;&quot;&gt;Increase Prices&lt;/a&gt;
+&lt;br&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+}}}
+
+becomes as an RSF template {{hello.html}}
+
+{{{
+&lt;html xmlns:rsf=&quot;http://ponder.org.uk/rsf/&quot;&gt;
+&lt;head&gt;&lt;title rsf:id=&quot;title&quot;&gt;Page Title&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 rsf:id=&quot;heading&quot;&gt;Heading&lt;/h1&gt;
+&lt;p&gt;&lt;span rsf:id=&quot;greeting&quot;&gt;Hello, it is now&lt;/span&gt; 
+&lt;span rsf:id=&quot;timenow&quot;&gt;Octeen O'Clock&lt;/span&gt;
+
+&lt;/p&gt;
+&lt;h3&gt;Products&lt;/h3&gt;
+&lt;div rsf:id=&quot;productrow:&quot;&gt;
+  &lt;span rsf:id=&quot;description&quot;&gt;Frotzer&lt;/span&gt; &lt;i&gt;$&lt;span rsf:id=&quot;price&quot;&gt;582.50&lt;/span&gt;&lt;/i&gt;&lt;br&gt;&lt;br&gt;
+&lt;div&gt;
+&lt;br&gt;
+&lt;a href=&quot;priceincrease.html&quot; rsf:id=&quot;increase&quot;&gt;Increase Prices&lt;/a&gt;
+&lt;br&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+}}}
+Note that this file (including its internal HTML link to {{priceincrease.html}}) is fully previewable in a browser, and would be safe to hand to a design team armed with DreamWeaver (or NotePad!!) for UI work in full confidence that i) they could easily work with the template with standard tools, and ii) they could not hand back anything that could corrupt the application data model. In some deployment models, it's even imaginable that an application's template space could be exposed via WebDAV for live updates by reasonably expert users - certainly they can be edited live in the filesystem by developers with the same (only slightly faster and safer) update cycle model as JSPs.
+
+!!Spring definitions
+
+All that changes in the Spring context definition {{springapp-servlet.xml}} is a change of the SpringMVC {{InternalResourceViewResolver}} for the {{IKATViewResolver}} as follows:
+
+{{{
+  &lt;bean id=&quot;viewResolver&quot; class=&quot;uk.org.ponder.rsf.springmvc.IKATViewResolver&quot;/&gt;
+}}}
+
+The IKATViewResolver is entirely autonomous and needs no configuration as to URL mappings &amp;c, it will infer all it needs from the MVC environment and the templates.
+
+!ViewProducers
+The completion of the refactoring process we started above when we converted JSPs to HTML, is to split off all the view logic that was in them into standard ViewProducers. These produce RSF [component trees|ComponentTree] in the same way as in all RSF applications, although there is the slight difference that where components make references to URLs, these must be made explicitly rather than through the abstraction of the RSF [ViewParameters] system. Within SpringMVC we do not have control of the dispatching process and so must fall back to the same level of URL abstraction as the rest of SpringMVC, for reasons of compatibility.
+
+Here is the producer for the main (initial) view of the application, &quot;hello&quot;:
+
+{{{
+public class HelloProducer implements ViewComponentProducer, DefaultView {
+  public static final String VIEW_ID = &quot;hello&quot;;
+  private List products;
+
+  public String getViewID() {
+    return VIEW_ID;
+  }
+
+  public void setProducts(List products) {
+    this.products = products;
+  }
+
+  public void fillComponents(UIContainer tofill, ViewParameters viewparams,
+      ComponentChecker checker) {
+    UIOutput.make(tofill, &quot;title&quot;, null, &quot;#{messages.title}&quot;);
+    UIOutput.make(tofill, &quot;heading&quot;, null, &quot;#{messages.heading}&quot;);
+    UIOutput.make(tofill, &quot;greeting&quot;, null, &quot;#{messages.greeting}&quot;);
+    String now = (new java.util.Date()).toString();
+    UIOutput.make(tofill, &quot;timenow&quot;, now);
+
+    for (int i = 0; i &lt; products.size(); ++i) {
+      Product product = (Product) products.get(i);
+      UIBranchContainer productrow = UIBranchContainer.make(tofill,
+          &quot;productrow:&quot;, Integer.toString(i));
+      UIOutput.make(productrow, &quot;description&quot;, product.getDescription());
+      UIOutput.make(productrow, &quot;price&quot;, product.getPrice().toString());
+    }
+    // SpringMVC doesn't allow us to do much better than this in URL-space
+    // independence
+    UIInternalLink.makeURL(tofill, &quot;increase&quot;, &quot;priceincrease.htm&quot;);
+  }
+
+}
+}}}
+
+The first three lines show use of the RSF [MessageLocator] as a [BeanLocator] - these messages within the message file {{messages.properties}} inherited from the original version of the application can be resolved by key simply through EL paths, without needing to resolve the MessageSource bean itself as a dependency.
+
+The main body of the producer contains a Java {{for}} loop replacing the JSP {{&lt;c:foreach&gt;}} tag. Of course with Java 5 this loop could be made more concise using Java's own {{foreach}} syntax. Finally, we emit a &quot;manual&quot; (i.e. not using the RSF ViewParameters abstraction) UIInternalLink referencing the application's second view. 
+
+!Request-scope injection for the model
+
+One interesting point is that while transferring the loop logic out of the JSP, at the same time we took the opportunity to transfer the dependence on the list of Product items to be delivered via request-scope injection, rather than having to resolve it via EL in the request context. This was done by making the following definition in our {{requestContext.xml}}:
+
+{{{
+  &lt;bean id=&quot;products&quot; class=&quot;java.util.List&quot; /&gt;
+}}}
+
+Due to the RSF-SpringMVC library's automatic transfer of the SpringMVC request context into RSF's request container, we don't need to do any work to populate this bean, other than to declare it's name and type like this so that we can set up the following injection to our HelloProducer:
+
+{{{
+  &lt;bean id=&quot;helloProducer&quot;
+    class=&quot;uk.org.ponder.rsf.springmvcstep.producers.HelloProducer&quot;&gt;
+    &lt;property name=&quot;products&quot; ref=&quot;products&quot; /&gt;
+  &lt;/bean&gt;
+}}}
+
+This is more in keeping with the Spring philosophy of avoidance of explicit bean fetches in favour of dependency injection. Note however that to make this injection work, we need to slightly alter the SpringMVC Controller ({{SpringappController.java}}) for this view so that it deposits its model at the root of the request namespace, rather than at the path &quot;model&quot; as we inherited it:
+
+{{{
+        myModel.put(&quot;products&quot;, getProductManager().getProducts());
+// IKAT version - Change from original: place model at root of namespace 
+// to allow request-scope injection.
+        return new ModelAndView(&quot;hello&quot;, myModel);
+}}}
+
+!!RSFSpringMVC and errors
+
+RSF-SpringMVC integrates seamlessly with SpringMVCs error reporting system, as operated by Spring Validators and the Errors interface. Any errors arising through the PriceIncreaseController are available in the PriceIncreaseProducer, as injection as a standard RSF [TargettedMessageList]. These messages are enqueued for display at the component responsible for them (if any) in the normal way, and we can for example conditionally display the &quot;Please fix all errors!&quot; message by testing the size of this error list. That is, where we used the Spring JSP tag
+{{{
+  &lt;spring:hasBindErrors name=&quot;priceIncrease&quot;&gt;
+    &lt;b&gt;Please fix all errors!&lt;/b&gt;
+  &lt;/spring:hasBindErrors&gt;
+}}}
+, the corresponding section of the HTML template becomes simply
+{{{
+  &lt;div rsf:id=&quot;hasErrors&quot;&gt;
+    &lt;b&gt;Please fix all errors!&lt;/b&gt;
+  &lt;/div&gt;
+}}}
+and we conditionally emit this component in PriceIncreaseProducer.java with the following:
+{{{
+    if (tml.size() &gt; 0) {
+      UIOutput.make(tofill, &quot;hasErrors&quot;);
+    }
+}}}
+
+!!Testing
+The app functions identically to the original, including request-cycle semantics (the following browser warning typically appears if using the &quot;Back&quot; button after a successful price increase follows an invalid one):
+
+[springapp-postbox.png]
+
+!!!Stage 1a - Economising on Controllers
+
+In transferring our view layer into HTML, we have gained much better insulation from the view technology and cleaner separation of logic and content. Unfortunately in this straight one-for-one translation, we have gained quite a bit of verbosity, and also some functional duplication. The point is that a SpringMVC &quot;view-only&quot; controller like {{SpringappController}} is functionally redundant with respect to an RSF ViewProducer, since the ViewProducer, already being a Spring bean, is capable of performing all the functions of the controller. This reveals the fact that the only real function of a &quot;view-only&quot; controller is as a &quot;collector and focusser&quot; of dependencies - beans are collected from the Spring context and general environment of the app, and collected into a Map, the request context map. The ViewProducer is fully capable of these functions itself, so if we weren't concerned with minimising deltas to an existing SpringMVC application, but still wanted to use IKAT + SpringMVC, we could gain a lot of concision by simply &quot;knocking through&quot; controller+producer combinations like this (i.e. SpringappController.java + HelloProducer) and fold all of the functions into the Producer.
+
+The only real function of {{SpringappController}} is to collect the {{products}} list and place it into the request context. We could achieve the same effect by replacing the dummy request-scope definition of {{products}} that we saw above with the following &quot;pure Java&quot;:
+
+{{{
+&lt;bean id=&quot;products&quot; factory-bean=&quot;prodMan&quot; factory-method=&quot;getProducts&quot;/&gt;
+}}}
+
+With this, the {{SpringappController}} could be destroyed - that is, replaced with a no-op controller that simply returns an empty model.
+
+Since we are still using SpringMVC to handle the results of POST sumbissions, we cannot destroy FormControllers like {{PriceIncreaseFormController}} correspondingly - although we *can* slim them down by removing those parts of it which specifically refer to view generation (i.e. which populate the model). Since in this case {{PriceIncreaseFormController}} simply renders a RedirectView, there are no further savings to be had. We might like to economise on the command object {{priceIncrease}} by moving it to the producer, but command objects have a special status within SpringMVC which is not equivalent to normal Model elements.
+
+!!! Taking stock
+We have inherited a SpringMVC sample application for which we have ported the view layer from JSPs to RSF's pure HTML templating engine, IKAT, while making no changes either to business logic nor to the definitions of SpringMVC's controller[1] or validator beans. However, the app has become somewhat more verbose as a result, and it is ''still'' not portable to other environments, as a result of the concrete dependence in SpringMVC's controller layer on the HttpServletRequest object, as well as the particular URL mapping scheme set up in the context. In the next section we will port over the &quot;other half&quot; of the app, completing its transformation to RSF. While we will inherit our HTML templates and business logic from this application unchanged, we will remove the SpringMVC controller layer, and replace it with RSF's (largely implicit) &quot;controller&quot;.
+
+Head   - Spring MVC Step by Step - IKAT versions\\
+Page 1 - [Spring MVC Step by Step - RSF version|SpringMVCStep-RSF]\\
+
+----
+%%(font-size: 80%)
+[#1]There was one incidental change to the naming structure of the SpringMVC model.
+%%
+
+</pre>
+

@@ -1,0 +1,64 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Like Spring-Hibernate, [RSFHibernate|https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernate/] tries to remove the dependence on Hibernate in user code, but can go a little further in removing coupled code as a result of having RSAC. The key points of RSF ORM are 
+
+! The use of [RSAC] to inject query results into request beans.
+
+You can see this at work in the [Java version|http://www2.caret.cam.ac.uk/rsfwiki/Wiki.jsp?page=HibernateCookBook_4] of the Hibernate cookbook - the view producer (a request-scope bean) has the results of an HQL query injected into it via this setter:
+
+{{{
+  public void setRecipeList(List recipelist) {
+    this.recipelist = recipelist;
+  }
+}}}
+where the corresponding query is defined in {{requestContext.xml}} as the following bean:
+
+{{{
+  &lt;bean id=&quot;recipes-all&quot; parent=&quot;HQLQuery&quot;&gt;
+    &lt;property name=&quot;HQLString&quot; value=&quot;from Recipe&quot; /&gt;
+  &lt;/bean&gt;
+}}}
+This works very well - the target bean is unaware of the kind of ORM solution it is using, or even that it is using any ORM at all, and we are saved from having to write any tedious DAO interfaces or implementations.
+
+
+! The [OTP] (One True Path) system.
+
+This is explained in more detail on its own page. If you are not writing a webapp, the representation of this via [EL] will be less useful, but you may wish to use some of the underlying infrastructure directly. The key implementation is [HibernateEntityBeanLocator|https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernate/trunk/src/java/uk/org/ponder/rsf/hibernate/HibernateEntityBeanLocator.java] or HEBL, which to most clients can be treated as a [WriteableBeanLocator|https://saffron.caret.cam.ac.uk/svn/projects/PonderUtilCore/trunk/src/uk/org/ponder/beanutil/WriteableBeanLocator.java] with 3 methods, {{set}}, {{remove}} and {{locateBean}}. This manages all beans of a particular class, and takes note of any entities which have passed through its hands, for later use of the AlterationWrapper.
+! The [AlterationWrapper|https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernate/trunk/src/java/uk/org/ponder/rsf/hibernate/HibernateAlterationWrapper.java]
+A request-scope bean which centralises commit/rollback logic in one bean. Its basic function is to accept one {{Runnable}} object (in which is presumably enclosed all of your persistent request logic) and to return another, where the supplied Runnable has been bracketed by the (request-aware) logic contained in the Wrapper. It is a neat solution to the potential dependency bind caused by having MORE dependencies inside code which needs to execute AROUND a target set - it could be made yet more minimal by the use of Spring AOP, but does not require it.
+
+Here is the bean definition of HAW from {{hibernate-requestContext.xml}}:
+{{{
+  &lt;bean id=&quot;alterationWrapper&quot; class=&quot;uk.org.ponder.rsf.hibernate.HibernateAlterationWrapper&quot;
+  lazy-init=&quot;true&quot;&gt;
+    &lt;property name=&quot;sessionFactory&quot;&gt;
+      &lt;!-- EXTERNAL DEPENDENCY!!! A Hibernate-enabled RSF app must define a bean with this
+        name that dispenses a SessionFactory. --&gt;
+      &lt;ref bean=&quot;sessionFactory&quot;/&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;mappingContext&quot; ref=&quot;ELMappingContext&quot;/&gt;
+    &lt;property name=&quot;requestType&quot; ref=&quot;requestType&quot;/&gt;
+    &lt;property name=&quot;entityIDRewriter&quot; ref=&quot;hibernate-entityBeanManager&quot;/&gt;
+    &lt;property name=&quot;ARIResult&quot; ref=&quot;ARIResult&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+Note that this is marked as a [very lazy bean|VeryLazyBeans] to avoid a dependence-construction cycle. It overrides the &quot;blank&quot; alteration wrapper defined in the blank context, and will most likely be overridden in turn by a more specific user definition.
+
+Based on information from the request context, the wrapper decides whether this cycle will cause a commit, or if it has caused an exception will cause a rollback. The wrapper also does the work of taking account of any ''new'' entities, which were signalled by being stored via a special EL path (currently configured to be those starting with {{new}} followed by a space, and then arbitrary text). These will not have their persistent IDs assigned until the transaction ends, and so in the case the request action depends on knowing these IDs, it can register a listener to be informed of the rewrite. However, since until the entire request context is cleaned up, these ''new entities'' are still visible inside the HEBL at the old path IDs, it may well be simpler to just inspect them from there after transaction commit, but before the request ends, to find out what their IDs are. In general this is another symptom of the benefits you typically get from RSF/RSAC's avoidance of the &quot;fire and forget&quot; style of Spring non-singletons, or in general other non-managed beans - even in request scope, every bean created is permanently attached to a particular path where it can be located later by interested code.
+
+
+For those familiar with Spring, you might like to think of this class as somewhat similar to {{HibernateTemplate.execute}}, with the supplied {{Runnable}} object taking the role of the {{HibernateCallback}}. The interfaces in RSF-ORM can in general be enormously less fat than {{HibernateTemplate}} since we have the capability of [request-scope beans|RequestScopeBeans] - without this, a Spring application-time interface needs to anticipate ''every possible'' runtime operation and dependency. With [RSAC], each bean can be defined to acquire only the request-time dependencies it needs. 
+
+In general you might well want a different implementation of AlterationWrapper for your particular transactional and request semantics - with RSAC, this is just a matter of overriding this bean definition.
+
+</pre>
+

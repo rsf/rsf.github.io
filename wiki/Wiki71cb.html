@@ -1,0 +1,756 @@
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html id="top" xmlns="http://www.w3.org/1999/xhtml">
+
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Wiki.jsp?page=TargetListAggregatingBean by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:01:58 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+    RSF Wiki: TargetListAggregatingBean
+  </title>
+  
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" media="screen, projection, print" type="text/css"
+     href="templates/default/jspwiki.css"/>
+
+<link rel="stylesheet" type="text/css" media="print" 
+     href="templates/default/jspwiki_print.css" />
+<!-- INCLUDERESOURCES (stylesheet) -->
+
+<!-- INCLUDERESOURCES (inlinecss) -->
+
+
+
+<noscript>
+<style type="text/css">
+#hiddenmorepopup { display:block; }
+</style>
+</noscript>
+
+
+<script type="text/javascript" src="scripts/mootools.js"></script>
+<script type="text/javascript" src="scripts/prettify.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-common.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-commonstyles.js"></script>
+<!-- INCLUDERESOURCES (script) -->
+
+
+
+
+
+<meta name="wikiContext" content='view' />
+<meta name="wikiBaseUrl" content='http://rsf.fluidproject.org/wiki/' />
+<meta name="wikiPageUrl" content='/wiki/Wiki.jsp?page=%23%24%25' />
+<meta name="wikiEditUrl" content='/wiki/Edit.jsp?page=TargetListAggregatingBean' />
+<meta name="wikiJsonUrl" content='/wiki/JSON-RPC' />
+<meta name="wikiPageName" content='TargetListAggregatingBean' />
+<meta name="wikiUserName" content='207.119.0.6' />
+<meta name="wikiTemplateUrl" content='/wiki/templates/default/' />
+<meta name="wikiApplicationName" content='RSF Wiki' />
+
+<script type="text/javascript">//<![CDATA[
+/* Localized javascript strings: LocalizedStrings[] */
+var LocalizedStrings = {
+"javascript.edit.allsections":"( All )",
+"javascript.slimbox.error":"<h2>Error</h2>There was a problem with your request.<br />Please try again",
+"javascript.slimbox.remoteRequest":"Remote Request {0} of {1}",
+"javascript.slimbox.close":"Close &#215;",
+"javascript.quick.edit":"[Edit]",
+"javascript.sort.descending":"Descending order. Click to reverse sort order",
+"javascript.expand":"Click to expand",
+"javascript.group.validName":"Please provide a valid name for the new Group",
+"javascript.slimbox.next":"Next&raquo;",
+"javascript.filter.all":"( All )",
+"javascript.edit.areyousure":"Without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.quick.edit.title":"Edit section {0}...",
+"javascript.slimbox.directLink":"Direct Link to the target",
+"javascript.prefs.areyousure":"Without clicking the Save User Preferences button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.sbox.clone.suffix":"-New",
+"javascript.slimbox.info":"Image {0} of {1}",
+"javascript.tip.default.title":"More...",
+"javascript.edit.resize":"Drag to resize the text area",
+"javascript.edit.findandreplace.nomatch":"No match found!",
+"javascript.sort.ascending":"Ascending order. Click to reverse sort order",
+"javascript.slimbox.close.title":"Close [Esc]",
+"javascript.edit.toolbar.makeSelection":"Please make first a selection.",
+"javascript.favs.hide":"Click to hide Favorites",
+"javascript.sectionediting.label":"Section Overview",
+"javascript.slimbox.previous":"&laquo;Previous",
+"javascript.favs.show":"Click to show Favorites",
+"javascript.collapse":"Click to collapse",
+"javascript.category.title":"Click to show category [{0}] ...",
+"javascript.sort.click":"Click to sort",
+"javascript.edit.startOfPage":"( Start of page )"
+};
+
+
+/* INCLUDERESOURCES (jsfunction) */
+
+//]]></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="search" href="Wiki702d.html?page=FindPage"
+    title='Search RSF Wiki' />
+<link rel="help"   href="Wikia3b7.html?page=TextFormattingRules"
+    title="Help" />
+
+ <link rel="start"  href="Wikib2ab.html?page=Main"
+    title="Front page" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki_print.css"
+    title="Print friendly" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki.css"
+    title="Standard" />
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+<link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  
+  
+</head>
+
+<body class="view">
+
+<div id="wikibody" class="fav-left">
+ 
+  
+
+
+
+
+
+
+<div id="header">
+
+  <div class="titlebox"></div>
+
+  <div class="applicationlogo" > 
+    <a href="Wikib2ab.html?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="Login12ec.html?redirect=TargetListAggregatingBean" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="UserPreferences12ec.html?redirect=TargetListAggregatingBean"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+
+  <div class="pagename">TargetListAggregatingBean</div>
+
+  <div class="searchbox">
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Search.jsp"
+        class="wikiform"
+           id="searchForm" accept-charset="UTF-8">
+
+  <div style="position:relative">
+  <input onblur="if( this.value == '' ) { this.value = this.defaultValue }; return true; "
+        onfocus="if( this.value == this.defaultValue ) { this.value = ''}; return true; "
+           type="text" value="Quick Navigation"
+           name="query" id="query"
+           size="20" 
+      accesskey="f" />
+  <button type="submit"
+  		 name="searchSubmit" id="searchSubmit"
+  		value="Go!"
+  		title="Go!"></button>
+  </div>
+  <div id="searchboxMenu" style='visibility:hidden;'>
+    <div id="searchTools">
+      <a href="#" id='quickView' class='action'
+      onclick="SearchBox.navigate( 'Wiki195c.html?page=__PAGEHERE__','View the selected page' );"
+        title="View the selected page">view</a>
+      <a href="#" id='quickEdit' class='action'
+      onclick="SearchBox.navigate( 'Logine830.html?page=__PAGEHERE__','Edit the selected page' );"
+        title="Edit the selected page">edit</a>
+      <a href="#" id='quickClone' class='action'	
+      onclick="return SearchBox.navigate( 'Logine830.html?page=__PAGEHERE__', 'Clone the selected page', true );"
+        title="Clone the selected page">clone</a>
+      <a href="#" id="advancedSearch" class='action'
+      onclick="SearchBox.navigate( 'Search136d.html?query=__PAGEHERE__','TargetListAggregatingBean' )"
+        title="Advanced Search [ f ]">find</a>
+    </div>
+    <div id="searchResult" >
+	  Quick search
+      <span id="searchTarget" >(type ahead)</span>
+      <span id="searchSpin" class="spin" style="position:absolute;display:none;"></span>
+	  <div id="searchOutput" ></div>
+    </div>
+    <div id="recentSearches" style="display:none;">
+      Recent Searches
+      <span><a href="#" id="recentClear">(Clear)</a></span>
+    </div>
+  </div>
+
+</form></div>
+
+  <div class="breadcrumbs">Your trail:&nbsp;<a class="wikipage" href="Wikid65d.html?page=SellItemSWFSample">SellItemSWFSample</a>, <a class="wikipage" href="Wiki4d13.html?page=UniversalViewBus">UniversalViewBus</a>, <a class="wikipage" href="Wikic12d.html?page=BuildingWebappsUsingMaven">BuildingWebappsUsingMaven</a>, <a class="wikipage" href="Wikiac69.html?page=Maven2Setup">Maven2Setup</a>, <a class="wikipage" href="Wiki7256.html?page=AntranigBasman">AntranigBasman</a>, <a class="wikipage" href="Wikidc12.html?page=Downloads_0.7">Downloads_0.7</a>, <a class="wikipage" href="Wiki59a8.html?page=MultiFileTemplates">MultiFileTemplates</a>, <a class="wikipage" href="Wikibd65.html?page=Component">Component</a>, <a class="wikipage" href="Wiki37eb.html?page=Downloads_0.6.4">Downloads_0.6.4</a>, <a class="wikipage" href="Wiki250f.html?page=BeanGuards">BeanGuards</a></div>
+
+</div>
+
+  <div id="content">
+
+    <div id="page">
+      
+
+
+
+
+
+<div id="actionsTop" class="pageactions"> 
+  <ul>
+
+    
+    
+    
+
+    
+    <li id="morebutton">
+      <a href="Wiki81b4.html?page=MoreMenu" class="action more">More...</a>
+    </li>
+
+  </ul>
+</div>
+
+      
+
+
+
+
+
+
+
+
+<div class="tabmenu">
+
+  
+
+  
+
+  
+  
+  
+    
+  
+    
+  
+
+
+
+  <a class="activetab" id="menu-pagecontent" accesskey="v" ><span class='accesskey'>V</span>iew</a>
+
+  
+
+  
+  <a id="menu-attach" accesskey="a" ><span class='accesskey'>A</span>ttach</a>
+  
+    
+  <a id="menu-info" href='PageInfo71cb.html?page=TargetListAggregatingBean' accesskey="i" ><span class='accesskey'>I</span>nfo</a>
+    
+  
+
+</div>
+<div class="tabs">
+
+  <div id="pagecontent" >
+
+    
+
+
+
+
+
+
+
+
+
+
+
+<p><a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/ServletUtil/trunk/src/uk/org/ponder/springutil/TargetListAggregatingBean.java">TargetListAggregatingBean</a><img class="outlink" src="images/out.png" alt="" /> is an RSF (J-ServletUtil) innovation that solves a dependency-based problem that projects will suffer that make use of Spring in a sufficiently ambitious way.
+</p><h2 id="section-TargetListAggregatingBean-TheTLABProblem">The TLAB problem<a class="hashlink" href="#section-TargetListAggregatingBean-TheTLABProblem">#</a></h2>
+<p>The problem occurs when a &quot;collector&quot; or &quot;manager&quot; bean <i>A</i>, relies for its configuration on some unbounded collection of dependencies, <i>b_1...b_n</i> supplied by its clients. A concrete example of this might be a bean <i>A</i> which supplies a service of XML serialisation for beans of various types. Each of the clients might then need to contribute some definition <i>b_i</i> which contributes mapping information for their beans. Bean <i>A</i> cannot become fully initialized until all of these definitions <i>b_i</i> are in - <i>A</i> in fact *depends on* all of <i>b_i</i> and should not be used until it has received them all.
+</p>
+<p>The difficulty with expressing this in Spring is that in order to express this construction-order dependency, Spring requires that the list of dependencies be written out in <i>A</i>'s bean definition. This is impossible in general since these are definitions supplied by <i>A</i>'s clients and so could not form part of <i>A</i>'s definition. 
+</p>
+<h2 id="section-TargetListAggregatingBean-CurrentApproachesToTheProblem">Current approaches to the problem<a class="hashlink" href="#section-TargetListAggregatingBean-CurrentApproachesToTheProblem">#</a></h2>
+There are various approaches to resolving this in standard Spring, each of which have various problems.
+<ul><li>The first bad solution is to declare the dependency in the other direction - that is, for <i>b_i</i> to each depend on <i>A</i>, and as <i>b_i</i> are constructed, to call methods on <i>A</i>. It's obvious that this is entirely wrong and will lead to <i>A</i> being potentially used at any number of points in the application before it is correctly configured.
+</li></ul><ul><li>One solution might be to supply a &quot;blank&quot; bean definition (i.e. one which <i>A</i> will recognise as some kind of &quot;no-op&quot;) with the name of <i>b_1</i> in A's context, which is then overridden by the client in his context. The problem here is that this could only deal with one <i>b_i</i> at a time. One fairly unsatisfactory strategy here (which has been tried painfully a number of times) could be to give all <i>b_i</i> a &quot;chain of responsibility&quot; interface, which obliges them to pass on any requests from A. So for example <i>b_1</i> is registered as a dependence of <i>A</i> - when <i>b_2</i> comes along, it must somehow know that the &quot;head of the chain&quot; is currently at <i>b_1</i> and register itself there. This is very unsatisfactory from lots of points of view - code must appear in each <i>b_i</i> to be responsible for this delegation, and also requires a form of knowledge tree amongst the <i>b_i</i>s themselves.
+</li></ul><ul><li>Spring's standard solution to this problem is interface-based bean detection. Spring's <a class="external" href="http://www.springframework.org/docs/api/org/springframework/beans/factory/ListableBeanFactory.html">ListableBeanFactory</a><img class="outlink" src="images/out.png" alt="" /> contains a method 
+</li></ul><pre>
+String[] getBeanNamesForType(Class type, 
+  boolean includePrototypes, boolean includeFactoryBeans);
+</pre> which will scour the current container for any bean whose definition allows one to statically deduce that it is derived from a particular interface or class. This scheme is also unsatisfactory from three points of view:
+<ul><li><ul><li>Class-based detection can in some cases be too coarse-grained. To go back to our concrete example, we can imagine a case where there are two serializers A and A' defined in the context, which actually require two different collections <i>b_1...b_n</i> and <i>b'_1...b'_n</i> to be delivered to them. It's clear that all of the <i>b_i, b'_i</i> will probably all implement the same interface and can't be resolved by this Spring scheme.
+</li><li>The collaborating beans <i>b_i</i> may simply not implement any common interface, either through lack of need or through being part of some existing unsuitable class hierarchy (for example, String!).
+</li><li>This approach imposes a Spring dependency on A, the consumer of these dependencies, which must make the ListableBeanFactory call. These dependencies are of course always unacceptable if avoidable :P
+</li></ul></li></ul><p />
+<h2 id="section-TargetListAggregatingBean-TheTLABSolution"> The TLAB solution<a class="hashlink" href="#section-TargetListAggregatingBean-TheTLABSolution">#</a></h2>
+<p>With use of TargetListAggregatingBean, any number of &quot;collaborating&quot; beans may be specified, from which dependencies are collected and focused (&quot;aggregated&quot;) on a single list-valued property in the target bean. The actual &quot;implementation meat&quot; of TLAB is in <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/ServletUtil/trunk/src/uk/org/ponder/springutil/TLABPostProcessor.java">TLABPostProcessor</a><img class="outlink" src="images/out.png" alt="" /> - this is a standard Spring BeanPostProcessor which intercepts the creation of any bean in the container, and injects the collected list of dependencies, indistinguishable to the target from their having been configured manually into the container.
+</p>
+<p>Much as <a class="wikipage" href="Wikia36a.html?page=RSAC">RSAC</a> is &quot;<i>One ThreadLocal to end them all</i>&quot;, TLAB is &quot;<i>One getBeanNamesForType to end them all</i>&quot;. TLAB must leverage the existing Spring functionality for auto-discovery, but now hides this in framework code where it ought to be, rather than exposing it to clients. Instead of each bean that requires aggregation defining its own &quot;detection&quot; interface, and issuing getBeanNamesForType by itself, TLABPostProcessor performs getBeanNamesForType once and for all for all beans of type TargetListAggregatingBean across the container. 
+</p>
+<p>TargetListAggregatingBean itself is simply a &quot;definition record&quot; which could in theory be folded into Spring's definition structure at some later date - it declares statically the names of the beans and properties collaborating in the aggregation relationship. 
+</p>
+<h4 id="section-TargetListAggregatingBean-StandardTLABImplementor1StaticTLAB">Standard TLAB implementor 1 - StaticTLAB<a class="hashlink" href="#section-TargetListAggregatingBean-StandardTLABImplementor1StaticTLAB">#</a></h4>
+StaticTLAB is the &quot;standard&quot; implementation of the TargetListAggregatingBean interface which satisfies property demands from constant field values. You can see this implementation in action below in the first &quot;Case Study&quot;.
+<h4 id="section-TargetListAggregatingBean-StandardTLABImplementor2ByClassTLAB">Standard TLAB implementor 2 - ByClassTLAB<a class="hashlink" href="#section-TargetListAggregatingBean-StandardTLABImplementor2ByClassTLAB">#</a></h4>
+<p>Note that users who do only have *one* target in the context and have a suitable interface definition for their contributors may fall back to the interface-driven strategy of standard Spring by using <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/ServletUtil/trunk/src/uk/org/ponder/springutil/ByClassTLAB.java">ByClassTLAB</a><img class="outlink" src="images/out.png" alt="" />. Note that this retains the advantage over the basic Spring approach of being non-intrusive to the target, and still allows you to upgrade to the more fine-grained approach should you subsequently decide the need for a second target in the context, without disturbing the target's code.
+</p>
+<p />
+<h2 id="section-TargetListAggregatingBean-UsingTLAB"> Using TLAB<a class="hashlink" href="#section-TargetListAggregatingBean-UsingTLAB">#</a></h2>
+<p>As a client, the particular TLAB definition will most likely have been provided as a Spring parent bean definition, so that collaborators can be declared with minimum fuss. The classic example from current RSF is the former <a class="wikipage" href="Wiki284f.html?page=RequestWriteableBean">requestAddressibleBeans</a>. Here is an example of the new-style syntax:
+</p>
+<pre>
+  &lt;bean parent=&quot;requestAddressibleParent&quot;&gt;
+    &lt;property name=&quot;value&quot; value=&quot;logonAction, logon, destroyScope&quot;/&gt;
+  &lt;/bean&gt;
+</pre>
+This definition compactly identifies the three request-scope beans <tt>loginAction</tt>, <tt>logon</tt> and <tt>destroyScope</tt> as being addressible by <a class="wikipage" href="Wiki2b2a.html?page=EL">EL</a> coming in over the request. 
+<h2 id="section-TargetListAggregatingBean-TLABCaseStudyRequestAddressibleBeans"> TLAB case study - requestAddressibleBeans<a class="hashlink" href="#section-TargetListAggregatingBean-TLABCaseStudyRequestAddressibleBeans">#</a></h2>
+<p>The point of the new TLAB scheme is that as many definitions like this may appear as necessary scattered over the Spring contexts that the application is built up out of, which means that an application may be constructed of modular units consisting of a JAR containing Java definitions for beans with an internal Spring configuration file. And further that the ultimate target of these definitions receives the aggregated list as a dependency without any framework intrustion. If we follow these definitions upstream, we see that <tt>requestAddressibleParent</tt> is defined as 
+</p>
+<pre>
+  &lt;bean id=&quot;requestAddressibleParent&quot;
+    class=&quot;uk.org.ponder.springutil.StaticTLAB&quot; abstract=&quot;true&quot;&gt;
+    &lt;property name=&quot;targetPath&quot;
+      value=&quot;totalRequestAddressibleBeans.collect&quot; /&gt;
+  &lt;/bean&gt;
+</pre>
+within <a class="wikipage" href="Wikib036.html?page=SpringAPI">rsf-config.xml</a>. 
+<p>Further upstream this assembles the String list into the <tt>collect</tt> property <tt>totalRequestAddressibleBeans</tt> which is an instance of the utility class StringListAggregatingFactory, which just does the work of parsing and assembling comma-separated string values into a master StringList. Note that SLAF is already independent of the details of the requestAddressibleBean setup and is completely reusable (for example the very similar case of copyPreservingBeans appearing just below it in the config file).
+</p>
+<pre>
+  &lt;bean id=&quot;totalRequestAddressibleBeans&quot;
+    class=&quot;uk.org.ponder.springutil.StringListAggregatingFactory&quot; /&gt;
+</pre>
+<p>This StringList is now a fully stand-alone bean which can peaceably be injected anywhere - in this case its ultimate resting place is the <tt>defaultRSVCPreserver</tt>:
+</p>
+<pre>
+  &lt;bean id=&quot;defaultRSVCPreserver&quot;
+    class=&quot;uk.org.ponder.rsf.preservation.RSVCPreservationStrategy&quot;&gt;
+    &lt;property name=&quot;requestRSVC&quot; ref=&quot;requestRSVC&quot; /&gt;
+    &lt;property name=&quot;preservingBeans&quot; ref=&quot;totalRequestAddressibleBeans&quot; /&gt;
+    &lt;property name=&quot;tokenStateHolder&quot; ref=&quot;bandgapStateHolder&quot; /&gt;
+    &lt;property name=&quot;RSVCApplier&quot; ref=&quot;RSVCApplier&quot; /&gt;
+  &lt;/bean&gt;
+</pre>
+<h2 id="section-TargetListAggregatingBean-CaseStudy2ConvertingToTLAB"> Case study 2 - Converting to TLAB<a class="hashlink" href="#section-TargetListAggregatingBean-CaseStudy2ConvertingToTLAB">#</a></h2>
+<p>In the work leading up to the 0.7 release of RSF, the existing <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/content/ContentTypeResolver.java">ContentTypeResolver</a><img class="outlink" src="images/out.png" alt="" /> system was upgraded to use TLAB, alongside the improvements of allowing each ViewProducer to be responsible for declaring its own ContentTypeInfo autonomously via <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/content/ContentTypeReporter.java">ContentTypeReporter</a><img class="outlink" src="images/out.png" alt="" />.
+</p>
+<p>The following steps show how a &quot;normal&quot; dependency (of which there was expected to be only one instance) can be upgraded to a TLAB-type dependency, whilst maintaining backwards compatibility for existing clients.
+</p>
+<p>Firstly, the upstream receiver <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/content/ContentTypeInfoFactory.java">ContentTypeInfoFactory</a><img class="outlink" src="images/out.png" alt="" /> had its dependency changed from type ContentTypeResolver to List:
+</p>
+<pre>
+  public void setContentTypeResolvers(List resolvers) {
+    this.resolvers = resolvers;
+  }
+</pre>
+<p>so naturally the <tt>getContentType</tt> method is altered to follow the appropriate semantics for the aggregation - in this case it goes through each member of the list, querying each to see whether it returns a key, and returning the first returned value. All the changes to this receiver are only those required for the changes in its semantics, and nothing to do with framework requirements. In fact this is a fairly deeply internal part of RSF, but we apply the same rules here as everywhere else!
+</p>
+<p>The next step is to create the TLAB parent definition itself, which clients will inherit from to contribute to the new ContentTypeResolvers list-valued property. Since in this case it is simple lists of beans we are ferrying around, we don't need the intermediate &quot;focussing&quot; bean StringListAggregatingFactory that we used before:
+</p>
+<pre>
+  &lt;bean id=&quot;contentTypeResolverTLAB&quot; class=&quot;uk.org.ponder.springutil.StaticTLAB&quot;&gt;
+    &lt;property name=&quot;targetPath&quot; value=&quot;contentTypeInfoFactory.contentTypeResolvers&quot;/&gt;
+  &lt;/bean&gt;
+</pre>
+<p>with this we may simply remove the existing dependency from contentTypeInfoFactory, which had used to read:
+</p>
+<pre>
+  &lt;bean id=&quot;contentTypeInfoFactory&quot;
+    class=&quot;uk.org.ponder.rsf.content.ContentTypeInfoFactory&quot;&gt;
+ ...
+ -&gt;REMOVE THIS   &lt;property name=&quot;contentTypeResolver&quot; ref=&quot;contentTypeResolver&quot; /&gt;
+ ...
+  &lt;/bean&gt;
+</pre>
+<p>We now leave this dependency blank, to be satisfied by the &quot;magic&quot; PostProcessor registered by the TLAB system<a class="footnoteref" href="#ref-TargetListAggregatingBean-1">[1]</a>. Now to restore backwards compatibility, we merely need to create an child definition connecting our old bean definition <tt>contentTypeResolver</tt> to become a member of this list collaboration:
+</p>
+<pre>
+  &lt;bean parent=&quot;contentTypeResolverTLAB&quot;&gt;
+    &lt;property name=&quot;value&quot; ref=&quot;contentTypeResolver&quot;/&gt;
+  &lt;/bean&gt;
+</pre>
+<p>After this, while continuing to support use of the old &quot;interface&quot; you can advise users that this bean use will become deprecated (unfortunately Spring does not yet provide a means of signalling that use of a particular name for a bean definition has become &quot;deprecated&quot; :P) ultimately to be phased out. In this case this will probably occur for RSF 0.8.
+</p>
+<h2 id="section-TargetListAggregatingBean-LimitationsOfTLAB"> Limitations of TLAB<a class="hashlink" href="#section-TargetListAggregatingBean-LimitationsOfTLAB">#</a></h2>
+<p>The limitations of TLAB are essentially those handed on to us from our use of <tt>getBeanNamesOfType</tt> from Spring. You will note the extra two arguments on this method reflecting the extra caution required by those who randomly scour over the whole bean container trying to instantiate stuff. Since what is being done here is expressing a &quot;back-door&quot; dependency there is the possibility for all sorts of unfortunate perturbations of the container's start-up order, even including the creation of dependency cycles where none were previously visible. In particular since the types of most factory beans cannot be determined without actually firing them up, it's in general highly unwise to issue getBeanNamesOfType with 4th argument <tt>true</tt> (in fact early work on TLAB exposed a <a class="external" href="http://opensource.atlassian.com/projects/spring/browse/SPR-2425">long-standing Spring issue</a><img class="outlink" src="images/out.png" alt="" /> with these semantics) and TLAB does not do this.
+</p>
+<p>Therefore TLAB-aggregated dependencies must all be simple concrete beans - that is, non-factory non-prototype definitions for which the types can be statically determined.
+</p>
+<h2 id="section-TargetListAggregatingBean-FutureDirections"> Future directions<a class="hashlink" href="#section-TargetListAggregatingBean-FutureDirections">#</a></h2>
+<p>A further refinement of the TLAB strategy would be to allow the collaborators amongst the aggregating list to make various mutual assertions about their ordering in the list - in effect to have the order of the final aggregation to reflect some kind of internal dependency structure, resulting perhaps in some different priority of processing by the receiver. The TLAB interface already exposes methods to support these assertions
+</p>
+<pre>
+  public Object getBindBefore();
+  public Object getBindAfter();
+</pre>
+but they are not currently implemented.
+<p>With the <a class="external" href="http://www.springframework.org/docs/reference/extensible-xml.html">new support</a><img class="outlink" src="images/out.png" alt="" /> in Spring 2.0 for schema-based extensions to the configuration file, it's quite possible that the TLAB syntax could be streamlined, both for provider and receiver in a TLAB relationship.
+</p>
+<h2 id="section-TargetListAggregatingBean-ImplementationComment"> Implementation comment<a class="hashlink" href="#section-TargetListAggregatingBean-ImplementationComment">#</a></h2>
+<p>The current implementation of TLAB whilst self-contained and stable within current Springs is somewhat &quot;odd&quot; in the strategy used to register the TLABPostProcessor. Currently Spring contains &quot;guard&quot; code which is used to protect against the case of &quot;late&quot; registration of PostProcessors in the container lifecycle missing possible application to beans that are already present. Since the construction of the TLAB itself must naturally follow the creation of some other beans, this unavoidably would trigger the Spring guard code, despite this usage being &quot;safe&quot; - the TLABPostProcessor itself naturally does not require to be subject to its own PostProcessing, and itself and any further dependencies it has (part of framework code) should be happy to assert freedom from any other PostProcessors.
+</p>
+<p>A close inspection of the Spring source revealed that one point during the container lifecycle that might evade the &quot;guard&quot; checking accessible to client code is the registration point for ApplicationListeners. So the current strategy has the TLABPostProcessor initialised in fact by the <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/ServletUtil/trunk/src/uk/org/ponder/springutil/TLABLoaderListener.java">TLABLoaderListener</a><img class="outlink" src="images/out.png" alt="" />.
+Whilst this is strictly speaking somewhat improper semantics, the relevant Spring code has not changed in quite a number of years and could probably be considered a pretty stable &quot;de facto&quot; part of the Spring standard. Should TLAB one day become part of Spring proper, this integration issue could be removed, as well as supplying a proper syntax for expressing a TLAB dependency so that the resulting definition does not appear incomplete.
+</p>
+<hr />
+<div style="font-size: 80%">
+<a class="footnote" name="ref-TargetListAggregatingBean-1">[#1]</a>It's worth noting that one of the reasons constructor-based injection is such an arse is that it prohibits tricks like this one, although it's worth further noting that we could get round this if TLAB were part of Spring proper, and we had a &quot;legal&quot; way of writing the property value such that it was resolvable. Currently this would require us to create an extra &quot;focusing&quot; bean definition which would be an annoying piece of bureaucracy.
+</div>
+
+
+
+
+
+
+
+        
+  </div>
+
+
+  
+
+  
+  <div id="attach" class="hidetab" >
+
+    
+
+
+
+
+
+
+
+
+
+
+<div id="addattachment">
+<h3>Add new attachment</h3>
+
+
+<div class="formhelp">Only authorized users are allowed to upload new attachments.</div>
+
+</div>
+
+
+
+  </div>
+
+  
+    
+  <div id="info" class="hidetab" >
+
+  </div>
+
+    
+  
+
+<div style="clear:both;" ></div>
+</div>
+
+      
+
+
+
+
+
+
+
+<div id='actionsBottom' class="pageactions"> 
+    
+
+    <a href="#top" 
+      class="action quick2top" 
+      title="Go to top" >&laquo;</a>
+
+    
+       This page (revision-) was last changed on <a href="Diffdec0.html?page=TargetListAggregatingBean&amp;r1=-1&amp;r2=1">09-Nov-2006 20:23</a> by UnknownAuthor
+    
+
+    
+
+   
+
+  
+
+   
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div id="favorites">
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="Login12ec.html?redirect=TargetListAggregatingBean" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="UserPreferences12ec.html?redirect=TargetListAggregatingBean"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+  
+  <div id="hiddenmorepopup">
+  <ul id="morepopup">
+     
+       	
+     
+       
+     
+    
+       
+     
+       <li>
+       
+       <a class="action rawpage wikipage" 
+               href="Wiki6c9e.html?page=TargetListAggregatingBean&amp;skin=raw"
+              title="View Page Source">View Page Source
+       </a>
+       
+       
+       </li>
+      
+        
+  
+      
+      
+      
+
+      
+	  <li class='separator'>
+        <div id="moremenu" ></div>
+      </li>
+  </ul>
+  </div>
+  
+  
+
+  
+
+  
+
+  
+  <div class="leftmenu">
+    <p><a class="wikipage" href="Wikib2ab.html?page=Main">Main page</a><br />
+<tt> </tt><i><a class="wikipage" href="Wiki4d3f.html?page=ThisWiki">About</a></i><br />
+</p><p><a class="wikipage" href="Wikid6f0.html?page=GettingStarted">Getting Started</a><br />
+</p>
+<p><b>Documentation</b><br />
+<tt> </tt><a class="wikipage" href="Wiki4c8c.html?page=Developers">Developers</a><br />
+<tt>  </tt><a class="wikipage" href="Wikib1ce.html?page=Javadocs">Javadocs</a><br />
+<tt> </tt><a class="wikipage" href="Wikia56b.html?page=Designers">Designers</a><br />
+<tt> </tt><a class="wikipage" href="Wiki4509.html?page=SampleRSFApps">Sample RSF Apps</a><br />
+<tt> </tt><a class="wikipage" href="Wikif010.html?page=Presentations">Presentations</a><br />
+<tt> </tt><a class="wikipage" href="Wiki45f9.html?page=Acronyms">Acronyms</a><br />
+</p>
+<p><b>Downloads</b><br />
+<tt> </tt><a class="wikipage" href="Wiki30c9.html?page=CurrentCode">Current Release</a><br />
+<tt> </tt><a class="wikipage" href="Wiki0e27.html?page=TrunkCode">Trunk</a><br />
+<tt> </tt><a class="wikipage" href="Wiki1a8d.html?page=CodeDistributions">Distributions</a><br />
+<tt> </tt><a class="wikipage" href="Wikiadaf.html?page=OldCode">Old Versions</a><br />
+</p>
+<p><b>Community</b><br />
+<tt> </tt><a class="wikipage" href="Wiki84f4.html?page=QampA">Q&amp;A</a><br />
+<tt> </tt><a class="external" href="http://ponder.org.uk/rsf/">Forums</a><img class="outlink" src="images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="Wikif345.html?page=EmailLists">Mailing Lists</a><br />
+<tt> </tt><a class="external" href="http://www.caret.cam.ac.uk/jira/browse/RSF">Issue Tracker</a><img class="outlink" src="images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="Wiki1535.html?page=People">People</a><br />
+</p>
+<p><b>Design</b><br />
+<tt> </tt><a class="wikipage" href="Wiki580c.html?page=Roadmap">Roadmap</a><br />
+<tt> </tt><a class="wikipage" href="Wiki654d.html?page=Integrations">Integrations</a><br />
+<tt> </tt><a class="wikipage" href="Wikia360.html?page=Concepts">Concepts</a><br />
+<tt> </tt><a class="wikipage" href="Wiki151d.html?page=Philosophy">Philosophy</a><br />
+</p>
+<div style="font-style:italic;font-size:0.8em;">
+<b>Pages</b><br />
+<tt> </tt><a class="wikipage" href="Wiki702d.html?page=FindPage">Find</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5fc7.html?page=RecentChanges">Recent Changes</a><br />
+<tt> </tt><a class="wikipage" href="Wikife97.html?page=UnusedPages">Unused</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5130.html?page=UndefinedPages">Undefined</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5f9e.html?page=PageIndex">Index</a>
+</div>
+<p />
+    
+  </div>
+  
+  <div class="leftmenufooter">
+    <hr />
+<p><b>Referenced by</b><br />
+<a class="wikipage" href="Wiki45f9.html?page=Acronyms">Acronyms</a><br /><a class="wikipage" href="Wikid2ba.html?page=HandlerHook">HandlerHook</a><br /><a class="wikipage" href="Wikibad7.html?page=News">News</a><br /><a class="wikipage" href="Wiki580c.html?page=Roadmap">Roadmap</a><br /><a class="wikipage" href="Wikiada1.html?page=SpringFramework">SpringFramework</a><br /><a class="wikipage" href="Wiki0bbc.html?page=ViewExceptionStrategy">ViewExceptionStrateg...</a><br />
+</p>
+    
+  </div>
+
+  
+
+  
+  
+  <div class="wikiversion">JSPWiki v2.8.2
+  <span class="rssfeed">
+    
+  </span>
+  </div>  
+  
+</div>
+
+	<div class="clearbox"></div>
+  </div>
+
+  
+
+
+
+
+
+ 
+<div id="footer">
+
+  <div class="applicationlogo" > 
+    <a href="Wikib2ab.html?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  <div class="copyright"></div>
+
+  <div class="wikiversion">
+    JSPWiki v2.8.2
+  </div>
+
+  <div class="rssfeed">
+    
+  </div>
+
+</div>
+
+</div>
+
+</body>
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Wiki.jsp?page=TargetListAggregatingBean by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:01:59 GMT -->
+</html>
+

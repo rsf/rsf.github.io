@@ -1,0 +1,43 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!! Maven dependency compile plugin (recommended if building RSF from source)
+
+Maven as of 1.x does not understand the idea of transitive dependencies - that is, building a project will not attempt to build any of its dependencies, even if they are out of date, before building the project. Since RSF structures its builds in a fairly fine-grained way, with a number of different artifacts being composed, this can be a great timewaster, especially if you are working with the RSF source distribution. [Andrew Thornton|People] has developed the Maven [dependency compile plugin|https://saffron.caret.cam.ac.uk/svn/projects/dependency-compile-plugin] which will automatically search your workspace for dependent projects and build them in the correct order.
+
+!! Installing the dependency compile plugin
+
+Acquire and install the plugin by issuing the following command:
+
+{{{
+maven plugin:download -Dmaven.repo.remote=http://www2.caret.cam.ac.uk/maven
+-DgroupId=caret -DartifactId=dependency-compile -Dversion=1.1
+}}}
+
+The dependency compile plugin is mainly useful when performing &quot;complex&quot; builds, that is, either of the RSF source itself, or the more complex samples such as NumberGuessing or the Hibernate Cookbook. The plugin automates the work of issuing separate Maven invocations for each of the dependent subprojects of a target project. Without the plugin, you will need to run the default Maven goal for each dependent project in which you have made changes to the source tree, or for ALL dependent projects on a fresh checkout (for which the JARs are not already in the repository).
+
+!! Using the dependency compile plugin
+
+The plugin works in a slightly different way to a normal Maven build, in that it must be issued from the directory  %%(color:red; font-weight:bold)one level higher up%% than your project. The actual project to build is specified using the -Dprojectdir option.
+
+Here is a sample command line to build the project J-RSFUtil (the core RSF JAR) together with its dependencies, in one step:
+
+{{{
+maven -Dprojectdir=J-RSFUtil -Dgoal=full dependencyCompile:goal 
+-Dcaret.dependencyCompile.includes=*/project.xml,*/*/project.xml  
+}}}
+
+For the Windows environment, here is a simple .bat file, [depit.bat][1] which will invoke this command line automatically, when invoked as {{depit J-RSFUtil}}
+
+[#1] Taken from [SVN|https://saffron.caret.cam.ac.uk/svn/projects/amb26/trunk/tools/]
+
+</pre>
+

@@ -1,0 +1,23 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+A &quot;Fixup&quot; is a generalised action applied to a fully generated [component tree|ComponentTree] on a [render cycle|RenderCycle] that &quot;fixes up&quot; the component values by merging them with data taken from some source. 
+
+The main sort of fixup is the &quot;EL value fixup&quot;. Any components of type UIBound (that includes all UIInput, UIOutput and nested instances in clusters such as UISelect) which do ''not'' have a value set, but which ''do'' have a value binding, will have the value filled in by querying the value binding. 
+
+A second sort of fixup is an &quot;[RSVC fixup|RSVCFixup]&quot;, whereby the [RequestSubmittedValueCache|RSVC] for the current request will be queried for any &quot;unapplied&quot; values that are yet to be applied to the model. These values may be in the RSVC as a result of a previous erroneous submission that is being returned to the user, or as a result of an [RSVC replay|RSVCReplay] state preservation strategy (not yet fully implemented). These cached values will ''take priority'' over any values either in the model, or supplied to UIBound objects if they are found during a render cycle.
+
+
+
+In terms of the [handler sequence|HandlerSequence] diagram, fixups execute as &quot;step 8&quot; of the rendering pipeline, after constructing the view tree by a producer and before rendering via IKAT.
+
+</pre>
+

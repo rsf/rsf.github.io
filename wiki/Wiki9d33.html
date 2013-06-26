@@ -1,0 +1,21 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Aspect Oriented Programming is a technique whereby predicates ''about'' code are written ''in'' code, called aspects. The code in an aspect, rather than being executed at runtime, specifies an abstract transformation to be performed on some body of other code at, or just after compile time. 
+
+AOP can be divided into two broad categories, &quot;hard&quot; or &quot;compile-time&quot; AOP, primarily represented in the Java community by [AspectJ|http://eclipse.org/aspectj/], or &quot;soft&quot; or &quot;run-time&quot; AOP, primarily represented by the &quot;AOP alliance&quot; group, subscribed to notably by [SpringFramework], Nanning, Castor and others.
+
+There is no substitute for thinking about a design up-front and considering ''ahead of time'' the customization points and abstractions that should be prepared so that users may adapt your design without breaking. &quot;Hard AOP&quot; in certain situations is also invaluable, but given its almost universal power to modify code, its tendency to fragment and tangle an architecture is correspondingly large.
+
+AOP, like most technologies, can be used for good or evil - where AOP practices are used to *remove* dependencies and streamline a design, they can be considered beneficial. I believe, used in moderation, &quot;soft AOP&quot; can be extremely productive in improving the coherence and dependence impact of a design, as well as a performance optimisation. Soft AOP is used throughout RSF largely to __preserve__ semantics rather than to __alter__ them in the form of various proxies such as the [RSACBridgeProxy]. Once the build and environmental dependencies of hard AOP become seen as something more acceptable to end users, there are lots of areas within RSF that hard AOP could be productively applied - for example in injecting certain &quot;ubiquitous dependencies&quot; such as the ReflectiveCache, but until then, many of the problems at which hard AOP is aimed are solved in RSF by more environmentally friendly means such as OTP and the bindings serialisation scheme.
+
+</pre>
+

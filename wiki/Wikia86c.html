@@ -1,0 +1,76 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+[Peas] may now be proxied in RSF/RSAC using the RSACBridgePeaProxy, achieving the same goal as [RSACBridgeProxy] does for &quot;traditional&quot; request-scope beans. The proxy becomes an application-scope representative for the bean, which may be used for normal injection into application-scope beans, but &quot;on use&quot;, turns into the appropriate request-scope representative of the bean from the current request. A useful parent definition has been placed in {{rsf-config.xml}} as follows:
+
+{{{
+  &lt;bean id=&quot;RSACBridgePeaProxy&quot;
+    class=&quot;uk.org.ponder.rsac.RSACBridgeProxy&quot; abstract=&quot;true&quot;&gt;
+    &lt;property name=&quot;RSACBeanLocator&quot; ref=&quot;RSACBeanLocator&quot; /&gt;
+    &lt;property name=&quot;pea&quot; value=&quot;true&quot; /&gt;
+  &lt;/bean&gt;
+}}}
+
+!Defining a pea proxy
+This means all you need to do to declare a proxied [pea] (that is, a request-scope bean which is accessible from application-scope which has pea-style properties) is to extend this parent definition, for example:
+
+{{{
+  &lt;bean id=&quot;consumerInfoProxy&quot; parent=&quot;RSACBridgePeaProxy&quot;&gt;
+    &lt;property name=&quot;targetBeanName&quot;&gt;
+      &lt;idref bean=&quot;consumerInfo&quot; /&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+}}}
+
+In this case, {{consumerInfoProxy}} then becomes an application-scope bean which may be used for normal injection in the application scope. Of course the access to the pea properties themselves cannot be proxied, so the user of the proxy has to go through a little formality of calling the &quot;get&quot; method. 
+
+!Preparing a pea for proxying
+A pea, in order to be proxied in this way does need to declare one extra method named simply &quot;get&quot;, which returns an object of the same type as the object. Take a look at the code for [ConsumerInfo|https://saffron.caret.cam.ac.uk/svn/projects/PonderUtilCore/trunk/src/uk/org/ponder/webapputil/ConsumerInfo.java] for an example.
+
+{{{
+public class ConsumerInfo {
+...
+  /** The FULL URL for requests made to the consumer's Information Servlet */
+  public String informationbase;
+...
+  /** Pea proxying method **/
+  public ConsumerInfo get() {
+    return this;
+  }
+}
+
+}}}
+
+
+!Using a pea proxy
+Here is a section from RSFServletViewStateHandler showing use of the proxy we defined above:
+
+{{{
+public class RSFServletViewStateHandler implements ViewStateHandler {
+...
+ public void setConsumerInfo(ConsumerInfo ciproxy) {
+    this.ciproxy = ciproxy;
+  }
+...
+ public String getFullURL(ViewParameters viewparams) {
+  ConsumerInfo ci = ciproxy.get();
+    if (ci.urlbase != null) {
+      usebaseurl = ci.urlbase;
+    }
+...
+}}}
+
+The &quot;get&quot; method (in fact, the only method in [ConsumerInfo|https://saffron.caret.cam.ac.uk/svn/projects/PonderUtilCore/trunk/src/uk/org/ponder/webapputil/ConsumerInfo.java]) is used to trigger the breach of application-scope to request-scope and perform the proxying. The return value is an object of the same type, as per its contract, but is not the &quot;this&quot; object as written in the code - instead, it is the appropriate request-scope bean as configured as the target of the proxy.
+
+Pea proxying is not for everyone, but I find it a neat solution to the problem of maintaining type-safety while proxying peas across scope boundaries.
+
+</pre>
+

@@ -1,0 +1,36 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Creates an edit link to a [WikiPage]. 
+
+Why would you use this instead of a standard anchor?  The EditLinkTag automatically adds things like the correct class information (for styles), the jspwiki.baseURL property, etc.
+
+----
+
+!Usage
+
+&lt;wiki:EditLink page=&quot;&lt;page name&gt;&quot; format=&quot;anchor|url&quot; version=&quot;&lt;version number&gt;&quot;&gt;
+;:''Link text''
+&lt;/wiki:EditLink&gt;
+
+!Parameters
+
+;__page__: Page name to link to. If not set, uses the current page.
+;__format__: If &quot;anchor&quot;, creates the full hyperlink (&lt;a href=&quot;...&quot;&gt;link text&lt;/a&gt;); if &quot;url&quot;, outputs only the URL.  Default is to output the entire anchor.
+;__version__: Links to a specific version of a page.  If not set, links to the latest version of the page.  If &quot;this&quot;, then links to the current version of the page.
+
+!Example
+{{{
+&lt;wiki:EditLink&gt;Edit this page&lt;/wiki:EditLink&gt;.
+}}}
+
+</pre>
+

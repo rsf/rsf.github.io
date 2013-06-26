@@ -1,0 +1,28 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+A __Transit Bean__ is a lightweight [request-scope bean|RequestScopeBeans] that intercepts data write requests issued by components, and focuses or otherwise processes them before they reach the bean model. They are the generalisation of the concept of validators in architectures like Spring or JSF, in that being pure beans they may be wired with arbitrary getters and setters. See the use of the DateTransit bean in the [Hibernate Cookbook|HibernateCookBook_2] for an example usage. Transit beans are a form of usage of the [OTP] pattern, and are typically defined in Spring using a [BeanExploder].
+
+As RSF matures, expect a good repertoire of these components to be developed and contributed - being pure beans[1], the advantage is that they can be reused in scenarios outside RSF, and even outside the web in general.
+
+----
+%%(font-size: 80%)
+[#1] barring the issue of exception types, which should be resolved once PonderUtilCore becomes refactored.
+%%
+
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

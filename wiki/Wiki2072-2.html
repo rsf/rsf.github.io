@@ -1,0 +1,41 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+In this sample we will develop a simple &quot;logon&quot; application that will validate a user's username and password, show them different content based on their logon status, let them navigate around a bit and then log off.
+
+In real life, logon and auth functionality might well be supplied by some kind of service implemented in your application's container (e.g. Tomcat, GridSphere, &amp;c), in which case your application would need to interact with that directly (obviously, with the proper insulation supplied by [request-scope IoC|RequestScopeBeans]!). On the other hand, you may well be wanting to implement application-level authentication like this, in which case this sample will be a relevant &quot;bare-bones&quot; for this approach.
+
+In this example, you will see
+* RSF's support for [scoped beans|ScopedBeans], as well as
+* How to define a reusable RSF view &quot;component&quot; (a &quot;logoff&quot; control)
+* Using RSF's component set to render various HTML realities such as a hidden password field and a frameset.
+
+On the final page, we'll cover some slightly more advanced topics such as
+* Guaranteeing model coherence by using RSF's validation architecture ([BeanGuards])
+* Saving on repeated &quot;bracketing&quot; code by using RSF's interception capabilities ([BeanFetchBracketer])
+
+!!Scoped Beans
+
+The main purpose of this example is showing off RSF's support for scoped beans. Before carrying on with this example, you might want to read in detail about scoped beans on [their own page|ScopedBeans]. For the one-line summary, scoped beans are session beans that simply &quot;hang around&quot;, and need to be destroyed programmatically, rather than RSF's [flow|Flow] beans whose lifetime are tied to a particular series of requests forming a flow.
+
+!!Project Setup
+We will continue working with the standard project layout we started from the [HelloWorld] example - with standard Spring {{applicationContext.xml}}, [RSAC] {{requestContext.xml}}, and
+separate packages for [ViewProducers|ComponentProducers] ({{producers}}), pure beans ({{beans}}) etc. The entire project is held in SVN at [I-RSFLogon|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/RSFLogon] - note that this is a trunk SVN URL for reference only. If you want to build and work with the project, you will probably want to check out a tagged stable release from one of the release bundles in [Downloads].
+
+----
+Head   - LogonTest\\
+Page 1 - [Core Business logic|LogonTest_1]\\
+Page 2 - [Defining the views|LogonTest_2]\\
+Page 3 - [Digging deeper - BeanGuards and Bracketers|LogonTest_3]\\
+----
+
+</pre>
+

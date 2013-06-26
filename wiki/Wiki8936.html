@@ -1,0 +1,28 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+An RSF [Component] (e.g. {{UIInput}}, {{UILink}}) is said to __''peer''__ with a tag in the markup which shares the same {{[rsf:id|IDs]}}. For example a component produced like 
+
+{{{
+  UIInput.make(form, &quot;category-name&quot;, &quot;#{category.name}&quot;);
+}}}
+
+could peer with a tag in the markup written like 
+{{{
+&lt;input rsf:id=&quot;category-name&quot; size=&quot;30&quot; type=&quot;text&quot; value=&quot;Snacks&quot; /&gt; 
+}}}
+
+The term &quot;peering&quot; is taken from the good old days of Sun's [AWT|http://java.sun.com/products/jdk/awt/] windowing toolkit for Java, where operating-system-side native components were said to &quot;peer with&quot; Java-side representations such as {{java.awt.Button}}. The &quot;pairing up&quot; of a Java-side RSF primitive component together with a &quot;native-side&quot; markup tag by RSF's [IKAT] renderer is conceptually very similar.
+
+Sun has considered AWT at EOL as of 1999, but you can't keep a good idea down. Eclipse's [SWT|http://www.eclipse.org/swt/], much more performant and usable than Sun's [Swing|http://en.wikipedia.org/wiki/Swing_(Java)] makes use of native components once again in a &quot;peering&quot; type arrangment, although with a much better division of labour than in AWT. An analogy that has sometimes been made is that RSF's relation to JSF is comparable to AWT's relation to Swing.
+
+</pre>
+

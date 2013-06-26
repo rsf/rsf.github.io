@@ -1,0 +1,53 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Bean reasonableness is a kind of reasonableness. 
+
+For those who can't be bothered with the tedious analysis, the rules for &quot;bean reasonableness&quot; are presented at the top here, and the rationale/motivation for them done to death below. The aim of these rules is to ensure a coherent programming model across RSF by documenting the semantic requirements on the business model, as it is implemented in terms of [request writeable beans|RequestWriteableBeans].
+
+These rules define the appearance and treatment of the bean model ''through'' and ''by'' RSF - clearly it may embody arbitrary extra semantics with respect to itself:
+
+# The bean model as far as possible is time-independent. Beans and their properties may be &quot;brought into existence&quot; during the scope of a request, but %%(background-color: #ff7777) no bean value should change except in order to reflect an imminent change in persistent state.%%
+# The bean model is only traversed &quot;as if&quot; by EL, in that access consists of gets, sets, and a possible &quot;remove/unlink&quot; operation from collection properties.
+
+!!Consequences of the rules
+
+In modern (post-[GWT]) terms, the critical point behind the BeanReasonableness (BR) lies behind the words highlighted with the bright red background above. As RSF and its use of its [EL] system is evolving, it becomes apparent that BR is actually the basis of a ['dataflow architecture'|http://csd.ijs.si/courses/dataflow/index.htm]. This becomes increasingly and exceedingly powerful in a __truly__ distributed world, where parts of an application may lie on different sides of several kinds of awkward serialisation boundaries. 
+
+In general (modern) terms, this is the sort of boundary that separates the client of a web service from its producer. GWT ups the ante on this - now the client of a web application is to a variable degree autonomous - it may be a logic-free &quot;Web 1.0&quot; browser, or a fully compiled and autonomous &quot;JVM-in-a-browser&quot;. How could a web application possibly adapt to these kinds of extremes?
+
+An application defined in terms of a dataflow with a constrained/specified side-effect model is pretty much the only one that can be distributed sensibly. A dataflow architecture lays rules for the kinds of operations which can proceed concurrently, defining inputs and outputs of &quot;autonomous&quot; operations. Once you have done the work of laying out the logical work of your application as a flow between EL expressions, carving it up into isolated chunks which can then be pushed across the network and either invoked or executed remotely becomes largely automatic.
+
+This highlights the point that the ''real'' principles underlying Spring, the IoC movement, and RSF's IoC-in -request-scope EL system are actually rather deep and powerful, and are going to be the vehicle by which many of the riches of theoretical computer science will be finally &quot;reduced to practice&quot; and brought into productive use by the greater community. By having these packaged as recognisable and relatively slight modifications to a familiar web programming idiom (Java code, JSP-like ELs, Spring-based IoC) provides a shallow slope whereby developers can be led, largely by example, past the &quot;[watchful dragons|http://www.bestyears.com/thesis_3.html]&quot; of dry papers and &quot;theorising for its own sake&quot;. 
+
+!Consequences for ORM solutions (Hibernate)
+
+Some of the early thinking behind these rules (as well as a now-defunct 3rd condition) are discussed on the [BeanReasonableness - rationale|BeanReasonablenessRationale] page.
+
+!Consequences for client-side programming (GWT) and web services
+More on practical developments for this issue (especially as regards client-side &quot;Java&quot; as in GWT) can be found in the [RSF - the next 10 years|RSFTheNext10Years] page.
+
+!BeanReasonableness as Referential Transparency
+In programming theory, [referential transparency|http://en.wikipedia.org/wiki/Referential_transparency] is the principle that a reference may be replaced by its referent without changing program meaning. Clearly all kinds of &quot;unreasonable beans&quot; violate referential transparency, which is generally unpleasant and design-destabilising even when programming in an apparently imperative language like Java. Idempotency of RSF's render cycles (and idempotency of those HTTP requests which should have it in general) could also be seen as a kind of referential transparency applied to the entire request as an operation - a URL state (ViewParameters) should refer as far as possible to the same result at all times.
+
+!EL Flow as &quot;Goal Attainment&quot; (Prolog)
+Visit the [RequestScopeBeans] page for more details on the RSF request-scope programming model. Note that another way of looking at the wider request-scope container in which the [RequestWriteableBeans] are embedded is a Prolog-like &quot;goal attainment&quot; computation.
+
+!EL Flow as &quot;Chains&quot;
+Yet another way of casting RSF's &quot;EL flow&quot; idiom is as an embodiment of the &quot;Chain of Responsibility&quot; pattern, as for example implemented in [Commons Chains|http://jakarta.apache.org/commons/chain/]. Thus we can see that (helped by the muscle of Spring behind the scenes), RSF with its EL system provides all the power of Commons Chains, only with transparent portability to other environments, and without the ugliness and fragility of the [kitchen sink|KitchenSink] &quot;Context&quot; object, familiar from so many pre-Spring (and even some [post-Spring|SWF]!) frameworks.
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

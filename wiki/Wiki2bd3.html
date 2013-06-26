@@ -1,0 +1,40 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+As of release 0.7.2, RSF will be switching to [Maven 2|http://maven.apache.org/] for building of all framework JARs and sample applications, from its previous supported version of Maven 1.0.2. Typically this leads to faster builds and shorter dependency lists, as well as being more actively supported by the Apache community.
+
+Most of the Maven 2 build process is completely automatic, except for the deployment of the samples to a webapp container. This requires a couple of properties to be set within your {{settings.xml}} file. This is operated by the RSF deployer plugin, which is a very tiny plugin which performs WAR deployment by a very simply file copy process. After experimentation with the Maven 2 Cargo deployer, it was found to be too poorly supported and stumbles over this simple use case.
+
+The key properties required within {{settings.xml}} are {{appserver.id}} and {{appserver.home}}. These instructions are for use of a Tomcat version 5.x container - consult the Cargo documentation site for details of alternative containers. There are various ways of activating a &quot;profile&quot; in your {{settings.xml}}, these instructions are for a single profile which is always activated by default - consult the Maven [documentation site|http://maven.apache.org/guides/introduction/introduction-to-profiles.html] for more information on {{settings.xml}}.
+
+Here is a sample {{settings.xml}} which will enable you to build and deploy the sample apps by running {{mvn install rsf:deploy}}:
+
+{{{
+&lt;settings xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&quot;&gt;
+  &lt;profiles&gt;
+    &lt;profile&gt;
+      &lt;id&gt;tomcat5x&lt;/id&gt;
+      &lt;activation&gt;
+        &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
+        &lt;/activation&gt;
+      &lt;properties&gt;
+        &lt;appserver.id&gt;tomcat5x&lt;/appserver.id&gt;
+        &lt;appserver.home&gt;c:\opt\tomcat&lt;/appserver.home&gt;
+      &lt;/properties&gt;
+    &lt;/profile&gt;
+  &lt;/profiles&gt;
+&lt;/settings&gt;
+}}}
+
+This file needs to be placed in your {{USER_HOME/.m2}} directory. Please consult the main RSF [container setup guide] for more details.
+
+</pre>
+

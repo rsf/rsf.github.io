@@ -1,0 +1,70 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!! Servlet Container Setup Guide
+
+This guide should help [RSF] and even [Java Servlet Container|http://en.wikipedia.org/wiki/Servlet_container#Servlet_Containers] beginners to get up and running quickly with the [RSF sample apps|SampleRSFApps]. This will explain the required technologies and how to get a servlet container setup that you can run RSF sample apps in. This guide will probably take an unfamiliar user 15-20 minutes.
+
+RSF currently requires the following technologies to run the RSF sample apps and do development.
+* [Java|http://java.sun.com/] 1.4.2 or better (''RSF is Java based'')
+* [Maven|http://maven.apache.org/] (''To build the sample apps and/or RSF and download dependencies'')
+* [Apache Tomcat|http://tomcat.apache.org/] 5.5.x (''container to run RSF and the sample apps'')
+** __NOTE:__ any comparable Servlet container should work, but this guide explains Tomcat usage since that is the container used by the RSF development team.
+
+!! Java JDK/SDK
+To run [RSF] (and Maven and Tomcat) you will need at least a [Java JRE|http://java.sun.com/javase/downloads/] (developers should have a [Java SDK|http://java.sun.com/javase/downloads/]) installed on your machine, version 1.4.2 or later.\\
+The installer for this is fairly self-explanatory.
+__NOTE:__ We recommend you install Java to {{/opt/java}} (Mac users cannot control this)\\
+There is a requirement to have the JAVA_HOME environment variable set to the JDK base directory.\\
+*__NOTE:__ Set your JAVA_HOME to the install directory plus &quot;/java&quot;
+** Mac users: JAVA_HOME=/Library/Java/Home
+
+!! Apache Maven
+Apache's [Maven|http://maven.apache.org/] is required for building RSF and the samples since all the standard builds are operated by Maven and because it automates the key task of acquiring the framework JARs and their dependencies, and maintains them in a local repository on your system.
+
+An installation of [Maven 1.0.x|http://maven.apache.org/maven-1.x/] and/or [Maven 2.x|http://maven.apache.org/] is required to build the RSF source and samples.\\ 
+__NOTE:__ ''Version 2 is preferred and version 1 support is expected to lapse at version 0.7.2, and certainly by 0.8.''\\
+__NOTE:__ The RSF jars are currently in the [CARET|http://www.caret.cam.ac.uk/] or [Sakaiproject|http://sakaiproject.org/] repositories only
+
+|| Repository || Maven 1 || Maven 2
+| Central | [http://repo1.maven.org/maven/] | [http://repo1.maven.org/maven2/]
+| Central (IBiblio) | [http://www.ibiblio.org/maven/] | [http://mirrors.ibiblio.org/pub/mirrors/maven2/]
+| CARET | [http://www2.caret.cam.ac.uk/maven/] | [http://www2.caret.cam.ac.uk/maven2/]
+| Sakaiproject | [http://source.sakaiproject.org/maven/] | [http://source.sakaiproject.org/maven2/]
+
+See the [Maven1|http://maven.apache.org/maven-1.x/] or [Maven2|http://maven.apache.org/] for more information on installing and using Maven.
+
+__NOTE:__ We use this maven2 [settings.xml] file (put this in {{YOUR_USER_HOME/.m2}} directory), ''make sure you edit the appserver home to match your TOMCAT_HOME''
+
+__NOTE:__ If you are using Maven1 to build the RSF sources, we recommend using the [Maven dependency compile plugin|MavenDependencyCompilePlugin]. It is not required but it does make things a lot easier.
+
+!! Apache Tomcat
+[RSF] has been tested with [Apache Tomcat|http://tomcat.apache.org/] 5.5.x, although there is no reason why any other servlet container should not work. The current tested version is 5.5.12, although most RSF development has been done with 5.5.9. [Downloads|http://tomcat.apache.org/download-55.cgi] and installation guides are available on the [Apache Tomcat site|http://tomcat.apache.org/].
+
+__NOTE:__ We recommend you install Tomcat to {{/opt/tomcat}} We also suggest that once you get it setup the way you like (with needed connectors and the like), you make a full copy of the tomcat directory and keep a backup just in case.
+
+__NOTE:__ The [Debugging with Tomcat|DebuggingWithTomcat] page summarises some useful tips for starting and debugging Tomcat apps from within Eclipse. Attempting to work with large scale Java apps without using a debugger will cost you a lot of time so we highly recommend using the debugger.
+
+!! Verify your installation
+To confirm you have set up everything correctly, test out a built RSF sample app.
+# [download the war file for the RSF &quot;NumberGuessing&quot; sample application|http://www2.caret.cam.ac.uk/maven/rsftest/wars/rsf-numberguess-0.7.war]
+# Copy the war file into the webapps directory of your Tomcat installation and rename it to &quot;RSFNumberGuess.war&quot;
+# Start up tomcat by running __startup__ from __TOMCAT_HOME__/bin directory
+# Open a web browser to [http://localhost:8080/RSFNumberGuess/faces]
+
+If all has been set up correctly, you should see a choice of two number games to play and should be able to operate them. Depending on what you do in fact see at this point there are quite a number of potholes you may have fallen into - you may want to firstly check whether Tomcat has been correctly installed by browsing to its welcome page at [http://localhost:8080/], but in general I must leave you to read the relevant documentation on all of these tools by yourself, since you will need to get familiar with them all in any case.
+
+!! What next?
+
+With your container environment fully set up, you should probably head over to [getting started|GettingStarted] and get your development environment setup. You may also want to build and run more of the [sample tools|SampleRSFApps].
+
+</pre>
+

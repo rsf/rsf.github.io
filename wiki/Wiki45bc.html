@@ -1,0 +1,32 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Java remote debugging is luckily a sufficiently mature protocol that almost all the benefits that the Tomcat plugin gives can be achieved without it, in addition to being able to test in a more &quot;realistic&quot; deployment environment with tomcat invoked using the normal scripts. Here are the steps necessary to set this up in an Eclipse environment:
+
+# Set up a new Tomcat invocation under the &quot;External Tools&quot; menu in Eclipse. This menu button has a picture of a green &quot;Play&quot; button with a small red suitcase in front of it. Create a new entry under &quot;Program&quot; and set &quot;Location&quot; to be the catalina startup script (on my machine E:\jakarta-tomcat-5.0.25\bin\catalina.bat), and make sure to set the working directory to be the directory containing it, otherwise you will need to set CATALINA_HOME. Set &quot;Arguments&quot; to jpda start. Go to the &quot;Environment tab&quot; and make the following two settings: JPDA_ADDRESS to 8000, and JPDA_TRANSPORT to dt_socket. For convenience, in the &quot;Common&quot; tab tick &quot;Display in favorites menu&quot; and &quot;Launch in background&quot;. 
+# Set up the remote debugging task under the &quot;Debug&quot; menu, which looks like a squashed cyan bug. Create a new entry under &quot;Remote Java Application&quot; and add all the projects containing code you wish to debug to the &quot;Source Menu&quot;. Tick &quot;Allow termination of remote JVM&quot; (important).
+# On Windows, it is helpful to edit the &quot;catalina.bat&quot; file to prevent it trying to start a separate process for Tomcat. If you remove the text that says &quot;start&quot; and &quot;start Tomcat&quot; at the following section:
+{{{
+:doStart
+shift
+if not &quot;%OS%&quot; == &quot;Windows_NT&quot; goto noTitle
+set _EXECJAVA= %_RUNJAVA%
+goto gotTitle
+:noTitle
+set _EXECJAVA= %_RUNJAVA%
+}}}
+then the console output from Tomcat will be directed into the Eclipse console, with various benefits such as being able to click on exception traces. A similar alteration would probably help on UNIX as well.
+
+Now, to invoke Tomcat you may click on the &quot;suitcase&quot; icon, and press the &quot;cyan bug&quot; icon at any subsequent time to attach the debugger to it. On Windows it's worth noting that killing the Tomcat process from the &quot;External Tool&quot; view will in general not kill the underlying java.exe process which you will then need to find manually. However, if you have enabled &quot;Allow JVM termination&quot; on the debug entry, killing the process through that interface will work correctly.
+
+
+</pre>
+

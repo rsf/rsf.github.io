@@ -1,0 +1,783 @@
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html id="top" xmlns="http://www.w3.org/1999/xhtml">
+
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:15:33 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+    RSF Wiki: LogonTest_1
+  </title>
+  
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" media="screen, projection, print" type="text/css"
+     href="templates/default/jspwiki.css"/>
+
+<link rel="stylesheet" type="text/css" media="print" 
+     href="templates/default/jspwiki_print.css" />
+<!-- INCLUDERESOURCES (stylesheet) -->
+
+<!-- INCLUDERESOURCES (inlinecss) -->
+
+
+
+<noscript>
+<style type="text/css">
+#hiddenmorepopup { display:block; }
+</style>
+</noscript>
+
+
+<script type="text/javascript" src="scripts/mootools.js"></script>
+<script type="text/javascript" src="scripts/prettify.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-common.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-commonstyles.js"></script>
+<!-- INCLUDERESOURCES (script) -->
+
+
+
+
+
+<meta name="wikiContext" content='view' />
+<meta name="wikiBaseUrl" content='http://rsf.fluidproject.org/wiki/' />
+<meta name="wikiPageUrl" content='/wiki/Wiki.jsp?page=%23%24%25' />
+<meta name="wikiEditUrl" content='/wiki/Edit.jsp?page=LogonTest_1' />
+<meta name="wikiJsonUrl" content='/wiki/JSON-RPC' />
+<meta name="wikiPageName" content='LogonTest_1' />
+<meta name="wikiUserName" content='207.119.0.6' />
+<meta name="wikiTemplateUrl" content='/wiki/templates/default/' />
+<meta name="wikiApplicationName" content='RSF Wiki' />
+
+<script type="text/javascript">//<![CDATA[
+/* Localized javascript strings: LocalizedStrings[] */
+var LocalizedStrings = {
+"javascript.edit.allsections":"( All )",
+"javascript.slimbox.error":"<h2>Error</h2>There was a problem with your request.<br />Please try again",
+"javascript.slimbox.remoteRequest":"Remote Request {0} of {1}",
+"javascript.slimbox.close":"Close &#215;",
+"javascript.quick.edit":"[Edit]",
+"javascript.sort.descending":"Descending order. Click to reverse sort order",
+"javascript.expand":"Click to expand",
+"javascript.group.validName":"Please provide a valid name for the new Group",
+"javascript.slimbox.next":"Next&raquo;",
+"javascript.filter.all":"( All )",
+"javascript.edit.areyousure":"Without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.quick.edit.title":"Edit section {0}...",
+"javascript.slimbox.directLink":"Direct Link to the target",
+"javascript.prefs.areyousure":"Without clicking the Save User Preferences button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.sbox.clone.suffix":"-New",
+"javascript.slimbox.info":"Image {0} of {1}",
+"javascript.tip.default.title":"More...",
+"javascript.edit.resize":"Drag to resize the text area",
+"javascript.edit.findandreplace.nomatch":"No match found!",
+"javascript.sort.ascending":"Ascending order. Click to reverse sort order",
+"javascript.slimbox.close.title":"Close [Esc]",
+"javascript.edit.toolbar.makeSelection":"Please make first a selection.",
+"javascript.favs.hide":"Click to hide Favorites",
+"javascript.sectionediting.label":"Section Overview",
+"javascript.slimbox.previous":"&laquo;Previous",
+"javascript.favs.show":"Click to show Favorites",
+"javascript.collapse":"Click to collapse",
+"javascript.category.title":"Click to show category [{0}] ...",
+"javascript.sort.click":"Click to sort",
+"javascript.edit.startOfPage":"( Start of page )"
+};
+
+
+/* INCLUDERESOURCES (jsfunction) */
+
+//]]></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="search" href="Wiki702d.html?page=FindPage"
+    title='Search RSF Wiki' />
+<link rel="help"   href="Wikia3b7.html?page=TextFormattingRules"
+    title="Help" />
+
+ <link rel="start"  href="Wikib2ab.html?page=Main"
+    title="Front page" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki_print.css"
+    title="Print friendly" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki.css"
+    title="Standard" />
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+<link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  
+  
+</head>
+
+<body class="view">
+
+<div id="wikibody" class="fav-left">
+ 
+  
+
+
+
+
+
+
+<div id="header">
+
+  <div class="titlebox"></div>
+
+  <div class="applicationlogo" > 
+    <a href="Wikib2ab.html?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="Loginbfb5.html?redirect=LogonTest_1" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="UserPreferencesbfb5.html?redirect=LogonTest_1"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+
+  <div class="pagename">LogonTest_1</div>
+
+  <div class="searchbox">
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Search.jsp"
+        class="wikiform"
+           id="searchForm" accept-charset="UTF-8">
+
+  <div style="position:relative">
+  <input onblur="if( this.value == '' ) { this.value = this.defaultValue }; return true; "
+        onfocus="if( this.value == this.defaultValue ) { this.value = ''}; return true; "
+           type="text" value="Quick Navigation"
+           name="query" id="query"
+           size="20" 
+      accesskey="f" />
+  <button type="submit"
+  		 name="searchSubmit" id="searchSubmit"
+  		value="Go!"
+  		title="Go!"></button>
+  </div>
+  <div id="searchboxMenu" style='visibility:hidden;'>
+    <div id="searchTools">
+      <a href="#" id='quickView' class='action'
+      onclick="SearchBox.navigate( 'Wiki195c.html?page=__PAGEHERE__','View the selected page' );"
+        title="View the selected page">view</a>
+      <a href="#" id='quickEdit' class='action'
+      onclick="SearchBox.navigate( 'Logine830.html?page=__PAGEHERE__','Edit the selected page' );"
+        title="Edit the selected page">edit</a>
+      <a href="#" id='quickClone' class='action'	
+      onclick="return SearchBox.navigate( 'Logine830.html?page=__PAGEHERE__', 'Clone the selected page', true );"
+        title="Clone the selected page">clone</a>
+      <a href="#" id="advancedSearch" class='action'
+      onclick="SearchBox.navigate( 'Search136d.html?query=__PAGEHERE__','LogonTest_1' )"
+        title="Advanced Search [ f ]">find</a>
+    </div>
+    <div id="searchResult" >
+	  Quick search
+      <span id="searchTarget" >(type ahead)</span>
+      <span id="searchSpin" class="spin" style="position:absolute;display:none;"></span>
+	  <div id="searchOutput" ></div>
+    </div>
+    <div id="recentSearches" style="display:none;">
+      Recent Searches
+      <span><a href="#" id="recentClear">(Clear)</a></span>
+    </div>
+  </div>
+
+</form></div>
+
+  <div class="breadcrumbs">Your trail:&nbsp;<a class="wikipage" href="Wiki4b60.html?page=World">World</a>, <a class="wikipage" href="Wikid9ab.html?page=DavidStodulka">DavidStodulka</a>, <a class="wikipage" href="Wikid5bb.html?page=DansIKATExplanation">DansIKATExplanation</a>, <a class="wikipage" href="Wiki489f.html?page=MavenDependencyCompilePlugin">MavenDependencyCompilePlugin</a>, <a class="wikipage" href="Wiki1f60.html?page=RSACPerformance">RSACPerformance</a>, <a class="wikipage" href="Wiki0435.html?page=SakaiRSF">SakaiRSF</a>, <a class="wikipage" href="Wiki62b8.html?page=CocoonRSFIntegration">CocoonRSFIntegration</a>, <a class="wikipage" href="Wikiac81.html?page=SessionConsideredHarmful">SessionConsideredHarmful</a>, <a class="wikipage" href="Wikifbf9.html?page=RIFEContinuations">RIFEContinuations</a>, <a class="wikipage" href="Wikie3fa.html?page=Qwicap">Qwicap</a></div>
+
+</div>
+
+  <div id="content">
+
+    <div id="page">
+      
+
+
+
+
+
+<div id="actionsTop" class="pageactions"> 
+  <ul>
+
+    
+    
+    
+
+    
+    <li id="morebutton">
+      <a href="Wiki81b4.html?page=MoreMenu" class="action more">More...</a>
+    </li>
+
+  </ul>
+</div>
+
+      
+
+
+
+
+
+
+
+
+<div class="tabmenu">
+
+  
+
+  
+
+  
+  
+  
+    
+  
+    
+  
+
+
+
+  <a class="activetab" id="menu-pagecontent" accesskey="v" ><span class='accesskey'>V</span>iew</a>
+
+  
+
+  
+  <a id="menu-attach" accesskey="a" ><span class='accesskey'>A</span>ttach (1)</a>
+  
+    
+  <a id="menu-info" href='PageInfo1a86.html?page=LogonTest_1' accesskey="i" ><span class='accesskey'>I</span>nfo</a>
+    
+  
+
+</div>
+<div class="tabs">
+
+  <div id="pagecontent" >
+
+    
+
+
+
+
+
+
+
+
+
+
+
+<p>Lets get started building our simple &quot;logon&quot; application, by defining the core data structures and services processing the login. This will naturally consist of framework-independent code.
+</p><div style="text-align:right">
+<img class="inline" src="attach/LogonTest_1/rsf-logon-demo-box.png" alt="LogonTest_1/rsf-logon-demo-box.png" />
+</div>
+<h3 id="section-LogonTest_1-LogonBean">Logon Bean<a class="hashlink" href="#section-LogonTest_1-LogonBean">#</a></h3>
+<p>Let's get off the ground by declaring a simple logon bean to hold the user and password details for a user:
+</p>
+<pre>
+public class LogonBean implements Serializable {
+  public String name;
+  public String password;
+}
+</pre>
+<p>Note that since RSF supports <a class="wikipage" href="Wiki5ad5.html?page=Peas">Peas</a> for its request-scope beans, this definition is a lot less verbose than a typical Java &quot;bean&quot; with getters and setters. We make this bean Serializable in the expectation it will probably be spending some time in an HTTP Session in the default RSF configuration.
+</p>
+<p>Next, we make a definition for this bean in our <tt>requestContext.xml</tt>:
+</p>
+<pre>
+  &lt;bean id=&quot;logon&quot; class=&quot;uk.org.ponder.rsf.testlogon.beans.LogonBean&quot; /&gt;
+</pre>
+This bean has no dependencies, so the only information required for this Spring-formatted file is its class.
+<p>Finally, let's create a scope to hold this bean in <tt>applicationContext.xml</tt>, since we want 
+this instance of the bean to represent the user's current logged-on state. For this standard Servlet app, the bean will be held in the HTTP Session, in a scope called <tt>logonScope</tt>:
+</p>
+<pre>
+  &lt;bean id=&quot;logonScope&quot; parent=&quot;beanScopeParent&quot;&gt;
+    &lt;property name=&quot;copyPreservingBeans&quot; value=&quot;logon&quot;/&gt;
+  &lt;/bean&gt;
+</pre>
+<p>Note that <tt>logonScope</tt> is just a handle to manipulate the whole scope, the bean itself still sits in the request container under its usual path <tt>logon</tt>.
+</p>
+<h3 id="section-LogonTest_1-LogonServiceAndActionBean"> Logon service and action bean<a class="hashlink" href="#section-LogonTest_1-LogonServiceAndActionBean">#</a></h3>
+<p>The next step is to create an API to a service that will be used to check the logon details supplied in a request, to see if the user can be logged on:
+</p>
+<pre>
+public interface LogonService {
+  /**
+   * @return &lt;code&gt;true&lt;/code&gt; if the logon was successful.
+   */
+  public boolean processLogon(LogonBean logon);
+}
+</pre>
+<p>Finally, we need an &quot;action bean&quot; that will do the work of managing the logon process. It will have the details submitted from the user injected into it in the form of a LogonBean instance, as well as the service which can check the logon. If the logon fails, the bean will throw an exception, which generally by RSF semantics cause a redirect to a default view (this behaviour can be configured in finer detail by registering an <a class="createpage" href="Login1e97.html?page=ActionErrorStrategy" title="Create &quot;ActionErrorStrategy&quot;">ActionErrorStrategy</a>. Whether the logon is successful or not, the action bean also performs the important work of nulling out the password field, to minimise the chance it can be spotted by casual memory snoopers<a class="footnoteref" href="#ref-LogonTest_1-1">[1]</a>. 
+</p>
+<pre>
+public class LogonActionBean {
+  private LogonBean logon;
+  private LogonService logonservice;
+  
+  public void setLogonService(LogonService logonservice) {
+    this.logonservice = logonservice;
+  }
+
+  public void setLogon(LogonBean logon) {
+    this.logon = logon;
+  }
+
+  public void logon() {
+    boolean success = false;
+    try {
+      success = logonservice.processLogon(logon);
+    }
+    catch (Exception e) {
+      logonFailed();
+      throw UniversalRuntimeException.accumulate(e, &quot;Logon failed for user &quot; + logon.name);
+    }
+    finally {
+      logon.password = null;
+    }
+    if (!success) {
+      logonFailed();
+    }
+  }
+
+  private void logonFailed() {
+    logon.name = null;
+  }
+
+}
+</pre>
+<p>We wire this bean to the logon bean above, and a concrete LogonService implementation, by the following in <tt>requestContext.xml</tt>:
+</p>
+<pre>
+  &lt;bean id=&quot;logonAction&quot;
+    class=&quot;uk.org.ponder.rsf.testlogon.beans.LogonActionBean&quot;&gt;
+    &lt;property name=&quot;logon&quot; ref=&quot;logon&quot; /&gt;
+    &lt;property name=&quot;logonService&quot; ref=&quot;logonService&quot; /&gt;
+  &lt;/bean&gt;
+</pre>
+We declared a <tt>BasicLogonService</tt> instance at application scope to be the <tt>logonService</tt>:
+<pre>
+ &lt;!-- The service which will check passwords --&gt;
+  &lt;bean id=&quot;logonService&quot; class=&quot;uk.org.ponder.rsf.testlogon.impl.BasicLogonService&quot;/&gt;
+</pre>
+which has an unsophisticated implementation:
+<pre>
+public class BasicLogonService implements LogonService {
+  public boolean processLogon(LogonBean logon) {
+    return (&quot;Edward&quot;.equals(logon.name) &amp;&amp; &quot;Longshanks&quot;.equals(logon.password));
+  }
+}
+</pre>
+<p>Note that all of our definitions so far have been <b><i>completely free</i></b> of RSF dependence. This is as it should be for this set of pure business logic - the vast majority of other frameworks would have intruded by this point, by forcing us to package these classes under some framework interface, perhaps named &quot;BasePage&quot;, &quot;Component&quot;, &quot;Action&quot; etc. Some do better than others - JSF would have done OK on this simple example, but would fall over in more complex cases involving tables, validation and the like. You can visit discussions of the merits and demerits of the other frameworks on the <a class="wikipage" href="Wiki654d.html?page=Integrations">Integrations</a> page - <a class="wikipage" href="Wikiabdd.html?page=JSF">JSF</a> is treated in some depth.
+</p>
+<p />
+<p>Let's move on now to see how to build a set of RSF views (in the form of a set of <a class="wikipage" href="Wikid407.html?page=ComponentProducer">ViewProducers</a>) that use this model. 
+</p>
+<hr />
+Head   - <a class="wikipage" href="Wiki6bff.html?page=LogonTest">LogonTest</a><br />
+Page 1 - Core Business logic<br />
+Page 2 - <a class="wikipage" href="Wiki2c4e.html?page=LogonTest_2">Defining the views</a><br />
+Page 3 - <a class="wikipage" href="Wiki7ea2.html?page=LogonTest_3">Digging deeper - BeanGuards and Bracketers</a><br />
+<hr />
+<div style=" font-size: 80%">
+<a class="footnote" name="ref-LogonTest_1-1">[#1]</a>Security aficionados will recognise that this is pretty hopeless in security terms since it may well be some time before the memory for the String is reclaimed by GC, but we needn't make the problem any worse than necessary. Since the password has already passed through a String by being parsed by the servlet container, we simply can't do any better in a Java environment.<br />
+</div>
+
+
+
+
+
+
+        
+  </div>
+
+
+  
+
+  
+  <div id="attach" class="hidetab" >
+
+    
+
+
+
+
+
+
+
+
+
+
+<div id="addattachment">
+<h3>Add new attachment</h3>
+
+
+<div class="formhelp">Only authorized users are allowed to upload new attachments.</div>
+
+</div>
+
+
+
+<h3>List of attachments</h3>
+
+  
+
+  
+
+  <div class="zebra-table"><div class="slimbox-img sortable">
+  <table class="wikitable">
+    <tr>
+      <th>Kind</th>
+      <th>Attachment Name</th>
+      <th>Size</th>
+      <th>Version</th>
+      <th>Date Modified</th>
+      <th>Author</th>
+      
+      <th class="changenote">Change note</th>
+    </tr>
+
+    
+    
+    <tr>
+      <td><div id="attach-png" class="attachtype">png</div></td>
+      <td><a class="attachment" href="attach/LogonTest_1/rsf-logon-demo-box.png" accesskey="" title="rsf-logon-demo-box.png">rsf-logon-demo-box.png</a></td>
+      <td style="white-space:nowrap;text-align:right;">
+        3.2&nbsp;kB
+      </td>
+      <td style="text-align:center;">
+        <a href="PageInfo83c2.html?page=LogonTest_1/rsf-logon-demo-box.png" title="Attachment info and version history">1</a>
+      </td>
+	  <td style="white-space:nowrap;" sortvalue="Wed, 26 Jul 2006 10:34:34">
+	  26-Jul-2006 22:34
+	  </td>
+      <td><a class="wikipage" href="Wiki7256.html?page=AntranigBasman">AntranigBasman</a></td>
+      
+      <td class="changenote">
+      
+      </td>
+    </tr>
+    
+
+  </table>
+  </div></div>
+
+
+
+  </div>
+
+  
+    
+  <div id="info" class="hidetab" >
+
+  </div>
+
+    
+  
+
+<div style="clear:both;" ></div>
+</div>
+
+      
+
+
+
+
+
+
+
+<div id='actionsBottom' class="pageactions"> 
+    
+
+    <a href="#top" 
+      class="action quick2top" 
+      title="Go to top" >&laquo;</a>
+
+    
+       This page (revision-) was last changed on <a href="Diff92e6.html?page=LogonTest_1&amp;r1=-1&amp;r2=1">26-Jul-2006 22:46</a> by UnknownAuthor
+    
+
+    
+
+   
+
+  
+
+   
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div id="favorites">
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="Loginbfb5.html?redirect=LogonTest_1" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="UserPreferencesbfb5.html?redirect=LogonTest_1"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+  
+  <div id="hiddenmorepopup">
+  <ul id="morepopup">
+     
+       	
+     
+       
+     
+    
+       
+     
+       <li>
+       
+       <a class="action rawpage wikipage" 
+               href="Wiki5970.html?page=LogonTest_1&amp;skin=raw"
+              title="View Page Source">View Page Source
+       </a>
+       
+       
+       </li>
+      
+        
+  
+      
+      
+      
+
+      
+	  <li class='separator'>
+        <div id="moremenu" ></div>
+      </li>
+  </ul>
+  </div>
+  
+  
+
+  
+
+  
+
+  
+  <div class="leftmenu">
+    <p><a class="wikipage" href="Wikib2ab.html?page=Main">Main page</a><br />
+<tt> </tt><i><a class="wikipage" href="Wiki4d3f.html?page=ThisWiki">About</a></i><br />
+</p><p><a class="wikipage" href="Wikid6f0.html?page=GettingStarted">Getting Started</a><br />
+</p>
+<p><b>Documentation</b><br />
+<tt> </tt><a class="wikipage" href="Wiki4c8c.html?page=Developers">Developers</a><br />
+<tt>  </tt><a class="wikipage" href="Wikib1ce.html?page=Javadocs">Javadocs</a><br />
+<tt> </tt><a class="wikipage" href="Wikia56b.html?page=Designers">Designers</a><br />
+<tt> </tt><a class="wikipage" href="Wiki4509.html?page=SampleRSFApps">Sample RSF Apps</a><br />
+<tt> </tt><a class="wikipage" href="Wikif010.html?page=Presentations">Presentations</a><br />
+<tt> </tt><a class="wikipage" href="Wiki45f9.html?page=Acronyms">Acronyms</a><br />
+</p>
+<p><b>Downloads</b><br />
+<tt> </tt><a class="wikipage" href="Wiki30c9.html?page=CurrentCode">Current Release</a><br />
+<tt> </tt><a class="wikipage" href="Wiki0e27.html?page=TrunkCode">Trunk</a><br />
+<tt> </tt><a class="wikipage" href="Wiki1a8d.html?page=CodeDistributions">Distributions</a><br />
+<tt> </tt><a class="wikipage" href="Wikiadaf.html?page=OldCode">Old Versions</a><br />
+</p>
+<p><b>Community</b><br />
+<tt> </tt><a class="wikipage" href="Wiki84f4.html?page=QampA">Q&amp;A</a><br />
+<tt> </tt><a class="external" href="http://ponder.org.uk/rsf/">Forums</a><img class="outlink" src="images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="Wikif345.html?page=EmailLists">Mailing Lists</a><br />
+<tt> </tt><a class="external" href="http://www.caret.cam.ac.uk/jira/browse/RSF">Issue Tracker</a><img class="outlink" src="images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="Wiki1535.html?page=People">People</a><br />
+</p>
+<p><b>Design</b><br />
+<tt> </tt><a class="wikipage" href="Wiki580c.html?page=Roadmap">Roadmap</a><br />
+<tt> </tt><a class="wikipage" href="Wiki654d.html?page=Integrations">Integrations</a><br />
+<tt> </tt><a class="wikipage" href="Wikia360.html?page=Concepts">Concepts</a><br />
+<tt> </tt><a class="wikipage" href="Wiki151d.html?page=Philosophy">Philosophy</a><br />
+</p>
+<div style="font-style:italic;font-size:0.8em;">
+<b>Pages</b><br />
+<tt> </tt><a class="wikipage" href="Wiki702d.html?page=FindPage">Find</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5fc7.html?page=RecentChanges">Recent Changes</a><br />
+<tt> </tt><a class="wikipage" href="Wikife97.html?page=UnusedPages">Unused</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5130.html?page=UndefinedPages">Undefined</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5f9e.html?page=PageIndex">Index</a>
+</div>
+<p />
+    
+  </div>
+  
+  <div class="leftmenufooter">
+    <hr />
+<p><b>Referenced by</b><br />
+<a class="wikipage" href="Wiki6bff.html?page=LogonTest">LogonTest</a><br /><a class="wikipage" href="Wiki2c4e.html?page=LogonTest_2">LogonTest_2</a><br /><a class="wikipage" href="Wiki7ea2.html?page=LogonTest_3">LogonTest_3</a><br />
+</p>
+    
+  </div>
+
+  
+
+  
+  
+  <div class="wikiversion">JSPWiki v2.8.2
+  <span class="rssfeed">
+    
+  </span>
+  </div>  
+  
+</div>
+
+	<div class="clearbox"></div>
+  </div>
+
+  
+
+
+
+
+
+ 
+<div id="footer">
+
+  <div class="applicationlogo" > 
+    <a href="Wikib2ab.html?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  <div class="copyright"></div>
+
+  <div class="wikiversion">
+    JSPWiki v2.8.2
+  </div>
+
+  <div class="rssfeed">
+    
+  </div>
+
+</div>
+
+</div>
+
+</body>
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:15:35 GMT -->
+</html>
+

@@ -1,0 +1,17 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+In RSF, a ''container'' is a [component|PrimitiveComponents] of type [UIContainer|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/components/UIContainer.java]. UIContainer simply has the function of containing other components, in a &quot;free-form&quot; way (as opposed to hardwired component &quot;clusters&quot; such as [UISelect]). UIContainer can't be used usefully except as a base class - e.g. [UIForm] and [UICommand] are derived from UIContainer, via the concrete intermediary [UISimpleContainer|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/components/UISimpleContainer.java]. The &quot;other&quot; line of descent from UIContainer which avoids UISimpleContainer contains only [UIBranchContainer]. Note that these classes unlike components from other frameworks are all very small, and specify virtually no behaviour. The &quot;container&quot; hierarchy is probably the most untypical in RSF in that it does actually contain some methods, but just to abstract the functions of locating and iterating over child components.
+
+See the dedicated page on [primitive components|PrimitiveComponents] for more details.
+
+</pre>
+

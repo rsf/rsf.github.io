@@ -1,0 +1,60 @@
+<html>
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/attach/NumberGuessing_2/enterFourDigitGuess-interwoven.xhtml by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:14 GMT -->
+<head>
+<link rel="stylesheet" rsf:id="scr=rewrite-url" href="../style.html" type="text/css"/>
+<title>Enter Guess - RSF Mastermind!</title></head>
+<body>
+<div id="content">
+  <div id="insert"><img rsf:id="scr=rewrite-url" src="../images/rsf-logo-small.html"/>
+  </div>
+  <h2>The Four Digit Number Guess Game</h2>
+  <h3>Guess a four digit number!</h3>
+  <hr/>
+  <p>Note: each guess must be 4 unique digits!</p>
+  <p>Number of guesses so far:
+    <span rsf:id="guesses" rsf:type="output" rsf:valuebinding="#{fourDigitNumberGuess.guesses}"/> </p>
+  
+  <div rsf:id="guesshistory:">
+    <h4>Guess history:</h4>
+    <div rsf:id="guesshistoryrep" rsf:type="replicator" 
+    rsf:valuebinding="#{fourDigitNumberGuess.guessHistory" rsf:idstrategy="directindex"/>
+    <table border="1">
+    <tr>
+      <th>Guess</th>
+      <th>Right Position</th>
+      <th>Present But Wrong Position</th>
+      </tr>
+      <tr rsf:id="guessline:">
+        <td rsf:id="guess" rsf:type="output" rsf:valuebinding="#{*.guess}">1738</td>
+        <td rsf:id="rightPosition" rsf:type="output" rsf:valuebinding="#{*.rightPosition}">2</td>
+        <td rsf:id="correctButWrongPosition" rsf:type="output" rsf:valuebinding="#{*.correctButWrongPosition}">1</td>
+      </tr>
+    </table>
+  </div>
+  <div rsf:id="guesshistory:">
+  </div>
+  
+  <form rsf:id="basic-form" rsf:type="form" method="post">
+    <div class="error" rsf:id="message-for:*"> Your guess was invalid: it must be a 4 digit
+      number (e.g 1234), and each digit must be unique. </div>
+    <table>
+      <tr>
+        <td>Guess:</td>
+        <td align="left">
+          <input type="text" rsf:type="input" rsf:id="newguess" value="1234"/>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="buttonBar">
+          <input type="submit"  class="button" rsf:type="command" rsf:id="submitGuess" value="Guess"/>
+        </td>
+      </tr>
+    </table>
+    <div rsf:type="elbinding" rsf:valuebinding="#{fourDigitNumberGuessAction.data}"
+      rsf:elrvalue="#{fourDigitNumberGuess}"/>
+  </form>
+</div>
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/attach/NumberGuessing_2/enterFourDigitGuess-interwoven.xhtml by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:14 GMT -->
+</html>

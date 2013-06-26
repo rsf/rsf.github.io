@@ -1,0 +1,27 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Since FlowTalk issues unique [view tokens|ViewToken] for each rendered view, it is quite easy to detect the common hazards caused by users clicking on the same form submission button twice (which is quite easy for them to do if it remains visible due to a long submission delay). Another slight variation involves a unwitting or witting &quot;back&quot; navigation and reuse of the button. For each form submission action, FlowTalk stores the ID of the submitting component in the [TokenRequestState] for some defineable timeout, which can be checked and used to abort any resubmission of the same data. 
+
+There are various models to be used in blocking double submission - we may block further use of just the submission control used, of the entire form it appears in, or any control on the same page - no firm opinion has yet been reached on this. It would probably be best to make this a configurable user policy. Opinions? 
+
+The behaviour when &quot;blocked&quot; would be simply to throw a &quot;General Error&quot;, which has the general result of returning the complete form data as it was at submission, together with a message explaining the problem. In the (rare) case the user's resubmission was genuine, they have the option to save any bulk data using the clipboard and retry the operation. Since RSF supports browser forking well enough, they also have the new option of starting a new browser window with the retried operation, while keeping visibility of the old one.
+
+Another option is to render the returned UI with an extra tickbox to allow an override of the double submission, but this would require some developer support - the [view template|ViewTemplate] must be provided with such a tickbox already provided for.
+
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

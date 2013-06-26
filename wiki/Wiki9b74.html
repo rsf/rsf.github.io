@@ -1,0 +1,397 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+(points made to Hans Bergsten in email exchange)
+
+!!!RSF FROM JSF - SEQUENCE (JSFUTIL)
+
+
+In the beginning there was i) FlowTalk (intended to
+be a highly configurable &quot;discussions with workflow&quot; webapp, and ii)
+your book. 
+
+The library &quot;JSFUtil&quot; I created was based around (initially consisting
+only of) the &quot;ClassViewHandler&quot; and &quot;TemplateHandler&quot; from Chapter 15.
+The changes that I made, roughly in order, were as follows (as you 
+go down the list these involve an increasing violation of JSF's 
+natural semantics):
+
+i) refusing to restore the component tree from restoreView in the
+case of a GET. This was part of my very initial perception that JSF's
+component tree was extremely wasteful in server resources, or else
+in client state. Since I was going to the trouble of regenerating
+the entire component tree in any case it seemed highly absurd for
+the framework to have been trying to cache it somewhere. In addition
+given this was a highly dynamic application it is quite likely that
+the model had asynchronously changed in the meantime. This was very
+much a &quot;token&quot; measure since at this time I had no way of servicing
+a POST without access to the component tree, but I think marked out
+symbolically the direction I thought JSF had to go in. A core point
+of RSF is now that the component tree is destroyed at the end of
+EVERY request cycle and stored nowhere.
+
+If you were to ask for a succinct summary of the reasons I thought
+JSF ought be abandoned, it would be &quot;Heavyweight components, in
+particular ones that must be persisted, must not be a necessary
+part of a web framework&quot;.
+
+ii) instituting strict POST-&gt;GET redirect for all requests. This is
+as far as I can see a completely fundamental requirement for webapps
+which satisfying the browser idiom, which in my view should be all of
+them, given they all end up being viewed by browsers. A difficulty
+created here was managing to transfer FacesMessages from one cycle
+to the next (see below). No rendering is performed on POST cycles
+as is correct for portlet as well as general HTTP. I expect this
+problem is one of those solved in JSF 1.2.
+
+iii) instituting the &quot;ViewParameters&quot; system. Probably the #2 
+deficit of JSF is that it has no idiomatic system for accessing
+URL state. This has in fact proved completely fatal in a large
+project that I am working with (Sakai) in that all the framework
+developers eventually lost faith in URL state and other than the
+viewID, came to rely on random stuff stored in the session. The
+result is that the project's portal has essentially architecturally
+collapsed in that REST idioms are impossible and the back button
+cannot be made to work. Obviously this is not a forced consequence
+of working with JSF, but JSF's lack of respect for the natural
+idiom of HTTP being that state, primarily, is URL state exacerbated 
+the problem enormously. ViewParameters does the work of representing
+the URL state in a HTTP-neutral way by mapping parts of the URL into
+fields of a user-defined near-POJO. Actually since ViewParameters is
+pretty much the oldest part of RSF it is now actually the most
+deficient (although this is actually still not a completely easy
+problem to solve conceptually). It is due for an overhaul in RSF 0.8.
+
+iv) The introduction of the &quot;fast EL&quot; system for bindings. These
+were a set of hidden fields rendered into forms that were guaranteed
+to be processed *first* before JSF's &quot;apply request values&quot; phase,
+that would properly contextualise the bean model. These bindings
+encoded primitive operations on the request bean model. This was the 
+beginnings of RSF's &quot;request-scope IoC&quot; system in which 
+request-scope entities could participate in first-class IoC by
+means of &quot;assignments&quot; (in Spring-speak, &quot;wirings&quot;) performed as
+a kind of context startup. This became clear when reading your 
+chapter on the &quot;ReportHandler&quot; app, primarily in chapter 10. 
+I constantly asked myself the question... &quot;how does the 
+ReportHandler know which report it is to work on&quot;? In your 
+non-persistent example this was clear - there was just one 
+Report in request scope, and this is the common pattern I have
+seen in JSP-type apps since the beginning of time. But say this
+Report had a persistent identity, how on earth would we come
+to find it? In JSF, the only answer would be to scrawl a note
+in the session scope - pretty unacceptable. Even that done, there
+would be the matter of communicating this to the persistence system
+in some kind of idiomatic way, which is leading even the Spring
+people to measures such as injecting DAOs into &quot;entities&quot;
+signalled by annotations &amp;c. With the &quot;fast EL&quot; system, which
+gradually evolved into RSF's bindings system and RSAC, this is
+completely idiomatic - every entity has its unique EL path, and
+these are set up to be &quot;wired&quot; by bindings before the subsequent
+request starts up.
+
+v) JSF components are so behaviourful that a constant requirement
+was to generate references from one component to another. In 
+particular, without access to the &quot;clientId&quot; of a component it is 
+impossible to prepare for any client-side work - this was also 
+essential for the FacesMessage propagation work for ii). 
+Unfortunately the code to compute this ID is buried in the 
+monstrosity of the UIComponent hierarchy, so the only way to get 
+at it was to institute the &quot;EarlyFacesContext&quot; - this delegated 
+to the existing FacesContext in all cases except for getViewRoot() 
+which was initialised with the correct root &quot;early&quot;, the moment
+the component tree started to be constructed. This forced
+&quot;top-down&quot; construction of component trees has continued in RSF - 
+given JSF seems to be designed from the view that the component
+tree *could* have been constructed in any order, it seems there
+was no provision for working out clientIds until the construction
+had finished.
+
+I could go on about JSF's other architectural deficiencies (firstly
+the existence of FacesContext, and secondly the global access to it
+which is the most utter destroyer of testability, thirdly
+the crazy table rendering model, fourthly the fragile and
+untrustable PhaseListener system, fifthly the lack of any coherent
+policy wrt. exceptions &amp;c), at some length,
+but I will move on :P
+
+!!!RSF FROM JSF - SEQUENCE (RSFUTIL)
+
+
+With these 5 major heads of changes (along with a host of other 
+details to make things work) we get to the state of &quot;JSFUtil&quot; as
+it was in July of last year. This operated a kind of &quot;shell&quot; of JSF
+that was being used principally for rendering and the basic sequence
+of the request cycle, with most of the logic routed out due to the
+custom ViewHandler. At this point I was presented with an 
+essentially intractible reskinning requirement - we were required
+to make the *same app* render fundamentally reorganised (i.e. in
+HTML order, not just in CSS) versions of the same user interface,
+preferably without recompilation or developer effort.
+
+At this point the idea for the IKAT renderer, which I had been
+kicking around my head, initially inspired by your &quot;HTMLTemplateHandler&quot;
+came to the fore. IKAT is actually just a generalisation of 
+HTMLTemplateHandler (as indeed you could in some way say Facelets is),
+only with the crucial capability of *alternation* between
+template-driven scanning and component-driven scanning. This last
+is the key capability which lets things like tables and trees be
+rendered in RSF so straightforwardly, since it allows RSF to 
+induce replication in the structure of the template in a particular
+domain, but then to *return* to the static template structure
+once the replication/branching is complete. There are other
+important differences in philosophy which I could talk about if
+you're interested.
+
+Given at this point I was using JSF largely for rendering, there
+seemed little point in maintaining the JSF component structure at
+all, given I fundamentally disagreed with its idiom where the
+incoming request values were applied *first* to the components
+during &quot;applyRequestValues&quot; and only THEN to &quot;UpdateModelValues&quot;,
+and was intending to apply my own rendering. So this was the signal
+to kick over the rest of the structure, which could loosely be
+described as &quot;renaming JSF to RSF and trying to get the code to
+compile again&quot; :P In particular the key action was the creation of
+RSF's component hierarchy which became semi-ironically named  
+after JSF's. The core contrast here is that RSF's &quot;UIComponent&quot;
+is 61 lines, which are mostly comments, with just one method - 
+compared to JSF's UIComponent+UIComponentBase which is an intricate
+tangle summing to a grand 2900 lines. I have to say that this is the
+key answer to your question as to whether I though I might not have
+made &quot;better inroads&quot; building my framework on JSF - the key point
+is that RSF was primarily derived by starting with JSF and taking
+things *out* - had I built on JSF as so many are now unwisely
+doing, it simply couldn't have ever become the right framework,
+even had it perhaps initially enjoyed more popularity. As far as
+I can see, Facelets is roughly would have been had I built RSF
+on JSF, but it can only reform the rendering system (which I don't
+think is done as neatly as RSF). Given I had already replaced
+most of JSF *except* for the rendering system by the time I came
+to write IKAT, logically there was pretty much nothing that should
+remain.
+
+!!!JSF - KEY &quot;DIAMONDS&quot; RESCUED
+
+
+That said, I think I should summarise the &quot;diamonds&quot; that I managed
+to rescue from JSF, since it did indeed contain many ideas that
+were both new and highly valuable. In these terms JSF actually &quot;is&quot;
+the best framework out there in terms of ideas, since I don't think
+any other framework has innovated in quite so many ways at once - 
+the tragedy is that these great ideas were practically negated
+by being wired together in a close relationship with so many poor
+or &quot;unreformed&quot; ideas, and often poor execution.
+
+!!JSF key value points:
+
+i) Introduction of the idea of an &quot;abstract&quot; component tree 
+insulating framework users from the target idiom (HTML, WAP, XUL, 
+whatever)\\
+ii) Increased cementing of the idea begun in JSPs of a pure
+&quot;bean&quot; model, potentially defined framework-free by developers which
+is poked by abstract &quot;EL&quot; paths.\\
+iii) The use of &quot;bindings&quot; attached to components which 
+represented an association of UI values to model values.\\
+iv) The idea of an &quot;action&quot; binding which invoked an abstract
+application-defined action with a String result, which was then
+interpreted by a layer of indirection.\\
+v) Beginning to become &quot;portal-ready&quot; by separating Action
+URLs from Resource URLs &amp;c.\\
+
+!!!JSF key errors:
+
+i) Continuing use of a &quot;fat&quot; component hierarchy. Not only fat
+in terms of size (2900 lines for a base class is simply beyond
+a joke in terms of poor design) but fat in behaviour. Actually
+90% of JSF's badness lies in its components - they\\
+&amp;nbsp;&amp;nbsp;a) consume state and developer resources in being looked after\\
+&amp;nbsp;&amp;nbsp;b) provide strong framework coupling that is almost ineradicable\\
+&amp;nbsp;&amp;nbsp;c) constrain developer's idioms in enforcing particular models
+of UI interaction\\
+&amp;nbsp;&amp;nbsp;d) obstruct cooperation with ORM solutions\\
+&amp;nbsp;&amp;nbsp;e) lack of natural integration with IoC (JSF-Spring obviously
+helped with this at the developer end, but this is actually
+even more critical for the *framework* - providing a set of
+5 interfaces that could be overridden in faces-config just doesn't
+cut it\\
+ii) Lack of access by view producers of a (portable) representation
+of URL state\\
+iii) Lack of natural cooperation with client-side logic and HTML
+idioms. JSF form rendering is obnoxious and the unpredictable nature
+of the assigned ids pretty much rules out any kind of productive
+interaction with client-side logic.\\
+(see above for 5 more key JSF problems)
+
+Naturally since it was me who drew up these lists, all the key
+&quot;value points&quot; are preserved in RSF, and all the &quot;errors&quot; are 
+removed... 
+
+I've surely gone on for far longer than you have patience for, but
+hopefully I've conveyed enough of my reasoning into why I think
+JSF is beyond salvaging in terms of constructing a good framework
+by building on it. 
+
+!!!RSF FUTURE (HEAVYWEIGHTS)
+
+
+An important point that I hope I put across on the ServerSide
+thread is that by designing RSF's &quot;lightweight&quot; components I have
+not in any way closed the door to somesequent &quot;heavyweight&quot; 
+framework being built on them (perhaps a kind of JSF-on-RSF,
+or Wicket-on-RSF), although given the constraints offered by RSF's
+bindings and encoding system, this heavyweight framework would
+probably not develop quite in the same way as JSF or Wicket. 
+
+One idea I am however kicking around is that essentially *all*
+view logic (of the sort expressed in heavyweight components)
+is actually completely unnecessary! Already in RSF I am not 
+feeling particular pain due to not having stable &quot;view domain
+objects&quot; whose job it is to manage bits of the view, and the
+only danger I can see coming down the line is this whole nasty
+business of &quot;listeners&quot; and &quot;events&quot; to which most of the bulk
+in H-C systems is devoted (cf JSF's and Wicket's &quot;Component&quot; 
+base class). I have an idea that UI event propagation might
+in fact be done in a kind of &quot;declarative&quot; way much in the same
+way that Spring demarcates transations. A key part of this would
+be a kind of &quot;Bean Invalidation Model&quot; (BIM) which summarises the
+network of *model side-effects* that are expected to be
+represented in the view as a result of writes issued to EL 
+paths. Some parts of the model could also just be declared
+&quot;volatile&quot;. Event propagation as a result of user actions would 
+then just be performed by framework code. Asynchronous propagation
+might be achieved just by timers, or perhaps by some form of 
+AOP proxying. 
+
+!!!XML AND OTHER TEXT
+
+
+To answer your question proper as regards XML stuff, at least in 
+the area of Spring configuration, I think what will help here is
+the tool chain. I went on at length about Spring IDE in the TSS
+thread, but I should say again that Spring IDE was a key 
+consideration in going with Spring for RSF as well as RSAC, in that
+now app-scope and request-scope containers can all be validated and
+refactored with a single tool. 
+
+Lots can be done through &quot;convention&quot; as you say - in my Hibernate
+app for example I try to exploit the fact that an entity will be
+mapped under a name that agrees with its classname (in Hibernate
+2.x this happens by default anyway) which helps in constructing
+the bindings. I think the key problem in Java in this respect
+is that while may is possible for *beans* it is not possible
+for *methods* - given Java lacks the equivalent of C++'s 
+&quot;pointer to member function&quot; or &quot;pointer to member data&quot; constructs,
+there is simply no way to programmatically generate a reference to
+a bean's property in a way the compiler could check. 
+
+This does point decisively back to the &quot;tools&quot; answer. I think
+in general this is fuller answer than the &quot;convention&quot; answer 
+which does if taken to extremes force a sort of &quot;wizard&quot; mentality
+on developers (lots of discussion on this on the &quot;will Ruby displace
+Java&quot; thread on TSS). Like humans, I think Java has survived
+primarily through its increasingly excellent tools, rather than 
+through being adapted to any particular purpose :P RoR may be
+marvellous at cranking out &quot;CRUD&quot; type apps but take it even slightly
+out of its domain and it quickly becomes a nonsensical, fragile and
+frustrating environment. On the other hand Java (and more strongly
+XML) are sometimes annoyingly verbose (especially if you are using
+a bad framework :) but by their general regularity and widespread
+nature are increasingly becoming amenable to some quite marvellous
+tools - Eclipse, IoC containers such as Spring, CGLIB, various kinds
+of AOP are just a smattering - and now we are seeing the 
+&quot;2nd-generation&quot; of meta- or fusion tools such as Spring IDE which is
+gradually becoming quite slick.
+
+
+!! Further points
+
+I do have to say that I would have dearly loved to have been
+able to preserve JSF as you advise - and struggled for nearly 9 months
+to do so if at all possible, given the very obvious practical and 
+commercial benefits that this would have had.
+
+But unfortunately I came to consider even the two core JSF inviolables
+that you mention, the JSF lifecycle and the component &quot;API&quot; to be in
+error - Firstly, the form of definition of the JSF lifecycle, based
+on the &quot;Phase&quot; system is brittle and out-of-keeping with modern 
+thinking on &quot;locally controlled&quot; systems based on IoC. For
+example, it is quite easy for a &quot;rogue&quot; piece of JSF logic to hijack
+the entire request processing by simply poking globally visible
+methods of FacesContext. The validation phase is particularly 
+tightly coupled, I recall, both being hard to disable, and also 
+quite liable to cause other phases to be skipped on its own
+initiative. Local code with global effects is a standing hazard.
+
+Another difficulty with the Phase system is that it makes it
+very hard to write &quot;reliable&quot; logic, especially viz. cleanup - 
+in general no execution in Java can be relied upon other than
+a clearly visible try {} finally {} pair within the same stack
+frame, which is a situation impossible to arrange surrounding Phase
+logic - it is quite possible for Phase events and notifications to
+go astray in the event of unexpected failures and exceptions.
+
+Yes - I agree with you completely as regards the role of a framework
+as creating a standard &quot;format&quot; for interchange of self-contained
+pieces of logic and presentation. However, I'm far from convinced
+this should be done with the currency being a Java Object operating 
+the semantics of something similar to a JSF (or other traditional) 
+&quot;component&quot;. It's a common misunderstanding of RSF that it makes 
+such a &quot;format&quot; impossible, but as I argue on the TSS thread, it would 
+seem a superior solution for developers to swap &quot;components&quot; in the 
+form of paired ViewProducers (and other finer-grained beans such as
+Validators &amp;c) and markup fragments rather than heavy components - 
+polymorphism through interface and aggregation rather 
+than derivation is a more sound development practice, in terms of its
+dependency impact.
+
+Anyone who I've spoken to who has worked with taglibs has been
+outraged at how hard they are to work with. In terms of 
+&quot;reinventing the wheel&quot;, many users tend to find that the wheels
+invented by vendors are rarely quite the wheels they want to use,
+and discover that trying to create their own is highly unrewarding.
+I think most framework authors tend to grievously underestimate the
+diversity of applications and requirements that their code will
+encounter, and imagine that the scope for &quot;fully interchangeable
+parts&quot; is far greater than, realistically, the industry is yet at
+a position of supporting. It would be far less effort for the 
+community if as a whole they could define and exchange software 
+artefacts on a variety of different scales, rather than the single 
+monolithic scale that the vendor has determined - we still face
+the situation that there remains a lack of consensus in the 
+industry as to what the equivalent of &quot;wheels&quot; actually are... or
+even, whether they should actually go round.
+
+I think this sort of problem is symptomatic of what could be called
+JSF &quot;meta-failings&quot; - while JSF always had the aim close to heart
+to establish interoperability, its development practices actually
+militate against this. As a different illustration, while many 
+JSF core interfaces are in principle &quot;reimplementable&quot;, this is 
+unlikely to be realised in practice by more than a single 
+vendor/developer at the same time - since JSF interfaces are so 
+large and stateful (FacesContext, ViewHandler &amp;c), it is unlikely 
+that two different &quot;users&quot; of JSF would be able to arrange for 
+their choice of semantics to be able to coincide within the same 
+JSF &quot;installation&quot;.
+
+In your mention of AJAX I have to note that it's precisely in this
+area I feel RSF more likely to benefit through &quot;interoperability&quot;.
+Your point re reusability I think overlooks the point that Java
+&quot;components&quot; of any kind are now, and probably will remain a minority
+element of the webapp scene, which is increasingly full of bizarre
+heaps of dynamic HTML libraries and self-contained and 
+self-conceptualised client-side artefacts of many kinds. It's 
+precisely through being &quot;behaviour-light&quot; I feel the RSF &quot;component&quot;
+idiom is far more likely to lend itself to rapid integration with
+emerging technologies, in addition to its &quot;plain-language&quot; bindings
+system which renders server-side artefacts in a form readily 
+interpretable and easy to manipulate on the client side. 
+
+</pre>
+

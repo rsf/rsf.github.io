@@ -1,0 +1,32 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+A &quot;long transaction&quot; (LT), or in [Hibernate|http://www.hibernate.org] terminology, an &quot;application transaction&quot; is a (database-backed) transaction which extends over multiple request/response cycles of a remote UI. Before reasonably mature ORM solutions were available, usage of long transactions was limited since without a lot of infrastructure it was hard to economise on the database connection resources that these would tie up, essentially indefinitely. 
+
+These could potentially be a very economical (in terms of developer effort) means of supporting complex multi-request operations (read: wizards), since the idiom is to provide a long-term &quot;cache&quot; in which user objects ''appear'' to be reflected on the database in the private request UI, but leave the main storage unaffected until commit. It also makes it easy to implement the &quot;cancel&quot; functionality should the user decide to abort the entire complex operation and return to the initial persistent state, since this is precisely the semantics of a transaction rollback. 
+
+To work correctly, these are dependent on some form of &quot;detach/reattach&quot; semantics whereby the object graph is disassociated from the live connection and &quot;slumbers&quot; for the multi-seconds/minutes required for the next related request to arrive, and to be rebound to, in general, a completely different database connection which is allocated to it.
+
+Use of long transactions raises a number of hazards/considerations, most of which are general to the whole multi-request process itself rather than this specific strategy.
+
+# MUCH greater accuracy of diagnostics for conflicting updates is required for LTs as opposed to the same transaction performed in one step, but largely simply because of the much greater potential for conflict resulting from the much greater timescales and complexity of operations involved. In general, a solution which either throws a generic &quot;conflict&quot; exception and either aborts (losing new data) or overwrites (losing old data) is unacceptable, and some infrastructure needs to be provided for asseessing the nature and scope of the conflict, and presenting the user with a reasonable variety of options.
+# Threading, rather than being a normal-grade hazard, becomes a show-stopper in LTs. It is quite possible, through either random network delays, or user malice/accident for two requests to arrive simultaneously, requiring the ''same'' LT state. With an LT-based solution (at least one based on Hibernate), one simply must be blocked, since a given Session can be bound to at most one thread at a time. What sort of UI to present in such a case is an issue, although it should be considered along with cases such as double form submissions.
+
+The strategy used in RSF (the [RSVC log|RSVCReplay]) somewhat alleviates this problem by folding issue 2 into issue 1 - there is no intrinsic reason why two simultaneous instances of the same wizard may not proceed since they will &quot;fork&quot; the RSVC log and hence become identifiable through their distinct tokens. However, it is likely that the &quot;general case&quot; of this (where the duplication is user-initiated) would be prevented due to detection of the double submission that would have to occur. See some notes on [double form submission|DoubleSubmission].
+
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

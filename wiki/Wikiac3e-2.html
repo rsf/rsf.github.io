@@ -1,0 +1,44 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Inserts formatted or unformatted page contents.
+
+----
+
+!Usage
+
+&lt;wiki:InsertPage page=&quot;&lt;page name&gt;&quot; mode=&quot;plain|html&quot; /&gt;
+
+!Parameters
+
+;__page__: The name of the page to insert.  If not set, inserts the current page.
+;__mode__: If set to &quot;plain&quot;, inserts the actual WikiMarkup (for example, for an editor).  If &quot;html&quot;, will insert rendered HTML snippet.  Default is to insert HTML.
+
+!Example
+{{{
+&lt;%@ taglib uri=&quot;/WEB-INF/jspwiki.tld&quot; prefix=&quot;wiki&quot; %&gt;
+&lt;html&gt;
+  &lt;head&gt;
+     &lt;title&gt;&lt;wiki:PageName /&gt;&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+     &lt;h1&gt;&lt;wiki:PageName /&gt;&lt;/h1&gt;
+     &lt;wiki:InsertPage /&gt;
+     &lt;hr /&gt;&lt;br /&gt;
+     &lt;wiki:EditLink&gt;Edit this page&lt;/wiki:EditLink&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+}}}
+
+This is an extraordinarily minimal [template|WikiTemplates] for JSPWiki, which basically just displays the page name in a h1-type heading, and then inserts the renderd page contents. 
+
+</pre>
+

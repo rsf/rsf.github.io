@@ -1,0 +1,18 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+A &quot;Level 1 Error&quot; is represented by an exception which is thrown during rendering a view (as distinct from an exception thrown during an [Action], which can be a &quot;perfectly normal&quot; part of its semantics, arising through, say, some sort of validation failure). RSF's response on receiving such an exception is to issue a redirect to the application's [default view|http://saffron.caret.cam.ac.uk/projects/RSFUtil/trunk/site/apidocs/uk/org/ponder/rsf/view/DefaultView.html] - this is in fact all that defines the default view as the default. 
+
+What makes this a &quot;Level 1 Error&quot; is that RSF sets a special request parameter in the redirected rendering of the default view to indicate this is an error redirect. If a *further* error occurs while rendering this error redirect view, RSF declares a &quot;double fault&quot;, and renders a &quot;fatal error page&quot;. You can customise this behaviour by implementing a [FatalErrorHandler|http://saffron.caret.cam.ac.uk/projects/RSFUtil/trunk/site/apidocs/uk/org/ponder/rsf/processor/FatalErrorHandler.html] as application scope bean {{fatalErrorHandler}}. If your fatal error handler itself throws an exception, RSF will return to its hardwired default :P
+
+
+</pre>
+

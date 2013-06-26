@@ -1,0 +1,814 @@
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html id="top" xmlns="http://www.w3.org/1999/xhtml">
+
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_2 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:41:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+    RSF Wiki: HibernateCookBook_2
+  </title>
+  
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" media="screen, projection, print" type="text/css"
+     href="templates/default/jspwiki.css"/>
+
+<link rel="stylesheet" type="text/css" media="print" 
+     href="templates/default/jspwiki_print.css" />
+<!-- INCLUDERESOURCES (stylesheet) -->
+
+<!-- INCLUDERESOURCES (inlinecss) -->
+
+
+
+<noscript>
+<style type="text/css">
+#hiddenmorepopup { display:block; }
+</style>
+</noscript>
+
+
+<script type="text/javascript" src="scripts/mootools.js"></script>
+<script type="text/javascript" src="scripts/prettify.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-common.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-commonstyles.js"></script>
+<!-- INCLUDERESOURCES (script) -->
+
+
+
+
+
+<meta name="wikiContext" content='view' />
+<meta name="wikiBaseUrl" content='http://rsf.fluidproject.org/wiki/' />
+<meta name="wikiPageUrl" content='/wiki/Wiki.jsp?page=%23%24%25' />
+<meta name="wikiEditUrl" content='/wiki/Edit.jsp?page=HibernateCookBook_2' />
+<meta name="wikiJsonUrl" content='/wiki/JSON-RPC' />
+<meta name="wikiPageName" content='HibernateCookBook_2' />
+<meta name="wikiUserName" content='207.119.0.6' />
+<meta name="wikiTemplateUrl" content='/wiki/templates/default/' />
+<meta name="wikiApplicationName" content='RSF Wiki' />
+
+<script type="text/javascript">//<![CDATA[
+/* Localized javascript strings: LocalizedStrings[] */
+var LocalizedStrings = {
+"javascript.edit.allsections":"( All )",
+"javascript.slimbox.error":"<h2>Error</h2>There was a problem with your request.<br />Please try again",
+"javascript.slimbox.remoteRequest":"Remote Request {0} of {1}",
+"javascript.slimbox.close":"Close &#215;",
+"javascript.quick.edit":"[Edit]",
+"javascript.sort.descending":"Descending order. Click to reverse sort order",
+"javascript.expand":"Click to expand",
+"javascript.group.validName":"Please provide a valid name for the new Group",
+"javascript.slimbox.next":"Next&raquo;",
+"javascript.filter.all":"( All )",
+"javascript.edit.areyousure":"Without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.quick.edit.title":"Edit section {0}...",
+"javascript.slimbox.directLink":"Direct Link to the target",
+"javascript.prefs.areyousure":"Without clicking the Save User Preferences button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.sbox.clone.suffix":"-New",
+"javascript.slimbox.info":"Image {0} of {1}",
+"javascript.tip.default.title":"More...",
+"javascript.edit.resize":"Drag to resize the text area",
+"javascript.edit.findandreplace.nomatch":"No match found!",
+"javascript.sort.ascending":"Ascending order. Click to reverse sort order",
+"javascript.slimbox.close.title":"Close [Esc]",
+"javascript.edit.toolbar.makeSelection":"Please make first a selection.",
+"javascript.favs.hide":"Click to hide Favorites",
+"javascript.sectionediting.label":"Section Overview",
+"javascript.slimbox.previous":"&laquo;Previous",
+"javascript.favs.show":"Click to show Favorites",
+"javascript.collapse":"Click to collapse",
+"javascript.category.title":"Click to show category [{0}] ...",
+"javascript.sort.click":"Click to sort",
+"javascript.edit.startOfPage":"( Start of page )"
+};
+
+
+/* INCLUDERESOURCES (jsfunction) */
+
+//]]></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="search" href="Wiki702d.html?page=FindPage"
+    title='Search RSF Wiki' />
+<link rel="help"   href="Wikia3b7.html?page=TextFormattingRules"
+    title="Help" />
+
+ <link rel="start"  href="Wikib2ab.html?page=Main"
+    title="Front page" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki_print.css"
+    title="Print friendly" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki.css"
+    title="Standard" />
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+<link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  
+  
+</head>
+
+<body class="view">
+
+<div id="wikibody" class="fav-left">
+ 
+  
+
+
+
+
+
+
+<div id="header">
+
+  <div class="titlebox"></div>
+
+  <div class="applicationlogo" > 
+    <a href="Wikib2ab.html?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="Login3a91.html?redirect=HibernateCookBook_2" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="UserPreferences3a91.html?redirect=HibernateCookBook_2"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+
+  <div class="pagename">HibernateCookBook_2</div>
+
+  <div class="searchbox">
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Search.jsp"
+        class="wikiform"
+           id="searchForm" accept-charset="UTF-8">
+
+  <div style="position:relative">
+  <input onblur="if( this.value == '' ) { this.value = this.defaultValue }; return true; "
+        onfocus="if( this.value == this.defaultValue ) { this.value = ''}; return true; "
+           type="text" value="Quick Navigation"
+           name="query" id="query"
+           size="20" 
+      accesskey="f" />
+  <button type="submit"
+  		 name="searchSubmit" id="searchSubmit"
+  		value="Go!"
+  		title="Go!"></button>
+  </div>
+  <div id="searchboxMenu" style='visibility:hidden;'>
+    <div id="searchTools">
+      <a href="#" id='quickView' class='action'
+      onclick="SearchBox.navigate( 'Wiki195c.html?page=__PAGEHERE__','View the selected page' );"
+        title="View the selected page">view</a>
+      <a href="#" id='quickEdit' class='action'
+      onclick="SearchBox.navigate( 'Logine830.html?page=__PAGEHERE__','Edit the selected page' );"
+        title="Edit the selected page">edit</a>
+      <a href="#" id='quickClone' class='action'	
+      onclick="return SearchBox.navigate( 'Logine830.html?page=__PAGEHERE__', 'Clone the selected page', true );"
+        title="Clone the selected page">clone</a>
+      <a href="#" id="advancedSearch" class='action'
+      onclick="SearchBox.navigate( 'Search136d.html?query=__PAGEHERE__','HibernateCookBook_2' )"
+        title="Advanced Search [ f ]">find</a>
+    </div>
+    <div id="searchResult" >
+	  Quick search
+      <span id="searchTarget" >(type ahead)</span>
+      <span id="searchSpin" class="spin" style="position:absolute;display:none;"></span>
+	  <div id="searchOutput" ></div>
+    </div>
+    <div id="recentSearches" style="display:none;">
+      Recent Searches
+      <span><a href="#" id="recentClear">(Clear)</a></span>
+    </div>
+  </div>
+
+</form></div>
+
+  <div class="breadcrumbs">Your trail:&nbsp;<a class="wikipage" href="Wikicdf6.html?page=FormSelect">FormSelect</a>, <a class="wikipage" href="Wiki69eb.html?page=FormSet">FormSet</a>, <a class="wikipage" href="Wikid166.html?page=FormTextarea">FormTextarea</a>, <a class="wikipage" href="Wikicdd7.html?page=HandlerSequence/rsf-flow-get-1024.png">HandlerSequence/rsf-flow-get-1024.png</a>, <a class="wikipage" href="Wiki953c.html?page=HandlerSequence/rsf-flow3-1024.png">HandlerSequence/rsf-flow3-1024.png</a>, <a class="wikipage" href="Wikibb07.html?page=HasAttachmentsTag">HasAttachmentsTag</a>, <a class="wikipage" href="Wikiab80.html?page=HelloWorld/coffeebeans.jpeg">HelloWorld/coffeebeans.jpeg</a>, <a class="wikipage" href="Wikiac3e.html?page=HelloWorld/rsf-render-cycle.png">HelloWorld/rsf-render-cycle.png</a>, <a class="wikipage" href="Wikicfb2.html?page=HibernateCookBook/MySQL-install.png">HibernateCookBook/MySQL-install.png</a>, <a class="wikipage" href="Wiki9761.html?page=HibernateCookBook_1/cookbook-basic-recipe-list.png">HibernateCookBook_1/cookbook-basic-recipe-list.png</a></div>
+
+</div>
+
+  <div id="content">
+
+    <div id="page">
+      
+
+
+
+
+
+<div id="actionsTop" class="pageactions"> 
+  <ul>
+
+    
+    
+    
+
+    
+    <li id="morebutton">
+      <a href="Wiki81b4.html?page=MoreMenu" class="action more">More...</a>
+    </li>
+
+  </ul>
+</div>
+
+      
+
+
+
+
+
+
+
+
+<div class="tabmenu">
+
+  
+
+  
+
+  
+  
+  
+    
+  
+    
+  
+
+
+
+  <a class="activetab" id="menu-pagecontent" accesskey="v" ><span class='accesskey'>V</span>iew</a>
+
+  
+
+  
+  <a id="menu-attach" accesskey="a" ><span class='accesskey'>A</span>ttach (2)</a>
+  
+    
+  <a id="menu-info" href='PageInfo3f4a.html?page=HibernateCookBook_2' accesskey="i" ><span class='accesskey'>I</span>nfo</a>
+    
+  
+
+</div>
+<div class="tabs">
+
+  <div id="pagecontent" >
+
+    
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="section-HibernateCookBook_2-EditNewViewReplicatorsSwitchesAndTransitBeans">Edit/new view - Replicators, Switches and Transit Beans<a class="hashlink" href="#section-HibernateCookBook_2-EditNewViewReplicatorsSwitchesAndTransitBeans">#</a></h2>
+<p>Having looked at how the default &quot;list&quot; view for the Recipe entity is put together, we're set up to look at the most complex view in this application, the &quot;new Recipe&quot; view, which is given the <a class="wikipage" href="Wiki53ac.html?page=ViewID">viewID</a> <tt>recipe-edit</tt>. This view doubles as the view for creating a new entity as well as editing an existing one, with the minor differences taken care of with a <a class="createpage" href="Loginfac3.html?page=UISwitch" title="Create &quot;UISwitch&quot;">UISwitch</a> component.
+</p>
+<p>To start with, as before, here is the &quot;picture on the box&quot; so we can see what result this view is aiming at:
+</p>
+<p><table border="0" class="imageplugin" style="margin-left: auto; margin-right: auto;">
+<tr><td><img src="attach/HibernateCookBook_2/cookbook-basic-recipe-edit.png" /></td></tr>
+</table>
+
+</p>
+<p>The components tree for the <tt><a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFHibernateCookbook/trunk/basic/src/webapp/WEB-INF/producers/recipe-edit.xml">recipe-show</a><img class="outlink" src="images/out.png" alt="" /></tt> , as well as containing a <a class="createpage" href="Login5792.html?page=UIReplicator" title="Create &quot;UIReplicator&quot;">UIReplicator</a> component of the sort we saw before, also has a number of other components and bindings necessary to manage the input process. Here are the first dozen lines for us to look over:
+</p>
+<pre>
+
+&lt;view&gt;
+  &lt;component type=&quot;switch&quot; id=&quot;headingswitch&quot;&gt;
+    &lt;lvalue type=&quot;elref&quot;&gt;#{viewParameters.mode}&lt;/lvalue&gt;
+    &lt;rvalue type=&quot;java.lang.String&quot;&gt;new&lt;/rvalue&gt;
+    &lt;truecomponent type=&quot;output&quot; id=&quot;new-recipe-heading&quot;/&gt;
+    &lt;falsecomponent type=&quot;output&quot; id=&quot;edit-recipe-heading&quot;/&gt;
+  &lt;/component&gt;
+  &lt;component type=&quot;form&quot; id=&quot;basic-form&quot;&gt;
+    &lt;component type=&quot;replicator&quot; id=&quot;reciperep&quot;&gt;
+      &lt;valuebinding&gt;#{viewParameters.entity}&lt;/valuebinding&gt;
+      &lt;idstrategy type=&quot;idremap&quot; basepath=&quot;#{Recipe}&quot; idfield=&quot;ID&quot;/&gt;
+      &lt;elideparent&gt;true&lt;/elideparent&gt;
+      &lt;component type=&quot;branchcontainer&quot; id=&quot;recipeline:&quot;&gt;
+        &lt;component type=&quot;input&quot; id=&quot;recipe-title&quot;&gt;
+          &lt;valuebinding&gt;#{*.title}&lt;/valuebinding&gt;
+        &lt;/component&gt;
+</pre>
+<h3 id="section-HibernateCookBook_2-UISwitch">UISwitch<a class="hashlink" href="#section-HibernateCookBook_2-UISwitch">#</a></h3>
+<p>The first interesting component is introduced by <tt>&lt;component type=&quot;switch&quot;</tt> which represents a component of type <a class="createpage" href="Loginfac3.html?page=UISwitch" title="Create &quot;UISwitch&quot;">UISwitch</a> (by standard RSF component serialization, the type parameter for a component is always the lower-cased component name omitting &quot;UI&quot;). This is another &quot;template component&quot; - like the replicator, UISwitch must <i>never</i> appear in the final component tree presented to the renderer, but instead is used to guide template component expansion operated by the XML view system.
+</p>
+<p>Just as UIReplicator operates basic iteration semantics (iterating over an object list), UISwitch operates conditional branching, completing our basic programming capabilities in XML component trees. UISwitch accepts 4 arguments - firstly an &quot;lvalue&quot; and an &quot;rvalue&quot; which will form the basis of the comparison. The template expander will evaluate a boolean expression representing &quot;lvalue == rvalue&quot;, and based on whether this expression is true or false, will choose one of the second two arguments, <tt>truecomponent</tt> or <tt>falsecomponent</tt> to be the one that finally enters the component tree.
+</p>
+<p>So in this case, we are testing the <tt>mode</tt> field of the <tt>viewParameters</tt> request bean (this is a standard RSF bean representing the location of the current view) for being equal to the String &quot;new&quot;. If it is, we emit the <tt>new-recipe-heading</tt> component (which is defined in the HTML template to contain the relevant view heading), if not, we emit <tt>edit-recipe-heading</tt>.
+</p>
+<p>Remember that in the Java version of this app, this component layout will just be replaced by a simple genuine <tt>if</tt> statement choosing the right heading component.
+</p>
+<h3 id="section-HibernateCookBook_2-ReturnOfTheReplicator">Return of the Replicator<a class="hashlink" href="#section-HibernateCookBook_2-ReturnOfTheReplicator">#</a></h3>
+<p>This view, like the recipes list view from the <a class="wikipage" href="Wiki3f4a.html?page=HibernateCookBook_2">previous page</a>, also defines a replicator component inside its form, which looks at first sight a bit odd, since there is nothing obviously being repeated in this view. In this case, we are using the replicator just for its <i>id rewriting</i> function, based on the single <tt>viewParameters</tt> object which defines the entity of focus for the current view, rather than for any repetition as such. Given the definition above, we can see the <tt>idstrategy</tt> that we define
+</p>
+<pre>
+ &lt;idstrategy type=&quot;idremap&quot; basepath=&quot;#{Recipe}&quot; idfield=&quot;ID&quot;/&gt;
+</pre>
+<p>will replace the wildcard paths in the replicated component with the field &quot;ID&quot; obtained from the value binding target from the replicator, which is <tt>#{viewParameters.entity} </tt>. That is, the total request EL containing the ID value is <tt>#{viewParameters.entity.ID} </tt>, and this value will be subsituted for &quot;*&quot; where it occurs in replicated components, afte prefixing with the base path of &quot;#{Recipe}&quot;. If this all looks somewhat involved, recall that there has to be some price for pure XML-based programming of this sort! You will see how this logic is considerably simpler in the &quot;pure-Java&quot; version of this app we will present on the last page.
+</p>
+<h3 id="section-HibernateCookBook_2-DatesAndTransitBeans"> Dates and <a class="wikipage" href="Wikie033.html?page=TransitBeans">Transit Beans</a><a class="hashlink" href="#section-HibernateCookBook_2-DatesAndTransitBeans">#</a></h3>
+<p>Everything else in this view is pretty straightforward, except for the handling of the &quot;broken-up&quot; date field that we can type into. In fact, usability requirements (as well as programming convenience!) are strongly recommending towards allowing free-form date entry fields these days, but we took the decision of exactly replicating the functionality of the original Ruby app, and although being somewhat more complex this nicely showcases the very powerful capabilities of RSF's &quot;request bean programming model&quot;.
+</p>
+<p>Firstly, here is the relevant stanza of <tt>recipe-edit.xml</tt> that deals with the date input:
+</p>
+<pre>
+  &lt;component type=&quot;input&quot; id=&quot;recipe-date-year&quot;&gt;
+    &lt;valuebinding&gt;#{datetransit.1.year}&lt;/valuebinding&gt;
+  &lt;/component&gt;
+  &lt;component type=&quot;select&quot; id=&quot;recipe-date-month&quot;&gt;
+    &lt;optionlist&gt;
+      &lt;valuebinding&gt;#{monthBean.indexes}&lt;/valuebinding&gt;
+    &lt;/optionlist&gt;
+    &lt;optionnames type=&quot;outputmany&quot;&gt;
+      &lt;resolver type=&quot;elref&quot;&gt;#{monthBean.names}&lt;/resolver&gt;
+    &lt;/optionnames&gt;
+    &lt;selection type=&quot;input&quot;&gt;
+      &lt;valuebinding&gt;#{datetransit.1.month}&lt;/valuebinding&gt;
+    &lt;/selection&gt;
+  &lt;/component&gt;
+  &lt;component type=&quot;input&quot; id=&quot;recipe-date-day&quot;&gt;
+    &lt;valuebinding&gt;#{datetransit.1.day}&lt;/valuebinding&gt;
+  &lt;/component&gt;
+...
+  &lt;parameter type=&quot;elbinding&quot;&gt;
+    &lt;valuebinding&gt;#{*.date}&lt;/valuebinding&gt;
+    &lt;rvalue type=&quot;elref&quot;&gt;#{datetransit.1.date}&lt;/rvalue&gt;
+  &lt;/parameter&gt;
+</pre>
+<p>To start with, <tt>recipe-date-year</tt> and <tt>recipe-date-day</tt> are just straightforward text input fields, but the first thing to notice is the slightly interesting EL target that they refer to, <tt>datetransit</tt>.
+</p>
+<p><tt>datetransit</tt> is our first example of an <a class="wikipage" href="Wiki022d.html?page=BeanExploder">exploder</a> bean. The definition of <tt>datetransit</tt>, from this apps <tt>requestContext.xml</tt> file is as follows:
+</p>
+<pre>
+&lt;!-- A &quot;Date Transit&quot; exploder to collect and focus a 
+     &quot;broken-up&quot; date from fields in Date/Month/Year 
+     into a full java.util.Date object. --&gt;  
+  &lt;bean id=&quot;datetransit&quot; parent=&quot;beanExploder&quot;&gt;
+    &lt;property name=&quot;beanClass&quot; 
+       value=&quot;uk.org.ponder.dateutil.DMYTransit&quot;/&gt;
+  &lt;/bean&gt;
+</pre>
+<p>(see previous page for comments on parent bean definitions - in this case <tt>beanExploder</tt> is a standard RSF parent bean definition defined in <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/conf/blank-requestContext.xml">blank-requestContext.xml</a><img class="outlink" src="images/out.png" alt="" />).
+BeanExploders are provide similar functionality to RSF's <a class="wikipage" href="Wikif73b.html?page=OTP">One True Path</a> entity beans, only generally for non-persistent beans - they take a bean &quot;exemplar&quot; (or more simply, just a class name) and &quot;explode&quot; this bean to create an infinite lazy collection of distinct instances initialized from it. Another way of thinking about this is that it is the request-scope equivalent to &quot;defining a variable&quot; - in this case, the path <tt>#{datetransit.1} </tt> refers to a particular (dynamically created at request scope) instance of a <tt>uk.org.ponder.dateutil.DMYTransit</tt> bean - if we were inputting two dates in this view we might call the second such instance <tt>#{datetransit.2} </tt>. These beans like all request beans are thrown away at the end of the request cycle and are very useful to maintain cleanly programming. 
+</p>
+<p>If you take a look at the <a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/PonderUtilCore/trunk/src/uk/org/ponder/dateutil/DMYTransit.java">definition of DMYTransit</a><img class="outlink" src="images/out.png" alt="" /> you can see that, in line with RSF philosophy it is a &quot;completely clean bean&quot; - it consists of nothing but getters and setters, has no framework dependencies (apart from exception types - this will be solved later), and could have been defined by anyone. It has three publically readable fields <tt>year</tt>, <tt>month</tt> and <tt>day</tt>, corresponding (in this case) to the three fields incoming from the UI, and has public accessor methods <tt>getDate</tt> and <tt>setDate</tt> which will render or accept the same date represented as a <tt>java.util.Date</tt>. In fact, this is a very simple and reusable basic component that performs type conversion of dates into a DMY &quot;broken-up&quot; form, and need not be used with RSF in particular.
+</p>
+<p>The following picture shows the layout of the request beans (in red) together with the three components (green) involved in the submission:
+</p>
+<p><table border="0" class="imageplugin">
+<tr><td><img src="attach/HibernateCookBook_2/datetransit.png" /></td></tr>
+</table>
+
+</p>
+<p>Remember that this bean-wiring arrangement is <i>encoded</i> in the original component at render time, but not actually <i>created</i> until the POST is handled from the submission - this achieves one of the core RSF goals of allowing zero-server-state request handling.
+</p>
+<h3 id="section-HibernateCookBook_2-SelectionControls">Selection controls<a class="hashlink" href="#section-HibernateCookBook_2-SelectionControls">#</a></h3>
+<p>We decided to implement the &quot;month&quot; control with a dropdown. This is our first example of an RSF selection control. The key point to bear in mind is that RSF selection controls are represented as aggregates of simpler components, each some kind of <a class="wikipage" href="Wiki4c2c.html?page=UIBound">UIBound</a> - in total there are three: <tt>optionlist</tt> represents the &quot;parent&quot; list, from which choices are being made, <tt>optionnames</tt> represents the rendered <i>names</i> of these options in the UI, and <tt>selection</tt> represents the actual selection made by the user. In this example we initialise each of these three sub-components in a straightforward way - <tt>selection</tt> is simply bound to month field the <tt>datetransit.1</tt> bean in the way one would expect. The other two fields are bound to the (application scope) bean <tt>monthbean</tt>, which we have defined in our <tt>applicationContext.xml</tt> as follows:
+</p>
+<pre>
+  &lt;bean id=&quot;monthBean&quot; class=&quot;uk.org.ponder.dateutil.MonthBean&quot; 
+    init-method=&quot;init&quot;/&gt;
+</pre>
+<p>The <tt><a class="external" href="https://saffron.caret.cam.ac.uk/svn/projects/PonderUtilCore/trunk/src/uk/org/ponder/dateutil/MonthBean.java">MonthBean</a><img class="outlink" src="images/out.png" alt="" /></tt> bean is another simple dependency-free framework bean of the sort anyone could implement. In a more sophisticated application, you would make this a request bean, so that the <tt>locale</tt> parameter could be set in a request-aware way, appropriate for the current user. The bean simply does the work of exposing the list of Strings forming the &quot;internal&quot; month numbers, as well as querying the locale to find the corresponding month names.
+</p>
+<h3 id="section-HibernateCookBook_2-Conclusion"> Conclusion<a class="hashlink" href="#section-HibernateCookBook_2-Conclusion">#</a></h3>
+We have constructed a simple one-entity &quot;CRUD&quot; app with three basic views for listing, editing and showing the Recipe entities (we skipped treatment of the <tt>recipe-show</tt> view since it is straightforward). 
+<p>In practice, you would you would have generated this application &quot;logic&quot; automatically using an XSL (coming soon, March 2006), but we have walked through it by hand here to get you set up for understanding and modifying these component trees for more advanced applications. At this point, we have arrived at the level of functionality of the end of <a class="external" href="http://www.onlamp.com/pub/a/onlamp/2005/01/20/rails.html?page=3">page 3</a><img class="outlink" src="images/out.png" alt="" /> of the Ruby version, showing off the ROR &quot;scaffold&quot; framework. We will now continue to follow this tutorial by adding a new entity to our data model, and customising all the views. 
+</p>
+<p>However, it's worth noting at this point one of the crucial benefits of RSF (as well as those inherited from such marvellous frameworks as Spring and Hibernate) - that of <i>complete previewability</i>. In contrast to the Ruby version of this app in which the view files are a mishmash of markup and code, the RSF template files (in your webapp at the path <tt>src\webapp\content\templates</tt>) are PURE HTML, which you can just fire up in your browser, even navigate relative links &amp;c - in general, see exactly how your app will fit together, apart from any POST functionality. This can be a marvellously useful capability  - especially on larger, more long-lived projects with a separate UI team and proper requirements cycle - the HTML-version of the app can be easily circulated for review, comment and redesign, even complete with any Javascript, CSS, local navigation &amp;c. Ruby on Rails, with its focus on extracting maximum possible development speed from 1-man teams, cannot help here.
+</p>
+<hr />
+Head   - <a class="wikipage" href="Wikicf04.html?page=HibernateCookBook">Hibernate Cookbook</a><br />
+Page 1 - <a class="wikipage" href="Wikieedc.html?page=HibernateCookBook_1">Query beans, templates and views</a><br />
+Page 2 - Switches, Replicators and transit beans<br />
+Page 3 - <a class="wikipage" href="Wiki4a0f.html?page=HibernateCookBook_3">The main app - entity selectors and Javascript</a><br />
+Page 4 - <a class="wikipage" href="Wikicb8a.html?page=HibernateCookBook_4">Let's hear that one more time - this time in Java</a><br />
+<hr />
+<p />
+
+
+
+
+
+
+        
+  </div>
+
+
+  
+
+  
+  <div id="attach" class="hidetab" >
+
+    
+
+
+
+
+
+
+
+
+
+
+<div id="addattachment">
+<h3>Add new attachment</h3>
+
+
+<div class="formhelp">Only authorized users are allowed to upload new attachments.</div>
+
+</div>
+
+
+
+<h3>List of attachments</h3>
+
+  
+
+  
+
+  <div class="zebra-table"><div class="slimbox-img sortable">
+  <table class="wikitable">
+    <tr>
+      <th>Kind</th>
+      <th>Attachment Name</th>
+      <th>Size</th>
+      <th>Version</th>
+      <th>Date Modified</th>
+      <th>Author</th>
+      
+      <th class="changenote">Change note</th>
+    </tr>
+
+    
+    
+    <tr>
+      <td><div id="attach-png" class="attachtype">png</div></td>
+      <td><a class="attachment" href="attach/HibernateCookBook_2/cookbook-basic-recipe-edit.png" accesskey="" title="cookbook-basic-recipe-edit.png">cookbook-basic-recipe-edit.png</a></td>
+      <td style="white-space:nowrap;text-align:right;">
+        23.2&nbsp;kB
+      </td>
+      <td style="text-align:center;">
+        <a href="PageInfo704e.html?page=HibernateCookBook_2/cookbook-basic-recipe-edit.png" title="Attachment info and version history">1</a>
+      </td>
+	  <td style="white-space:nowrap;" sortvalue="Wed, 19 Jul 2006 09:36:21">
+	  19-Jul-2006 09:36
+	  </td>
+      <td><a class="wikipage" href="Wiki7256.html?page=AntranigBasman">AntranigBasman</a></td>
+      
+      <td class="changenote">
+      
+      </td>
+    </tr>
+    
+    
+    <tr>
+      <td><div id="attach-png" class="attachtype">png</div></td>
+      <td><a class="attachment" href="attach/HibernateCookBook_2/datetransit.png" accesskey="" title="datetransit.png">datetransit.png</a></td>
+      <td style="white-space:nowrap;text-align:right;">
+        32.5&nbsp;kB
+      </td>
+      <td style="text-align:center;">
+        <a href="PageInfo6c0a.html?page=HibernateCookBook_2/datetransit.png" title="Attachment info and version history">1</a>
+      </td>
+	  <td style="white-space:nowrap;" sortvalue="Wed, 19 Jul 2006 09:36:21">
+	  19-Jul-2006 09:36
+	  </td>
+      <td><a class="wikipage" href="Wiki7256.html?page=AntranigBasman">AntranigBasman</a></td>
+      
+      <td class="changenote">
+      
+      </td>
+    </tr>
+    
+
+  </table>
+  </div></div>
+
+
+
+  </div>
+
+  
+    
+  <div id="info" class="hidetab" >
+
+  </div>
+
+    
+  
+
+<div style="clear:both;" ></div>
+</div>
+
+      
+
+
+
+
+
+
+
+<div id='actionsBottom' class="pageactions"> 
+    
+
+    <a href="#top" 
+      class="action quick2top" 
+      title="Go to top" >&laquo;</a>
+
+    
+       This page (revision-) was last changed on <a href="Diffe301.html?page=HibernateCookBook_2&amp;r1=-1&amp;r2=1">19-Jul-2006 09:36</a> by UnknownAuthor
+    
+
+    
+
+   
+
+  
+
+   
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div id="favorites">
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="Login3a91.html?redirect=HibernateCookBook_2" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="UserPreferences3a91.html?redirect=HibernateCookBook_2"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+  
+  <div id="hiddenmorepopup">
+  <ul id="morepopup">
+     
+       	
+     
+       
+     
+    
+       
+     
+       <li>
+       
+       <a class="action rawpage wikipage" 
+               href="Wiki9d1b.html?page=HibernateCookBook_2&amp;skin=raw"
+              title="View Page Source">View Page Source
+       </a>
+       
+       
+       </li>
+      
+        
+  
+      
+      
+      
+
+      
+	  <li class='separator'>
+        <div id="moremenu" ></div>
+      </li>
+  </ul>
+  </div>
+  
+  
+
+  
+
+  
+
+  
+  <div class="leftmenu">
+    <p><a class="wikipage" href="Wikib2ab.html?page=Main">Main page</a><br />
+<tt> </tt><i><a class="wikipage" href="Wiki4d3f.html?page=ThisWiki">About</a></i><br />
+</p><p><a class="wikipage" href="Wikid6f0.html?page=GettingStarted">Getting Started</a><br />
+</p>
+<p><b>Documentation</b><br />
+<tt> </tt><a class="wikipage" href="Wiki4c8c.html?page=Developers">Developers</a><br />
+<tt>  </tt><a class="wikipage" href="Wikib1ce.html?page=Javadocs">Javadocs</a><br />
+<tt> </tt><a class="wikipage" href="Wikia56b.html?page=Designers">Designers</a><br />
+<tt> </tt><a class="wikipage" href="Wiki4509.html?page=SampleRSFApps">Sample RSF Apps</a><br />
+<tt> </tt><a class="wikipage" href="Wikif010.html?page=Presentations">Presentations</a><br />
+<tt> </tt><a class="wikipage" href="Wiki45f9.html?page=Acronyms">Acronyms</a><br />
+</p>
+<p><b>Downloads</b><br />
+<tt> </tt><a class="wikipage" href="Wiki30c9.html?page=CurrentCode">Current Release</a><br />
+<tt> </tt><a class="wikipage" href="Wiki0e27.html?page=TrunkCode">Trunk</a><br />
+<tt> </tt><a class="wikipage" href="Wiki1a8d.html?page=CodeDistributions">Distributions</a><br />
+<tt> </tt><a class="wikipage" href="Wikiadaf.html?page=OldCode">Old Versions</a><br />
+</p>
+<p><b>Community</b><br />
+<tt> </tt><a class="wikipage" href="Wiki84f4.html?page=QampA">Q&amp;A</a><br />
+<tt> </tt><a class="external" href="http://ponder.org.uk/rsf/">Forums</a><img class="outlink" src="images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="Wikif345.html?page=EmailLists">Mailing Lists</a><br />
+<tt> </tt><a class="external" href="http://www.caret.cam.ac.uk/jira/browse/RSF">Issue Tracker</a><img class="outlink" src="images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="Wiki1535.html?page=People">People</a><br />
+</p>
+<p><b>Design</b><br />
+<tt> </tt><a class="wikipage" href="Wiki580c.html?page=Roadmap">Roadmap</a><br />
+<tt> </tt><a class="wikipage" href="Wiki654d.html?page=Integrations">Integrations</a><br />
+<tt> </tt><a class="wikipage" href="Wikia360.html?page=Concepts">Concepts</a><br />
+<tt> </tt><a class="wikipage" href="Wiki151d.html?page=Philosophy">Philosophy</a><br />
+</p>
+<div style="font-style:italic;font-size:0.8em;">
+<b>Pages</b><br />
+<tt> </tt><a class="wikipage" href="Wiki702d.html?page=FindPage">Find</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5fc7.html?page=RecentChanges">Recent Changes</a><br />
+<tt> </tt><a class="wikipage" href="Wikife97.html?page=UnusedPages">Unused</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5130.html?page=UndefinedPages">Undefined</a><br />
+<tt> </tt><a class="wikipage" href="Wiki5f9e.html?page=PageIndex">Index</a>
+</div>
+<p />
+    
+  </div>
+  
+  <div class="leftmenufooter">
+    <hr />
+<p><b>Referenced by</b><br />
+<a class="wikipage" href="Wikicf04.html?page=HibernateCookBook">HibernateCookBook</a><br /><a class="wikipage" href="Wikieedc.html?page=HibernateCookBook_1">HibernateCookBook_1</a><br /><a class="wikipage" href="Wiki3f4a.html?page=HibernateCookBook_2">HibernateCookBook_2</a><br /><a class="wikipage" href="Wiki4a0f.html?page=HibernateCookBook_3">HibernateCookBook_3</a><br /><a class="wikipage" href="Wikicb8a.html?page=HibernateCookBook_4">HibernateCookBook_4</a><br /><a class="wikipage" href="Wikie033.html?page=TransitBeans">TransitBeans</a><br />
+</p>
+    
+  </div>
+
+  
+
+  
+  
+  <div class="wikiversion">JSPWiki v2.8.2
+  <span class="rssfeed">
+    
+  </span>
+  </div>  
+  
+</div>
+
+	<div class="clearbox"></div>
+  </div>
+
+  
+
+
+
+
+
+ 
+<div id="footer">
+
+  <div class="applicationlogo" > 
+    <a href="Wikib2ab.html?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  <div class="copyright"></div>
+
+  <div class="wikiversion">
+    JSPWiki v2.8.2
+  </div>
+
+  <div class="rssfeed">
+    
+  </div>
+
+</div>
+
+</div>
+
+</body>
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_2 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:41:16 GMT -->
+</html>
+

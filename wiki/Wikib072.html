@@ -1,0 +1,43 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!!What is IKAT?
+
+The heart of the RSF system is the IKAT renderer, which uses a unique &quot;function call&quot; system to allow view templates to be written in pure (X)HTML. Many of the better frameworks out there today ([Tapestry], [RIFE], [WebWork]) already support templates which parse as HTML, but still fall into the trap of leaving the capability of significant logic &quot;piggybacking&quot; within the templates, whether as [OGNL] references, repetition constructs or other home-grown markup. IKAT adds just ONE attribute to its target render language (which may be any XML variant), the {{rsf:id}}, whose values are simple strings of 3 types. The renderer is extremely fast and short, and is capable of piling out data roughly as fast as it could be read from disk (in short tests, 10K of data rendered in 600 microseconds).
+
+The purpose of IKAT is to establish a complete separation between presentation and business logic. While many templating/web application systems promise this, very few achieve this. This interesting situation is examined by Terence Parr in his paper ''[Enforcing Strict Model-View Separation in Template Engines|http://www.cs.usfca.edu/~parrt/papers/mvc.templates.pdf]''. Parr assigns &quot;entanglement indexes&quot; from 1-5 in terms of the level of coupling between display and model layers, and concludes that Tapestry, WebMacro, Velocity, PTG, UniT, Tea, WebObjects, FreeMarker, ColdFusion, Template Toolkit, and Mason all have entanglement indexes of greater than 1 (in general 5). IKAT in theory has the lower than minimal index of 0, since in its current form it does not even permit computable control over output XML attributes, although there is some pressure to give it this capability!
+
+!!What is __an__ IKAT?
+[{Image src='IKAT/W-4132DD-Ikat_Cover-Black.jpg' align='center' caption='An Ikat' style='font-size: 120%; color: green;'}]
+
+An Ikat (apparently pronounced ee-kat[1]) is a kind of [woven carpet|http://www.marlamallett.com/w-4132.htm] that is made in Indonesia and in particular in Java. I was quite pleased to discover this since virtually every conceivable idiom to do with the web, weaving, meshing, tangling and Java had already been taken.
+
+!!How does IKAT work?
+In outline, IKAT ''fuses'' a [component tree|View] and a [template file|ViewTemplate] to produce the rendered view, guided only by correspondence between the {{rsf:id}} attribute applied to tags in the template file, and the ID field attached to the [UIComponent|Component] instance.
+
+The key step to the algorithm is the [IKAT function call|IKATFunctionCall] which allows the renderer to leap dynamically around the set of template files, guided by a form of &quot;argument matching process&quot; which locates the most &quot;suitable&quot; of a set of tags sharing the same ID, to be used to render the component which it currently has in its hands. It is this capability which allows the structure of the rendered file to differ greatly from the template file, by placing &quot;branch points&quot; in the logic of the rendering process by which it &quot;instantiates&quot; new instances of template components, recursively, guided by the component set. In this way we remove all logic from the view template itself, while still allowing a sufficient set of logical operations to be ''induced'' by the pattern of IDs it contains. We note that the only REAL logic required in rendering a view consists of simple predicates based on iteration, reordering and selection (presence/absence of a component), all of which logic now becomes ''induced'' in the IKAT renderer itself, rather than being ''encoded'' in the template. 
+
+To designers, the template &quot;just works&quot; in that the &quot;most suitable&quot; instance of many tags sharing the same {{rsf:id}} is automatically located - the worst that can go wrong is a component is simply not rendered. The drawing up of the ''first'' template file for a view may require some care, based on inspection and design of the view, and the sorts of variability that it may require, but once this is done the file may be handed over to designers for them to hack around at leisure, subject to the constraint that they should ''preserve the nesting structure of the document''. I.e. they should not move a component with a particular {{rsf:id}} from its state of being nested in another {{rsf:id}}, to outside its parent. They are unlikely to do this in any case, since this would structurally change the template in such as way as to &quot;be wrong&quot; and also look it[2].
+
+For those interested in the actual workings of the algorithm, it is described in more detail on the [IKATAlgorithm] page.
+
+
+----
+[#1] However I am unfortunately fond of mispronouncing words, and personally always pronounce &quot;Ikat&quot; like &quot;Ikkat&quot;. But then I also pronounce &quot;Maven&quot; like &quot;Mavven&quot;.\\
+[#2] To put it bluntly...\\
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

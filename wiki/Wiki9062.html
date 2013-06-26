@@ -1,0 +1,41 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The [ActionResultInterpreter|http://saffron.caret.cam.ac.uk/cgi-bin/cvsweb/rep/RSFUtil/src/uk/org/ponder/rsf/processor/ActionResultInterpreter.java] (ARI) marks the last stage of POST processing, and an important site for application configuration. It inspects the result of the just-concluded Action and computes the next view to be shown.
+
+The full code for ActionResultInterpreter appears here:
+
+{{{
+public interface ActionResultInterpreter {
+  public ARIResult interpretActionResult(ViewParameters incoming, Object result);
+}
+}}}
+
+with the ARIResult as follows:
+
+{{{
+public class ARIResult {
+  public AnyViewParameters resultingview;
+  public String propagatebeans;
+}
+}}}
+
+The Object {{result}} is the return value from the reflective invocation of the [method binding|EL], which is intended to be a String. The result may simply be null, possibly because the actual return type of the method is {{void}} rather than {{String}}. 
+
+The ActionResultInterpreter effectively embodies the &quot;web flow&quot; or &quot;site map&quot; of the application (in conjunction with the plain links that are rendered into pages), and we expect &quot;interesting&quot; implementations of this interface using a variety of technologies (for example, [Spring Web Flow|http://www.theserverside.com/articles/article.tss?l=SpringWebFlow] or [Cocoon|http://cocoon.apache.org/]. 
+
+Right now RSF supplies two alternative infrastructures for implementing ARIs, used to make users coming from two competing/neighbouring technologies ([JSF] and [SWF]) feel more at home. You may use the [FlowLite] system, which defines a lightweight clone of the Spring Web Flow FSA-style flow map scheme, with all transitions in a flow linked in a single flow definition XML file, as seen in the [Number Guessing sample|NumberGuessing]. Alternatively you may use the JSFNavActionResultInterpreter which applies JSF-style rule-based semantics, whereby each POST initiates a one-step flow. This also allows the rule definitions to be bundled with the view definition, leading to self-contained views such as in the [Hibernate CookBook|HibernateCookBook]. However, the ARI interface is so light that the door is open for any number of other techniques.
+
+----
+[#1] Note that since ThreadErrorState uses an old-fashioned ThreadLocal access pattern, in order to minimise penalties to its use below the [BeanLine], we may as well continue using it from there, all the design penalties have already been paid.
+
+</pre>
+

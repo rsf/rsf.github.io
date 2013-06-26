@@ -1,0 +1,35 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!! SWF benefits for RSF developers
+
+[Spring Web Flow (SWF)|SpringWebFlow] is a natural fit for [RSF], since both are web technologies based on the solid base of [Spring]'s IoC idiom and libraries. Both frameworks have &quot;universal portability&quot; as a goal, and the intersection of the two leads to a still greater universal portability. Here are some of the benefits that RSF developers could expect from the SWF environment:
+
+!! Centralised view logic
+In the typical RSF application, navigation declarations are scattered widely over the source base, next to the [producer|ComponentProducer] definitions which manufacture the component trees for rendering views. Thus, view logic and navigation logic are intermixed. SWF provides a portable, self-contained format for separating all the navigation logic and application logic in a [flow definition|http://static.springframework.org/spring-webflow/docs/current/reference/flow-definition.html], which allows the same flow to be used in different scenarios associated with different views.
+
+!! Isolated scopes
+Maintaining data across multiple views can be work intensive and complicated. SWF flow scopes isolate data and protect it from being accessed or modified from outside the scope. This provides developers with assurance that the data at the end of the scope has only been subjected to the logic within the flow. In addition, whereas RSF submissions and state typically inhabit a global, shared context of &quot;potential&quot; request-scope definitions, SWF definitions are self-contained and guaranteed non-interfering.
+
+!! Safe modification
+&quot;Multi-request&quot; sequences on the web (or &quot;wizards&quot;) can provide challenging scenarios for developers when maintaining consistent state. Defining the meaning of the ''back'' button (especially when it means ''undoing the last user action'') can be complex and hard to manage. An SWF flow scope, especially when using [continuation|http://static.springframework.org/spring-webflow/docs/current/reference/flow-execution-repository.html]-based storage, offloads this work from the developer, allowing flow idiom and storage to be configured independent from the flow logic. This allows the flow to retrieve the state of data contained within it from any step in the flow.
+
+!! Universal portability
+SWF flow definitions are independent of their hosting environment, and in addition to RSF portability, are independent of a particular mapping onto a sequence of web requests. An application formulated SWF flow definition can be ported &quot;in essence&quot; to a number of differing view technologies (the SpringMVC family, based on JSPs, Velocity, XSLs, or even [IKAT], as well as Struts and [JSF]), and in theory to other programming languages (such as those supported by Spring.NET and others).
+
+!! Powerful design tools and community
+The force of the Spring Web Flow community is bringing into existence powerful design tools, such as the [Spring IDE Flow Visualizer|http://www.springframework.org/node/429] which are able to exploit the more strongly declarative nature of the application design to deliver on the promise of &quot;semantic design&quot;. An application's navigation and logical structure can be visualised and designed graphically, with design constraints fulfilled statically, allowing work to proceed in parallel more smoothly on different aspects of the design - with visual design handled in HTML, logical and navigation structure in SWF, and core application logic in the safe hands of a Spring back-end.
+
+----
+If you are an existing SWF user interested in the benefits of RSF, check out the [RSF for SWF|RSFforSWF] page.
+
+</pre>
+

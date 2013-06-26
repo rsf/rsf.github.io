@@ -1,0 +1,45 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The Calendar Tag allows one to insert a simple calendar in a template.  It is mainly meant to be used in conjunction with the [WebLogPlugin].
+
+----
+!Usage
+
+&lt;wiki:CalendarTag pageformat=&quot;&lt;date format string&gt;&quot; urlformat=&quot;&lt;date format string&gt;&quot; /&gt;
+
+!Parameters
+
+You can direct the behaviour of the CalendarTag using the following tag parameters:
+
+;__pageformat__: A page name description string.  If a page corresponding to this page format exists, then a link of the 'urlformat' below, is generated.
+;__urlformat__: Each link of a date should correspond to this URL.  The parameters are the same as in the java.util.SimpleDateFormat.  Required.
+;__monthurlformat__: The month and year name on top of the calendar should point to this URL. The parameters are the same as in the java.util.SimpleDateFormat class.  Optional.  In addition, you can use &quot;%d&quot; to signify the length of the current month.
+
+Also, in all of the parameters the wildcard &quot;%p&quot; can be used to point at the current page name.
+
+!Example
+
+{{{
+       &lt;wiki:Calendar pageformat=&quot;'Main_blogentry_'ddMMyy'_1'&quot;
+                      urlformat=&quot;'Wiki.jsp?page=Main&amp;weblog.startDate='ddMMyy'&amp;weblog.days=1'&quot;/&gt;
+}}}
+
+This creates a calendar, where each date that has a corresponding &quot;Main_blogentry_ddMMyy_1&quot; page in existence, points to an URL defined using the urlformat parameter.
+
+Note that you will need to escape any real text using single quotes, since the ~SimpleDateFormat format does not use anything fancy like %d.  You are free to use any formatting options available.
+
+!HTTP Parameters
+
+The initial start date is taken from HTTP parameters &quot;calendar.date&quot;, or &quot;weblog.startDate&quot;.  The date format should be &quot;ddMMyy&quot;.  This allows the CalendarTag to set the date accordingly, and also pass it to other tags on the page.
+
+</pre>
+

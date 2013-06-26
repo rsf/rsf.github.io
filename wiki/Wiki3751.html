@@ -1,0 +1,127 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+RSF's [request scope beans|RequestScopeBeans] are managed by [RSAC], as implemented by [RSACBeanLocator]. Since RSACBeanLocator is by itself just a normal Spring-configured application-scope bean, it is quite easy for users to define their own private request-scope contexts, separate from any one which may or may not be operated by RSF coupled to its HTTP request handling. Note that there is no coupling between either RSAC and RSF, or RSAC and javax.HttpServlet - the only dependencies for RSAC (defined in J-ServletUtil) are [Spring] itself (other than the support library PonderUtilCore).
+
+!!Defining your own RSAC bean
+
+Setting up your own RSAC bean requires the following minimal set of Spring definitions (taken from {{rsf-config.xml}}):
+
+{{{
+ &lt;bean id=&quot;reflectiveCache&quot;
+    class=&quot;uk.org.ponder.reflect.JDKReflectiveCache&quot; /&gt;
+  &lt;bean id=&quot;staticLeafParser&quot;
+    class=&quot;uk.org.ponder.conversion.StaticLeafParser&quot; /&gt;
+
+  &lt;bean id=&quot;protoSaxalizerMappingContext&quot;
+    class=&quot;uk.org.ponder.saxalizer.SAXalizerMappingContext&quot;&gt;
+    &lt;property name=&quot;reflectiveCache&quot; ref=&quot;reflectiveCache&quot; /&gt;
+    &lt;property name=&quot;staticLeafParser&quot; ref=&quot;staticLeafParser&quot; /&gt;
+  &lt;/bean&gt;
+
+  &lt;bean id=&quot;ELDefaultInferrer&quot;
+    class=&quot;uk.org.ponder.saxalizer.mapping.DefaultMapperInferrer&quot;&gt;
+    &lt;property name=&quot;depluralize&quot; value=&quot;false&quot; /&gt;
+  &lt;/bean&gt;
+
+  &lt;bean id=&quot;ELMappingContext&quot;
+    class=&quot;uk.org.ponder.saxalizer.SAXalizerMappingContext&quot;&gt;
+    &lt;property name=&quot;reflectiveCache&quot; ref=&quot;reflectiveCache&quot; /&gt;
+    &lt;property name=&quot;defaultInferrer&quot; ref=&quot;ELDefaultInferrer&quot; /&gt;
+    &lt;property name=&quot;staticLeafParser&quot; ref=&quot;staticLeafParser&quot; /&gt;
+  &lt;/bean&gt;
+
+  &lt;bean id=&quot;rsacBeanLocator&quot; factory-bean=&quot;rsacBeanLocatorFactory&quot;
+    factory-method=&quot;getRSACBeanLocator&quot; init-method=&quot;init&quot;&gt;
+    &lt;property name=&quot;reflectiveCache&quot; ref=&quot;reflectiveCache&quot; /&gt;
+    &lt;property name=&quot;mappingContext&quot;&gt;
+      &lt;ref bean=&quot;ELMappingContext&quot; /&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;blankContext&quot; ref=&quot;??????&quot; /&gt; &lt;!-- user must supply this somehow --&gt;
+  &lt;/bean&gt;
+}}}
+
+In RSF, the rsacBeanLocator is in practice dispensed by the [RSACBeanLocatorFactory|https://saffron.caret.cam.ac.uk/svn/projects/ServletUtil/trunk/src/uk/org/ponder/rsac/RSACBeanLocatorFactory.java], of which the only function is to set the one remaining dependence of RSACBeanLocator which is the ''blankContext''. This is a Spring ConfigurableApplicationContext into which Spring has loaded the definitions of the beans that RSAC will operate. It's important to note that ''none of the beans in this context will ever be created'' - since if Spring were to create them, they would appear at the wrong scope. This blank context only serves the functions of i) being a source of Spring BeanDefinitions that RSAC will use to precompute all possible bean type information in advance, so that creation at request scope will go as rapidly as possible, and ii) being a &quot;fake&quot; context that can be supplied to Spring in various circumstances to convince it that the RSAC context really exist.
+
+The RSACBeanLocatorFactory is designed for use in Servlet contexts where the location of the RSAC definition files is held in locations specified in web.xml. In standalone contexts, these definitions may well come from elsewhere, i.e. may be purely Spring-configured from a location in the classpath. Spring's FileSystemXmlApplicationContext is a simple one-stop shop if you know exactly where your files are and don't expect this to change. For reference, the RSF-specific beans that locate the Spring files are defined as follows:
+
+{{{
+  &lt;bean id=&quot;rsacResourceLocator&quot;
+    class=&quot;uk.org.ponder.rsac.servlet.ServletRSACResourceLocator&quot;&gt;
+  &lt;/bean&gt;
+
+  &lt;bean id=&quot;rsacBeanLocatorFactory&quot;
+    class=&quot;uk.org.ponder.rsac.RSACBeanLocatorFactory&quot;&gt;
+    &lt;property name=&quot;RSACResourceLocator&quot;&gt;
+      &lt;ref local=&quot;rsacResourceLocator&quot; /&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+
+  &lt;bean id=&quot;rsacBeanLocator&quot; factory-bean=&quot;rsacBeanLocatorFactory&quot;
+    factory-method=&quot;getRSACBeanLocator&quot; init-method=&quot;init&quot;&gt;
+    &lt;property name=&quot;reflectiveCache&quot; ref=&quot;reflectiveCache&quot; /&gt;
+    &lt;property name=&quot;mappingContext&quot;&gt;
+      &lt;ref bean=&quot;ELMappingContext&quot; /&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+}}}
+
+!! Using your own RSAC bean
+
+Once you have your bean properly defined, it's just a matter of firing it up at the proper time. If you are not part of a framework which manages this (i.e. RSF!) you will need to navigate your way to it yourself. A good source of reference on how to do this is the [ReasonableSpringServlet|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/servlet/ReasonableSpringServlet.java] which does all this setup work for the Servlet environment. Firstly, at application time, find the RSAC bean:
+{{{
+   contextLoader = new ContextLoader();
+    WebApplicationContext wac = contextLoader.initWebApplicationContext(sc);
+    rsacbeanlocator = (RSACBeanLocator) wac.getBean(&quot;rsacBeanLocator&quot;);
+}}}
+
+Secondly, at request time, 
+* get the request-specific container (a BeanLocator) from RSAC (this is automatically bound to a ThreadLocal)
+* populate it with all the request-specific information you can lay your hands on, which will fill up fields of beans which are marked as dependencies of the request-operating beans you have defined, and
+* if you are operating fully RSAC-ed request logic, simply &quot;get&quot; the &quot;root bean&quot; you have defined which operates the request logic, and stand back.
+* finally, and I *mean* __finally__ :P, call {{endRequest()}} on the RSAC bean to clean up the context for the next use by this thread.
+
+You can see all these steps occurring in the {{service()}} method of the ReasonableSpringServlet.
+
+{{{
+
+  protected void service(HttpServletRequest request,
+      HttpServletResponse response) {
+    RSACUtils.startServletRequest(request, response, rsacbeanlocator,
+        RSACUtils.HTTP_SERVLET_FACTORY);
+    try {
+      rsacbeanlocator.getBeanLocator().locateBean(&quot;rootHandlerBean&quot;);
+    }
+    catch (Throwable t) {
+      // Catch and log this here because Tomcat's stack rendering is
+      // non-standard and crummy.
+      Logger.log.error(&quot;Error servicing RSAC request: &quot;, t);
+      if (t instanceof Error) {
+        throw ((Error)t);
+      }
+    }
+    finally {
+      rsacbeanlocator.endRequest();
+    }
+  
+}}}
+
+If you aren't ready to bite the bullet of full-RSAC logic (see the page on [request scope beans|RequestScopeBeans]) about how this works, you may operate some conventional logic for a while, and pass the RSAC bean around to further clients who might get some request beans out of it later. But the full-RSAC route is a lot cleaner, and once you've made the slight change of viewpoint needed, I promise you you'll never want to go back :P 
+
+The [RSACBridgeProxy] is an invaluable aid for users who want to retain the freedom to drop into request scope at some later time during request handling, while passing through application scope logic.
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

@@ -1,0 +1,48 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+BeanExploders take a bean &quot;exemplar&quot; (or more simply, just a class name) and &quot;explode&quot; this bean to create an infinite lazy collection of distinct instances initialized from it.
+
+For example, the following definition:
+
+{{{
+&lt;bean id=&quot;datetransit&quot; parent=&quot;beanExploder&quot;&gt;
+  &lt;property name=&quot;beanClass&quot; 
+     value=&quot;uk.org.ponder.dateutil.DMYTransit&quot;/&gt;
+&lt;/bean&gt;
+}}}
+
+creates a bean collection that can be accessed through paths of the form {{#{datetransit.1} }}, {{#{datetransit.2} }} etc. or indeed {{#{datetransit.anything-else} }}.
+
+BeanExploders are usually used in request scope in order to provide request logic with a collection of &quot;fresh&quot;, distinctly nameable beans . They can be used as [transit beans|TransitBeans] or other kinds of validators, have properties injected into them via [EL bindings|EL], or simply used as default-constructed objects (e.g. Dates). You might like to think of accessing an &quot;exploded&quot; bean as the equivalent of &quot;declaring a variable&quot; at request scope - i.e. instead of 
+
+{{{
+#{datetransit.mytransit}
+}}}
+
+read
+
+{{{
+DMYTransit mytransit = new DMYTransit();
+}}}
+
+as a sort of &quot;spiritual equivalent&quot; - only this &quot;variable&quot; is declared with the scope of the request, rather than the block scope of the Java definition.
+
+Yet another way of thinking of BeanExploders are as the solution to the Spring &quot;lost non-singleton&quot; problem. If, when in a Spring definition you mark a bean as {{singleton = &quot;false&quot;}}, each fetch of the bean constructs a new instance - but the drawback is this bean becomes &quot;lost&quot; to the IoC architecture and cannot be used for any further wiring. With an &quot;exploded&quot; bean, you have the benefit of both a boundless source of configured instances, but also retain the ability to refer to them again by mentioning the same path in an [EL] expression. Note however you can only do this by references issued from RSF bound [Components] via EL - RSF's [RSAC] container maintains Spring's semantics and syntax within its own bean container.
+
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

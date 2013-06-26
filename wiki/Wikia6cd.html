@@ -1,0 +1,41 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The BeanFetchBracketer is a generalised interception strategy for RSF request-scope [RSAC] beans.
+
+Frequently, one needs to &quot;bracket&quot; some part of the RSF request cycle, usually to take care of some cross-cutting concern such as transactionality, or security. Parts of the request cycle are in fact *already* bracketed, the most famous example being the [AlterationWrapper] which brackets any access to the EL-addressible part of the [request bean model|RequestWriteableBeans], or the RenderHandlerBracketer which brackets the render cycle, largely to give the capability for intercepting [Level 1 errors|Level1Error].
+
+RSF allows for extensibility in that users (developers) are free to define their own bracketers, targetted at different parts of the RSF lifecycle. This is a little similar to the JSF PhaseListener system, but considerably more robust and powerful, since a bracketer offers
+
+* *guaranteed* execution, and
+* *guaranteed* possibility for cleanup, since the &quot;before&quot; and &quot;after&quot; code is written in the body of the same method.
+
+The &quot;body&quot; of a BeanFetchBracketer is just a bean of type [RunnableInvoker]. In order to set up a bracketer targetted at a particular bean, make a definition as follows:
+
+{{{
+  &lt;bean id=&quot;logonBracketer&quot; class=&quot;uk.org.ponder.rsac.BeanFetchBracketer&quot;&gt;
+    &lt;property name=&quot;targetBeanName&quot;&gt;
+      &lt;idref bean=&quot;alterationWrapper&quot; /&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;wrappingBean&quot; ref=&quot;securityWrapper&quot; /&gt;
+  &lt;/bean&gt;
+}}}
+
+Here we have defined a bracketer whose &quot;body&quot; is the bean {{securityWrapper}}, and which is ''targetted at'' the fetch of the bean {{alterationWrapper}}. See the last section of the [LogonTest|LogonTest_3] application for more discussion.
+
+Note that unless the target bean is a [VeryLazyBean|VeryLazyBeans], the fetch will probably occur much earlier than you expect - it will in fact have to occur in direct response to the fetch of a bean that has an (indirect) dependency on it. Therefore bracketting non-very lazy bean is of limited use. Bracketting a very lazy bean will cause the bracketting logic to execute *within* the code block that is making the first access to the bean, causing it to be fetched via the proxy - this is likely to be a very good time for the logic. Currently the two prime targets for BeanFetchBracketter are
+
+i) The {{rootHandlerBean}}, for logic you want wrapped around the *entire* RSF request cycle. This can be useful for security filters which transfer information from external/container authentication sources. Note that since so little of the RSF container is started up at this time, you can in general only depend on the EarlyRequestParser and the ViewParametersParser to have executed by this point.
+
+ii) The {{alterationWrapper}}, for logic you want wrapped around only the model access section of the request. This can be useful for *internal* authentication, where you require more RSF request context to make sense of the environment. This is also the place for any exclusion/transactional safety logic, although you may simply want to reimplement alterationWrapper itself in more complex cases.
+
+</pre>
+

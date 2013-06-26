@@ -1,0 +1,22 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Echo is a framework that delivers on more of JSF's promise to integrate GUI development and webapp design. An Echo app features all the entities familiar to Swing developers, such as LayoutManagers and Windows, and may be embodied into either a webapp or indeed an actual Swing application[1].
+
+However, Echo is ''extremely'' intrusive, in that there is no part of your code at either the model, view or controller level that will be free of dependence on Echo classes. For example, in the Echo [&quot;Hello World&quot;|http://www.nextapp.com/products/echo/doc/tutorial/hello_world.html] example we see that applications are ordered into two parcels, one implementing &quot;EchoServer&quot; and the other &quot;EchoInstance&quot;.
+
+In addition to its intrusiveness[2], Echo will always suffer from the &quot;looks non-native in every environment&quot; deficit that always stops Sun UI products from gaining market share. While it is possible to create new Echo &quot;components&quot; (as it is JSF components) this will always be considerably harder than creating RSF components since the framework is so much further from the XML dialect layer.
+----
+[#1]Actually, it can't! I had assumed this was the whole point of Echo, but don't see anthing on their site which suggests this has yet been implemented.\\
+[#2]As well as intruding upon logic, Echo also intrudes upon application state - see the section [&quot;Architecting an Application&quot;|http://www.nextapp.com/products/echo/doc/tutorial/app_arch.html] where it is explained that all state is stored within the &quot;EchoInstance&quot; methods. Hardly very &quot;architectural&quot; - all the work of dealing with your ORM solution is simply doubled.
+
+</pre>
+

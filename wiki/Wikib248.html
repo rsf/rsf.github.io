@@ -1,0 +1,36 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Creates a link to the upload page.  See [WikiAttachments].
+
+Why would you use this instead of a standard anchor?  The UploadLinkTag automatically adds things like the correct class information (for styles), the jspwiki.baseURL property, attachment links, etc.
+
+----
+
+!Usage
+
+&lt;wiki:UploadLink page=&quot;&lt;page name&gt;&quot; format=&quot;anchor|url&quot;&gt;
+;:''Link text''
+&lt;/wiki:UploadLink&gt;
+
+!Parameters
+
+;__page__: Page name to link to. If not set, uses the current page.
+;__format__: If &quot;anchor&quot;, creates the full hyperlink (&lt;a href=&quot;...&quot;&gt;link text&lt;/a&gt;); if &quot;url&quot;, outputs only the URL.
+
+!Example
+{{{
+&lt;wiki:UploadLink&gt;Upload a new attachment&lt;/wiki:UploadLink&gt;.
+}}}
+
+
+</pre>
+

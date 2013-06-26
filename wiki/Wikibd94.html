@@ -1,0 +1,48 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Includes the body if a search has been performed.  This tag will also include the body in case there were ''no'' hits.  You can use the [IfNoSearchResults Tag] to check the number of hits.
+
+----
+
+!Usage
+
+{{{
+&lt;wiki:SearchResults&gt;
+  HTML or JSP tags
+&lt;/wiki:SearchResults&gt;
+}}}
+
+!Parameters
+
+None.
+
+!Example
+{{{
+&lt;wiki:SearchResults&gt;
+    &lt;h4&gt;Search Results&lt;/h4&gt;
+    &lt;p&gt;
+    &lt;i&gt;Found &lt;wiki:SearchResultsSize/&gt; hits, here are the top 20.&lt;/i&gt;
+    &lt;/p&gt;
+
+    &lt;wiki:SearchResultIterator id=&quot;searchref&quot; maxItems=&quot;20&quot;&gt;
+        &lt;wiki:LinkTo&gt;&lt;wiki:PageName/&gt;&lt;/wiki:LinkTo&gt;&amp;nbsp;
+        &lt;%=searchref.getScore()%&gt;
+    &lt;/wiki:SearchResultIterator&gt;
+
+    &lt;wiki:IfNoSearchResults&gt;
+         &lt;b&gt;No results&lt;/b&gt;
+    &lt;/wiki:IfNoSearchResults&gt;
+&lt;/wiki:SearchResults&gt;
+}}}
+
+</pre>
+

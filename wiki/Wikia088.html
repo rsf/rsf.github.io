@@ -1,0 +1,34 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Decorators are a highly valuable extension to the RSF component model, brought in with RSF 0.6.2, which allow finely-tuned rendering hints to be delivered from the [view producer|ComponentProducer] to the renderer, without sacrificing either portability or the orthogonality of the component model.
+
+Decorators are very small &quot;classes&quot; (or in other languages, {{struct}}s) derived from the (currently empty) base class UIDecorator, which are stored in a list kept in UIComponent:
+
+{{{
+  /** A list of &quot;decorators&quot; which alter the rendering behaviour of this 
+   * component, orthogonal to its binding behaviour. Usually &lt;code&gt;null&lt;/code&gt;
+   */
+  public DecoratorList decorators;
+}}}
+
+A producer wanting to offer rendering hints may instantiate and populate this list with one or more decorators - for example UIColourDecorator which allows control over foreground and background colours, or UITooltipDecorator which supplies text that a &quot;user agent&quot; may render when the mouse is hovered over the control. The key point though is that decorators are ''optional'' in the sense that the renderer and/or agent may choose to ignore them, and they are entirely orthogonal to the RSF component hierarchy in that any decorator(s) may be applied to any component and do not pollute their data binding function. Finally decorators are ''portable'' in that they have their own [RenderSystem]-specific component hierarchy separate from the main component hierarchy, which attempts, for each technology to achieve their effect where possible, or ignore them where not.
+
+The HTML ColourDecoratorRenderer, for example, has the action of appending the relevant CSS styles ({{color}} and {{background-color}}) to the output node's &quot;style&quot; attribute. In fact since many other XML-based technologies (such as XUL and SVG) also use CSS styles, this decorator is portable to those too. Note that you should avoid using decorators where the repertoire of values they refer to may be ''enumerated'' rather than requiring to be computed on the server - you should ''always'' try to write as much markup in the client (template) as possible, to keep your server dependency low.
+
+This is a huge improvement over the JSF model, for example, where all of this information must be non-portably smashed into a single {{Map}} object which simply encodes attributes in the raw. Of course, if you simply can't do without this level of control, you can still use RSF's UIFreeAttributeDecorator.
+
+You can see decorators in action in the [ComponentTest] sample where a UIColourDecorator is used to colour rows of a table.
+
+A guide to all the decorators currently supplied with RSF and their expected effects in HTML is with the guide on [primitive components|PrimitiveComponents].
+
+</pre>
+

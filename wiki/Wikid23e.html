@@ -1,0 +1,124 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+In many ways Java applications &quot;start on 3rd base&quot; with regards to I18N, being as the decision was made at an early stage to base the language and JVM on Unicode, and standard Java [properties bundles|http://java.sun.com/developer/technicalArticles/Intl/ResourceBundles/] have been part of the landscape for a long while. Spring takes this support a little further with its [MessageSource|http://www.springframework.org/docs/api/org/springframework/context/MessageSource.html] hierarchy and uniform approach to [resource loading|http://www.springframework.org/docs/api/org/springframework/core/io/ResourceLoader.html].
+
+RSF takes care to preserve this heritage maximally, rounding it off with a few architectural enhancements resulting from its use of [request-scope IoC|RequestScopeBeans] which make best practice and universal portability truly effortless.
+
+I18N in RSF is enabled through three methods: template rsf:id convention (msg=),  the concrete [UIMessage] class, and the [MessageLocator] interface. 
+
+!!! Template Convention (msg=)
+
+Use of the __msg=message.key__ as the rsf:id will automatically replace the content of the html tag with that rsf:id with the internationalized message.
+{{{
+&lt;span rsf:id=&quot;msg=page.user.message.key&quot;&gt;This is an internationalized message.&lt;/span&gt;
+}}}
+
+!!! UIMessage
+Use of UIMessage is the preferred means for localisation in RSF [ViewProducers|ComponentProducer]- this method is clearer than direct use of the underlying {{messageLocator}} bean since it requires no injection. As of RSF 0.7.1 every RSF [primitive component|PrimitiveComponents] and [decorator|Decorators] is fully enabled to make use of UIMessage or otherwise function without explicit injection of a MessageLocator.
+
+Here is the most basic usage:
+
+{{{
+   public void fillComponents(UIContainer tofill, ViewParameters viewparams, 
+             ComponentChecker checker) {
+....
+   UIMessage.make(tofill, &quot;scale-title-note&quot;, &quot;scaleaddmodify.scale.title.note&quot;);
+...
+}}}
+Here we have created a label component with an [rsf:id|IDs] of {{scale-title-note}}, which will fetch the message with key {{scaleaddmodify.scale.title.note}} from the message bundle registered into the RSF {{messageLocator}}. To complete the picture, here is the corresponding template section
+{{{
+   &lt;span rsf:id=&quot;scale-title-note&quot; style=&quot;font-weight:bold;&quot;&gt;Title&lt;/span&gt;
+}}}
+and the message key from the message file (by default in RSF expected under the path {{/WEB-INF/messages/message_xxxx.properties}}, where {{xx}} represents the locale string):
+
+{{{
+scaleaddmodify.scale.title.note=Title
+}}}
+
+For more complex message formatting, one may use another constructor of UIMessage as follows:
+{{{
+  public static UIMessage make(UIContainer parent, String ID, String messagekey,
+      Object[] arguments)
+}}}
+This signature operates just the same semantics as the standard Java class {{[MessageFormat|http://java.sun.com/j2se/1.4.2/docs/api/java/text/MessageFormat.html]}} (which will be in actual fact most likely be used to render the final markup) - consult those Javadocs for the ultimate reference.
+
+!! UILink and UICommand
+The UILink and UICommand primitive components both have constructors capable of accepting a UIMessage (or any other variety of UIBoundString) thereby creating a link or command control with localized text. For example 
+{{{
+  UICommand saveReorderButton = UICommand.make(form2, &quot;saveReorderButton&quot;, 
+    UIMessage.make(&quot;modifytemplate.button.save.order&quot;), &quot;#{templateBBean.saveReorder}&quot;);
+}}}
+
+will create a command control displaying the localised message with the key {{modifytemplate.button.save.order}}.
+
+!! Localizing decorators
+
+All the String-valued RSF [Decorators] will accept a UIMessage object in place of the direct String. For this application, you must use the shorter UIMessage constructors that do not accept the {{UIContainer parent}}, since the component is not being added to the tree directly. For example, to add a tooltip decorator to the command button we created above, so that hovering the mouse over it will show a localised message, one could use the following line:
+
+{{{
+  saveReorderButton.decorators = new DecoratorList( new UITooltipDecorator(
+    UIMessage.make(&quot;modifytemplate.button.save.order.title&quot;) ) );
+}}}
+
+
+Other BoundString-accepting decorators include UIAlternativeTextDecorator.
+
+!! Localising selection controls
+
+Selection controls represented by [UISelect] are conveniently initialised with String arrays. Looping over these for message lookup would be highly tedious, so the primitive UISelect supports a very useful shorthand notation for expressing that the {{String[]}} supplied as the {{labels}} argument represents an array of message keys, rather than an array of literal labels:
+
+{{{
+  String[] instructorOptLabels = { &quot;evalsettings.instructors.label.opt.out&quot;,
+        &quot;evalsettings.instructors.label.opt.in&quot;, &quot;evalsettings.instructors.label.required&quot; };
+  UISelect.make(tofill, &quot;instructorOpt&quot;, EvaluationConstant.INSTRUCTOR_OPT_VALUES,
+        instructorOptLabels, &quot;#{evaluationBean.eval.instructorOpt}&quot;).setMessageKeys();
+}}}
+
+As can be seen, the only extra formality required to signal that {{instructorOptLabels}} should be interpreted as  an array of messsage keys is to finalise the construction with a call to the instance method {{setMessageKeys()}} - this returns the freshly constructed selection control (in the famous &quot;chaining&quot; style so famous from other frameworks) in case it is required.
+
+RSF internals afficionados may be interested to learn that the entire implementation of {{setMessageKeys()}} consists of the following code: 
+{{{
+  public UISelect setMessageKeys() {
+    optionnames.resolver = new ELReference(&quot;#{messageLocator}&quot;);
+    return this;
+  }
+}}}
+
+!!! MessageLocator
+The RSF bean {{messageLocator}}, of type {{[MessageLocator]}}, is the underlying implementation to which all the above message components pass during the {{fixup}} phase to acquire the correctly localised text. Occasionally it may be necessary to make use of this bean directly, but since RSF 0.7.1 all the principal use cases have been handled with the above methods, which are to be preferred, since they result in no intrusion on the target [producer|ComponentProducer] with an extra dependency. MessageLocator and its relationship to Spring MessageSource is explained on its own page - here we show examples of the main styles of usage.
+
+!! Direct resolution of a simple message
+This is a deprecated usage showing a UIOutput whose text is initialised by direct call to a {{MessageLocator}}, injected as a dependency. For this usage, use a UIMessage instead.
+{{{
+  UIOutput.make(tofill, &quot;task-list-title&quot;, messageLocator.getMessage(&quot;task_list_title&quot;));
+}}}
+!! Indirect resolution via EL
+Where necessary, and where the required message takes no arguments (that is, the {{Object[]}} array argument to MessageLocator or UIMessage would not be required), messages may be resolved via EL expressions using the message key as a property name of {{messageLocator}}:
+{{{
+  UIOutput.make(tofill, &quot;sequence-num-1&quot;, null, &quot;#{messageLocator.gt_num_1}&quot;);
+}}}
+
+Take care to escape any periods that occur within the key name here using the proper RSF utilities for working with [EL]. Again, this particular usage should be replaced with a UIMessage, although this capability may be useful in other contexts.
+
+!!! Default naming and location of the Messages.properties file
+
+The default location for the Messages.properties file in RSF tools is tool/src/webapp/WEB-INF/messages but this is configurable via a bean in applicationContext.xml like so.
+
+{{{
+&lt;!-- Configure the location of the messages files --&gt;
+&lt;bean id=&quot;messageSource&quot; parent=&quot;messageSourceParent&quot;&gt;
+  &lt;property name=&quot;basename&quot; value=&quot;classpath:org/sakaiproject/evaluation/tool/bundle/messages&quot; /&gt;
+&lt;/bean&gt;
+}}}
+
+</pre>
+

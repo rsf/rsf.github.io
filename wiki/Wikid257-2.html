@@ -1,0 +1,51 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+%%( background-color: #c0c0c0; border: 1px dotted black; padding: 0.2em; font-size: 200%; text-align: center)
+--= OLD=--
+%%
+
+%%( background-color: #c0c0c0; text-align: center)
+This page predates the release of RSF 0.6 - Note that while the RSVC Preservation Strategy approach has been &quot;implemented&quot;, it was never brought to being fully functional since it became apparent that there were quite a number of features more vital to users. If there is any user demand for it, this might be finished after the 1.0 release.
+%%
+
+RSF faces two main alternatives in its philosophy for propagation of inter-request state. In the &quot;old&quot; approach, the bean model is declared [dead|DeadBeans] at the end of the POST request cycle and equivalent to the equivalent POJO model. It could then be serialised safely or otherwise &quot;stashed&quot; between requests. However, there is simply no economic way to implement this kind of behaviour for dynamically-proxied, lazy-loading bean models such as those provided by Hibernate. RSF therefore introduces a &quot;new&quot; model that treats the [RequestSubmittedValueCache] collection as a &quot;growing log&quot; of user activities throughout the multi-request. This, by contrast, is easily serialisable since completely flat, and was a structure we were maintaing anyway. RSF actually allows you to run &quot;new&quot; [RSVCReplay] and &quot;old&quot; model beans side-by-side in the same container, simply by choice of the appropriate [StatePreservationStrategy].
+
+In this page we discuss the tradeoffs in detail between the two approaches[1].
+
+The RSVC model is very &quot;economic&quot; in that it places the [minimum conditions|DestructibilityIsExtensibility] on the bean model - at the end of the request cycle we by default consider it good for nothing and throw it away[2]. The bean model __may__ be from a provider that could offer greater capabilities (i.e. some sort of [&quot;long transaction&quot;|LongTransactions] support, but it may not. As it turns out, the main environment, Hibernate, that ''does'' provide long transaction support simultaneously punishes us by forcing us to keep the bean model in memory. This is not a cost we can impose on all users of the framework - so using the RSVC model also allows us &quot;economy&quot; in the saving in memory - being completely &quot;flat&quot; the RSVC can be serialised anywhere in the long hinterland between requests.
+
+However, discarding the possibility[3] for &quot;real&quot; long transaction support loses us some key capabilities that need to be documented. Should these need to be recovered, there will need to be extra implementation somewhere. The main losses are in 3 heads as follows:
+
+# The RSVC only accumulates state related to ''user-submitted'' values. There is the possibility that an intervening update to the model during a Multi-Request might relevantly affect it in ways not covered by these submissions - for example i) a label displayed to the user may be altered by the independent update, or, still worse, ii) the update may destroy some &quot;parent&quot; structure that the model depends on for the coherency of the pending multi-request update.
+# The RSVC essentially mandates an &quot;optimistic&quot; concurrency strategy. Where we were relying on underlying framework transactions, we got &quot;for free&quot; the possibility for other approaches, e.g. pessimistic ones.
+# We lose the ability to benefit from any ORM-framework version-checking infrastructure. Since the request beans in request N are were only loaded in request N, Hibernate (e.g.) cannot check that they have not been modified since request 1.
+
+!! 1. Model updates with side-effects
+To deal with the first issue, one should consider what the &quot;best&quot; user experience could have been under the long transaction model. In the case that one of the conflicting situations mentioned have been encountered, it is fairly clear that the current transaction can never be committed in its current form. In the &quot;optimistic&quot; &quot;long transaction&quot; model, there is no possibility for the user to gain evidence of this ahead of time. Note that RSVC stores &quot;old&quot; values for all user-submitted values, enabling a very &quot;cheap&quot; check for concurrent update without a round-trip to the model, so at least in part this actually represents a ''benefit''. The case 1) ''could'' be dealt with in the scope of the framework, if it was insisted that all access to the model during the [ComponentProducer] execution was done via EL, and the values obtained were themselves added to the RSVC, although this seems a trifle unrealistic. The case 2) represents certain doom, although again it should be noted that this doom would strike at the end of the transaction anyway. The central issues are a) how hard is it for application code to detect this scenario, and b) how hard is it to mount some kind of &quot;recovery strategy&quot; once detected. The lowest level of support for b) is for the framework to at least continue functioning and serving views where these are consistent, and invite the user to perhaps use &quot;cut and paste&quot; or a &quot;side-by-side browser&quot; strategy to rescue any particularly expensive submitted data. Note again it can be argued that RSF actually makes this easier - since it explicitly supports &quot;forking&quot; of multi-request navigation state, it can continue to serve previous wizard pages where these have not been rendered inaccessible through the destruction of ancestral state. The bottom line is, this situation simply cannot be handled without some quantity of dedicated application code, and I don't believe RSF makes this code substantially harder to write, and probably makes it somewhat easier.
+
+!!2. Optimistic concurrency as default
+To deal with the second point - RSF does not mandate a transaction model, although suggests that what model there is be supplied by the AlterationWrapper. Altering the transaction model of an application would necessarily require some ORM-application coupling code, which it is not really the position of RSF to interfere with. If there was a long-transaction pessimistic locking strategy available, it should still be possible to operate it with equivalent code in isolated transactions without undue amounts of extra code. The only way in which RSF could &quot;get in the way&quot; is through failing to provide some form of adequately-scoped storage in which details of the locked state can be stored. In general we are opposed to any 3rd-party additions to the [TokenRequestState], but in the face of things such as [RIFE Continuations|RIFEContinuations] it is possible some compromise could be reached. This is far from an immediate issue...
+
+!!3. No &quot;hard&quot; versioning checks
+To mitigate this, we should note again that the RSVC itself does permit version checks (albeit of lower efficiency and reliability) to be placed on all values actually modified by the user during the multi-request. This really should actually be sufficient to cover a good quantity of use cases.
+
+!!! Summary
+RSF's &quot;RSVC&quot; adopts a straightforward approach to Multi-Request state which enables ''most'' users to get ''most'' of the benefits of long transactions, with few of the costs, and even in environments where long transactions are not actually supported. Those users who really ''require'' the strong guarantees provided by ORM-implemented long transactions are still able to get them without a great deal of extra work.
+
+A shorter, results-oriented summary of this discussion appears in the main page on [RSVC Replay|RSVCReplay].
+----
+[#1]Note that although RSVC replay has been &quot;implemented&quot;, it is not currently functional. Contact me if your requirements would make it useful.\\
+[#2][http://www.samueljohnson.com/cucumber.html|http://www.samueljohnson.com/cucumber.html]\\
+[#3]Note that the legwork to get long transactions to actually work correctly in ''any'' environment is highly non-trivial - ask [Ian|IanBoston] for details.
+
+</pre>
+

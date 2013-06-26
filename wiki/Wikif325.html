@@ -1,0 +1,65 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The &quot;ID Defunnelling Reshaper&quot; has a silly name, but it performs a simple task and is easy to use. It is implemented as standard in the RSF framework as a single, request-scope bean named {{id-defunnel}}, and it is used to handle the case where a selection control [UISelect] is allowing the user to select which instance of one entity type is attached to a different one.
+!Sample persistent model
+Imagine we had a persistent model setup as follows (which is quite common when using ORM solutions such as Hibernate):
+
+{{{
+public class Recipe {
+  public String id;
+  public Category category;
+  ...
+  }
+
+public class Category {
+  public String id;
+  }
+}}}
+!Why the reshaper helps
+A very common requirement would be a selection control that allowed the user to assign Recipes to different categories. Since RSF is aimed at a &quot;server-light&quot; model where nothing is held on the server between requests, the natural way to express this is as a UISelect control where the list of choices is between the {{id}} elements of the Categories rather than the entire objects themselves. However, when the form submission returns, we have a potentially irritating task (even more irritating if we are using full [OTP]) of mapping the incoming Category id in the submission back on to the correct persistent entity, fetching it from persistence, and then assigning *it* rather than the id into the correct place in the Recipe object.
+
+!Sample backing model
+
+If we were using a simple &quot;pre-OTP&quot; model (here namely the &quot;captive entity pattern&quot;) we might have written a backing model like this:
+{{{
+public class RecipeHandler {
+  public Recipe newRecipe = new Recipe();
+  }
+}}}
+
+!How to declare use of the reshaper
+Now, assuming the [EntityNameInferrer] is properly registered with the framework for the {{Category}} entity, we could set up a UISelect control which selects between different categories as simply as this:
+
+{{{
+  ...
+  List&lt;Category&gt; categories = categoryDao.fetchAllCategories();
+  String[] catIds = new String[categories.size()];
+  String[] catNames = new String[categories.size()];
+  for (int i = 0; i &lt; categories.size(); ++ i) {
+    catIds[i] = categories.get(i).id;
+    catNames[i] = categories.get().name;
+    }
+  UISelect catSelect = UISelect.make(tofill, &quot;category-select&quot;, catIds, catNames, 
+          &quot;recipeHandler.newRecipe.category.id&quot;).setIDDefunnel();
+}}}
+
+Note that the crucial directive to make sure that this &quot;selection control of ids&quot; as it has been formally set up is interpreted as a &quot;selection control of entities&quot; is to issue the call {{setIDDefunnel()}} at the end of the construction call.
+
+Note that if you are using the standard framework [EntityBeanLocator] for {{Category}}, say, the relevant [EntityNameInferrer] will be set up for you automatically.
+
+If we were also using [OTP] for the {{Recipe}} entity itself, note that all that would change would be the EL path bound to the control - rather than the fixed path we had written as above, we would write {{&quot;Recipe.&quot;+recipeId+&quot;.category.id&quot;}}. Note that in future versions of RSF (probably 0.9) even this aspect of OTP will be automated and one will no longer need to compose OTP EL paths by hand in this way.
+
+!Note on versioning
+Although {{id-defunnel}} has actually been part of RSF since the very earliest days (a buried use of it can be found in [page 3|HibernateCookBook_3] and [page 4|HibernateCookBook_4] of the original Hibernate Cookbook), the &quot;compact and automatic&quot; use shown above is new in RSF version 0.7.3. Before this version, the {{id-defunnel}} reshaper had to be written onto the UISelect {{selection}} member manually as a bean reference, and due to lack of an automated [EntityBeanLocator], correct implementations of [EntityNameInferrer] were very rare.
+
+</pre>
+

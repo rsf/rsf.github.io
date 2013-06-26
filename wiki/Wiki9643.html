@@ -1,0 +1,54 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+%%(font-size:2em;color:red;)
+To_Be_Removed: This page is not helpful to RSF users
+%%
+
+%%( background-color: #c0c0c0; border: 1px dotted black; padding: 0.2em; font-size: 200%; text-align: center)
+--= OLD=--
+%%
+
+%%( background-color: #c0c0c0; text-align: center)
+This page predates the release of RSF 0.6 - TemplateResolver has since been factored into TemplateResolverStrategy and TemplateExtensionInferrer
+%%
+
+
+A very simple implementation of the TemplateResolver interface that just looks at the current [viewID] and consumer ID to look up a single template file in a specified directory. An application may configure one of these by entering the following stanza into an application scope Spring configuration file (usually {{/WEB-INF/applicationContext.xml}}):
+
+{{{
+  &lt;bean id=&quot;viewTemplateResolver&quot;
+    class=&quot;uk.org.ponder.rsf.templateresolver.BasicTemplateResolver&quot;&gt;
+    &lt;property name=&quot;templateExtensionInferrer&quot; ref=&quot;templateExtensionInferrer&quot; /&gt;
+    &lt;property name=&quot;templateResolverStrategy&quot; ref=&quot;templateResolverStrategy&quot; /&gt;
+  &lt;/bean&gt;
+
+  &lt;bean id=&quot;templateResolverStrategy&quot; parent=&quot;CRITemplateResolverStrategy&quot;/&gt;
+
+  &lt;bean id=&quot;templateExtensionInferrer&quot;
+    class=&quot;uk.org.ponder.rsf.templateresolver.StaticTemplateExtensionInferrer&quot;&gt;
+    &lt;property name=&quot;extension&quot; value=&quot;html&quot; /&gt;
+  &lt;/bean&gt;
+
+  &lt;bean id=&quot;CRITemplateResolverStrategy&quot;
+    class=&quot;uk.org.ponder.rsf.templateresolver.CRITemplateResolverStrategy&quot;
+    lazy-init=&quot;true&quot;&gt;
+    &lt;property name=&quot;baseDirectory&quot;&gt;
+      &lt;value&gt;/content/templates/&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;consumerInfo&quot;&gt;
+      &lt;ref bean=&quot;consumerInfoProxy&quot; /&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+}}}
+
+</pre>
+

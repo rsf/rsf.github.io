@@ -1,0 +1,43 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!! Spring Framework
+
+The [Spring Framework|http://www.springframework.org] (a.k.a Spring) is a marvellous framework whose fundamental purpose is to ''manage the transport of dependencies'' from one part of an application to another. This capability is sometimes also called [Inversion of Control (IoC)|http://en.wikipedia.org/wiki/Inversion_of_Control]. Instead of being manually copied around from object to object, your dependencies are declared in a configuration file (sometimes called a Spring bean configuration or an application context). At context startup time, these dependencies will be ''wired'' based on a topological sorting of the bean graph defined in the configuration file.
+
+
+!! %%(font-size:110%)The Spring Framework and RSF%%
+
+The RSF framework is built out of a set of Spring contexts and generally aligns with many Spring idioms and APIs.
+
+!! Spring Injection (IoC)
+
+[RSF] makes heavy use of Spring to ''inject'' dependencies into beans and parts of the application. All RSF applications have a standard Spring application context which can have Spring beans defined in it. Along with this, RSF defines a [Request Scope Application Context (RSAC)|RSAC] which contains beans which are instantiated during the request only. [Target List Aggregating Bean (TLAB)|TargetListAggregatingBean] is a specialized application of some of the Spring injection concepts. A strong knowledge of IoC concepts and use of Spring is important when working with RSF. The best place to start is [Chapter 3 of the Spring documentation|http://www.springframework.org/docs/reference/beans.html].
+
+!! Spring Web Flow
+
+[Spring Web Flow] (SWF) is a self-contained library which manages the flow of a multi-request sequence of operations performed by a single user of a webapp. The configuration is managed by an XML-formatted file listing the states and transition conditions forming the flow - this may make use of [OGNL] expressions to express complex predicates. Spring Web Flow is a form of &quot;universal&quot; application definition, whereby the application's structure becomes freed not only from a dependence on a particular web technology, but also on a particular delivery environment and even, in theory, programming language.
+
+[RSF] includes top level integration support for Spring Web Flow (more details on our [Spring Web Flow|SpringWebFlow] page). We also have a set of sample apps and copious developer notes about the integration.
+
+!! Alignment with lower-level Spring conventions and APIs
+
+! [Bean Guards and Validators|BeanGuards]
+BeanGuards are RSF's validation and interception facility for accesses to its model via [EL] expressions. This is the basis of RSF's validation architecture and supports and uses [Spring Validators and Errors|http://www.springframework.org/docs/reference/validation.html].
+
+! [Internationalized Messages|MessageLocator]
+RSF [I18N] support depends on being able to find message bundles. This is done by the [MessageLocator], which is built on the Spring MessageSource.
+
+! [Exception Handling|UniversalRuntimeException]
+RSF handles exceptions using UniversalRuntimeException to ensure you do not lose the origin of the failure. This continues the Spring convention of avoiding the use of checked exceptions, converting them to unchecked exceptions wherever required. Spring exception handling can even be better than the technology it is wrapping (as in SpringJDBC).
+
+</pre>
+

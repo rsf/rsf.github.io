@@ -1,0 +1,41 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+This is a very short app that tries to put as many RSF components and features through their paces in as short a space as possible. The current version demonstrates
+
+* &quot;[Parachute rendering|ParachuteRendering]&quot; of a selection control as either an HTML {{&lt;select&gt;}} control or else as a set of radio buttons within a table, depending on view template
+* Dynamic selection of view templates.
+* &quot;One-step&quot; flows for short-term persistence of action results
+* Use of a &quot;[decorator|Decorators]&quot; to portably add styling annotations to the component tree.
+* Use of native HTTP GET forms.
+
+You can see the current code for the main [view producer|ComponentProducer] for the ComponentTest app live in svn here: [UploadDemoProducer.java|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/TestRSFComponents/src/java/uk/org/ponder/rsf/test/testcomponents/UploadDemoProducer.java]
+
+The app defines two view template for this view, called {{uploaddemo.html}} and {{uploaddemo-select.html}} that render this view in two very different ways. The first template renders the monkey selection control as a set of radio buttons in successive rows of a table, which also contain a textual and image representations of the animals. The second template does away with the table and images, and renders the choices using a HTML {{&lt;select&gt;}}. You can see examples of these two views below, and even play with the app online at [http://ponder.org.uk/RSFComponentTest/faces/uploaddemo]!
+
+
+[ComponentTest/test-components-list.png]
+
+[ComponentTest/test-components-select.png]
+
+
+
+It's worth pointing out that doing this kind of thing with other frameworks can be truly __''awful''__ - usually such differences in rendering behaviour can't be accommodated without creating either custom renderers, or even in many cases custom components! For example the trials awaiting anyone who tries to render radio buttons as part of table rows in JSF are summarised in this somewhat demoralising [IBM Developerworks Article|http://www-128.ibm.com/developerworks/rational/library/05/1213_he/].
+
+
+Another architecturally impossible feature in JSF is the use of the HTTP GET form which allows selection of the view templates. This naturally requires no change in server state, only URL state, so it is correct that it be implemented using HTTP GETs. In RSF, this is just a matter of providing the UIForm object with the required [ViewParameters] address, and leaving it to get on with it.
+
+The &quot;one-step&quot; flow is designed to allow a &quot;light&quot; means of persisting the results of the action cycle just long enough to render the summary page on UploadDemoResults. In a &quot;sleazy&quot; usage this would be done through providing rendered results from an HTTP POST, which RSF does not permit. RSF &quot;[informal flows|InformalFlows]&quot; are described more fully on their own page - they are actually just a slight extension of the JSF NavigationCase system.
+
+The final interesting point to the demo is the method for dynamically selecting the view template based on a chosen piece of URL state. In RSF this is achieved by overriding the framework's definition of the {{templateResolverStrategy}} in the Spring configuration - this unparalleled level of easy configurability could only come from a framework completely built on IoC and IoC concepts, rather than merely providing &quot;integration&quot; with it just for use by clients.
+
+</pre>
+

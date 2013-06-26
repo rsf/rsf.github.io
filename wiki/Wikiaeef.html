@@ -1,0 +1,115 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+%%(background-color:#FFCCCC;padding:0em 1em;margin:0px;)
+!!Cocoon/RSF Integration - WARNING: NOT maintained
+%%
+
+[[ __Browse all RSF [Integrations]__ ]
+
+Integration of [Cocoon|http://cocoon.apache.org] and RSF has so far only been attempted in pilot form and is not currently maintained or supported due to lack of developer resources - feel free to volunteer! The integration library code is available in [SVN|https://saffron.caret.cam.ac.uk/svn/projects/CocoonRSF/], but it has not been thoroughly tested - use at your own risk. It was originally intended to support RSF 0.6.3 and Cocoon 2.1.7.
+
+The integration support is provided by a Cocoon serializer, [IKAT Serializer] which invokes the RSF renderer, IKAT.
+
+Below is some __provisional documentation__.
+
+----
+
+!Dependencies
+
+__External - required by RSF Core__
+* spring-1.2.6.jar
+* concurrent-1.3.4.jar
+* cglib-nodep-2.1_3.jar
+* aopalliance-1.0.jar
+* xpp3-1.1.3.4-RC8_min.jar
+
+__RSF Core__
+* j-servletutil-1.1.3.jar
+* ponderutilcore-1.1.3jar
+* rsfutil-0.6.3.jar
+
+__Cocoon / RSF Integration library__
+* cocoonrsf-0.6.3-cocoon_2.1.7.jar
+
+!Configuration
+
+{{log4j.properties}}
+
+{{web.xml additions:}}
+{{{
+  &lt;!-- Context Configuration ========================================== --&gt;
+
+  &lt;!-- Configure standard Spring application contexts. Be sure to mention
+    rsf config files first, so any overrides may be processed. The first two
+    config files are loaded from inside the rsfutil.jar  --&gt;
+  &lt;context-param&gt;
+    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+    &lt;param-value&gt;
+      classpath:conf/rsf-config.xml,
+      classpath:conf/blank-applicationContext.xml,
+      classpath:conf/cocoonrsf-applicationContext.xml
+      /WEB-INF/applicationContext.xml&lt;/param-value&gt;
+  &lt;/context-param&gt;
+  &lt;!-- Configure &quot;resource scope&quot; Spring application contexts (RSAC).
+     Be sure to mention rsf config files first, so any overrides may be
+    processed --&gt;
+  &lt;context-param&gt;
+    &lt;param-name&gt;requestContextConfigLocation&lt;/param-name&gt;
+    &lt;param-value&gt;classpath:conf/rsf-requestscope-config.xml,
+                  classpath:conf/blank-requestContext.xml,
+                 classpath:conf/cocoonrsf-requestContext.xml&lt;/param-value&gt;
+  &lt;/context-param&gt;
+
+  &lt;!-- ===== Listeners ====== --&gt;
+
+  &lt;!--
+  The listener used to load the parent application context (the spring beans).
+  --&gt;
+  &lt;listener&gt;
+    &lt;listener-class&gt;
+      org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;
+  &lt;/listener&gt;
+}}}
+
+{{sitemap.xmap additions:}}
+{{{
+    &lt;map:serializer logger=&quot;sitemap.serializer.xml&quot; mime-type=&quot;text/html&quot; name=&quot;ikat&quot;
+      src=&quot;uk.ac.cam.caret.cocoon.rsf.IKATSerializer&quot;/&gt;
+}}}
+
+{{WEB-INF/applicationContext.xml}} - new file, referenced by {{web.xml}} above
+{{{
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE beans PUBLIC &quot;-//SPRING//DTD BEAN//EN&quot; &quot;http://www.springframework.org/dtd/spring-beans.dtd&quot;&gt;
+
+&lt;beans&gt;
+  &lt;bean id=&quot;staticBaseURLProvider&quot; class=&quot;uk.org.ponder.rsf.viewstate.StaticBaseURLProvider&quot;&gt;
+    &lt;!-- CONFIG The URL under which RSF-rendered pages served directly 
+      will be made visible --&gt;
+    &lt;property name=&quot;baseURL&quot;&gt;
+      &lt;value&gt;http://myhostname.org/content/&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;!-- CONFIG The URL under which static resources will be made visible --&gt;
+    &lt;property name=&quot;resourceBaseURL&quot;&gt;
+      &lt;value&gt;http://myhostname.org/resources/&lt;/value&gt;
+    &lt;/property&gt;
+  &lt;/bean&gt;
+&lt;/beans&gt;
+}}}
+
+!Usage
+
+Integration support is via an [IKAT Serializer] - see [IKAT Serializer] page for usage notes.
+
+
+</pre>
+

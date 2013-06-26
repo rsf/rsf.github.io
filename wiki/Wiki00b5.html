@@ -1,0 +1,38 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Takes its body and translates it into HTML as if it were WikiMarkup.
+
+----
+
+!Usage
+
+&lt;wiki:Translate&gt;
+;:''Wiki Text''
+&lt;/wiki:Translate&gt;
+
+!Parameters
+
+None.
+
+!Example
+{{{
+&lt;wiki:Translate&gt;
+    __This text will be bold, and contains [a hyperlink]__
+&lt;/wiki:Translate&gt;
+}}}
+would output something like this:
+{{{
+&lt;b&gt;This text will be bold, and contains &lt;a href=&quot;Wiki.jsp?page=&quot;AHyperlink&quot;&gt;a hyperlink&lt;/a&gt;&lt;/b&gt;
+}}}
+
+</pre>
+

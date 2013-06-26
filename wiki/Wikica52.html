@@ -1,0 +1,62 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Includes its contents, if the page type matches.
+
+JSPWiki handles attachments as a special type of a [WikiPage].  For example, page info is practically the same for both pages and attachments. Thus, sometimes you must be able to discern between these two types.
+
+----
+
+!Usage
+
+{{{
+&lt;wiki:PageType type=&quot;attachment|page|weblogentry&quot;&gt;
+   HTML or JSP data
+&lt;/wiki:PageType&gt;
+}}}
+
+!Parameters
+
+;__type__: Either &quot;attachment&quot;, &quot;page&quot;, or &quot;weblogentry&quot;.  If &quot;attachment&quot;, includes the body if the current page is an attachment; or if &quot;page&quot;, includes the body if (and only if) the body is a standard [WikiPage].  If it is &quot;weblogentry&quot;, then includes the body if and only if the page seems to be a [web log] entry.
+
+!Example
+
+{{{
+    &lt;wiki:PageType type=&quot;page&quot;&gt;
+       &lt;wiki:LinkTo&gt;Back to &lt;wiki:PageName/&gt;&lt;/wiki:LinkTo&gt;
+    &lt;/wiki:PageType&gt;
+    &lt;wiki:PageType type=&quot;attachment&quot;&gt;
+
+       &lt;form action=&quot;attach&quot; method=&quot;POST&quot; enctype=&quot;multipart/form-data&quot;&gt;
+
+           &lt;%-- Do NOT change the order of wikiname and content, otherwise the 
+                servlet won't find its parts. --%&gt;
+
+           &lt;input type=&quot;hidden&quot; name=&quot;page&quot; value=&quot;&lt;wiki:Variable var=&quot;pagename&quot;/&gt;&quot;&gt;
+
+           In order to update this attachment with a newer version, find the
+           file using &quot;Browse&quot;, then click on &quot;Update&quot;.
+
+           &lt;P&gt;
+           &lt;input type=&quot;file&quot; name=&quot;content&quot;&gt;
+           &lt;input type=&quot;submit&quot; name=&quot;upload&quot; value=&quot;Update&quot;&gt;
+           &lt;input type=&quot;hidden&quot; name=&quot;action&quot; value=&quot;upload&quot;&gt;
+           &lt;input type=&quot;hidden&quot; name=&quot;nextpage&quot; value=&quot;&lt;wiki:PageInfoLink format=&quot;url&quot;/&gt;&quot;&gt;
+           &lt;/form&gt;
+
+
+    &lt;/wiki:PageType&gt;
+}}}
+
+If the current page is a standard WikiPage, displays just a link back to the page.  However, if it is an attachment, will insert a possibility to update the attachment.
+
+</pre>
+

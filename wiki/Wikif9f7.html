@@ -1,0 +1,64 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Several types of IDs appear in RSF, attached to various sorts of entities, and it is important to understand the relationships between them.
+!!! Component IDs
+Each RSF [component|Component] has associated with itself three types of IDs, two of which are recorded in base class [UIComponent]. A third type, the &quot;local ID&quot; is only defined for [UIContainer|Container] objects.
+
+The complete code for UIComponent appears here (minus comments):
+{{{
+public class UIComponent { 
+  public String ID;
+  private String fullID;
+
+  public String getFullID() {
+    if (fullID == null) {
+      fullID = RSFUtil.computeFullID(this);
+    }
+    return fullID;
+  }
+  public UIContainer parent;
+}
+}}}
+
+!! ID (rsf:id)
+The field &quot;ID&quot; in UIComponent is the &quot;RSF ID&quot; of the component, which is used to form a direct correspondence with the tag labelled with the same ID in the [view template|ViewTemplate] file, using the {{rsf:id}} tag. That is, the {{rsf:id}} appears in two places, once as the {{rsf:id}} attribute in the markup in the template, and as the &quot;ID&quot; parameter to the primitive component &quot;constructors&quot; (the {{make}} methods). This ID consists of (up to) 2 parts, separated by a colon character - these are manipulated by the class [SplitID], which converts between the single String representation of the ID as it appears both in {{rsf:id}} and in this ID field, and its representation as prefix and suffix.
+
+!Prefix and suffix
+
+An ID with no colon specifies a &quot;leaf&quot; component, such as UIOutput or UILink which peers with a concrete (HTML) tag structure. An ID with a colon designates a container represented by [UIBranchContainer], which will peer with some indetermediate tag such as a {{div}}, {{span}} or {{td}}. The ID prefix is used to identify the [resolution set|ResolutionSet] that the [IKAT function call|IKATFunctionCall] will use to select amongst multiple implementations of the template matching the same prefix in their {{rsf:id}}.
+
+The suffix of an ID as it appears in a template may be empty (i.e. it may finish with a colon so: {{message-component:}}) indicating that (as a tag) it represents a &quot;default implementation&quot; of the template to be used as a &quot;fallback&quot; where no tag is available matching any suffix that was supplied as part of the component. The template matching process is explained in more detail in the description of the [IKAT renderer|IKAT].
+
+!! Local ID
+The [component producer|ComponentProducer] should set the {{LocalID}} field in UIBranchContainer where there is more than one instance of the container within the same scope, i.e. where more than one [UIBranchContainer] appears with the same rsf:id as a child of the same parent UIContainer.
+This allows the fullID algorithm (see below) to compute globally (within a [View]) unique IDs for each component in the tree. The producer may use any String not containing colon characters for the localID. Very often, repetitive components correspond directly with elements of an application's entity model, and it's strongly recommended that applications simply use the entity's id for the local ID in this case. For components corresponding to a non-entity-mapped List or array, you can just use their index numbers.
+
+!! Full ID
+The {{fullID}} field in UIComponent is a unique key to the component as rendered within a [View] tree by a [ComponentProducer]. The full ID is what is used by the renderer to assign unique IDs in the markup (XML/XHTML) to the finally rendered tags.
+
+It is composed from the full containment path of the component within the component tree, with one path component added for each UIBranchContainer in the path to the root. The entry for each UIBranchContainer has 2 colon-separated sections, being the ID prefix, and the local ID. I.e. a container whose {{rsf:id}} was {{message-component:active}} with local ID 8288ae8 would give rise to a path component of {{message-component:8288ae8:}}. If the component is itself ''not'' a container but a leaf component, the component's rsf:ID is appended to the fullID.
+
+Note that prior to RSF 0.7.2, 3 path segments were allocated to each branch, in the pattern {{prefix:suffix:localId}}.
+
+If more than one rendered tag corresponds to the same component (a rare situation that can occur if you are making use of the post-0.7 container fallback rules) they will be disambiguated with suffices like &quot;!1&quot;, &quot;!2&quot; etc.
+
+!!! Bean IDs
+Strictly speaking the IDs assigned to data model beans (possibly as a result of an ORM mapping such as Hibernate) are outside the scope of RSF, but it is worth discussing them a little, especially in light of the [BeanLocator] scheme. As a result of [BeanReasonableness] it is desirable to expose the application's entire data model as a lazily-loaded request-scope bean model, rooted at a set of root bean locators, one for each entity. Thus an entity mapped to the class Message with ID 8288ae8 would be accessible through the EL
+
+{{{
+message.8288ae8
+}}}
+
+This sort of thing seems to offer vast benefits in terms of general application coherency. It's worth noting in passing that instances of UIContainer in the tree will most likely correspond to discrete beans in the data model, and so a good choice for the localID for the container would be the bean ID as supplied to the [BeanGetter]. There is more about this naming scheme on the page on [OTP].
+
+</pre>
+

@@ -1,0 +1,138 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Lets get started building our simple &quot;logon&quot; application, by defining the core data structures and services processing the login. This will naturally consist of framework-independent code.
+%%(text-align:right)
+[LogonTest_1/rsf-logon-demo-box.png]
+%%
+
+!!Logon Bean
+
+Let's get off the ground by declaring a simple logon bean to hold the user and password details for a user:
+
+{{{
+public class LogonBean implements Serializable {
+  public String name;
+  public String password;
+}
+}}}
+
+Note that since RSF supports [Peas] for its request-scope beans, this definition is a lot less verbose than a typical Java &quot;bean&quot; with getters and setters. We make this bean Serializable in the expectation it will probably be spending some time in an HTTP Session in the default RSF configuration.
+
+Next, we make a definition for this bean in our {{requestContext.xml}}:
+{{{
+  &lt;bean id=&quot;logon&quot; class=&quot;uk.org.ponder.rsf.testlogon.beans.LogonBean&quot; /&gt;
+}}}
+This bean has no dependencies, so the only information required for this Spring-formatted file is its class.
+
+Finally, let's create a scope to hold this bean in {{applicationContext.xml}}, since we want 
+this instance of the bean to represent the user's current logged-on state. For this standard Servlet app, the bean will be held in the HTTP Session, in a scope called {{logonScope}}:
+
+{{{
+  &lt;bean id=&quot;logonScope&quot; parent=&quot;beanScopeParent&quot;&gt;
+    &lt;property name=&quot;copyPreservingBeans&quot; value=&quot;logon&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+
+Note that {{logonScope}} is just a handle to manipulate the whole scope, the bean itself still sits in the request container under its usual path {{logon}}.
+
+!! Logon service and action bean
+
+The next step is to create an API to a service that will be used to check the logon details supplied in a request, to see if the user can be logged on:
+
+{{{
+public interface LogonService {
+  /**
+   * @return &lt;code&gt;true&lt;/code&gt; if the logon was successful.
+   */
+  public boolean processLogon(LogonBean logon);
+}
+}}}
+
+Finally, we need an &quot;action bean&quot; that will do the work of managing the logon process. It will have the details submitted from the user injected into it in the form of a LogonBean instance, as well as the service which can check the logon. If the logon fails, the bean will throw an exception, which generally by RSF semantics cause a redirect to a default view (this behaviour can be configured in finer detail by registering an [ActionErrorStrategy]. Whether the logon is successful or not, the action bean also performs the important work of nulling out the password field, to minimise the chance it can be spotted by casual memory snoopers[1]. 
+
+{{{
+public class LogonActionBean {
+  private LogonBean logon;
+  private LogonService logonservice;
+  
+  public void setLogonService(LogonService logonservice) {
+    this.logonservice = logonservice;
+  }
+
+  public void setLogon(LogonBean logon) {
+    this.logon = logon;
+  }
+
+  public void logon() {
+    boolean success = false;
+    try {
+      success = logonservice.processLogon(logon);
+    }
+    catch (Exception e) {
+      logonFailed();
+      throw UniversalRuntimeException.accumulate(e, &quot;Logon failed for user &quot; + logon.name);
+    }
+    finally {
+      logon.password = null;
+    }
+    if (!success) {
+      logonFailed();
+    }
+  }
+
+  private void logonFailed() {
+    logon.name = null;
+  }
+
+}
+}}}
+
+We wire this bean to the logon bean above, and a concrete LogonService implementation, by the following in {{requestContext.xml}}:
+
+{{{
+  &lt;bean id=&quot;logonAction&quot;
+    class=&quot;uk.org.ponder.rsf.testlogon.beans.LogonActionBean&quot;&gt;
+    &lt;property name=&quot;logon&quot; ref=&quot;logon&quot; /&gt;
+    &lt;property name=&quot;logonService&quot; ref=&quot;logonService&quot; /&gt;
+  &lt;/bean&gt;
+}}}
+We declared a {{BasicLogonService}} instance at application scope to be the {{logonService}}:
+{{{
+ &lt;!-- The service which will check passwords --&gt;
+  &lt;bean id=&quot;logonService&quot; class=&quot;uk.org.ponder.rsf.testlogon.impl.BasicLogonService&quot;/&gt;
+}}}
+which has an unsophisticated implementation:
+
+{{{
+public class BasicLogonService implements LogonService {
+  public boolean processLogon(LogonBean logon) {
+    return (&quot;Edward&quot;.equals(logon.name) &amp;&amp; &quot;Longshanks&quot;.equals(logon.password));
+  }
+}
+}}}
+
+Note that all of our definitions so far have been __''completely free''__ of RSF dependence. This is as it should be for this set of pure business logic - the vast majority of other frameworks would have intruded by this point, by forcing us to package these classes under some framework interface, perhaps named &quot;BasePage&quot;, &quot;Component&quot;, &quot;Action&quot; etc. Some do better than others - JSF would have done OK on this simple example, but would fall over in more complex cases involving tables, validation and the like. You can visit discussions of the merits and demerits of the other frameworks on the [Integrations] page - [JSF] is treated in some depth.
+
+
+Let's move on now to see how to build a set of RSF views (in the form of a set of [ViewProducers|ComponentProducers]) that use this model. 
+
+----
+Head   - [LogonTest|LogonTest]\\
+Page 1 - Core Business logic\\
+Page 2 - [Defining the views|LogonTest_2]\\
+Page 3 - [Digging deeper - BeanGuards and Bracketers|LogonTest_3]\\
+----
+%%( font-size: 80%)
+[#1]Security aficionados will recognise that this is pretty hopeless in security terms since it may well be some time before the memory for the String is reclaimed by GC, but we needn't make the problem any worse than necessary. Since the password has already passed through a String by being parsed by the servlet container, we simply can't do any better in a Java environment.\\
+
+</pre>
+

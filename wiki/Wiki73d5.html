@@ -1,0 +1,45 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Creates a link to a diff of a [WikiPage].
+
+Why would you use this instead of a standard anchor?  The LinkToTag automatically adds things like the correct class information (for styles), the jspwiki.baseURL property, etc.
+
+----
+
+!Usage
+
+&lt;wiki:DiffLink page=&quot;&lt;page name&gt;&quot; format=&quot;anchor|url&quot; version=&quot;&lt;version number&gt;&quot; newVersion=&quot;&lt;version number&gt;&quot;&gt;
+;:''Link text''
+&lt;/wiki:DiffLink&gt;
+
+!Parameters
+
+;__page__: Page name to link to. If not set, uses the current page.
+;__format__: If &quot;anchor&quot;, creates the full hyperlink (&lt;a href=&quot;...&quot;&gt;link text&lt;/a&gt;); if &quot;url&quot;, outputs only the URL.
+;__version__: The older version of the page.  Can be &quot;latest&quot; to refer to the latest version; or &quot;current&quot; to refer to the current version; or &quot;previous&quot; to link to the previous version.
+;__newVersion__: The newer version of the page.  Can be &quot;latest&quot; to refer to the latest version; or &quot;current&quot; to refer to the current version; or &quot;previous&quot; to link to the previous version.
+
+!Example
+{{{
+&lt;i&gt;
+This page was last changed on 
+&lt;wiki:DiffLink version=&quot;latest&quot; newVersion=&quot;previous&quot;&gt;
+    &lt;wiki:PageDate/&gt;
+&lt;/wiki:DiffLink&gt; 
+by &lt;wiki:Author /&gt;.
+&lt;/i&gt;
+}}}
+
+Displays a text similar to the bottom of this page.
+
+</pre>
+

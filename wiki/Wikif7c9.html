@@ -1,0 +1,46 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The view template is one of the inputs to the [IKAT] renderer, which is used as its &quot;model&quot; for the output file it is to produce. The view template is the main source of actual tags in the target XML dialect, the only other source being the small [ComponentRenderer] and [StaticComponentRenderer] objects stored within the [RenderSystem] for that dialect. No mention, for example, of HTML tags should appear anywhere else in an RSF application.
+
+The only addition made to the view template in terms of the target XML dialect is the [rsf:id|IDs] attribute, which is applied to tags which will be expected to peer with a [UIComponent|component] supplied by the [ComponentProducer]. These components form part of the [view tree|View], the second major input to the IKAT renderer. The process of rendering involves &quot;weaving together&quot; these two inputs, alternating between template-driven iteration and component-driven iteration during the generation of the rendered output.
+
+A section of a sample XHTML view template is shown here:
+
+{{{
+  &lt;table rsf:id=&quot;message-row:&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;
+    &lt;tr&gt;
+      &lt;td class=&quot;vertical-thing-class&quot; rsf:id=&quot;tmiblock:2&quot;&gt; &lt;img
+                  src=&quot;../images/threaded-indent-2.png&quot; alt=&quot;&quot;
+                  rsf:id=&quot;scr=rewrite-url&quot;/&gt;
+      &lt;/td&gt;
+      &lt;td width=&quot;70%&quot; class=&quot;message-body&quot;&gt; 
+         &lt;div rsf:id=&quot;message-pane:&quot;&gt;To be
+           clear, Mozilla will not display the ]&amp;gt; if the document is served as
+          ...
+}}}
+
+This shows a variety of HTML and RSF constructs. The most important distinction is between {{rsf:id}} values which contain colons, and those which do not. As explained in the section on [IDs], an ID value containing a colon will peer with a [UIContainer][1] component representing a &quot;branch point&quot; of the IKAT rendering algorithm, whereas an ID with no colon will peer with a non-container [UIComponent] instance, representing a leaf of the component tree. 
+
+The only other class of {{rsf:id}} are those containing an equals sign {{=}}, such as &quot;scr=rewrite-url&quot; above. Currently the only text allowed to appear before {{=}} is {{scr}}, standing for [StaticComponentRenderer], an interface expressing a template rewrite rule that acts on a template tag without any component peer. 
+
+
+----
+%%(font-size:90%)
+[#1] For those of you familiar with the JSF component hierarchy, the UIContainer class will be a slight &quot;false friend&quot;, since although it appears to have a &quot;containment&quot; function, its only semantic purpose is to guide the rendering process past a branch. In RSF, any rendering-level groupings are solely governed by the tag nesting structure of the template itself, and not by the component tree definition.
+%%
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

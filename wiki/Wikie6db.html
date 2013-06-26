@@ -1,0 +1,64 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!! RSF Current Release Code
+
+!! Currently 0.7.4
+The current release is of RSF version 0.7.4 - have a look at the [Roadmap] page for a change log from 0.7 and beyond, and to get an idea of what features we anticipate having in 1.0. The current release code is the RSF code which is tested and considered stable. If you need features which are not available in a release then you probably want to go to the [trunk code page|TrunkCode].
+
+
+!! Maven Repository
+The Java JAR files constituting the [RSF] framework may be found in the [CARET|http://www.caret.cam.ac.uk/] Maven repositories. The [Maven 1|BuildingWebappsUsingMaven] repository ([http://www2.caret.cam.ac.uk/maven/]) location has been added to the project.properties files of all the standard RSF samples. The [Maven 2|BuildingWebappsUsingMaven] repository ([http://www2.caret.cam.ac.uk/maven2dev/]) has been added to the [Maven 2|http://maven.apache.org/] pom.xml files of the [sample projects|SampleRSFApps]. In both cases, this will cause the jars to be fetched automatically when the source is built.
+__NOTE:__ We recommend switching to [Maven2|http://maven.apache.org/] as [Maven1|http://maven.apache.org/maven-1.x/] support will not be maintained forever. As of version RSF 0.7.4 the Maven 2 builds are the official supported ones, although the Maven 1 builds have been tested.
+
+----
+
+|| RSF package/Maven 2 location || Version/JAR 
+| [ponderutilcore|http://www2.caret.cam.ac.uk/maven2dev/uk/org/ponder/ponderutilcore] | [1.2.4|http://www2.caret.cam.ac.uk/maven2dev/uk/org/ponder/ponderutilcore/1.2.4] 
+| [j-servletutil|http://www2.caret.cam.ac.uk/maven2dev/uk/org/ponder/j-servletutil] | [1.2.4|http://www2.caret.cam.ac.uk/maven2dev/uk/org/ponder/j-servletutil/1.2.4] 
+| [rsfutil|https://www2.caret.cam.ac.uk/maven2dev/uk/org/ponder/rsfutil/rsfutil] | [0.7.4|http://www2.caret.cam.ac.uk/maven2dev/uk/org/ponder/rsfutil/rsfutil/0.7.4] 
+| [rsf-swf|https://www2.caret.cam.ac.uk/maven2dev/uk/org/ponder/rsfutil/rsf-swf/] | [0.7.4|https://www2.caret.cam.ac.uk/maven2dev/uk/org/ponder/rsfutil/rsf-swf/0.7.4/rsf-swf-0.7.4.jar]
+| [rsfspringmvc|http://www2.caret.cam.ac.uk/maven2dev/uk/org/ponder/rsfutil/rsfspringmvc]  | [0.7.4|http://www2.caret.cam.ac.uk/maven2dev/uk/org/ponder/rsfutil/rsfspringmvc/0.7.4] 
+| [rsfhibernate3|https://www2.caret.cam.ac.uk/maven2dev/uk/org/ponder/rsfutil/rsfhibernate3] | [0.7.4|https://www2.caret.cam.ac.uk/maven2dev/uk/org/ponder/rsfutil/rsfhibernate3/0.7.4] 
+| [rsfportlet|https://www2.caret.cam.ac.uk/maven2dev/uk/org/ponder/rsfutil/rsfportlet]   | [0.7.4|https://www2.caret.cam.ac.uk/maven2dev/uk/org/ponder/rsfutil/rsfportlet/0.7.4] 
+__Note:__ This is not a comprehensive list, more packages are available in the [maven2 repo|http://www2.caret.cam.ac.uk/maven2dev/] or [maven1 repo|http://www2.caret.cam.ac.uk/maven/] and examples of including them in your applications can be found in the [sample apps|SampleRSFApps].
+
+
+!! Source [code distributions|CodeDistributions]
+All RSF source code is available in [Subversion (SVN)|http://subversion.tigris.org/] on the [Fluid SVN server|http://rsf.fluidproject.org/svn].\\
+You can checkout the svn package once you install SVN by running __svn co &lt;SVN URL&gt;__, for example:
+{{{
+svn co http://rsf.fluidproject.org/svn/bundles/rsf-core/
+}}}
+__NOTE:__ [More information about the code distributions|CodeDistributions], please check this page if you are new to RSF code distributions.\\
+__NOTE:__ [SVN externals|http://svnbook.red-bean.com/en/1.0/ch07s03.html] have been provided to make it easy to checkout a distribution set of projects from the [Fluid SVN|http://rsf.fluidproject.org/svn] in one step.
+
+
+
+!! Standard distributions
+|| Distribution || SVN location 
+| Mini | [http://rsf.fluidproject.org/svn/bundles/rsf-mini/] 
+| Core | [http://rsf.fluidproject.org/svn/bundles/rsf-core/] 
+| All | [http://rsf.fluidproject.org/svn/bundles/rsf-all/] 
+
+!! Special Distributions
+|| Distribution || SVN location
+| Sakai   | [http://rsf.fluidproject.org/svn/bundles/rsf-sakai/] 
+| JSR-168 | [http://rsf.fluidproject.org/svn/bundles/rsf-jsr168/] 
+
+[All bundles|http://rsf.fluidproject.org/svn/bundles/] are viewable in the [Fluid SVN|http://rsf.fluidproject.org/svn].\\
+All RSF code (including samples) are viewable in the [projects directory|http://rsf.fluidproject.org/svn/projects/] in the [Fluid SVN|http://rsf.fluidproject.org/svn/].\\
+
+
+We encourage you to make use of the source distributions, since RSF prides itself on being a framework that tries to avoid building barriers between user and framework code. Advanced uses of RSF will depend on knowing your way round RSF's [4 Spring configuration files|SpringAPI].
+
+</pre>
+

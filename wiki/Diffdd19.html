@@ -1,0 +1,901 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html id="top" xmlns="http://www.w3.org/1999/xhtml">
+
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=ActionResultInterceptor&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+    RSF Wiki: ActionResultInterceptor
+  </title>
+  
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" media="screen, projection, print" type="text/css"
+     href="templates/default/jspwiki.css"/>
+
+<link rel="stylesheet" type="text/css" media="print" 
+     href="templates/default/jspwiki_print.css" />
+<!-- INCLUDERESOURCES (stylesheet) -->
+
+<!-- INCLUDERESOURCES (inlinecss) -->
+
+
+
+<noscript>
+<style type="text/css">
+#hiddenmorepopup { display:block; }
+</style>
+</noscript>
+
+
+<script type="text/javascript" src="scripts/mootools.js"></script>
+<script type="text/javascript" src="scripts/prettify.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-common.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-commonstyles.js"></script>
+<!-- INCLUDERESOURCES (script) -->
+
+
+
+
+
+<meta name="wikiContext" content='diff' />
+<meta name="wikiBaseUrl" content='http://rsf.fluidproject.org/wiki/' />
+<meta name="wikiPageUrl" content='/wiki/Wiki.jsp?page=%23%24%25' />
+<meta name="wikiEditUrl" content='/wiki/Edit.jsp?page=ActionResultInterceptor' />
+<meta name="wikiJsonUrl" content='/wiki/JSON-RPC' />
+<meta name="wikiPageName" content='ActionResultInterceptor' />
+<meta name="wikiUserName" content='207.119.0.6' />
+<meta name="wikiTemplateUrl" content='/wiki/templates/default/' />
+<meta name="wikiApplicationName" content='RSF Wiki' />
+
+<script type="text/javascript">//<![CDATA[
+/* Localized javascript strings: LocalizedStrings[] */
+var LocalizedStrings = {
+"javascript.edit.allsections":"( All )",
+"javascript.slimbox.error":"<h2>Error</h2>There was a problem with your request.<br />Please try again",
+"javascript.slimbox.remoteRequest":"Remote Request {0} of {1}",
+"javascript.slimbox.close":"Close &#215;",
+"javascript.quick.edit":"[Edit]",
+"javascript.sort.descending":"Descending order. Click to reverse sort order",
+"javascript.expand":"Click to expand",
+"javascript.group.validName":"Please provide a valid name for the new Group",
+"javascript.slimbox.next":"Next&raquo;",
+"javascript.filter.all":"( All )",
+"javascript.edit.areyousure":"Without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.quick.edit.title":"Edit section {0}...",
+"javascript.slimbox.directLink":"Direct Link to the target",
+"javascript.prefs.areyousure":"Without clicking the Save User Preferences button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.sbox.clone.suffix":"-New",
+"javascript.slimbox.info":"Image {0} of {1}",
+"javascript.tip.default.title":"More...",
+"javascript.edit.resize":"Drag to resize the text area",
+"javascript.edit.findandreplace.nomatch":"No match found!",
+"javascript.sort.ascending":"Ascending order. Click to reverse sort order",
+"javascript.slimbox.close.title":"Close [Esc]",
+"javascript.edit.toolbar.makeSelection":"Please make first a selection.",
+"javascript.favs.hide":"Click to hide Favorites",
+"javascript.sectionediting.label":"Section Overview",
+"javascript.slimbox.previous":"&laquo;Previous",
+"javascript.favs.show":"Click to show Favorites",
+"javascript.collapse":"Click to collapse",
+"javascript.category.title":"Click to show category [{0}] ...",
+"javascript.sort.click":"Click to sort",
+"javascript.edit.startOfPage":"( Start of page )"
+};
+
+
+/* INCLUDERESOURCES (jsfunction) */
+
+//]]></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="search" href="Wiki702d.html?page=FindPage"
+    title='Search RSF Wiki' />
+<link rel="help"   href="Wikia3b7.html?page=TextFormattingRules"
+    title="Help" />
+
+ <link rel="start"  href="Wikib2ab.html?page=Main"
+    title="Front page" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki_print.css"
+    title="Print friendly" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki.css"
+    title="Standard" />
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+<link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  
+    <meta name="robots" content="noindex,nofollow" />
+  
+  
+    <meta name="robots" content="noindex,follow" />
+  
+</head>
+
+<body class="view">
+
+<div id="wikibody" class="fav-left">
+ 
+  
+
+
+
+
+
+
+<div id="header">
+
+  <div class="titlebox"></div>
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=ActionResultInterceptor" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=ActionResultInterceptor"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+
+  <div class="pagename">ActionResultInterceptor</div>
+
+  <div class="searchbox">
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Search.jsp"
+        class="wikiform"
+           id="searchForm" accept-charset="UTF-8">
+
+  <div style="position:relative">
+  <input onblur="if( this.value == '' ) { this.value = this.defaultValue }; return true; "
+        onfocus="if( this.value == this.defaultValue ) { this.value = ''}; return true; "
+           type="text" value="Quick Navigation"
+           name="query" id="query"
+           size="20" 
+      accesskey="f" />
+  <button type="submit"
+  		 name="searchSubmit" id="searchSubmit"
+  		value="Go!"
+  		title="Go!"></button>
+  </div>
+  <div id="searchboxMenu" style='visibility:hidden;'>
+    <div id="searchTools">
+      <a href="#" id='quickView' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Wiki.jsp?page=__PAGEHERE__','View the selected page' );"
+        title="View the selected page">view</a>
+      <a href="#" id='quickEdit' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__','Edit the selected page' );"
+        title="Edit the selected page">edit</a>
+      <a href="#" id='quickClone' class='action'	
+      onclick="return SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__', 'Clone the selected page', true );"
+        title="Clone the selected page">clone</a>
+      <a href="#" id="advancedSearch" class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Search.jsp?query=__PAGEHERE__','ActionResultInterceptor' )"
+        title="Advanced Search [ f ]">find</a>
+    </div>
+    <div id="searchResult" >
+	  Quick search
+      <span id="searchTarget" >(type ahead)</span>
+      <span id="searchSpin" class="spin" style="position:absolute;display:none;"></span>
+	  <div id="searchOutput" ></div>
+    </div>
+    <div id="recentSearches" style="display:none;">
+      Recent Searches
+      <span><a href="#" id="recentClear">(Clear)</a></span>
+    </div>
+  </div>
+
+</form></div>
+
+  <div class="breadcrumbs">Your trail:&nbsp;<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UserNameTag">UserNameTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ValueBinding">ValueBinding</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VariableTag">VariableTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VeryLazyBeans">VeryLazyBeans</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewID">ViewID</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewRender">ViewRender</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogEntryPlugin">WeblogEntryPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogPlugin">WeblogPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WikiFormsExampleText">WikiFormsExampleText</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=XPP">XPP</a></div>
+
+</div>
+
+  <div id="content">
+
+    <div id="page">
+      
+
+
+
+
+
+<div id="actionsTop" class="pageactions"> 
+  <ul>
+
+    
+    
+    
+
+    
+    <li id="morebutton">
+      <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=MoreMenu" class="action more">More...</a>
+    </li>
+
+  </ul>
+</div>
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="tabmenu">
+
+  
+
+  
+
+  
+  
+
+  
+
+  <a id="menu-pagecontent" href='http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ActionResultInterceptor' accesskey="v" ><span class='accesskey'>V</span>iew</a>
+
+  <a id="menu-attach" accesskey="a" ><span class='accesskey'>A</span>ttach</a>
+
+  
+  <a class="activetab" id="menu-info" accesskey="i" ><span class='accesskey'>I</span>nfo</a>
+
+  </div>
+<div class="tabs">
+
+  <div id="pagecontent" class="hidetab" >
+
+      
+  </div>
+
+
+  <div id="attach" class="hidetab" >
+
+    
+
+
+
+
+
+
+
+
+
+
+<div id="addattachment">
+<h3>Add new attachment</h3>
+
+
+<div class="formhelp">Only authorized users are allowed to upload new attachments.</div>
+
+</div>
+
+
+
+  </div>
+
+
+  
+  <div id="info" >
+
+  <p>
+  This page (revision-1) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=ActionResultInterceptor&amp;r1=-1&amp;r2=1"
+        title="Show changes of last page update" >
+        28-Jul-2008 15:33
+      </a> by UnknownAuthor
+
+  
+  </p>
+
+  
+
+  
+  
+      <p>Only authorized users are allowed to rename pages.</p>
+  
+
+  
+  
+      <p>Only authorized users are allowed to delete pages.</p>
+  
+
+  <div class="collapsebox-closed" id="incomingLinks">
+  <h4>Incoming links</h4>
+    <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ActionResultInterceptor" accesskey="" title="">ActionResultInterceptor</a>
+    <ul><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Acronyms">Acronyms</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=NavigationCase">NavigationCase</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PhonebookSWFSample">PhonebookSWFSample</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ResultingViewBindings">ResultingViewBindings</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Roadmap">Roadmap</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UICommand">UICommand</a>
+</li></ul>
+  </div>
+
+  <div class="collapsebox-closed" id="outgoingLinks">
+  <h4>Outgoing links</h4>
+    <div class="ReferredPagesPlugin">
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ActionResultInterceptor" title="ReferredPagesPlugin: depth[1] include[.*] exclude[^$] format[compact]">ActionResultInterceptor</a>
+<ul>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Action">Action</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ActionResultInterpreter">ActionResultInterpreter</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=AlterationWrapper">AlterationWrapper</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=BeanLocator">BeanLocator</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ComponentProducer">ComponentProducer</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=NavigationCase">NavigationCase</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=OTP">OTP</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RSACBridgeProxy">RSACBridgeProxy</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ResultingViewBindings">ResultingViewBindings</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewID">ViewID</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewParameters">ViewParameters</a></li>
+</ul>
+</div>
+
+  </div>
+
+  <div class="clearbox"></div>
+
+  
+  
+     
+
+
+
+
+
+
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Diff.jsp" method="get" accept-charset="UTF-8">
+<div class="collapsebox" id="diffcontent">
+  <h4>
+       <input type="hidden" name="page" value="ActionResultInterceptor" />
+       Difference between version <select id="r1" name="r1" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select> and <select id="r2" name="r2" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select>
+  </h4>
+
+  
+
+  <div class="diffbody">
+    <table class="diff" border="0" cellspacing="0" cellpadding="0">
+<tr><td class="diff">At line 1 added 133 lines</td></tr>
+<tr><td class="diffadd">The ActionResultInterceptor interface (sometimes known as ARI2 for short), new in RSF 0.7.1, is useful when the application needs to take very finegrained-level control over the contents of outgoing [ViewParameters] state from an [Action] cycle.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public interface ActionResultInterceptor {</td></tr>
+<tr><td class="diffadd">  /**</td></tr>
+<tr><td class="diffadd">   * @param result The required result from this action cycle, which is in the</td></tr>
+<tr><td class="diffadd">   * process of determination. May already contain some determined URL state,</td></tr>
+<tr><td class="diffadd">   * for example a ViewParams with viewId, but may be overwritten by this</td></tr>
+<tr><td class="diffadd">   * interceptor.</td></tr>
+<tr><td class="diffadd">   * @param incoming The URL state for the view which generated this </td></tr>
+<tr><td class="diffadd">   * action cycle.</td></tr>
+<tr><td class="diffadd">   * @param actionReturn The return from any action method invoked on this</td></tr>
+<tr><td class="diffadd">   * cycle. Should be a String, although may be &lt;code&gt;null&lt;/code&gt; if there was</td></tr>
+<tr><td class="diffadd">   * no return or no method.</td></tr>
+<tr><td class="diffadd">   */</td></tr>
+<tr><td class="diffadd">  public void interceptActionResult(ARIResult result, ViewParameters incoming, </td></tr>
+<tr><td class="diffadd">     Object actionReturn);</td></tr>
+<tr><td class="diffadd">}</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!Consider Resulting View Bindings first</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Note that a great many of the uses that were formerly met by ARI2 are now in RSF 0.7.3 and later met by the use of [Resulting View Bindings] which you should consider first.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!Differences to ARI1 (ActionResultInterpreter)</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">ActionResultInterceptor is a little similar, but quite distinct from the earlier [ActionResultInterpreter] (ARI1) interface, which was (and is) largely for framework use only. The differences are:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">* The chain of [ActionResultInterpreter]s is always queried before ActionResultInterceptors</td></tr>
+<tr><td class="diffadd">* Whilst the first ActionResultInterpreter which returns an ARIResult terminates the search of the chain, *all* ActionResultInterceptors registered for a particular request always execute. This lets later ARI2s override (possibly completely) the decisions made by earlier stages of processing.</td></tr>
+<tr><td class="diffadd">* ARI2s are typically non-request-static, that is, they are expected to make use of request contextual information to make their decisions.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Note that the familiar [NavigationCase] system itself is implemented in terms of ARI1 - therefore a common pattern is to supply the &quot;skeleton&quot; of information through static NavigationCase information, and fill in fine details (for example parts of ViewParameters which depend on entity IDs) via an ARI2, possibly globally registered.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!Registering an ARI2</td></tr>
+<tr><td class="diffadd">ActionResultInterceptors may be registered in two ways. Firstly, any request-scope [ViewProducer|ComponentProducer] which implements the ARI2 interface will be queried at the end of the [Action] cycle, for which it is the producer with the matching [ViewID]. Note that in this usage, the ViewProducer's lifecycle will be somewhat unusual, and you should be prepared for it - the bean will be fired up not only on the render cycle where the UICommand is rendered, but also on the following action cycle where it is handled, in order to invoke the ARI2 interface method.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Secondly a &quot;global&quot; ARI2 may be registered into the application context by means of the framework parent definition {{actionResultInterceptorParent}} - for example</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  &lt;bean parent=&quot;actionResultInterceptorParent&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;value&quot;&gt;</td></tr>
+<tr><td class="diffadd">      &lt;bean parent=&quot;RSACBridgeProxy&quot;&gt;</td></tr>
+<tr><td class="diffadd">        &lt;property name=&quot;targetBeanName&quot; value=&quot;myARI2&quot; /&gt;</td></tr>
+<tr><td class="diffadd">      &lt;/bean&gt;</td></tr>
+<tr><td class="diffadd">    &lt;/property&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/bean&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">This registers a request-scope bean named {{myARI2}} as a global ActionResultInterceptor, which will be queried on __all__ action cycles in the application. Note the use of the [RSACBridgeProxy] since the parent definition is at application scope (for performance reasons) whilst the implementing bean will most likely be at request scope.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!Purpose of ARI2</td></tr>
+<tr><td class="diffadd">ARI2 was created to cover the cases where the outgoing ViewParameters state cannot be completely computed using a static rule. The most classic case for this is where the outgoing state depends on the ID assigned to an entity which was just newly saved to the database in that action cycle. In general, when saving a new database row, the key allocated is not known until ''very'' late in the request cycle (perhaps not until after the main request portion bracketed by the [AlterationWrapper] has already concluded. This makes some architectural problems where the application needs to redirect to a view which is centered on this freshly created row.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">ARI2 was created precisely for this sort of case - the user may embed arbitrary logic within an ARI2, which runs at the last possible moment before the final ARIResult for the cycle is computed. It is best to be very economical with this capability - whilst in theory it could be used to perform ''all'' action logic, this would lead to a considerable loss of architectural coherence, and transparency for your app. </td></tr>
+<tr><td class="diffadd">!! Using ARI2</td></tr>
+<tr><td class="diffadd">A typical usage pattern of ARI2 involves continuing to compute the bulk of an action result using the static [NavigationCase] system. Imagine we had set up a [ViewParameters] object, which depends on the Id of a particular entity, say a Template, by means of a member called {{templateId}}:</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public class TemplateViewParameters extends SimpleViewParameters {</td></tr>
+<tr><td class="diffadd">  public Long templateId;</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">  public TemplateViewParameters() {</td></tr>
+<tr><td class="diffadd">   }</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">  public TemplateViewParameters(String viewID, Long templateId) {</td></tr>
+<tr><td class="diffadd">    this.viewID = viewID;</td></tr>
+<tr><td class="diffadd">    this.templateId = templateId;</td></tr>
+<tr><td class="diffadd">    }</td></tr>
+<tr><td class="diffadd">}</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">We have a view in our system, governed by, say, a producer named {{EvaluationSettingsProducer}}. This view contains a UICommand submission control which may cause a new Template to be produced, but then wishes to direct to another view, say, {{EvaluationStartProducer}}, which will fill in further details of this template. The skeleton outline of the source producer would be:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public class EvaluationSettingsProducer implements ViewComponentProducer, NavigationCaseReporter {</td></tr>
+<tr><td class="diffadd"> ...</td></tr>
+<tr><td class="diffadd">  public List reportNavigationCases() {</td></tr>
+<tr><td class="diffadd">    List i = new ArrayList();</td></tr>
+<tr><td class="diffadd">    // Physical templateId is filled in by global Interceptor</td></tr>
+<tr><td class="diffadd">    i.add(new NavigationCase(EvaluationStartProducer.VIEW_ID, new TemplateViewParameters(EvaluationStartProducer.VIEW_ID, null)));</td></tr>
+<tr><td class="diffadd">    }</td></tr>
+<tr><td class="diffadd">  }</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">We would like to fill in the 2nd argument of the TemplateViewParameters constructor here, but we cannot - NavigationCaseReporter is a *static* interface which is queried essentially only once per application. Even if we created a specialisation of it (DynamicNavigationCaseReporter) which was queried at request scope, it would still be queried ''far too early'' - the required ID is not known during the render cycle when the producer is fired up.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">ARI2 to the rescue. In this case we are using the [OTP] pattern for managing Template entities, and so it is easy to discover what the ID of the freshly saved entity is. We have created an OTP [BeanLocator] to manage all templates, with the following skeleton:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public class TemplateBeanLocator implements BeanLocator {</td></tr>
+<tr><td class="diffadd">  public static final String NEW_PREFIX = &quot;new &quot;;</td></tr>
+<tr><td class="diffadd">  public static String NEW_1 = NEW_PREFIX + &quot;1&quot;;</td></tr>
+<tr><td class="diffadd">  private Map delivered = new HashMap();</td></tr>
+<tr><td class="diffadd">	</td></tr>
+<tr><td class="diffadd">  public Object locateBean(String path) {</td></tr>
+<tr><td class="diffadd">    ...</td></tr>
+<tr><td class="diffadd">    }</td></tr>
+<tr><td class="diffadd">  }</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">The constant {{NEW_1}} is arranged to be the key under which the &quot;primary&quot; new entity of this type for the view is saved. Therefore we can implement our ARI2 as follows:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public class EvalActionResultInterceptor implements ActionResultInterceptor {</td></tr>
+<tr><td class="diffadd">  private TemplateBeanLocator templateBeanLocator;</td></tr>
+<tr><td class="diffadd">  public void setTemplateBeanLocator(TemplateBeanLocator templateBeanLocator) {</td></tr>
+<tr><td class="diffadd">    this.templateBeanLocator = templateBeanLocator;</td></tr>
+<tr><td class="diffadd">    }</td></tr>
+<tr><td class="diffadd">  </td></tr>
+<tr><td class="diffadd">  public void interceptActionResult(ARIResult result, ViewParameters incoming, Object actionReturn) {</td></tr>
+<tr><td class="diffadd">    if (result.resultingView instanceof TemplateViewParameters) {</td></tr>
+<tr><td class="diffadd">      TemplateViewParameters outgoing = (TemplateViewParameters) result.resultingView;</td></tr>
+<tr><td class="diffadd">      EvalTemplate template = (EvalTemplate) templateBeanLocator.locateBean(TemplateBeanLocator.NEW_1);</td></tr>
+<tr><td class="diffadd">      if (template != null &amp;&amp; outgoing.templateId == null) {</td></tr>
+<tr><td class="diffadd">        outgoing.templateId = template.getId();</td></tr>
+<tr><td class="diffadd">      }</td></tr>
+<tr><td class="diffadd">    }</td></tr>
+<tr><td class="diffadd">  }</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Firstly, note the protective line {{if (result.resultingView instanceof TemplateViewParameters) }} - since this is a ''global'' ARI2, we must be careful not to act on any views for which the outgoing view is not of the required type. Secondly we guard on {{outgoing.templateId == null}} so that we do not overwrite any outgoing entity ID that has already been computed. </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">This is very cool - this one ARI2 can handle any number of views which are based around these entities, and this logic intrudes neither on the backing beans (which would be deeply undesirable) nor the producer logic. Note that it is not necessary to use OTP to be benefitting from ARI2 for this kind of requirement, but it certainly makes locating the necessary entity ID very easy.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!! Why to use ARI2 and why not to use it</td></tr>
+<tr><td class="diffadd">Let's recap the reasons you would want to use ARI2. </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Without this interface, the only place the logic could be written to pass along the required entity ID would be in the backing bean handling the action. This would be a complete violation of RSF's (and any decent) principles, since we would have a dependency on RSF structures (ViewParams, ARIResult) in what should be considered part of the application's model. However, writing ''too much'' code in an ARI2 would be equally destabilising, since for a start the navigation structure of the application would become extremely obscure. Note that how in the above example we cooperate nicely with the existing static [NavigationCase] system, which sets up the fact that we are basically issuing some form of {{TemplateViewParameters}} with an ID yet to be determined, and the ARI2 picks up the results of this static decision in order to work out the view transitions when it should be firing. This is a near-ideal division of responsibilities and architectural balance.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">However, if the rule in the above ARI2 were good for __just a single form submission__, it would make more sense to achieve the same result with [Resulting View Bindings] - this would be both shorter and more expressive. In this case the equivalent RVB call would look like this:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  form.addResultingViewBinding(&quot;templateId&quot;, &quot;viewParameters.templateId&quot;);</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+</table>
+ 
+  </div>
+</div>
+</form>
+
+  
+  
+
+	
+    
+    
+
+    
+
+    <div class="zebra-table sortable table-filter">
+    <table class="wikitable" >
+      <tr>
+        <th>Version</th>
+        <th>Date Modified</th>
+        <th>Size</th>
+        <th>Author</th>
+        <th>Changes ...</th>
+        <th class='changenote'>Change note</th>
+      </tr>
+
+      
+      
+      <tr>
+        <td>
+          <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ActionResultInterceptor&amp;version=-1" accesskey="" title="">
+            
+          </a>
+        </td>
+
+	    <td style="white-space:nowrap;" sortvalue="Mon, 28 Jul 2008 03:33:25">
+        28-Jul-2008 15:33
+        </td>
+        <td style="white-space:nowrap;text-align:right;">
+          
+          10.256&nbsp;kB
+        </td>
+        <td>UnknownAuthor</td>
+
+        <td>
+          
+
+          
+        </td>
+
+         <td class="changenote">
+           
+           
+         </td>
+
+      </tr>
+      
+      
+
+    </table>
+    </div>
+    
+    
+  </div>
+
+
+  <div style="clear:both;" ></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+<div id='actionsBottom' class="pageactions"> 
+    
+
+    <a href="#top" 
+      class="action quick2top" 
+      title="Go to top" >&laquo;</a>
+
+    
+       This page (revision-) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=ActionResultInterceptor&amp;r1=-1&amp;r2=1">28-Jul-2008 15:33</a> by UnknownAuthor
+    
+
+    
+
+   
+
+  
+
+   
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div id="favorites">
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=ActionResultInterceptor" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=ActionResultInterceptor"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+  
+  <div id="hiddenmorepopup">
+  <ul id="morepopup">
+     
+       	
+     
+       
+     
+    
+       
+     
+       <li>
+       
+       <a class="action rawpage wikipage" 
+               href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ActionResultInterceptor&amp;skin=raw"
+              title="View Page Source">View Page Source
+       </a>
+       
+       
+       </li>
+      
+        
+  
+      
+      
+      
+
+      
+	  <li class='separator'>
+        <div id="moremenu" ></div>
+      </li>
+  </ul>
+  </div>
+  
+  
+
+  
+
+  
+
+  
+  <div class="leftmenu">
+    <p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main">Main page</a><br />
+<tt> </tt><i><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ThisWiki">About</a></i><br />
+</p><p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=GettingStarted">Getting Started</a><br />
+</p>
+<p><b>Documentation</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Developers">Developers</a><br />
+<tt>  </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Javadocs">Javadocs</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Designers">Designers</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SampleRSFApps">Sample RSF Apps</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Presentations">Presentations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Acronyms">Acronyms</a><br />
+</p>
+<p><b>Downloads</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CurrentCode">Current Release</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=TrunkCode">Trunk</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CodeDistributions">Distributions</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=OldCode">Old Versions</a><br />
+</p>
+<p><b>Community</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=QampA">Q&amp;A</a><br />
+<tt> </tt><a class="external" href="http://ponder.org.uk/rsf/">Forums</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=EmailLists">Mailing Lists</a><br />
+<tt> </tt><a class="external" href="http://www.caret.cam.ac.uk/jira/browse/RSF">Issue Tracker</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=People">People</a><br />
+</p>
+<p><b>Design</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Roadmap">Roadmap</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Integrations">Integrations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Concepts">Concepts</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Philosophy">Philosophy</a><br />
+</p>
+<div style="font-style:italic;font-size:0.8em;">
+<b>Pages</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=FindPage">Find</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RecentChanges">Recent Changes</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UnusedPages">Unused</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UndefinedPages">Undefined</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PageIndex">Index</a>
+</div>
+<p />
+    
+  </div>
+  
+  <div class="leftmenufooter">
+    <hr />
+<p><b>Referenced by</b><br />
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Acronyms">Acronyms</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=NavigationCase">NavigationCase</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PhonebookSWFSample">PhonebookSWFSample</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ResultingViewBindings">ResultingViewBinding...</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Roadmap">Roadmap</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UICommand">UICommand</a><br />
+</p>
+    
+  </div>
+
+  
+
+  
+  
+  <div class="wikiversion">JSPWiki v2.8.2
+  <span class="rssfeed">
+    
+  </span>
+  </div>  
+  
+</div>
+
+	<div class="clearbox"></div>
+  </div>
+
+  
+
+
+
+
+
+ 
+<div id="footer">
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  <div class="copyright"></div>
+
+  <div class="wikiversion">
+    JSPWiki v2.8.2
+  </div>
+
+  <div class="rssfeed">
+    
+  </div>
+
+</div>
+
+</div>
+
+</body>
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=ActionResultInterceptor&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:19 GMT -->
+</html>

@@ -1,0 +1,79 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The Bean Line is a hypothetical line of dependency dividing code with a dependence on a framework from code without it. &quot;First-generation&quot; [0] (JSPs, Struts, Tapestry &amp;c) have no bean line at all - to use the framework, your code must be dependent on it, and if you wish to be free of this dependency you must conceive and implement an abstraction layer of your own.
+
+JSF was the first really popular end-to-end web framework that featured a bean line [1] and this was responsible for a lot its early appeal (to us here at CARET). Spring and similar [IoC|http://jakarta.apache.org/hivemind/ioc.html] [2] containers are the sort of technology that make a &quot;bean line&quot; possible to maintain in a large-scale architecture in the first place.
+
+For example, in Tapestry, an app is built out of components implementing the &quot;IComponent&quot; interface. And rather than pure beans, Tapestry &quot;state-holding&quot;/&quot;action invoking&quot; components look like this:
+{{{
+public abstract class Home extends BasePage
+{
+  @Persist
+    public abstract int getCounter();
+    public abstract void setCounter(int counter);
+
+    public void doClick()
+}}}
+Notice i) the abstract base class BasePage[3], and ii) the annotation {{@Persist}}. While they are perhaps &quot;cool&quot; and supply a lot of useful functionality without much typing, they tie the business logic of the app forever to Tapestry. If the designer wants to insulate themselves from the framework, there will have to be ANOTHER &quot;dependency firewall&quot; below this line.
+
+By contrast, a &quot;pure bean&quot; framework would represent this code as follows (this code is possible in both JSF and RSF)
+{{{
+public class Home {
+    public int getCounter();
+    public void setCounter(int counter);
+
+    public void doClick()
+}}}
+
+(Note that in fact since RSF supports [peas|Peas], this bean could be even simpler:
+{{{
+public class Home {
+  public int counter;
+
+  public void doClick();
+}}}
+[4]
+
+!!Arguableness of the Bean Line
+There are various considerations that may &quot;dilute&quot; the concept and reality of the Bean Line. For a start, just because a dependency isn't in code, doesn't mean it's no dependency at all. Consider the annotation {{@Persist}} above - it doesn't affect the compiled code (normally) but what if another framework has used this annotation? Secondly there is a whole vast raft of semantic issues. Some of these are considered in [BeanReasonableness] - the point there is that even if no dependence on ''code'' leaks across the bean line, it is quite possible for dependence on ''thought'' to make it.
+
+!Levelization
+Finally, we should look at the bean line from the point of view of [Levelization]. Lakos' &quot;levelization&quot; concepts help us think about and organise dependencies in our code, starting from the view that the most basic quality our code can have is to at least ''have'' non-infinite level numbers assigned to it (i.e. lack of circular dependencies. You would be ''surprised'' how much code is still being written in certain quarters with no care at all to mutual dependency avoidance - rant later). But building on from this basic guarantee, Lakos identifies derived measures like the &quot;cumulative dependency count&quot; which provides an estimate of the proportion of your code which will be affected by a change in an arbitrary place. &quot;Better&quot; code forms flat, broad hierarchies with few things at the root, &quot;Worse&quot; code forms a vertical hierarchy where at worst half of the code is affected on average by a change.
+
+It is in these terms we can generally declare things like PonderUtilCore, though undesirably large, fairly harmless since it consists of a lot of little classes with no external dependencies and few internal dependencies, and declare things like the UIComponent hierarchy in JSF extremely harmful since it contains a lot of code (in UIComponentBase, UIContainer and others) that are inflicted on ALL clients on the framework. Recall that &quot;dependence on a base class is the worst dependence of all&quot;.
+
+Further, in these terms, we see that the value of the &quot;bean line&quot; is that it magically lets us &quot;reset&quot; the dependence level counter to 0 again, and appear to start building code from the ground. Before, the best we could do was to set it to 1, through dependence on an interface supplied by a framework, that itself depended on nothing else. We see that this magic ability could not be present in a non-reflective environment like C++ (where Lakos developed his ideas), but the jury is still out on whether the other run-time and compile-time penalties inflicted by Java outweigh this benefit on the larger projects where it would be expected to be more valuable[5]. This jury takes a hell of a long time to sit, having first entered session some time around 1999...
+
+!Leaking across the bean line
+ANYWAY, this sets the context for a discussion of what __actual__ code may sometimes leak across the bean line. Spring sets the example for this - used &quot;properly&quot; (or &quot;minimally&quot;) no dependence on Spring should appear in your codebase. But for clients who are willing to pay the price, Spring also extends the option to get ''better'' support by supplying interfaces and APIs of varying dependency cost - for example BeanNameAware, BeanFactory and ApplicationContextAware are reasonably &quot;cheap&quot; interfaces that clients might want to consider using. 
+
+RSF also does this - necessarily the relevant classes should be small and free of further external dependence, and will be placed in PonderUtilCore as befits their status of being &quot;below the bean line&quot;. Clients may argue that while PonderUtilCore is considered below the &quot;bean line&quot; of RSF itself, they ought not be expected to continue it below theirs - some explanation is above why they might be expected to think so! In general PUC code is extremely &quot;flat&quot; in dependence structure and incurs no further dependence costs itself.
+
+!!Conclusion
+So - what is the bean line? It is a point where the dependence level number within a collection of code drops once again to zero, or near-zero - &quot;One man's bean is another man's application&quot;.
+
+----
+[#0] There was originally a slightly more abusive epithet here :P\\
+[#1] I'd be interested to get some input on a historical comparison of other frameworks in this regard.\\
+[#2] Personally I really dislike the term &quot;Inversion of Control&quot; since it comes with the suggestion that your code was once ever the other way up to start with. &quot;Dependency Injection&quot; also just sounds nasty. In fact all of this stuff should just be considered a natural side-effect of &quot;programming properly&quot; which Spring and other IoC simply make a lot easier.\\
+[#3] The author himself notes that this is distasteful. Perhaps it will be gone in Tapestry 5.0.\\
+[#4] Why is it that so many authors refuse to spot that getters and setters are yet another violation of DRY?\\
+[#5] Bob says - &quot;Stop using 'it' and 'this' so much in sentences!&quot;
+
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

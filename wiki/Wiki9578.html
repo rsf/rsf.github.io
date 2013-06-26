@@ -1,0 +1,65 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+A ''ParseSpec'' or &quot;Parse Specification&quot; is a String value which represents an encoding of the state in a [ViewParameters] into raw URL state. A ParseSpec is inferred by the framework by default for any ViewParameters which is derived from SimpleViewParameters. Users who want more fine-grained control over their URL structure can override the {{getParseSpec}} method in their ViewParameters object to return a custom String.
+
+!!ParseSpec encoding
+The ParseSpec string is a comma-separated list of individual specifications, one for each URL attribute/path component, which correspond directly to a leaf value (via EL) in the ViewParameters object tree. As a simple example, here is a parseSpec method for the {{NavParams}} class that appears on the main [ViewParameters] page.
+{{{
+  public String getParseSpec() {
+    return super.getParseSpec()
+      + &quot;, itemID, viewtype, pageseq, keywords&quot;;
+}}}
+
+This is actually identical to the default parseSpec that would be inferred for {{NavParams}} by virtue of deriving from SimpleViewParameters. What it encodes is that each of these 4 fields (or more generally, EL paths) should be represented directly as URL attributes of the same name.
+
+When you override {{getParseSpec}}, you must always be careful to override and prepend the superclass implementation, so that RSF's internal housekeeping information can be retained in the URL.
+
+!!ParseSpec details
+The &quot;full&quot; syntax for an individual parseSpec entry is separated by a colon character {{:}}. To the left of the colon is the URL state specification, to the right is the EL path in the object tree corresponding to it. In the case the colon character is missing, as in the above example, the attribute name is assumed to agree with the field name.
+
+URL state specification may either be simply the name of an attribute, or may use a notation like {{@0}}, {{@1}} etc. to refer to segments of the &quot;pathinfo&quot; section of the URL. For example, the RSF standard [viewID] is by default mapped to {{@0}}, being the first path segment after the URL position where the RSF Servlet is mounted in {{web.xml}}.
+
+As well as being a general dot-separated EL path, the EL path specification may also use a &quot;wildcard&quot; syntax for expressing that all leaf types held beneath the path should be &quot;exploded&quot; into attributes individually, with an optional prefix put in front of the attribute names taken from the String to the left of the {{:}} character. If nothing is to the left of the {{:}} (which is not optional in this case), the leaf EL paths will be used directly as the attribute names.
+
+Here is an example - where {{SearchCriteria}} was as follows:
+
+{{{
+public class SearchCriteria {
+  public String firstName;
+  public String lastName;
+  }
+}}}
+
+we could write a {{SearchCriteriaViewParameters}} like this:
+
+{{{
+public class SearchCriteriaViewParameters extends SimpleViewParameters {
+  public SearchCriteria searchCriteria;
+  public String getParseSpec() {
+    return super.getParseSpec() + &quot;, :searchCriteria.*&quot;;
+    }
+  }
+}}}
+
+In order to understand the effect of the &quot;{.*}&quot; notation, and also ViewParameters in general, it will be helpful to realise that the effect of the {{getParseSpec}} we wrote there is exactly identical to the following one:
+
+{{{
+  return super.getParseSpec() 
+    + &quot;, firstName:searchCriteria.firstName, lastName:searchCriteria.secondName&quot;;
+}}}
+
+!! Note for non-Servlet environments
+
+When run in a JSR-168 (or 286) Portlet environment, the concept of a &quot;pathinfo&quot; portion of the URL state is not directly supported by the environment. Given that the URL state of a portlet never really becomes directly visible to the user though, the actual details of the mapping are far less relevant, except that it is something reversible. In this case, the entire &quot;pathinfo&quot; chunk of the URL is simply rendered as a request parameter with a special name.
+
+</pre>
+

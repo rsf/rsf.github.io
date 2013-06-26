@@ -1,0 +1,858 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html id="top" xmlns="http://www.w3.org/1999/xhtml">
+
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=PortingSellItemSWFSampleToRSF&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+    RSF Wiki: PortingSellItemSWFSampleToRSF
+  </title>
+  
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" media="screen, projection, print" type="text/css"
+     href="templates/default/jspwiki.css"/>
+
+<link rel="stylesheet" type="text/css" media="print" 
+     href="templates/default/jspwiki_print.css" />
+<!-- INCLUDERESOURCES (stylesheet) -->
+
+<!-- INCLUDERESOURCES (inlinecss) -->
+
+
+
+<noscript>
+<style type="text/css">
+#hiddenmorepopup { display:block; }
+</style>
+</noscript>
+
+
+<script type="text/javascript" src="scripts/mootools.js"></script>
+<script type="text/javascript" src="scripts/prettify.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-common.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-commonstyles.js"></script>
+<!-- INCLUDERESOURCES (script) -->
+
+
+
+
+
+<meta name="wikiContext" content='diff' />
+<meta name="wikiBaseUrl" content='http://rsf.fluidproject.org/wiki/' />
+<meta name="wikiPageUrl" content='/wiki/Wiki.jsp?page=%23%24%25' />
+<meta name="wikiEditUrl" content='/wiki/Edit.jsp?page=PortingSellItemSWFSampleToRSF' />
+<meta name="wikiJsonUrl" content='/wiki/JSON-RPC' />
+<meta name="wikiPageName" content='PortingSellItemSWFSampleToRSF' />
+<meta name="wikiUserName" content='207.119.0.6' />
+<meta name="wikiTemplateUrl" content='/wiki/templates/default/' />
+<meta name="wikiApplicationName" content='RSF Wiki' />
+
+<script type="text/javascript">//<![CDATA[
+/* Localized javascript strings: LocalizedStrings[] */
+var LocalizedStrings = {
+"javascript.edit.allsections":"( All )",
+"javascript.slimbox.error":"<h2>Error</h2>There was a problem with your request.<br />Please try again",
+"javascript.slimbox.remoteRequest":"Remote Request {0} of {1}",
+"javascript.slimbox.close":"Close &#215;",
+"javascript.quick.edit":"[Edit]",
+"javascript.sort.descending":"Descending order. Click to reverse sort order",
+"javascript.expand":"Click to expand",
+"javascript.group.validName":"Please provide a valid name for the new Group",
+"javascript.slimbox.next":"Next&raquo;",
+"javascript.filter.all":"( All )",
+"javascript.edit.areyousure":"Without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.quick.edit.title":"Edit section {0}...",
+"javascript.slimbox.directLink":"Direct Link to the target",
+"javascript.prefs.areyousure":"Without clicking the Save User Preferences button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.sbox.clone.suffix":"-New",
+"javascript.slimbox.info":"Image {0} of {1}",
+"javascript.tip.default.title":"More...",
+"javascript.edit.resize":"Drag to resize the text area",
+"javascript.edit.findandreplace.nomatch":"No match found!",
+"javascript.sort.ascending":"Ascending order. Click to reverse sort order",
+"javascript.slimbox.close.title":"Close [Esc]",
+"javascript.edit.toolbar.makeSelection":"Please make first a selection.",
+"javascript.favs.hide":"Click to hide Favorites",
+"javascript.sectionediting.label":"Section Overview",
+"javascript.slimbox.previous":"&laquo;Previous",
+"javascript.favs.show":"Click to show Favorites",
+"javascript.collapse":"Click to collapse",
+"javascript.category.title":"Click to show category [{0}] ...",
+"javascript.sort.click":"Click to sort",
+"javascript.edit.startOfPage":"( Start of page )"
+};
+
+
+/* INCLUDERESOURCES (jsfunction) */
+
+//]]></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="search" href="Wiki702d.html?page=FindPage"
+    title='Search RSF Wiki' />
+<link rel="help"   href="Wikia3b7.html?page=TextFormattingRules"
+    title="Help" />
+
+ <link rel="start"  href="Wikib2ab.html?page=Main"
+    title="Front page" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki_print.css"
+    title="Print friendly" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki.css"
+    title="Standard" />
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+<link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  
+    <meta name="robots" content="noindex,nofollow" />
+  
+  
+    <meta name="robots" content="noindex,follow" />
+  
+</head>
+
+<body class="view">
+
+<div id="wikibody" class="fav-left">
+ 
+  
+
+
+
+
+
+
+<div id="header">
+
+  <div class="titlebox"></div>
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=PortingSellItemSWFSampleToRSF" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=PortingSellItemSWFSampleToRSF"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+
+  <div class="pagename">PortingSellItemSWFSampleToRSF</div>
+
+  <div class="searchbox">
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Search.jsp"
+        class="wikiform"
+           id="searchForm" accept-charset="UTF-8">
+
+  <div style="position:relative">
+  <input onblur="if( this.value == '' ) { this.value = this.defaultValue }; return true; "
+        onfocus="if( this.value == this.defaultValue ) { this.value = ''}; return true; "
+           type="text" value="Quick Navigation"
+           name="query" id="query"
+           size="20" 
+      accesskey="f" />
+  <button type="submit"
+  		 name="searchSubmit" id="searchSubmit"
+  		value="Go!"
+  		title="Go!"></button>
+  </div>
+  <div id="searchboxMenu" style='visibility:hidden;'>
+    <div id="searchTools">
+      <a href="#" id='quickView' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Wiki.jsp?page=__PAGEHERE__','View the selected page' );"
+        title="View the selected page">view</a>
+      <a href="#" id='quickEdit' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__','Edit the selected page' );"
+        title="Edit the selected page">edit</a>
+      <a href="#" id='quickClone' class='action'	
+      onclick="return SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__', 'Clone the selected page', true );"
+        title="Clone the selected page">clone</a>
+      <a href="#" id="advancedSearch" class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Search.jsp?query=__PAGEHERE__','PortingSellItemSWFSampleToRSF' )"
+        title="Advanced Search [ f ]">find</a>
+    </div>
+    <div id="searchResult" >
+	  Quick search
+      <span id="searchTarget" >(type ahead)</span>
+      <span id="searchSpin" class="spin" style="position:absolute;display:none;"></span>
+	  <div id="searchOutput" ></div>
+    </div>
+    <div id="recentSearches" style="display:none;">
+      Recent Searches
+      <span><a href="#" id="recentClear">(Clear)</a></span>
+    </div>
+  </div>
+
+</form></div>
+
+  <div class="breadcrumbs">Your trail:&nbsp;<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UserNameTag">UserNameTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ValueBinding">ValueBinding</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VariableTag">VariableTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VeryLazyBeans">VeryLazyBeans</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewID">ViewID</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewRender">ViewRender</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogEntryPlugin">WeblogEntryPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogPlugin">WeblogPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WikiFormsExampleText">WikiFormsExampleText</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=XPP">XPP</a></div>
+
+</div>
+
+  <div id="content">
+
+    <div id="page">
+      
+
+
+
+
+
+<div id="actionsTop" class="pageactions"> 
+  <ul>
+
+    
+    
+    
+
+    
+    <li id="morebutton">
+      <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=MoreMenu" class="action more">More...</a>
+    </li>
+
+  </ul>
+</div>
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="tabmenu">
+
+  
+
+  
+
+  
+  
+
+  
+
+  <a id="menu-pagecontent" href='http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PortingSellItemSWFSampleToRSF' accesskey="v" ><span class='accesskey'>V</span>iew</a>
+
+  <a id="menu-attach" accesskey="a" ><span class='accesskey'>A</span>ttach</a>
+
+  
+  <a class="activetab" id="menu-info" accesskey="i" ><span class='accesskey'>I</span>nfo</a>
+
+  </div>
+<div class="tabs">
+
+  <div id="pagecontent" class="hidetab" >
+
+      
+  </div>
+
+
+  <div id="attach" class="hidetab" >
+
+    
+
+
+
+
+
+
+
+
+
+
+<div id="addattachment">
+<h3>Add new attachment</h3>
+
+
+<div class="formhelp">Only authorized users are allowed to upload new attachments.</div>
+
+</div>
+
+
+
+  </div>
+
+
+  
+  <div id="info" >
+
+  <p>
+  This page (revision-1) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=PortingSellItemSWFSampleToRSF&amp;r1=-1&amp;r2=1"
+        title="Show changes of last page update" >
+        15-Aug-2007 03:13
+      </a> by UnknownAuthor
+
+  
+  </p>
+
+  
+
+  
+  
+      <p>Only authorized users are allowed to rename pages.</p>
+  
+
+  
+  
+      <p>Only authorized users are allowed to delete pages.</p>
+  
+
+  <div class="collapsebox-closed" id="incomingLinks">
+  <h4>Incoming links</h4>
+    <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PortingSellItemSWFSampleToRSF" accesskey="" title="">PortingSellItemSWFSampleToRSF</a>
+    <ul><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SellItemSWFSample">SellItemSWFSample</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SpringWebFlow">SpringWebFlow</a>
+</li></ul>
+  </div>
+
+  <div class="collapsebox-closed" id="outgoingLinks">
+  <h4>Outgoing links</h4>
+    <div class="ReferredPagesPlugin">
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PortingSellItemSWFSampleToRSF" title="ReferredPagesPlugin: depth[1] include[.*] exclude[^$] format[compact]">PortingSellItemSWFSampleToRSF</a>
+<ul>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ComponentProducer">ComponentProducer</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ContainerSetupGuide">ContainerSetupGuide</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=EmailLists">EmailLists</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=People">People</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RSFSpringWebFlow">RSFSpringWebFlow</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SpringWebFlow">SpringWebFlow</a></li>
+</ul>
+</div>
+
+  </div>
+
+  <div class="clearbox"></div>
+
+  
+  
+     
+
+
+
+
+
+
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Diff.jsp" method="get" accept-charset="UTF-8">
+<div class="collapsebox" id="diffcontent">
+  <h4>
+       <input type="hidden" name="page" value="PortingSellItemSWFSampleToRSF" />
+       Difference between version <select id="r1" name="r1" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select> and <select id="r2" name="r2" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select>
+  </h4>
+
+  
+
+  <div class="diffbody">
+    <table class="diff" border="0" cellspacing="0" cellpadding="0">
+<tr><td class="diff">At line 1 added 99 lines</td></tr>
+<tr><td class="diffadd">!!! Porting the Sell Item SWF sample to RSF with SWF</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">This page documents my efforts to port the [Sell Item sample|http://spring.ervacon.com/swf-sellitem/] [Spring Web Flow (SWF)|SpringWebFlow] app to using the [RSF/SWF integration|RSFSpringWebFlow].\\</td></tr>
+<tr><td class="diffadd">This conversion took approximately 6 hours to complete (including documenting the process). Breakdown is as follows: approximately 1 hour to make the original app work with Maven2, 1 hour to understand the structure of the sample app, 1 hour for initial structure setup and cleanup, 1 hour to convert the JSPs to html templates with rsf:ids, 1 hour to write the RSF producers, 1 hour to for miscellaneous changes (updates to .xml, .properties).\\</td></tr>
+<tr><td class="diffadd">I would estimate that a real app conversion for an app this size would take only 3 hours since documenting the process and understanding the app would not be required. You could probably save almost another hour if the app was already using maven2.\\</td></tr>
+<tr><td class="diffadd">Feel free to send me ([Aaron Zeckoski|People]) questions or comments (or using the [mailing list|EmailLists]).</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">|| __Sample Code (SVN):__ | [original code (with maven2 build)|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/orig] | [RSF SWF version|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/RSFSWF] |</td></tr>
+<tr><td class="diffadd">[Try out Sell Item RSF SWF on our server|http://ponder.org.uk/SWFSellItem-RSFSWF/faces]</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!! My development environment</td></tr>
+<tr><td class="diffadd">* Java 1.5</td></tr>
+<tr><td class="diffadd">* Tomcat 5.5.12</td></tr>
+<tr><td class="diffadd">* Maven2</td></tr>
+<tr><td class="diffadd">* Eclipse 3.2</td></tr>
+<tr><td class="diffadd">* Windows XP ''(any OS should be fine)''</td></tr>
+<tr><td class="diffadd">__NOTE:__ Want [instructions setting up a similar development environment|ContainerSetupGuide]?</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!! Getting started</td></tr>
+<tr><td class="diffadd">First thing I had to do was get the SWF sample code up and running on my machine.</td></tr>
+<tr><td class="diffadd"># Went to the [Spring Download page|http://www.springframework.org/download] and grabbed version 1.0.4 of SWF (this just goes over to sourceforge for the [spring-webflow-1.0.4.zip|http://downloads.sourceforge.net/springframework/spring-webflow-1.0.4.zip?modtime=1182395228&amp;big_mirror=0])</td></tr>
+<tr><td class="diffadd"># Extracted the package and grabbed the sellitem sample app (spring-webflow-1.0.4\projects\spring-webflow-samples\sellitem) and copied it over to my desktop</td></tr>
+<tr><td class="diffadd"># Imported the sample app in eclipse and added a maven2 [pom.xml file|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/orig/pom.xml] (also adjusted the [.classpath file|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/orig/.classpath] to all required jars to use M2_REPO variable).</td></tr>
+<tr><td class="diffadd">#* __TIP:__ Look at the {{ivy.xml}} file to get the required dependency list and versions</td></tr>
+<tr><td class="diffadd">#* __TIP:__ Don't forget to define a ''M2_REPO'' classpath variable in eclipse which points to your local maven2 repository</td></tr>
+<tr><td class="diffadd"># Built the project using maven2 by running {{mvn install}}</td></tr>
+<tr><td class="diffadd"># Started up tomcat and accessed the app at: ''[http://localhost:8080/SWFSellItem-orig-1.0/]''</td></tr>
+<tr><td class="diffadd"># Checked in the [code for the original version|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/orig] to the CARET SVN</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!! Creating the RSF version</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">! Initial structure setup and cleanup</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd"># Branched the [original code|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/orig] to create the [RSFSWF version|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/RSFSWF].</td></tr>
+<tr><td class="diffadd"># Adjusted the maven2 {{pom.xml}} to remove unneeded dependencies (webmvc, web, etc.) and added in the rsf-util and spring-aop dependencies.</td></tr>
+<tr><td class="diffadd">#* Also changed the Spring version to 2.0.4 to make it easier for maven2 to sync and require less specified dependencies in the {{pom.xml}}</td></tr>
+<tr><td class="diffadd"># Added rsf-swf and rsfutil jars to the eclipse classpath (using the M2_REPO variable)</td></tr>
+<tr><td class="diffadd"># Added in an RSF standard {{content}} directory under {{/src/main/webapp}}</td></tr>
+<tr><td class="diffadd"># Added in RSF standard {{content/templates}}, {{content/css}}, and {{content/images}} directories</td></tr>
+<tr><td class="diffadd"># Moved *.jsp files to {{content/templates}} and renamed all files to .html</td></tr>
+<tr><td class="diffadd"># Updated the headers of all .html files to remove taglibs and added in standard RSF headers (also removed meta tag)</td></tr>
+<tr><td class="diffadd"># Moved *.jpg to {{content/images}} and removed old {{/src/main/webapp/images}} directory</td></tr>
+<tr><td class="diffadd"># Copied in the rsf logo and fixed the relative path to all images in the templates</td></tr>
+<tr><td class="diffadd"># Moved {{/src/main/webapp/style.css}} file to {{content/css}}</td></tr>
+<tr><td class="diffadd"># Fixed the css paths in the headers</td></tr>
+<tr><td class="diffadd"># Added {{/src/main/webapp/WEB-INF/messages/messages_en.properties}} file for internationalized messages</td></tr>
+<tr><td class="diffadd"># Created an {{rsf}} package in {{org.springframework.webflow.samples.sellitem}}</td></tr>
+<tr><td class="diffadd"># Added {{params}} and {{producers}} packages to the {{rsf}} package</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">! Actual real conversion work</td></tr>
+<tr><td class="diffadd"># Removed the {{/src/main/webapp/WEB-INF/sellitem-servlet-config.xml}} (it only has webmvc beans which we do not need)</td></tr>
+<tr><td class="diffadd"># Updated the {{/src/main/webapp/WEB-INF/web.xml}} file to include the RSF standard contexts and servlets</td></tr>
+<tr><td class="diffadd">#* This basically means completely overwriting what is there except you can keep the {{classpath:org/springframework/webflow/samples/sellitem/services-config.xml}}</td></tr>
+<tr><td class="diffadd">#* Here is a link to the [new web.xml file|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/RSFSWF/src/main/webapp/WEB-INF/web.xml] for easy reference</td></tr>
+<tr><td class="diffadd"># Create an {{applicationContext.xml}} and {{requestContext.xml}} file in {{/src/main/webapp/WEB-INF}}</td></tr>
+<tr><td class="diffadd">#* Here are links to each for easy reference: [applicationContext.xml|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/RSFSWF/src/main/webapp/WEB-INF/applicationContext.xm], [requestContext.xml|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/SWFSellItem/RSFSWF/src/main/webapp/WEB-INF/requestContext.xm]</td></tr>
+<tr><td class="diffadd">#* ''OPTIONAL:'' added an RSF config set under [SpringIDE|http://springide.org/blog/] which includes all spring files</td></tr>
+<tr><td class="diffadd"># Went through each .html template and removed the JSP code and replaced it with rsf:ids</td></tr>
+<tr><td class="diffadd">#* This mostly involved the removal of non-standard html tags like {{&lt;form:form&gt;}} and {{&lt;c:...}}</td></tr>
+<tr><td class="diffadd">#* This also involved some moving around of tags to improve the xhtml</td></tr>
+<tr><td class="diffadd"># Created [producers|ComponentProducer] for each of the html files in the producers package</td></tr>
+<tr><td class="diffadd">#* This is the ''best practice'' way to create RSF view producers</td></tr>
+<tr><td class="diffadd">## Create a class named &lt;template&gt;Producer which implements {{ViewComponentProducer}}</td></tr>
+<tr><td class="diffadd">## Create a {{public final static String VIEW_ID = &quot;&lt;template&gt;&quot;;}} which is set to the template without .html</td></tr>
+<tr><td class="diffadd">## Make the {{getViewID}} method return the VIEW_ID variable</td></tr>
+<tr><td class="diffadd"># Made the IndexProducer implement {{DefaultView}} so it is the starting page for the app</td></tr>
+<tr><td class="diffadd"># Added real code to the {{IndexProducer}} to create the links to initiate the various flows</td></tr>
+<tr><td class="diffadd">#* Create a link to start a flow: {{UIInternalLink.make(tofill, &quot;sellitem-flow-link&quot;, new SWFLaunchViewParams(&quot;sellitem-flow&quot;));}}</td></tr>
+<tr><td class="diffadd">#* From the template: {{&lt;a rsf:id=&quot;sellitem-flow-link&quot; href=&quot;priceAndItemCountForm.html&quot;&gt;Sell Item&lt;/a&gt;}}</td></tr>
+<tr><td class="diffadd"># Added real code to the {{PriceAndItemCountFormProducer}} to connect data to the form and associate the submit with the flow</td></tr>
+<tr><td class="diffadd">#* Use the RSF convention of {{SWFBindingBean}} to proxy data to the flow formObject, this points to the {{org.springframework.webflow.samples.sellitem.Sale.java}} object which has fields on it like {{.price}}, \\For example: {{UIInput.make(form, &quot;sale-price&quot;, &quot;SWFBindingBean.price&quot;);}}</td></tr>
+<tr><td class="diffadd">#** __NOTE:__ Here we are putting data into the ''sale'' bean</td></tr>
+<tr><td class="diffadd">#* Use the RSF convention of {{SWFEventBean}} to continue the flow, this ties to the {{view-state}} in the flow \\({{/src/main/webapp/WEB-INF/flows/sellitem-flow.xml}}) and the related ''transition'' which will have an ''on'', \\For example: {{&lt;transition on=&quot;submit&quot; to=&quot;enterCategory&quot;&gt;}} for __view-state id=enterPriceAndItemCount__</td></tr>
+<tr><td class="diffadd"># Added real code to the {{CategoryFormProducer}} to connect data to the form and associate the submit with the flow</td></tr>
+<tr><td class="diffadd">#* Use the RSF convention of {{SWFBindingBean}} to proxy data from the flow formObject, this points to the {{org.springframework.webflow.samples.sellitem.Sale.java}} object which has fields on it like {{.itemCount}}, \\For example: {{UIOutput.make(tofill, &quot;sale-itemCount&quot;, &quot;SWFBindingBean.itemCount&quot;);}}</td></tr>
+<tr><td class="diffadd">#** __NOTE:__ Here we are getting data back out of the ''sale'' bean, before we were putting it in</td></tr>
+<tr><td class="diffadd"># Added real code to the {{ShippingDetailsFormProducer}} to connect data to the form and associate the submit with the flow</td></tr>
+<tr><td class="diffadd">#* There is some optional rendering on this view and a pulldown which requires adding the options text to \\{{/src/main/webapp/WEB-INF/messages/messages_en.properties}}</td></tr>
+<tr><td class="diffadd">#* __NOTE:__ This view differs from the others in that it does not perform SWF form setup on entry to the state. As a result, EL references to the model must be via {{sale.*}} when rendering fields rather than {{SWFBindingBean.*}}.</td></tr>
+<tr><td class="diffadd"># Added real code to the {{CostOverviewProducer}} to connect data to the form and associate the submit with the flow</td></tr>
+<tr><td class="diffadd">#* __NOTE:__ This view differs in that it uses the end flow state. This does not actually impact our conversion but it is worth noting that RSF handles this automatically.</td></tr>
+<tr><td class="diffadd"># Added all producer bean definitions to the {{requestContext.xml}} file</td></tr>
+<tr><td class="diffadd"># Added the validation messages from {{/src/main/java/org/springframework/webflow/samples/sellitem/SaleValidator.java}} to the {{/src/main/webapp/WEB-INF/messages/messages_en.properties}}</td></tr>
+<tr><td class="diffadd">#* This is because RSF only allows internationalized messages</td></tr>
+<tr><td class="diffadd"># Committed the changed code to the [CARET SVN repository RSF samples trunk|https://saffron.caret.cam.ac.uk/svn/projects/RSFSamples/trunk/]</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">! Running the sample app</td></tr>
+<tr><td class="diffadd"># Built and deployed the project using maven2 by running {{mvn install cargo:deploy}} from the main directory</td></tr>
+<tr><td class="diffadd"># Started up tomcat and accessed the app at: ''[http://localhost:8080/SWFSellItem-SWFRSF-1.0/faces/]''</td></tr>
+<tr><td class="diffadd"># Tested the various flows</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">! Differences in app function</td></tr>
+<tr><td class="diffadd">* Hitting the __browser back button__ after reaching the final flow will yield an exception on screen in the original app, this behavior is the same in RSF except that RSF handles the exception and redirects the user back to the Home screen</td></tr>
+<tr><td class="diffadd">* In the original app, hitting refresh once you reach the end flow will yield an exception on screen, in RSF the end flow state is preserved and the end flow screen can be refreshed and will display the results of the flow again</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">! Summary of needed changes</td></tr>
+<tr><td class="diffadd">* No flows were changed and the logic for the application was not touched</td></tr>
+<tr><td class="diffadd">* The &quot;views&quot; (JSPs) were transformed into RSF views (producers and templates) and various RSF bits were added (contexts)</td></tr>
+<tr><td class="diffadd">* A few other RSFisms like internationalized messages and the web.xml had to be updated or added</td></tr>
+</table>
+ 
+  </div>
+</div>
+</form>
+
+  
+  
+
+	
+    
+    
+
+    
+
+    <div class="zebra-table sortable table-filter">
+    <table class="wikitable" >
+      <tr>
+        <th>Version</th>
+        <th>Date Modified</th>
+        <th>Size</th>
+        <th>Author</th>
+        <th>Changes ...</th>
+        <th class='changenote'>Change note</th>
+      </tr>
+
+      
+      
+      <tr>
+        <td>
+          <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PortingSellItemSWFSampleToRSF&amp;version=-1" accesskey="" title="">
+            
+          </a>
+        </td>
+
+	    <td style="white-space:nowrap;" sortvalue="Wed, 15 Aug 2007 03:13:48">
+        15-Aug-2007 03:13
+        </td>
+        <td style="white-space:nowrap;text-align:right;">
+          
+          10.613&nbsp;kB
+        </td>
+        <td>UnknownAuthor</td>
+
+        <td>
+          
+
+          
+        </td>
+
+         <td class="changenote">
+           
+           
+         </td>
+
+      </tr>
+      
+      
+
+    </table>
+    </div>
+    
+    
+  </div>
+
+
+  <div style="clear:both;" ></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+<div id='actionsBottom' class="pageactions"> 
+    
+
+    <a href="#top" 
+      class="action quick2top" 
+      title="Go to top" >&laquo;</a>
+
+    
+       This page (revision-) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=PortingSellItemSWFSampleToRSF&amp;r1=-1&amp;r2=1">15-Aug-2007 03:13</a> by UnknownAuthor
+    
+
+    
+
+   
+
+  
+
+   
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div id="favorites">
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=PortingSellItemSWFSampleToRSF" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=PortingSellItemSWFSampleToRSF"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+  
+  <div id="hiddenmorepopup">
+  <ul id="morepopup">
+     
+       	
+     
+       
+     
+    
+       
+     
+       <li>
+       
+       <a class="action rawpage wikipage" 
+               href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PortingSellItemSWFSampleToRSF&amp;skin=raw"
+              title="View Page Source">View Page Source
+       </a>
+       
+       
+       </li>
+      
+        
+  
+      
+      
+      
+
+      
+	  <li class='separator'>
+        <div id="moremenu" ></div>
+      </li>
+  </ul>
+  </div>
+  
+  
+
+  
+
+  
+
+  
+  <div class="leftmenu">
+    <p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main">Main page</a><br />
+<tt> </tt><i><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ThisWiki">About</a></i><br />
+</p><p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=GettingStarted">Getting Started</a><br />
+</p>
+<p><b>Documentation</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Developers">Developers</a><br />
+<tt>  </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Javadocs">Javadocs</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Designers">Designers</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SampleRSFApps">Sample RSF Apps</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Presentations">Presentations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Acronyms">Acronyms</a><br />
+</p>
+<p><b>Downloads</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CurrentCode">Current Release</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=TrunkCode">Trunk</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CodeDistributions">Distributions</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=OldCode">Old Versions</a><br />
+</p>
+<p><b>Community</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=QampA">Q&amp;A</a><br />
+<tt> </tt><a class="external" href="http://ponder.org.uk/rsf/">Forums</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=EmailLists">Mailing Lists</a><br />
+<tt> </tt><a class="external" href="http://www.caret.cam.ac.uk/jira/browse/RSF">Issue Tracker</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=People">People</a><br />
+</p>
+<p><b>Design</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Roadmap">Roadmap</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Integrations">Integrations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Concepts">Concepts</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Philosophy">Philosophy</a><br />
+</p>
+<div style="font-style:italic;font-size:0.8em;">
+<b>Pages</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=FindPage">Find</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RecentChanges">Recent Changes</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UnusedPages">Unused</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UndefinedPages">Undefined</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PageIndex">Index</a>
+</div>
+<p />
+    
+  </div>
+  
+  <div class="leftmenufooter">
+    <hr />
+<p><b>Referenced by</b><br />
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SellItemSWFSample">SellItemSWFSample</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SpringWebFlow">SpringWebFlow</a><br />
+</p>
+    
+  </div>
+
+  
+
+  
+  
+  <div class="wikiversion">JSPWiki v2.8.2
+  <span class="rssfeed">
+    
+  </span>
+  </div>  
+  
+</div>
+
+	<div class="clearbox"></div>
+  </div>
+
+  
+
+
+
+
+
+ 
+<div id="footer">
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  <div class="copyright"></div>
+
+  <div class="wikiversion">
+    JSPWiki v2.8.2
+  </div>
+
+  <div class="rssfeed">
+    
+  </div>
+
+</div>
+
+</div>
+
+</body>
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=PortingSellItemSWFSampleToRSF&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:19 GMT -->
+</html>

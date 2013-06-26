@@ -1,0 +1,1063 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html id="top" xmlns="http://www.w3.org/1999/xhtml">
+
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=BuildingRSFComponents&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+    RSF Wiki: BuildingRSFComponents
+  </title>
+  
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" media="screen, projection, print" type="text/css"
+     href="templates/default/jspwiki.css"/>
+
+<link rel="stylesheet" type="text/css" media="print" 
+     href="templates/default/jspwiki_print.css" />
+<!-- INCLUDERESOURCES (stylesheet) -->
+
+<!-- INCLUDERESOURCES (inlinecss) -->
+
+
+
+<noscript>
+<style type="text/css">
+#hiddenmorepopup { display:block; }
+</style>
+</noscript>
+
+
+<script type="text/javascript" src="scripts/mootools.js"></script>
+<script type="text/javascript" src="scripts/prettify.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-common.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-commonstyles.js"></script>
+<!-- INCLUDERESOURCES (script) -->
+
+
+
+
+
+<meta name="wikiContext" content='diff' />
+<meta name="wikiBaseUrl" content='http://rsf.fluidproject.org/wiki/' />
+<meta name="wikiPageUrl" content='/wiki/Wiki.jsp?page=%23%24%25' />
+<meta name="wikiEditUrl" content='/wiki/Edit.jsp?page=BuildingRSFComponents' />
+<meta name="wikiJsonUrl" content='/wiki/JSON-RPC' />
+<meta name="wikiPageName" content='BuildingRSFComponents' />
+<meta name="wikiUserName" content='207.119.0.6' />
+<meta name="wikiTemplateUrl" content='/wiki/templates/default/' />
+<meta name="wikiApplicationName" content='RSF Wiki' />
+
+<script type="text/javascript">//<![CDATA[
+/* Localized javascript strings: LocalizedStrings[] */
+var LocalizedStrings = {
+"javascript.edit.allsections":"( All )",
+"javascript.slimbox.error":"<h2>Error</h2>There was a problem with your request.<br />Please try again",
+"javascript.slimbox.remoteRequest":"Remote Request {0} of {1}",
+"javascript.slimbox.close":"Close &#215;",
+"javascript.quick.edit":"[Edit]",
+"javascript.sort.descending":"Descending order. Click to reverse sort order",
+"javascript.expand":"Click to expand",
+"javascript.group.validName":"Please provide a valid name for the new Group",
+"javascript.slimbox.next":"Next&raquo;",
+"javascript.filter.all":"( All )",
+"javascript.edit.areyousure":"Without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.quick.edit.title":"Edit section {0}...",
+"javascript.slimbox.directLink":"Direct Link to the target",
+"javascript.prefs.areyousure":"Without clicking the Save User Preferences button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.sbox.clone.suffix":"-New",
+"javascript.slimbox.info":"Image {0} of {1}",
+"javascript.tip.default.title":"More...",
+"javascript.edit.resize":"Drag to resize the text area",
+"javascript.edit.findandreplace.nomatch":"No match found!",
+"javascript.sort.ascending":"Ascending order. Click to reverse sort order",
+"javascript.slimbox.close.title":"Close [Esc]",
+"javascript.edit.toolbar.makeSelection":"Please make first a selection.",
+"javascript.favs.hide":"Click to hide Favorites",
+"javascript.sectionediting.label":"Section Overview",
+"javascript.slimbox.previous":"&laquo;Previous",
+"javascript.favs.show":"Click to show Favorites",
+"javascript.collapse":"Click to collapse",
+"javascript.category.title":"Click to show category [{0}] ...",
+"javascript.sort.click":"Click to sort",
+"javascript.edit.startOfPage":"( Start of page )"
+};
+
+
+/* INCLUDERESOURCES (jsfunction) */
+
+//]]></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="search" href="Wiki702d.html?page=FindPage"
+    title='Search RSF Wiki' />
+<link rel="help"   href="Wikia3b7.html?page=TextFormattingRules"
+    title="Help" />
+
+ <link rel="start"  href="Wikib2ab.html?page=Main"
+    title="Front page" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki_print.css"
+    title="Print friendly" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki.css"
+    title="Standard" />
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+<link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  
+    <meta name="robots" content="noindex,nofollow" />
+  
+  
+    <meta name="robots" content="noindex,follow" />
+  
+</head>
+
+<body class="view">
+
+<div id="wikibody" class="fav-left">
+ 
+  
+
+
+
+
+
+
+<div id="header">
+
+  <div class="titlebox"></div>
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=BuildingRSFComponents" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=BuildingRSFComponents"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+
+  <div class="pagename">BuildingRSFComponents</div>
+
+  <div class="searchbox">
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Search.jsp"
+        class="wikiform"
+           id="searchForm" accept-charset="UTF-8">
+
+  <div style="position:relative">
+  <input onblur="if( this.value == '' ) { this.value = this.defaultValue }; return true; "
+        onfocus="if( this.value == this.defaultValue ) { this.value = ''}; return true; "
+           type="text" value="Quick Navigation"
+           name="query" id="query"
+           size="20" 
+      accesskey="f" />
+  <button type="submit"
+  		 name="searchSubmit" id="searchSubmit"
+  		value="Go!"
+  		title="Go!"></button>
+  </div>
+  <div id="searchboxMenu" style='visibility:hidden;'>
+    <div id="searchTools">
+      <a href="#" id='quickView' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Wiki.jsp?page=__PAGEHERE__','View the selected page' );"
+        title="View the selected page">view</a>
+      <a href="#" id='quickEdit' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__','Edit the selected page' );"
+        title="Edit the selected page">edit</a>
+      <a href="#" id='quickClone' class='action'	
+      onclick="return SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__', 'Clone the selected page', true );"
+        title="Clone the selected page">clone</a>
+      <a href="#" id="advancedSearch" class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Search.jsp?query=__PAGEHERE__','BuildingRSFComponents' )"
+        title="Advanced Search [ f ]">find</a>
+    </div>
+    <div id="searchResult" >
+	  Quick search
+      <span id="searchTarget" >(type ahead)</span>
+      <span id="searchSpin" class="spin" style="position:absolute;display:none;"></span>
+	  <div id="searchOutput" ></div>
+    </div>
+    <div id="recentSearches" style="display:none;">
+      Recent Searches
+      <span><a href="#" id="recentClear">(Clear)</a></span>
+    </div>
+  </div>
+
+</form></div>
+
+  <div class="breadcrumbs">Your trail:&nbsp;<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UserNameTag">UserNameTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ValueBinding">ValueBinding</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VariableTag">VariableTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VeryLazyBeans">VeryLazyBeans</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewID">ViewID</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewRender">ViewRender</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogEntryPlugin">WeblogEntryPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogPlugin">WeblogPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WikiFormsExampleText">WikiFormsExampleText</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=XPP">XPP</a></div>
+
+</div>
+
+  <div id="content">
+
+    <div id="page">
+      
+
+
+
+
+
+<div id="actionsTop" class="pageactions"> 
+  <ul>
+
+    
+    
+    
+
+    
+    <li id="morebutton">
+      <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=MoreMenu" class="action more">More...</a>
+    </li>
+
+  </ul>
+</div>
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="tabmenu">
+
+  
+
+  
+
+  
+  
+
+  
+
+  <a id="menu-pagecontent" href='http://rsf.fluidproject.org/wiki/Wiki.jsp?page=BuildingRSFComponents' accesskey="v" ><span class='accesskey'>V</span>iew</a>
+
+  <a id="menu-attach" accesskey="a" ><span class='accesskey'>A</span>ttach</a>
+
+  
+  <a class="activetab" id="menu-info" accesskey="i" ><span class='accesskey'>I</span>nfo</a>
+
+  </div>
+<div class="tabs">
+
+  <div id="pagecontent" class="hidetab" >
+
+      
+  </div>
+
+
+  <div id="attach" class="hidetab" >
+
+    
+
+
+
+
+
+
+
+
+
+
+<div id="addattachment">
+<h3>Add new attachment</h3>
+
+
+<div class="formhelp">Only authorized users are allowed to upload new attachments.</div>
+
+</div>
+
+
+
+  </div>
+
+
+  
+  <div id="info" >
+
+  <p>
+  This page (revision-1) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=BuildingRSFComponents&amp;r1=-1&amp;r2=1"
+        title="Show changes of last page update" >
+        16-Jul-2008 15:40
+      </a> by UnknownAuthor
+
+  
+  </p>
+
+  
+
+  
+  
+      <p>Only authorized users are allowed to rename pages.</p>
+  
+
+  
+  
+      <p>Only authorized users are allowed to delete pages.</p>
+  
+
+  <div class="collapsebox-closed" id="incomingLinks">
+  <h4>Incoming links</h4>
+    <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=BuildingRSFComponents" accesskey="" title="">BuildingRSFComponents</a>
+    <ul><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ComponentProducer">ComponentProducer</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Evolver">Evolver</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=InitBlock">InitBlock</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Javascript">Javascript</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=MultiFileTemplates">MultiFileTemplates</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=OuterPageTemplates">OuterPageTemplates</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=QampA">QampA</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RSFComponents">RSFComponents</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RSJCIS">RSJCIS</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SeedComponent">SeedComponent</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SellItemSWFSample">SellItemSWFSample</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=StaticComponentRenderer">StaticComponentRenderer</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UIBranchContainer">UIBranchContainer</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UIJointContainer">UIJointContainer</a>
+</li></ul>
+  </div>
+
+  <div class="collapsebox-closed" id="outgoingLinks">
+  <h4>Outgoing links</h4>
+    <div class="ReferredPagesPlugin">
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=BuildingRSFComponents" title="ReferredPagesPlugin: depth[1] include[.*] exclude[^$] format[compact]">BuildingRSFComponents</a>
+<ul>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=BeanExploder">BeanExploder</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ComponentProducer">ComponentProducer</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ComponentTree">ComponentTree</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=IDs">IDs</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=IKAT">IKAT</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ImageHolder/rsf-date-widget-structure.png">ImageHolder/rsf-date-widget-structure.png</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ImageHolder/rsf-date-widget-thai.png">ImageHolder/rsf-date-widget-thai.png</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ImageHolder/rsf-double-selection-control.png">ImageHolder/rsf-double-selection-control.png</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=InitBlock">InitBlock</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=OLI">OLI</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=OTP">OTP</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Presentations">Presentations</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RepetitiveLeaves">RepetitiveLeaves</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UIBranchContainer">UIBranchContainer</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UIJointContainer">UIJointContainer</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UniversalViewBus">UniversalViewBus</a></li>
+</ul>
+</div>
+
+  </div>
+
+  <div class="clearbox"></div>
+
+  
+  
+     
+
+
+
+
+
+
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Diff.jsp" method="get" accept-charset="UTF-8">
+<div class="collapsebox" id="diffcontent">
+  <h4>
+       <input type="hidden" name="page" value="BuildingRSFComponents" />
+       Difference between version <select id="r1" name="r1" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select> and <select id="r2" name="r2" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select>
+  </h4>
+
+  
+
+  <div class="diffbody">
+    <table class="diff" border="0" cellspacing="0" cellpadding="0">
+<tr><td class="diff">At line 1 added 282 lines</td></tr>
+<tr><td class="diffadd">%%(font-size: smaller; color: #555555) NB - a [PowerPoint presentation|Presentations/Building+Reusable+UI+Components+with+RSF+and+Javascript.ppt] covering much of the material on this page is available on the [Presentations] page. %%</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The term &quot;component&quot; is somewhat overloaded within RSF, not so say within computing in general. This page is about how to create reusable segments of markup which function as a placeable UI &quot;component&quot; or &quot;widget&quot; in RSF. </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">If you are already familiar with writing plain [ViewProducer|ComponentProducer]s in RSF, the basic organisation where the markup for a UI is separated into a plain XHTML file, but the behaviour and bindings are written in a pure Java [ComponentProducer], will be very familiar - reusable RSF components are written in just the same way. In order to be reusable, we want to centralise the templates and code for our components in one place, possibly outside our app. The key idea behind using a component is to encourage the RSF [renderer|IKAT] to take a branch from the markup file holding your main view template, into the markup file for the component. This is done by creating a [branch|UIBranchContainer] component in the [component tree|ComponentTree] for your view.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!Evolvers and Producers</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The page on [ComponentProducers] explains the general contract of an RSF Producer - it implements a [one-line interface|OLI] of some kind, for which the first argument is typically {{UIContainer tofill}}, representing the client's container in the tree which is being populated. </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!Evolvers </td></tr>
+<tr><td class="diffadd">When creating reusable UI components, a particular kind of signature becomes fairly popular, where the next argument is an already existing concrete RSF component. This kind of signature is called an __''evolver''__, since it can be seen as &quot;evolving&quot; the concrete component into a more elaborated form.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">For example, the standard RSF evolver interface {{TextInputEvolver}} is as follows:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public interface TextInputEvolver {</td></tr>
+<tr><td class="diffadd">  public UIJointContainer evolveTextInput(UIInput toevolve);</td></tr>
+<tr><td class="diffadd">}</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">This is the interface to a family of components which perform the function of inputting text. The reason for casting the interface this way, is that UIInput already compactly summarises all of the configuration that might be required for such a component - it specifies the EL binding, the ID, parent and any initial value for the component, as well as coming with a complete array of constructors. In this role, the UIInput is called a ''seed component''. By reusing the existing UIInput class for this purpose, we can economise completely on constructors and configuration in our interface - we can even do away with the usually necessary {{UIContainer tofill}} argument, since in this case the required parent can be inferred from the existing parent of the seed.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Other standard RSF evolvers are {{SelectEvolver}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public interface SelectEvolver {</td></tr>
+<tr><td class="diffadd">  public UIJointContainer evolveSelect(UISelect toevolve);</td></tr>
+<tr><td class="diffadd">}</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">and {{DateInputEvolver}}</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">public interface DateInputEvolver {</td></tr>
+<tr><td class="diffadd">  public UIJointContainer evolveDateInput(UIInput toevolve, Date value);</td></tr>
+<tr><td class="diffadd">}</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!Producers</td></tr>
+<tr><td class="diffadd">Not all &quot;widgets&quot; need be given an evolver signature - the signature is really entirely up to you as the designer of your widget family. For example a very popular choice, which involves no real coupling between the client and implementor of the widget, is to use the framework standard &quot;BasicProducer&quot; interface:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public interface BasicProducer {</td></tr>
+<tr><td class="diffadd">  public void fillComponents(UIContainer parent, String clientID);</td></tr>
+<tr><td class="diffadd">}</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">This signature indicates that &quot;some kind of component&quot; will be created by the implementor when invoked (the most common convention is for the clientID supplied to be used as the clientID of a [UIJointContainer]) but does not expose any information about what kind. </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Choose an evolver or producer signature as appropriate for your situation, reflecting the sort of information you desire to expose in the contract between the user and implementor of your widget.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!! Writing a simple Evolver</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The most basic skeleton of evolver tasks can be seen in the simplest evolver in RSF, PlainTextInputEvolver, which does essentially nothing - it evolves its seed {{UIInput}} component into an unchanged form. This is a great opportunity to see the basic evolver packaging at work.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public class PlainTextInputEvolver implements TextInputEvolver {</td></tr>
+<tr><td class="diffadd">  public static final String COMPONENT_ID = &quot;plainTextEditor:&quot;;</td></tr>
+<tr><td class="diffadd">  public UIJointContainer evolveTextInput(UIInput toevolve) {</td></tr>
+<tr><td class="diffadd">    UIJointContainer joint = new UIJointContainer(toevolve.parent, toevolve.ID, COMPONENT_ID);</td></tr>
+<tr><td class="diffadd">    toevolve.parent.remove(toevolve);</td></tr>
+<tr><td class="diffadd">    toevolve.ID = SEED_ID;</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">    joint.addComponent(toevolve);</td></tr>
+<tr><td class="diffadd">    return joint;</td></tr>
+<tr><td class="diffadd">  }</td></tr>
+<tr><td class="diffadd">}</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The first few lines of an evolver always follow the same pattern:</td></tr>
+<tr><td class="diffadd"># Construct a [UIJointContainer] </td></tr>
+<tr><td class="diffadd"># Remove the seed component from its old parent</td></tr>
+<tr><td class="diffadd"># Mutate the ID of the seed component to the required standard name (assuming it still appears in bare form in the new branch)</td></tr>
+<tr><td class="diffadd"># Add the seed back into the new branch</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">For more complex evolvers (e.g. a broken-up or field-based date input) the seed component may be used in a more complex fashion (e.g. steps 3 and 4 will not occur directly). For yet more complex &quot;evolvers&quot; there may even be no suitable seed component, and so the basic operation skeleton is just reduced to step 1, of constructing the JointContainer.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Let's look at this line-by-line in a little more detail:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public static final String COMPONENT_ID = &quot;plainTextEditor:&quot;;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">Very similar to the static {{VIEW_ID}} field which often appears as the first line of a [ViewProducer|ComponentProducer], this is a helpful convention to document the target [rsf:id|IDs] that this evolver will expect in its implementation template. This is a less useful convention than {{VIEW_ID}} since it is extremely rare to refer to an evolver implementation class directly - they are typically dynamically injected using Spring/RSAC.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">UIJointContainer joint = new UIJointContainer(toevolve.parent,</td></tr>
+<tr><td class="diffadd">        toevolve.ID, COMPONENT_ID);</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">We infer the correct target location of the subtree we generate from our seed component. The seed component has already been placed in the correct location in the tree structure by the &quot;constructor&quot; -  what needs to be changed is replacing it in its position and name with a UIJointContainer, with the subtree placed inside the container. Therefore the parent and client ID of the JointContainer are the parent and ID of the seed, and the target ID is our own.</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">    toevolve.parent.remove(toevolve);</td></tr>
+<tr><td class="diffadd">    toevolve.ID = SEED_ID;</td></tr>
+<tr><td class="diffadd">    joint.addComponent(toevolve);</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">The seed is then removed from its old position in the tree, has its ID replaced with the &quot;standard&quot; seed ID for components of this class, which is defined in the TextInputEvolver to be {{&quot;input&quot;}}:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public interface TextInputEvolver {</td></tr>
+<tr><td class="diffadd">  /** The standard ID of the &quot;seed&quot; component when positioned within the </td></tr>
+<tr><td class="diffadd">   * branch created by the evolver.</td></tr>
+<tr><td class="diffadd">   */</td></tr>
+<tr><td class="diffadd">  public String SEED_ID = &quot;input&quot;;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Finally, we return the joint we created as a courtesy. It is actually quite unlikely the client will make use of it, since the contents of the branch will in general be unknown - in general the client will not know which Evolver implementation has been injected.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">    return joint;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!! The implementation template</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Note that although implementation apparently does nothing very useful to the tree, it *will* in fact force a branch to the implementation template from which markup will be read. In this case the implementation template, {{plainTextEditor.html}} contains the following tags:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">&lt;div rsf:id=&quot;plainTextEditor:&quot;&gt;</td></tr>
+<tr><td class="diffadd">  &lt;textarea class=&quot;block&quot; rsf:id=&quot;input&quot; id=&quot;input&quot; cols=&quot;65&quot; rows=&quot;10&quot; wrap=&quot;virtual&quot;&gt;&lt;/textarea&gt;</td></tr>
+<tr><td class="diffadd">&lt;/div&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">(Note that the id on the {{div}} agrees with the {{COMPONENT_ID}} field issued as the joint ID).</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Therefore the above implementation, just with a change of target ID, could be used to provide a &quot;styled&quot; text component, perhaps surrounded by a border or other markup, by including it in a different template surrounding the {{textarea}}. One could even achieve the same effect by overriding the standard RSF template contributor for its built-in components to supply a different template containing {{plainTextEditor:}}, although this is not really advisable --- although apparently useless the plainTextEvolver fills a very useful function of being an entirely unstyled &quot;null&quot; implementation of an evolver where this is required.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!! Registering your template</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">As of RSF 0.7.2, template that are the target of branches (like {{plainTextEditor.html}} above) must still be registered into RSF resolution individually - in 0.8 we will be able to adopt a convention-based approach to speed this up. The current form of definition uses the standard parent definition {{templateContributorParent}}, for example like this:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  &lt;bean parent=&quot;templateContributorParent&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;templateResourceBase&quot; ref=&quot;componentsTemplateResourceBase&quot;/&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;templateNames&quot;</td></tr>
+<tr><td class="diffadd">      value=&quot;plainTextEditor, double-list-select&quot; /&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/bean&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">This definition registers two templates which are expected to be {{[[res-base]/[[base-dir]/plainTextEditor.html}} and {{[[res-base]/[[base-dir]/double-list-select.html}}. This path is built up hierarchically with two main parameters, {{[[res-base]}} which is the {{templateResourceBase}} property, which typically defaults to the path {{/}} indicating that the templates are hosted from the current webapp, and {{[[base-dir]}} the {{baseDirectory}} property, which defaults to {{content/templates}}.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The two default values are set from the application scope beans {{componentsTemplateResourceBase}} (default {{/}}) and {{defaultTemplatePath}} (default {{content/templates}}).</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!! Using the Evolver</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Here is a standard set of two lines in the client which make use of the evolver:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">    UIInput text = UIInput.make(cform, &quot;rich-text:&quot;, &quot;#{dataBean.text}&quot;);</td></tr>
+<tr><td class="diffadd">    textevolver.evolveTextInput(text);</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Note that although the construction of the seed component is performed almost exactly as if the component is to be used directly, there is the slight change that the component __MUST__ be given a colon id, reflecting the fact that in the final tree, this ID will be placed on the UIJointContainer holding the implementation subtree. This would ordinarily be illegal, unless the leaf component {{text}} were forming a [repetitive leaf|RepetitiveLeaves].</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!! Talking to the Client</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The plainTextEvolver did virtually nothing other than the basic mechanics of forcing a branch to a different implementation template. More sophisticated and useful components will generally require much more, and usually involve no inconsiderable amount of Javascript. It is time to consider the various strategies and implementations RSF puts in place to help component writers put together reusable markup *together* with safely packaged client-side logic.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">We'll illustrate this section with the standard RSF evolver [StandardDoubleSelectEvolver|https://saffron.caret.cam.ac.uk/svn/projects/RSFComponents/trunk/evolvers/src/java/uk/ac/cam/caret/rsf/evolverimpl/StandardDoubleSelectEvolver.java].</td></tr>
+<tr><td class="diffadd">This operates a &quot;double selection&quot; control where the user assembles a selection list by moving items between two side-by-side lists. Here is a screenshot:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">[ImageHolder/rsf-double-selection-control.png]</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">This component implements the Evolver interface SelectEvolver:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public interface SelectEvolver {</td></tr>
+<tr><td class="diffadd">  public UIJointContainer evolveSelect(UISelect toevolve);</td></tr>
+<tr><td class="diffadd">}</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Just as text controls are indistinguishable in their binding behaviour to UIInput, this selection control is indistinguishable in binding to UISelect.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!Using Javascript I: Namebase and IDs</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The key ability in communicating from server to client is informing the client Javascript code where all of the related subcomponents are which form part of this component &quot;instance&quot;. RSF helps with this by associating a well-defined XML {{id}} with each tag that it renders, which can be always determined in advance on the server-side. This id is the [full ID|IDs] for the component, which is constructed from colon-separated path segments taken from the BranchContainer structure. You can access this id on the server-side by calling the {{getFullID}} method on your component, once it has been attached to the correct point in the component tree.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Note that by default, RSF will only ''write'' the associated full ID onto a tag that it renders, if the tag ''already'' has an id attached to it on the template. This is to avoid bulking out the rendered markup unnecessarily, and corresponds well with the &quot;full previewability&quot; philosophy for RSF components.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">For example, the double selection evolver emits a component for the &quot;move left&quot; button as follows:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">    UIOutput.make(togo, &quot;move-left&quot;);</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">This peers with a template tag that looks like this:</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  &lt;input type=&quot;button&quot; id=&quot;input-doublelist:move-left&quot; </td></tr>
+<tr><td class="diffadd">           rsf:id=&quot;move-left&quot; title=&quot;Move selected&quot; value=&quot;&amp;lt;&quot;&gt;&lt;/input&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">(Note that we render this button with a {{UIOutput}} since we are uninterested in rendering any part of its ''function'' - we are only rendering a component at all in order to have its id assigned correctly).</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Imagine this component were rendered by a client with the following lines:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">    UISelect select = UISelect.makeMultiple(cform, &quot;select:&quot;, </td></tr>
+<tr><td class="diffadd">        new String[] {&quot;Baboon&quot;, &quot;Marmoset&quot;, &quot;Wensleydale&quot;, </td></tr>
+<tr><td class="diffadd">                      &quot;Tamarin&quot;, &quot;Cheddar&quot;, &quot;Yarg&quot;, &quot;Macaque&quot;, &quot;Colobus&quot;},</td></tr>
+<tr><td class="diffadd">        &quot;#{dataBean.selections}&quot;,</td></tr>
+<tr><td class="diffadd">        new String[] {&quot;Marmoset&quot;, &quot;Tamarin&quot;, &quot;Cheddar&quot;, &quot;Macaque&quot;});</td></tr>
+<tr><td class="diffadd">    selectevolver.evolveSelect(select);</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">This would create the branch (the UIJointContainer as we saw above) for the selection control with the client ID of {{select:}}. Therefore when the &quot;move left&quot; button above is rendered, it will be rendered with a full XML ID of {{select::move-left}}. All of the other controls in our evolver will similarly share the prefix {{select::}} in this rendered instance - {{select::}} is called the __''namebase''__ for this instance of the widget. A traditional problem for Javascript code in cooperating with server implementations is in locating all the tags that correspond to the different parts of a dynamically renderered control. In RSF these are easily located by appending their &quot;local&quot; names (agreed with the renderer implementation) to the {{namebase}} value. The only remaining issue is how to get the namebase to the client.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!Using Javascript II: [Init Blocks|InitBlock] (formerly &quot;RSJCIS&quot;)</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">A component &quot;instance&quot; on a page typically needs to be contextualised from the server, with instance-specific information. The preferred RSF scheme for achieving this is to use an [init block] for which there is particular framework support from the {{[UIInitBlock|InitBlock]}} component - however any suitable strategy can be used if you wish.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!Note on Javascript namespaces</td></tr>
+<tr><td class="diffadd">Together with the same considerations which discourage us from usage of {{&lt;body onload&gt;}}, the same considerations (portal aggregation, complex hosting situations) encourage us to be much more careful than is customary about avoiding name collisions in our Javascript code. Luckily, implementing the equivalent functionality to &quot;namespaces&quot; in other languages (C++, &quot;packages&quot; in Java, etc.) is very easy using Javascript's very powerful support for higher-order functions.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Without worrying too much about the meaning of the syntax, the basic schematic for properly namespacing your Javascript functions and data looks as follows:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">var myNamespace = function() {</td></tr>
+<tr><td class="diffadd">   // Any definitions placed here will be PRIVATE to your namespace</td></tr>
+<tr><td class="diffadd">  return {</td></tr>
+<tr><td class="diffadd">    myExportedFunction: function(arguments) {</td></tr>
+<tr><td class="diffadd">      // The implementation of a PUBLIC function, accessed externally</td></tr>
+<tr><td class="diffadd">      // as myNamespace.myExportedFunction()</td></tr>
+<tr><td class="diffadd">      }</td></tr>
+<tr><td class="diffadd">    }</td></tr>
+<tr><td class="diffadd">      </td></tr>
+<tr><td class="diffadd">    }; // end return internal &quot;Object&quot;</td></tr>
+<tr><td class="diffadd">  }(); // end namespace myNamespace</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Those who are interested in the meaning and reasoning behind this style can find a readable introduction and thread by [Dustin Diaz|http://www.dustindiaz.com/namespace-your-javascript/], which has links to a more technical explanation from [Douglas Crockford|http://www.crockford.com/javascript/private.html].</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!Using Javascript III: AJAX using transitbase and UVB</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The above techniques will cover all cases where the logic for the component's lifetime exists only on the client-side. Where the component needs to communicate to the server, typically via AJAX, it will need some further context. For this final, most complex type of component we will switch to studying the RSF internationalised date widget, with evolver [FieldDateInputEvolver|https://saffron.caret.cam.ac.uk/svn/projects/RSFComponents/trunk/evolvers/src/java/uk/ac/cam/caret/rsf/evolverimpl/FieldDateInputEvolver.java] as our standard example.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">In this case we are using the built-in RSF view for the Universal View Bus [UVB|UniversalViewBus] - this is a standard view intended to be potentially suitable for all AJAX applications (of course, many established client-side libraries will already have defined their own AJAX protocols, and where these are XML-based, they may be easily rendered using simple RSF views and templates in the standard ViewProducer style). </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The client needs some extra context in order to define which part of the application's data model it is intended to be working with. In the RSF model, in contrast to the vast majority of other frameworks, this context can operate without *any* server state being maintained in between requests. UVB is based on the [OTP]/[BeanExploder] concept whereby a bean definition or entity table is &quot;exploded&quot; into a freely addressed space of EL expressions, sharing a common base. For this particular widget, there genuinely is no state held on the server, and we are simply using the AJAX call as a strategy for performing the awkward Locale-aware parsing and rendering operations for the date. Therefore we use a [BeanExploder] definition of the following to create an infinite lazy space of date parsing machines, ready to do their work:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  &lt;bean id=&quot;fieldDateTransit&quot; parent=&quot;beanExploder&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;factory&quot;&gt;</td></tr>
+<tr><td class="diffadd">      &lt;bean class=&quot;uk.org.ponder.dateutil.StandardFieldDateTransit&quot;</td></tr>
+<tr><td class="diffadd">        init-method=&quot;init&quot;&gt;</td></tr>
+<tr><td class="diffadd">        &lt;property name=&quot;locale&quot; ref=&quot;requestLocale&quot; /&gt;</td></tr>
+<tr><td class="diffadd">        &lt;property name=&quot;timeZone&quot; ref=&quot;requestTimeZone&quot;/&gt;</td></tr>
+<tr><td class="diffadd">      &lt;/bean&gt;</td></tr>
+<tr><td class="diffadd">    &lt;/property&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/bean&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{fieldDateTransit}} is a kind of &quot;Swiss Army knife&quot; of Locale-aware date conversion functions, packaged as a framework-free bean. Each widget instance is allocated to a separate instance with its own ID, for example the fieldDateTransit instance with ID {{8ce08}} would be addressed by the EL path {{fieldDateTransit.8ce08}}.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The point of this strategy is to ensure that each client-side instance of the widget has a separate set of server-side machinery allocated to it, and that requests issued over the UVB bus can be safely &quot;bulked up&quot; (coalesced) without the requests from different widgets conflicting. In even more advanced &quot;components&quot; there may even be some server-side state, hopefully mapped onto a database row, in which case the transit instance would have a physical meaning - however this would remain transparent to the client, which would just keep using the bindings it was given. In no case do we need to keep these addressed beans around in session state memory. Having sent the binding down to the client, the context can be cleared at the end of the request.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">All of these considerations taken together produce the idea of the __''transitbase''__ for a particular widget instance. This is the server-side counterpart of the namebase -- where the namebase is a namespace within the space of XML IDs that identifies the client-side components that the widget is dealing with, the transitbase identifies the base of a set of EL expressions on the server that the widget is allocated to. Therefore if sent a transitbase of {{fieldDateTransit.8ce08.}}, the client would append the &quot;well-known property names&quot; to this to arrive at a path like {{fieldDateTransit.8ce08.short}} for reading/writing the short formatted version of the Date in the current Locale, or {{fieldDateTransit.8ce08.timeFormat}} for reading the localised version of the time format itself.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!Putting it all together</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Assembling all of the required context for {{fieldDateInput}} leads to the following initialisation on the Java side:</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">    UIInitBlock.make(togo, &quot;init-date&quot;, JSInitName, </td></tr>
+<tr><td class="diffadd">        new Object[] {togo, title.get(), ttb, UVBProducer.PARAMS});</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The corresponding tag in the markup is </td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">&lt;script rsf:id=&quot;init-date&quot;&gt;</td></tr>
+<tr><td class="diffadd">  RSF_Calendar.initYahooCalendar_Datefield(&quot;nameBase1:&quot;, &quot;Select Date&quot;);</td></tr>
+<tr><td class="diffadd">&lt;/script&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">Note that the preview initialisation has two fewer arguments than the version rendered by the server. The AJAX event cycle is one thing that cannot be fully previewed in the filesystem-only version, although in fact a few of the core validation functions are simulated in order to allow designers to preview and test all the visual transitions. The implementation of the init function detects whether 2 or 4 arguments are supplied and switches between dummy and live implementations of the AJAX loop.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Both of the namespaces we have talked about above can be seen in the following schematic of the local and remote structure of the fieldDateInput widget:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">[ImageHolder/rsf-date-widget-structure.png]</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The fields shown in coloured rectangles correspond to ''local'' names in the HTML. These are the rsf:id values that are appended to the namebase sent as the first argument to the init function. The names shown in black next to the arrows at the top of the diagram correspond to the ''remote'' names as properties of the transit bean maintained on the server. These are appended to the transitbase value sent as the 3rd argument.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Here is the date widget in action - this implementation uses the Yahoo YUI calendar widget, in this view rendered in the Thai Locale:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">[ImageHolder/rsf-date-widget-thai.png]</td></tr>
+<tr><td class="diffadd">----</td></tr>
+<tr><td class="diffadd">[#1]Note that in more complex environments such as portlets, the correct viewStateHandler for issuing AJAX URLs may not be the standard one.</td></tr>
+</table>
+ 
+  </div>
+</div>
+</form>
+
+  
+  
+
+	
+    
+    
+
+    
+
+    <div class="zebra-table sortable table-filter">
+    <table class="wikitable" >
+      <tr>
+        <th>Version</th>
+        <th>Date Modified</th>
+        <th>Size</th>
+        <th>Author</th>
+        <th>Changes ...</th>
+        <th class='changenote'>Change note</th>
+      </tr>
+
+      
+      
+      <tr>
+        <td>
+          <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=BuildingRSFComponents&amp;version=-1" accesskey="" title="">
+            
+          </a>
+        </td>
+
+	    <td style="white-space:nowrap;" sortvalue="Wed, 16 Jul 2008 03:40:39">
+        16-Jul-2008 15:40
+        </td>
+        <td style="white-space:nowrap;text-align:right;">
+          
+          22.579&nbsp;kB
+        </td>
+        <td>UnknownAuthor</td>
+
+        <td>
+          
+
+          
+        </td>
+
+         <td class="changenote">
+           
+           
+         </td>
+
+      </tr>
+      
+      
+
+    </table>
+    </div>
+    
+    
+  </div>
+
+
+  <div style="clear:both;" ></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+<div id='actionsBottom' class="pageactions"> 
+    
+
+    <a href="#top" 
+      class="action quick2top" 
+      title="Go to top" >&laquo;</a>
+
+    
+       This page (revision-) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=BuildingRSFComponents&amp;r1=-1&amp;r2=1">16-Jul-2008 15:40</a> by UnknownAuthor
+    
+
+    
+
+   
+
+  
+
+   
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div id="favorites">
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=BuildingRSFComponents" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=BuildingRSFComponents"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+  
+  <div id="hiddenmorepopup">
+  <ul id="morepopup">
+     
+       	
+     
+       
+     
+    
+       
+     
+       <li>
+       
+       <a class="action rawpage wikipage" 
+               href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=BuildingRSFComponents&amp;skin=raw"
+              title="View Page Source">View Page Source
+       </a>
+       
+       
+       </li>
+      
+        
+  
+      
+      
+      
+
+      
+	  <li class='separator'>
+        <div id="moremenu" ></div>
+      </li>
+  </ul>
+  </div>
+  
+  
+
+  
+
+  
+
+  
+  <div class="leftmenu">
+    <p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main">Main page</a><br />
+<tt> </tt><i><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ThisWiki">About</a></i><br />
+</p><p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=GettingStarted">Getting Started</a><br />
+</p>
+<p><b>Documentation</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Developers">Developers</a><br />
+<tt>  </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Javadocs">Javadocs</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Designers">Designers</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SampleRSFApps">Sample RSF Apps</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Presentations">Presentations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Acronyms">Acronyms</a><br />
+</p>
+<p><b>Downloads</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CurrentCode">Current Release</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=TrunkCode">Trunk</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CodeDistributions">Distributions</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=OldCode">Old Versions</a><br />
+</p>
+<p><b>Community</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=QampA">Q&amp;A</a><br />
+<tt> </tt><a class="external" href="http://ponder.org.uk/rsf/">Forums</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=EmailLists">Mailing Lists</a><br />
+<tt> </tt><a class="external" href="http://www.caret.cam.ac.uk/jira/browse/RSF">Issue Tracker</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=People">People</a><br />
+</p>
+<p><b>Design</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Roadmap">Roadmap</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Integrations">Integrations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Concepts">Concepts</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Philosophy">Philosophy</a><br />
+</p>
+<div style="font-style:italic;font-size:0.8em;">
+<b>Pages</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=FindPage">Find</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RecentChanges">Recent Changes</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UnusedPages">Unused</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UndefinedPages">Undefined</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PageIndex">Index</a>
+</div>
+<p />
+    
+  </div>
+  
+  <div class="leftmenufooter">
+    <hr />
+<p><b>Referenced by</b><br />
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ComponentProducer">ComponentProducer</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Evolver">Evolver</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=InitBlock">InitBlock</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Javascript">Javascript</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=MultiFileTemplates">MultiFileTemplates</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=OuterPageTemplates">OuterPageTemplates</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=QampA">QampA</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RSFComponents">RSFComponents</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RSJCIS">RSJCIS</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SeedComponent">SeedComponent</a><br /><br /><a class='morelink' href='http://rsf.fluidproject.org/wiki/PageInfo.jsp?page=BuildingRSFComponents' >...and 4 more</a><br />
+</p>
+    
+  </div>
+
+  
+
+  
+  
+  <div class="wikiversion">JSPWiki v2.8.2
+  <span class="rssfeed">
+    
+  </span>
+  </div>  
+  
+</div>
+
+	<div class="clearbox"></div>
+  </div>
+
+  
+
+
+
+
+
+ 
+<div id="footer">
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  <div class="copyright"></div>
+
+  <div class="wikiversion">
+    JSPWiki v2.8.2
+  </div>
+
+  <div class="rssfeed">
+    
+  </div>
+
+</div>
+
+</div>
+
+</body>
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=BuildingRSFComponents&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:19 GMT -->
+</html>

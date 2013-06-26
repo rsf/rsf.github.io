@@ -1,0 +1,52 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!Using Javascript II: Init Blocks (formerly &quot;RSJCIS&quot;)
+
+The best method for packaging initialisation code that a (Javascript) client-side component implementation requires is still the subject of some debate. We discard the first possibility, rendering code onto the attributes of the tags, immediately, since it violates the primary rule of [unobstrusive Javascript|http://en.wikipedia.org/wiki/Unobtrusive_JavaScript] - markup and logic would be inextricably mixed.
+
+Somewhat less standardly, we also discard the second possibility, that of adding event handlers to a global {{onload}} handler for the document. {{onload}} is traditionally quite a battleground of technologies, and in some environments (e.g. Portlets) may not even be accessible at all. We *must* have component implementations which are as free of environmental interactions as possible, and capable of surviving in any environment - RSF must not place requirements on a particular technology used for managing {{onload}}. Onload implementations can also lead to accelerating degradation in performance, with a larger number of components appearing on a page each requiring their own {{onload}} hook together with a possible scan of the entire DOM. 
+
+A good compromise between the various alternatives is to package *all* of the component implementation code in a separate {{.js}} file, with the single exception of a single Javascript call issued from a {{&lt;script&gt;}} tag placed immediately after the rendered markup, which accepts whatever parameters required from the server required to contextualise and initialise the component. At the very least, this will include the {{namebase}} value, traditionally supplied as the first value. This kind of block has been named an &quot;init block&quot; (formerly the not-very-catchy  &quot;Render Single Javascript Call in &lt;script&gt;&quot; (RSJCIS) strategy).
+
+RSF includes various utility functions in {{HTMLUtil}} to make the rendering of this call quick and idiomatic. As of RSF 0.7.2, there is a new first-class component {{UIInitBlock}} to make this process even more natural:
+
+For example, the initialisation call for the double selection control is rendered like this:
+
+{{{
+       UIInitBlock.make(togo, &quot;init-select&quot;, JSInitName, togo);
+}}}
+Note that any {{UIComponent}} you supply to {{UIInitBlock}} will be converted to its [full ID|IDs] automatically. Also, any [ViewParameters] object you supply will be converted to an AJAX URL suitable for targetting that view.
+
+This component peers with a tag in the [template|https://saffron.caret.cam.ac.uk/svn/projects/RSFComponents/trunk/templates/src/webapp/content/templates/double-list-select.html] that looks as follows:
+{{{
+&lt;script rsf:id=&quot;init-select&quot;&gt;
+  DoubleList.init_DoubleList(&quot;input-doublelist:&quot;);
+&lt;/script&gt;
+}}}
+!Note on previewability
+Note that the template for this view is filled in not just with dummy values for these Javascript definitions, but calls that actually allow the active parts of the component to function. The initialisation call present by default in the template prepares the component as if for a namebase of {{input-doublelist:}}. Now if we look up to the actual component definition further up in the template, we see that all the relevant tags have been prepared with ids as if rendered by RSF with this namebase - for example above we saw the &quot;move left button&quot; defined as 
+
+{{{
+  &lt;input type=&quot;button&quot; id=&quot;input-doublelist:move-left&quot; 
+           rsf:id=&quot;move-left&quot; title=&quot;Move selected&quot; value=&quot;&amp;lt;&quot;&gt;&lt;/input&gt;
+}}}
+
+Technically {{input-doublelist:}} is not a valid RSF namebase since it contains a single colon, but this is unimportant. It looks tidy, and works by the same prefix rules. When RSF renders the tags in the component implementation, it will replace all the {{id}} attributes with those from this particular instantiation, with a namebase that agrees with the value rendered in the JS init call. The template works both standalone in the filesystem, as well as when replicated any number of times in a rendered page. 
+
+Note that by default RSF will not allocate any client-side IDs at all in the rendered markup unless it finds an {{id}} there already - the attribute {{id=&quot;input-doublelist:move-left&quot;}} isn't just helpful for previewability, we need to write at least ''some'' id there of some kind, else the component could not function at all.
+
+You can view the plain template for this view [live|http://ponder.org.uk/RSFComponents-templates/content/templates/double-list-select.html] on the demonstration site. Note that this template is served plainly over HTTP and is backed by no server-side Java logic.
+
+(Back to [BuildingRSFComponents])
+
+</pre>
+

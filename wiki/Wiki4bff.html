@@ -1,0 +1,19 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+[OGNL|http://www.ognl.org/] is the &quot;Object-Graph Navigation Language&quot; -  it is a kind of [expression language|EL] for getting and setting properties of Java objects. 
+
+OGNL is pretty good and is being used by a wide variety of other frameworks [Tapestry], [WebWork], &amp;co. It even has a mini-framework of its own, WebOGNL, which consists of static HTML templates (named .OSP files) where attributes in the {{ognl:}} namespace are interpreted by the renderer as OGNL binding expressions - in this way it is like a mini-Tapestry and probably really quite decent and minimal. It would be quite simple to extend RSF to interpret value bindings with the prefix ognl: as OGNL expressions rather than JSF-style EL expressions and hand them over to the relevant interpreter.
+
+I'm concerned that the overhead of parsing and evaluating OGNL expressions may be too high for its use in RSF, but it does indeed look like a valuable thing to have in the toolkit. I'm also concerned that the complexity of the expressions is a little high, and provides too much flexibility to be adequately policed by the rest of the framework. A further concern is that there seem to have been no releases for the last year, but it's possible that i) OGNL is complete, or ii) there is plenty of activity going on in private. Watch this space...
+
+</pre>
+

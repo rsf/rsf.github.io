@@ -1,0 +1,944 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html id="top" xmlns="http://www.w3.org/1999/xhtml">
+
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=LogonTest_3&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+  <title>
+    RSF Wiki: LogonTest_3
+  </title>
+  
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" media="screen, projection, print" type="text/css"
+     href="templates/default/jspwiki.css"/>
+
+<link rel="stylesheet" type="text/css" media="print" 
+     href="templates/default/jspwiki_print.css" />
+<!-- INCLUDERESOURCES (stylesheet) -->
+
+<!-- INCLUDERESOURCES (inlinecss) -->
+
+
+
+<noscript>
+<style type="text/css">
+#hiddenmorepopup { display:block; }
+</style>
+</noscript>
+
+
+<script type="text/javascript" src="scripts/mootools.js"></script>
+<script type="text/javascript" src="scripts/prettify.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-common.js"></script>
+<script type="text/javascript" src="scripts/jspwiki-commonstyles.js"></script>
+<!-- INCLUDERESOURCES (script) -->
+
+
+
+
+
+<meta name="wikiContext" content='diff' />
+<meta name="wikiBaseUrl" content='http://rsf.fluidproject.org/wiki/' />
+<meta name="wikiPageUrl" content='/wiki/Wiki.jsp?page=%23%24%25' />
+<meta name="wikiEditUrl" content='/wiki/Edit.jsp?page=LogonTest_3' />
+<meta name="wikiJsonUrl" content='/wiki/JSON-RPC' />
+<meta name="wikiPageName" content='LogonTest_3' />
+<meta name="wikiUserName" content='207.119.0.6' />
+<meta name="wikiTemplateUrl" content='/wiki/templates/default/' />
+<meta name="wikiApplicationName" content='RSF Wiki' />
+
+<script type="text/javascript">//<![CDATA[
+/* Localized javascript strings: LocalizedStrings[] */
+var LocalizedStrings = {
+"javascript.edit.allsections":"( All )",
+"javascript.slimbox.error":"<h2>Error</h2>There was a problem with your request.<br />Please try again",
+"javascript.slimbox.remoteRequest":"Remote Request {0} of {1}",
+"javascript.slimbox.close":"Close &#215;",
+"javascript.quick.edit":"[Edit]",
+"javascript.sort.descending":"Descending order. Click to reverse sort order",
+"javascript.expand":"Click to expand",
+"javascript.group.validName":"Please provide a valid name for the new Group",
+"javascript.slimbox.next":"Next&raquo;",
+"javascript.filter.all":"( All )",
+"javascript.edit.areyousure":"Without clicking the Save button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.quick.edit.title":"Edit section {0}...",
+"javascript.slimbox.directLink":"Direct Link to the target",
+"javascript.prefs.areyousure":"Without clicking the Save User Preferences button, your changes will be lost. Are you sure you want to exit this page?",
+"javascript.sbox.clone.suffix":"-New",
+"javascript.slimbox.info":"Image {0} of {1}",
+"javascript.tip.default.title":"More...",
+"javascript.edit.resize":"Drag to resize the text area",
+"javascript.edit.findandreplace.nomatch":"No match found!",
+"javascript.sort.ascending":"Ascending order. Click to reverse sort order",
+"javascript.slimbox.close.title":"Close [Esc]",
+"javascript.edit.toolbar.makeSelection":"Please make first a selection.",
+"javascript.favs.hide":"Click to hide Favorites",
+"javascript.sectionediting.label":"Section Overview",
+"javascript.slimbox.previous":"&laquo;Previous",
+"javascript.favs.show":"Click to show Favorites",
+"javascript.collapse":"Click to collapse",
+"javascript.category.title":"Click to show category [{0}] ...",
+"javascript.sort.click":"Click to sort",
+"javascript.edit.startOfPage":"( Start of page )"
+};
+
+
+/* INCLUDERESOURCES (jsfunction) */
+
+//]]></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="search" href="Wiki702d.html?page=FindPage"
+    title='Search RSF Wiki' />
+<link rel="help"   href="Wikia3b7.html?page=TextFormattingRules"
+    title="Help" />
+
+ <link rel="start"  href="Wikib2ab.html?page=Main"
+    title="Front page" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki_print.css"
+    title="Print friendly" />
+<link rel="alternate stylesheet" type="text/css" href="templates/default/jspwiki.css"
+    title="Standard" />
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+
+<link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  
+    <meta name="robots" content="noindex,nofollow" />
+  
+  
+    <meta name="robots" content="noindex,follow" />
+  
+</head>
+
+<body class="view">
+
+<div id="wikibody" class="fav-left">
+ 
+  
+
+
+
+
+
+
+<div id="header">
+
+  <div class="titlebox"></div>
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=LogonTest_3" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=LogonTest_3"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+
+  <div class="pagename">LogonTest_3</div>
+
+  <div class="searchbox">
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Search.jsp"
+        class="wikiform"
+           id="searchForm" accept-charset="UTF-8">
+
+  <div style="position:relative">
+  <input onblur="if( this.value == '' ) { this.value = this.defaultValue }; return true; "
+        onfocus="if( this.value == this.defaultValue ) { this.value = ''}; return true; "
+           type="text" value="Quick Navigation"
+           name="query" id="query"
+           size="20" 
+      accesskey="f" />
+  <button type="submit"
+  		 name="searchSubmit" id="searchSubmit"
+  		value="Go!"
+  		title="Go!"></button>
+  </div>
+  <div id="searchboxMenu" style='visibility:hidden;'>
+    <div id="searchTools">
+      <a href="#" id='quickView' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Wiki.jsp?page=__PAGEHERE__','View the selected page' );"
+        title="View the selected page">view</a>
+      <a href="#" id='quickEdit' class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__','Edit the selected page' );"
+        title="Edit the selected page">edit</a>
+      <a href="#" id='quickClone' class='action'	
+      onclick="return SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Edit.jsp?page=__PAGEHERE__', 'Clone the selected page', true );"
+        title="Clone the selected page">clone</a>
+      <a href="#" id="advancedSearch" class='action'
+      onclick="SearchBox.navigate( 'http://rsf.fluidproject.org/wiki/Search.jsp?query=__PAGEHERE__','LogonTest_3' )"
+        title="Advanced Search [ f ]">find</a>
+    </div>
+    <div id="searchResult" >
+	  Quick search
+      <span id="searchTarget" >(type ahead)</span>
+      <span id="searchSpin" class="spin" style="position:absolute;display:none;"></span>
+	  <div id="searchOutput" ></div>
+    </div>
+    <div id="recentSearches" style="display:none;">
+      Recent Searches
+      <span><a href="#" id="recentClear">(Clear)</a></span>
+    </div>
+  </div>
+
+</form></div>
+
+  <div class="breadcrumbs">Your trail:&nbsp;<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UserNameTag">UserNameTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ValueBinding">ValueBinding</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VariableTag">VariableTag</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=VeryLazyBeans">VeryLazyBeans</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewID">ViewID</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewRender">ViewRender</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogEntryPlugin">WeblogEntryPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WeblogPlugin">WeblogPlugin</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=WikiFormsExampleText">WikiFormsExampleText</a>, <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=XPP">XPP</a></div>
+
+</div>
+
+  <div id="content">
+
+    <div id="page">
+      
+
+
+
+
+
+<div id="actionsTop" class="pageactions"> 
+  <ul>
+
+    
+    
+    
+
+    
+    <li id="morebutton">
+      <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=MoreMenu" class="action more">More...</a>
+    </li>
+
+  </ul>
+</div>
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="tabmenu">
+
+  
+
+  
+
+  
+  
+
+  
+
+  <a id="menu-pagecontent" href='http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_3' accesskey="v" ><span class='accesskey'>V</span>iew</a>
+
+  <a id="menu-attach" accesskey="a" ><span class='accesskey'>A</span>ttach</a>
+
+  
+  <a class="activetab" id="menu-info" accesskey="i" ><span class='accesskey'>I</span>nfo</a>
+
+  </div>
+<div class="tabs">
+
+  <div id="pagecontent" class="hidetab" >
+
+      
+  </div>
+
+
+  <div id="attach" class="hidetab" >
+
+    
+
+
+
+
+
+
+
+
+
+
+<div id="addattachment">
+<h3>Add new attachment</h3>
+
+
+<div class="formhelp">Only authorized users are allowed to upload new attachments.</div>
+
+</div>
+
+
+
+  </div>
+
+
+  
+  <div id="info" >
+
+  <p>
+  This page (revision-1) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=LogonTest_3&amp;r1=-1&amp;r2=1"
+        title="Show changes of last page update" >
+        11-May-2007 14:07
+      </a> by UnknownAuthor
+
+  
+  </p>
+
+  
+
+  
+  
+      <p>Only authorized users are allowed to rename pages.</p>
+  
+
+  
+  
+      <p>Only authorized users are allowed to delete pages.</p>
+  
+
+  <div class="collapsebox-closed" id="incomingLinks">
+  <h4>Incoming links</h4>
+    <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_3" accesskey="" title="">LogonTest_3</a>
+    <ul><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=AlterationWrapper">AlterationWrapper</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=BeanFetchBracketer">BeanFetchBracketer</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest">LogonTest</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_1">LogonTest_1</a>
+</li><li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_2">LogonTest_2</a>
+</li></ul>
+  </div>
+
+  <div class="collapsebox-closed" id="outgoingLinks">
+  <h4>Outgoing links</h4>
+    <div class="ReferredPagesPlugin">
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_3" title="ReferredPagesPlugin: depth[1] include[.*] exclude[^$] format[compact]">LogonTest_3</a>
+<ul>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=AOP">AOP</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=AlterationWrapper">AlterationWrapper</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=BeanGuards">BeanGuards</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ComponentTest">ComponentTest</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HelloWorld">HelloWorld</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=HibernateCookBook_4">HibernateCookBook_4</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Level1Error">Level1Error</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest">LogonTest</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_1">LogonTest_1</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_2">LogonTest_2</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=OLI">OLI</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RSAC">RSAC</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RSACBridgeProxy">RSACBridgeProxy</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RunnableInvoker">RunnableInvoker</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RunnableWrapper">RunnableWrapper</a></li>
+<li><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ViewParameters">ViewParameters</a></li>
+</ul>
+</div>
+
+  </div>
+
+  <div class="clearbox"></div>
+
+  
+  
+     
+
+
+
+
+
+
+
+
+
+
+
+
+<form action="http://rsf.fluidproject.org/wiki/Diff.jsp" method="get" accept-charset="UTF-8">
+<div class="collapsebox" id="diffcontent">
+  <h4>
+       <input type="hidden" name="page" value="LogonTest_3" />
+       Difference between version <select id="r1" name="r1" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select> and <select id="r2" name="r2" onchange="this.form.submit();" >
+           
+             <option value="-1" selected="selected" >-1</option>
+           
+           </select>
+  </h4>
+
+  
+
+  <div class="diffbody">
+    <table class="diff" border="0" cellspacing="0" cellpadding="0">
+<tr><td class="diff">At line 1 added 172 lines</td></tr>
+<tr><td class="diffadd">Our simple logon app seems to perform fine at the user level, but could be designed somewhat better. Firstly, let's look at a serious security issue that it has.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!A security problem</td></tr>
+<tr><td class="diffadd">Users who have pondered somewhat into the way RSF works will have noticed this simple version of our app suffers from a quite serious security problem. This is by virtue of the fact the ''same'' request-scope instance of the bean to which request values are applied by forms is the ''very same'' instance which is persisted into the session, and checked for logon details by every page! This means that a malicious user with knowledge of the structure of our app could synthesise a fake form which contains all the contents of our logon producer's form, ''minus'' the action binding, which will then cause them to be automatically logged on as any user!</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">At initial sight this could be seen as a flaw in the design of RSF in providing insufficient insulation between the view layer and the business layer, but is actually part of a more general &quot;economic&quot; philosophy of design that tries to get as much value as possible from properly designed business logic layers. For a request model that was exposing, for example, a section of database state, this resistance to corruption would be provided by correct ''transactionality'' of the request cycle. The modification of the values by the view layer, by being part of their own transaction, would not be reflected anywhere outside the request until the transaction was committed. Therefore by providing guaranteed execution of validation logic, which would throw an exception and hence cause rollback, the application would be guaranteed coherence and correctness in the face of dangerous inputs, without the mess and extra work of creating ''extra'' insulation layers, or, god forbid, DTOs or similar evils. </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">We have no transactions here, but the answer to the problem is similar. Essentially we need to ''guarantee'' execution of the logic in {{LogonActionBean}}, irrespective of how the view layer tries to modify the values within {{LogonBean}}. Therefore, rather than attach these somewhat dangerously via an EL method binding that the user may prevent from executing, we instead make use of RSF's powerful validation architecture, packaged in the form of [bean guards|BeanGuards] - you may want to pop over and read about them now on their own page.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!A BeanGuard for the LogonBean</td></tr>
+<tr><td class="diffadd">Excellently, we can reorganise our application to use this reliable approach purely by Spring configuration, and ''removing code''. The key is to avoid the unpredictable execution of the action binding which is attached to our &quot;logon&quot; button in {{LogonProducer}}:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">      UICommand.make(form, &quot;login-login&quot;, null, &quot;#{logonAction.logon}&quot;);</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The user could easily forge a form that simply failed to emit this binding when the button was clicked. Instead, we turn this into a &quot;null-action&quot; button as follows:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">      UICommand.make(form, &quot;login-login&quot;);</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">and instead operate the code from the {{logicAction}} bean as a BeanGuard targetted at EL write accesses to the {{logon}} bean, by adding this definition to {{applicationContext.xml}}:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  &lt;bean id=&quot;logonGuard&quot; parent=&quot;writeGuardParent&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;guardedPath&quot; value=&quot;logon&quot;/&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;guardMethod&quot; value=&quot;logonAction.logon&quot;/&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/bean&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Now, any write access to the &quot;logon&quot; bean via EL during a request will *certainly* be followed by execution of {{LogonAction.logon()}}, which will check the password and update the logon status of the bean appropriately - the user cannot now forge their logon by inventing their own submission.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">%%(background-color: #ff9999; border: 1px dotted black; padding: 0.2em;)</td></tr>
+<tr><td class="diffadd">!Advanced topics ahead!</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The rest of this page deals with some more advanced RSF topics that you may want to pass over if you have just come here from [HelloWorld]. Moving on to the [ComponentTest] and [Hibernate Cookbook|HibernateCookBook_4] applications would probably be better to familiarise yourself with the way RSF works in general.</td></tr>
+<tr><td class="diffadd">%%</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!A final wrinkle - exclusive scopes</td></tr>
+<tr><td class="diffadd">There's one final danger that it's barely worth protecting against in this situation, but it's worth bearing in mind for situations where it might matter. There is a danger in that every incoming request (from the same user) is going to be targetted at the selfsame ''Object reference'' for the {{logon}} bean held in the session. In some cases, this concurrent access could cause corruption, or worse, a security violation. In this case, the only danger is that an extremely lucky (unlucky?) user might manage to generate two simultaneous requests from different browser windows sharing the session, both performing different logon actions, for example a logon and a logoff. Actually the worst that could happen in this case is that the {{logonAction}} manages to see a partially blasted bean with a username and password that don't match any more, in which case it would decide to log the user off - no real loss there. But in more complex situations this collision could be much more dangerous.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">In real life, any particularly complex state stored in session would be protected much more robustly by some form of database transaction, but in the case you have raw data in POJOs as we have here, the way to firmly guarantee against any simultaneous access is to declare the BeanScope that you stored them in as {{exclusive}}.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Our definition for {{logonScope}} would therefore become</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  &lt;bean id=&quot;logonScope&quot; parent=&quot;beanScopeParent&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;copyPreservingBeans&quot; value=&quot;logon&quot;/&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;exclusive&quot; value=&quot;true&quot;/&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/bean&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Any other threads coming in trying to make use of this bean will block until our current request has concluded. This will have an efficiency impact on the throughput of the server, but should really happen pretty rarely - a single user will rarely succeed in managing to have more than one request active at a time.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">This brief tour into the foul pits of session-scoped logic should hopefully persuade you what a wise choice RSF has made in thoroughly discouraging users from using any kind session-type state, by providing an army of techiques for avoiding it (URL flows, zero-server-state processing). Sometimes you really *must* have session state, but make sure you pick your fights wisely - architectures with either no state, or all concurrency pushed into the database layer, are far more likely to be free of subtle and computationally nasty problems.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">!!Avoiding boilerplate security checks - the BeanFetchBracketer</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">A final &quot;problem&quot; with our app (which is really just an issue of style) is the fact that every view currently performs its own security checks. We only have one view that is not the logon view right now, but you can imagine that as an app scales up, writing </td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  if (logonbean.name == null) {</td></tr>
+<tr><td class="diffadd">      throw new SecurityException(&quot;Cannot view page 'wales' while not logged on&quot;);</td></tr>
+<tr><td class="diffadd">    }</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">at the front of every ViewProducer would become a bit tedious.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">This is a classic example of what [AOP] aficionados would call a &quot;cross-cutting concern&quot; - the security policy applied across an application would far better be centralised in a single coherent bean, rather than scattered and duplicated across all the places where the checks might take place.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Due to RSF's [RSAC] based design, we can avoid using any explicit (or even implicit) use of AOP to solve this problem, and simply let the container do the work for us. RSAC contains code for a standard bean named {{BeanFetchBracketer}}, which actually functions extremely similarly to the BeanGuard we just used, only </td></tr>
+<tr><td class="diffadd">* It only applies &quot;around&quot;-type interception - i.e. it allows the operation of fetching any RSAC bean to be &quot;wrapped&quot; reliably with &quot;before-and-after&quot; type logic</td></tr>
+<tr><td class="diffadd">* It applies to the fetch of ANY RSAC bean by any means, not just those addressed via EL.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Since the RSF request lifecycle is defined largely by the fetch of request-scope beans, the ideal way to express any &quot;general&quot; interception logic such a security policy is by wrapping it in a BeanFetchBracketer. This is very similar to the way RSF handles the other &quot;cross-cutting&quot; concern of transactionality, by bracketing all model-altering logic in the [alterationWrapper] - and in fact it does so by using exactly the same core interface, [RunnableWrapper].</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">RunnableWrapper is an absolutely super [OLI] that should be in every framework - the entire code looks like this:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public interface RunnableInvoker {</td></tr>
+<tr><td class="diffadd">  public void invokeRunnable(Runnable torun);</td></tr>
+<tr><td class="diffadd">}</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">A RunnableInvoker is a &quot;machine&quot;, which takes in a unit of work (specified by a standard java.lang.Runnable), and executes it, wrapped in some extra logic. This is easier to see from an example, than to explain - here is our security policy, packaged as a {{RunnableInvoker}} called {{SecurityWrapper}}:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public class SecurityWrapper implements RunnableInvoker {</td></tr>
+<tr><td class="diffadd">  private ViewParameters viewparams;</td></tr>
+<tr><td class="diffadd">  private LogonBean logonbean;</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">  public void setViewParameters(ViewParameters viewparams) {</td></tr>
+<tr><td class="diffadd">    this.viewparams = viewparams;</td></tr>
+<tr><td class="diffadd">  }</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">  public void setLogonBean(LogonBean logonbean) {</td></tr>
+<tr><td class="diffadd">    this.logonbean = logonbean;</td></tr>
+<tr><td class="diffadd">  }</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">  public void invokeRunnable(Runnable towrap) {</td></tr>
+<tr><td class="diffadd">    if (logonbean.name == null</td></tr>
+<tr><td class="diffadd">        &amp;&amp; !(LogonProducer.VIEW_ID.equals(viewparams.viewID))) {</td></tr>
+<tr><td class="diffadd">      throw new SecurityException(&quot;Cannot view page &quot; + viewparams.viewID</td></tr>
+<tr><td class="diffadd">          + &quot; while not logged on&quot;);</td></tr>
+<tr><td class="diffadd">    }</td></tr>
+<tr><td class="diffadd">    towrap.run();</td></tr>
+<tr><td class="diffadd">  }</td></tr>
+<tr><td class="diffadd">}</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">This is configured like any Spring bean, although we can see that since it accepts two request-scope dependencies, the {{viewParameters}} for the current view, and the {{logonBean}} itself, it has to be defined in your {{requestContext.xml}} file:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  &lt;bean id=&quot;securityWrapper&quot;</td></tr>
+<tr><td class="diffadd">    class=&quot;uk.org.ponder.rsf.testlogon.impl.SecurityWrapper&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;logonBean&quot; ref=&quot;logon&quot; /&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;viewParameters&quot; ref=&quot;viewParameters&quot; /&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/bean&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">So, putting our security checking logic all in one place in this way means we can slim down our 2nd (and any subsequent) application's ViewProducer considerably - the application code for WalesFrameProducer could be reduced to just this:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">public class WalesFrameProducer implements ViewComponentProducer {</td></tr>
+<tr><td class="diffadd">  public static final String VIEW_ID = &quot;walesframe&quot;;</td></tr>
+<tr><td class="diffadd">  public String getViewID() {</td></tr>
+<tr><td class="diffadd">    return VIEW_ID;</td></tr>
+<tr><td class="diffadd">  }</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">  public void fillComponents(UIContainer tofill, ViewParameters viewparams, ComponentChecker checker) {</td></tr>
+<tr><td class="diffadd">    UIInternalLink.make(tofill, &quot;wales&quot;, new SimpleViewParameters(WalesProducer.VIEW_ID));</td></tr>
+<tr><td class="diffadd">  }</td></tr>
+<tr><td class="diffadd">}</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd">We can remove the dependence on logonBean, and so move the definition back into application scope!</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  &lt;bean id=&quot;walesFrameProducer&quot;</td></tr>
+<tr><td class="diffadd">    class=&quot;uk.org.ponder.rsf.testlogon.producers.WalesFrameProducer&quot;/&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">The same goes for WalesProducer (responsible for the right frame of the frameset):</td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd"> &lt;bean id=&quot;walesProducer&quot;</td></tr>
+<tr><td class="diffadd">    class=&quot;uk.org.ponder.rsf.testlogon.producers.WalesProducer&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;logoffProducer&quot; ref=&quot;logoffProducer&quot; /&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/bean&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">So, all that's left is actually registering our Security Wrapper with RSF. An [AlterationWrapper] can be easily registered into RSF using the helpful parent definition {{alterationWrapperParent}} - this exposes a single property named {{value}} which accepts the bean, implementing [RunnableInvoker], to do the bracketing. The {{alterationWrapper}} is a good choice for this since it naturally guards the main &quot;model access&quot; phase of every RSF request. Bracketing any further out would mean we couldn't get the benefit of RSF's [redirect-on-error|Level1Error] functionality, and also could not, for example, get access to any session beans or ViewParameters state - any further in, and some possibly dangerous unsecured access to the model might have taken place. We complete our app with the following definition at application scope:</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">{{{</td></tr>
+<tr><td class="diffadd">  &lt;!-- Set up our wrapper to bracket RSF's model access cycle --&gt;</td></tr>
+<tr><td class="diffadd">  &lt;bean parent=&quot;alterationWrapperParent&quot;&gt;</td></tr>
+<tr><td class="diffadd">    &lt;property name=&quot;value&quot;&gt;</td></tr>
+<tr><td class="diffadd">      &lt;bean parent=&quot;RSACBridgeProxy&quot;&gt;</td></tr>
+<tr><td class="diffadd">        &lt;property name=&quot;targetBeanName&quot; value=&quot;securityWrapper&quot; /&gt;</td></tr>
+<tr><td class="diffadd">      &lt;/bean&gt;</td></tr>
+<tr><td class="diffadd">    &lt;/property&gt;</td></tr>
+<tr><td class="diffadd">  &lt;/bean&gt;</td></tr>
+<tr><td class="diffadd">}}}</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">Note the use of the [RSACBridgeProxy], since the wrapper definition occurs at application scope, whereas the {{securityWrapper}} itself is conveniently defined at request scope, since it makes use of the current [ViewParameters] as well as a session scoped bean.</td></tr>
+<tr><td class="diffadd"></td></tr>
+<tr><td class="diffadd">----</td></tr>
+<tr><td class="diffadd">Head   - [LogonTest|LogonTest]\\</td></tr>
+<tr><td class="diffadd">Page 1 - [Core Business logic|LogonTest_1]\\</td></tr>
+<tr><td class="diffadd">Page 2 - [Defining the views|LogonTest_2]\\</td></tr>
+<tr><td class="diffadd">Page 3 - Digging deeper - BeanGuards and Bracketers\\</td></tr>
+<tr><td class="diffadd">----</td></tr>
+</table>
+ 
+  </div>
+</div>
+</form>
+
+  
+  
+
+	
+    
+    
+
+    
+
+    <div class="zebra-table sortable table-filter">
+    <table class="wikitable" >
+      <tr>
+        <th>Version</th>
+        <th>Date Modified</th>
+        <th>Size</th>
+        <th>Author</th>
+        <th>Changes ...</th>
+        <th class='changenote'>Change note</th>
+      </tr>
+
+      
+      
+      <tr>
+        <td>
+          <a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_3&amp;version=-1" accesskey="" title="">
+            
+          </a>
+        </td>
+
+	    <td style="white-space:nowrap;" sortvalue="Fri, 11 May 2007 02:07:25">
+        11-May-2007 14:07
+        </td>
+        <td style="white-space:nowrap;text-align:right;">
+          
+          12.796&nbsp;kB
+        </td>
+        <td>UnknownAuthor</td>
+
+        <td>
+          
+
+          
+        </td>
+
+         <td class="changenote">
+           
+           
+         </td>
+
+      </tr>
+      
+      
+
+    </table>
+    </div>
+    
+    
+  </div>
+
+
+  <div style="clear:both;" ></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+<div id='actionsBottom' class="pageactions"> 
+    
+
+    <a href="#top" 
+      class="action quick2top" 
+      title="Go to top" >&laquo;</a>
+
+    
+       This page (revision-) was last changed on <a href="http://rsf.fluidproject.org/wiki/Diff.jsp?page=LogonTest_3&amp;r1=-1&amp;r2=1">11-May-2007 14:07</a> by UnknownAuthor
+    
+
+    
+
+   
+
+  
+
+   
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div id="favorites">
+
+  
+
+
+
+
+
+
+<div class="userbox">
+
+  
+    <span class="username anonymous">
+      G&#8217;day (anonymous guest)
+    </span>
+  
+  
+  
+
+  
+  
+  
+    
+      <a href="http://rsf.fluidproject.org/wiki/Login.jsp?redirect=LogonTest_3" 
+        class="action login"
+        title="Log in or Register as new user">Log in</a>
+    
+  
+  
+  
+  
+
+  
+  
+    <a href="http://rsf.fluidproject.org/wiki/UserPreferences.jsp?redirect=LogonTest_3"
+      class="action prefs" accesskey="p"
+      title="Manage your preferences [ p ]">My <span class='accesskey'>P</span>refs
+    </a>
+  
+  
+
+  <div class="clearbox"></div>
+
+</div>
+  
+  <div id="hiddenmorepopup">
+  <ul id="morepopup">
+     
+       	
+     
+       
+     
+    
+       
+     
+       <li>
+       
+       <a class="action rawpage wikipage" 
+               href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_3&amp;skin=raw"
+              title="View Page Source">View Page Source
+       </a>
+       
+       
+       </li>
+      
+        
+  
+      
+      
+      
+
+      
+	  <li class='separator'>
+        <div id="moremenu" ></div>
+      </li>
+  </ul>
+  </div>
+  
+  
+
+  
+
+  
+
+  
+  <div class="leftmenu">
+    <p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main">Main page</a><br />
+<tt> </tt><i><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=ThisWiki">About</a></i><br />
+</p><p><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=GettingStarted">Getting Started</a><br />
+</p>
+<p><b>Documentation</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Developers">Developers</a><br />
+<tt>  </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Javadocs">Javadocs</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Designers">Designers</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=SampleRSFApps">Sample RSF Apps</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Presentations">Presentations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Acronyms">Acronyms</a><br />
+</p>
+<p><b>Downloads</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CurrentCode">Current Release</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=TrunkCode">Trunk</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=CodeDistributions">Distributions</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=OldCode">Old Versions</a><br />
+</p>
+<p><b>Community</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=QampA">Q&amp;A</a><br />
+<tt> </tt><a class="external" href="http://ponder.org.uk/rsf/">Forums</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=EmailLists">Mailing Lists</a><br />
+<tt> </tt><a class="external" href="http://www.caret.cam.ac.uk/jira/browse/RSF">Issue Tracker</a><img class="outlink" src="http://rsf.fluidproject.org/wiki/images/out.png" alt="" /><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=People">People</a><br />
+</p>
+<p><b>Design</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Roadmap">Roadmap</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Integrations">Integrations</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Concepts">Concepts</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Philosophy">Philosophy</a><br />
+</p>
+<div style="font-style:italic;font-size:0.8em;">
+<b>Pages</b><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=FindPage">Find</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=RecentChanges">Recent Changes</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UnusedPages">Unused</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=UndefinedPages">Undefined</a><br />
+<tt> </tt><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=PageIndex">Index</a>
+</div>
+<p />
+    
+  </div>
+  
+  <div class="leftmenufooter">
+    <hr />
+<p><b>Referenced by</b><br />
+<a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=AlterationWrapper">AlterationWrapper</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=BeanFetchBracketer">BeanFetchBracketer</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest">LogonTest</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_1">LogonTest_1</a><br /><a class="wikipage" href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=LogonTest_2">LogonTest_2</a><br />
+</p>
+    
+  </div>
+
+  
+
+  
+  
+  <div class="wikiversion">JSPWiki v2.8.2
+  <span class="rssfeed">
+    
+  </span>
+  </div>  
+  
+</div>
+
+	<div class="clearbox"></div>
+  </div>
+
+  
+
+
+
+
+
+ 
+<div id="footer">
+
+  <div class="applicationlogo" > 
+    <a href="http://rsf.fluidproject.org/wiki/Wiki.jsp?page=Main"
+       title="Go to home page Main ">Home</a>
+  </div>
+
+  <div class="companylogo"></div>
+
+  <div class="copyright"></div>
+
+  <div class="wikiversion">
+    JSPWiki v2.8.2
+  </div>
+
+  <div class="rssfeed">
+    
+  </div>
+
+</div>
+
+</div>
+
+</body>
+
+<!-- Mirrored from rsf.fluidproject.org/wiki/Diff.jsp?page=LogonTest_3&r1=-1 by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 07 Jun 2013 15:55:19 GMT -->
+</html>

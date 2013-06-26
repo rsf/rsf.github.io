@@ -1,0 +1,37 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+[WebWork|http://www.opensymphony.com/webwork/] is a fairly popular and mature framework, but fairly traditionally oriented. It doesn't really distinguish itself from the pack on the various issues of bean cleanness and view cleanness (i.e. clear separation of the M and V layers of the MVC triad).
+
+For example, a WebWorks &quot;Action&quot; looks something like this:
+{{{
+import com.opensymphony.xwork.ActionSupport; 
+
+public class HelloWebWorldAction extends ActionSupport { 
+	String hello; 
+	public String getHello() { 
+		return hello; 
+	}
+	public String execute() throws Exception { 
+		hello = &quot;Hello, WebWorld!&quot;; 
+		return SUCCESS; 
+	} 
+}
+}}}
+
+Unlike JSF or RSF, a class implementing an action must extend a base class in order to be represented by the framework. The same is true of other fundamental WebWorks components, such as Components and Interceptors. WebWork does integrate with Spring and other IoC providers to allow your components to be autowired, but since they are not reusable in any case this is of somewhat limited value.
+
+WebWork does not define a particular view technology - the examples in the documentation show WebWork functioning with a UI defined using JSPs, Velocity, and Freemarker (somewhat similar to JSP). Most of WebWork's integration is defined using taglibs - not particularly interesting.
+
+The WebWork site includes a very interesting [comparison with Struts|http://www.opensymphony.com/webwork/wikidocs/Comparison%20to%20Struts.html] - however I think it would be much more interesting to compare WebWork with [SpringMVC], to which it bears a strong resemblance in imposing a very &quot;loose integration&quot; model and not actually providing much in terms of a framework idiom (and in particular no view technology). Compared to SpringMVC, you sacrifice some cleanliness but there is a lot more work done in certain areas, for example client-side validation, a strong Interceptor framework and a nice graphical flow designer - this latter is also a strong area, with WebWork being one of the pioneer adopters of the freshly unbundled [RIFE Continuations|RIFEContinuations] package.
+
+</pre>
+

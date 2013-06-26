@@ -1,0 +1,38 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The &quot;fossilized [binding|Bindings]&quot; for a [component] is a snapshot of the evaluated value of the [value binding EL|EL] at the time that the [component tree|ComponentTree] for the [View] was produced, as well as other contextual information which lets the submitted native component value be correctly processed. This is implemented (by the default HTML [RenderSystem]) as a mirror &quot;hidden field&quot; appended to the parent form of the tag peering the component, which stores the information sufficient to, at the time of the following POST
+
+# Determine the old value for a component, as compared to the submitted value at the POST, and
+# Determine the EL l-value that should be used to resolve the setter for the new submitted value.
+
+Once decoded, a binding is stored in a value type [SubmittedValueEntry], which will be stored in the [RSVC] for the current request. From there the processing pipeline reshapes it to form a [DataAlterationRequest], in which form it is directly applied to the bean model. The decoding and encoding of bindings to and from String key/value pairs is determined and documented in the class [FossilizedConverter.java|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/request/FossilizedConverter.java]. 
+ - in general, the fossilized binding for a component with ID {{componentid}}, an EL value binding of {{#bean.member}} and an old value of {{oldvalue}} is
+
+{{{
+key = componentid-fossil, value=[i|o]uitype-name#{bean.member}oldvalue
+}}}
+
+The character key i/o represents whether the native component is expected to submit a value or not, and the uitype-name is the name of the [UIType] of the native submission type.
+
+For example, the following HTML {{&lt;select&gt;}} component
+{{{
+&lt;select name=&quot;fontFace-selection&quot; id=&quot;fontFace-selection&quot;&gt;
+}}}
+could be partnered by a fossilized binding like the following:
+
+{{{
+&lt;input type=&quot;hidden&quot; name=&quot;fontFace-selection-fossil&quot; 
+                      value=&quot;istring#{preferencesBean.fontFace}&quot; /&gt;
+}}}
+
+</pre>
+

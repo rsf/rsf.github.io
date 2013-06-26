@@ -1,0 +1,55 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+!!!SWFViewParams - RSF and SWF navigation schemes
+
+The RSF and [SWF|SpringWebFlow] approaches to navigation are quite different. In RSF, a particular [ViewParameters] object represents a definite resource, or view. In SWF on the other hand, the URL attached to navigation link or control does not designate an actual resource but a ''rule by which a resource may be looked up''. In particular each SWF URL which will cause navigation within a live flow contains a ''flow execution key'' as well as an ''event id'', signalling the label of the event the user wishes to produce. The key and the event together are looked up to a transition in the current flow, which is then executed until the flow once more arrives at a &quot;view state&quot; which can be rendered to the user. 
+
+The [integration|RSFSpringWebFlow] has been keen to preserve the core value points of both RSF and SWF, and so view location in an RSF-SWF application is done by a &quot;hybrid scheme&quot;, which preserves the type-safety and transparency of RSF ViewParameters in the RSF world, whilst allowing the raw request parameters state to be addressed in the SWF world. A link to an RSF-SWF flow launch or transition is done using one of the special ViewParameters types supplied with the integration, being {{SWFLaunchViewParams}} and {{SWFEventViewParams}}.
+
+!!Firing a flow event
+
+For example, to create a link which uses (in HTTP) a GET request to fire an event {{select}} within the current flow, we could use:
+
+{{{
+  UIInternalLink.make(row, &quot;details-view&quot;, person.getUserId(), 
+        new SWFEventViewParams(&quot;select&quot;, new PersonViewParams(person.getId())
+        ));
+}}}
+
+Note that all {{SWFViewParams}} can accept a standard RSF ViewParameters as a further optional argument. This URL information will be &quot;tunnelled&quot; through the flow lookup, and can be retrieved in the final concrete view by means of the standard RSF [ViewParamsReporter|ViewParameters] scheme.
+
+!!Launching a new flow
+
+A new flow, with flow ID {{search-flow}} can be launched with a definition like this:
+
+{{{
+    UIInternalLink.make(tofill, &quot;search-criteria&quot;, new SWFLaunchViewParams(&quot;search-flow&quot;));
+}}}
+
+!!Defining your own SWFViewParams
+The standard SWFViewParams class out of the box routes the outer navigation information through a &quot;fictitious&quot; view named {{_webflow}}. Much like in SWF+SpringMVC, you can allocate different flows to different &quot;apparent views&quot; by either deriving your own subclasses from SWFViewParams with different defaults/constructors, or setting the [viewID] field in the outer SWFViewParams by hand.
+
+In this case you will need to register with RSF that your new &quot;views&quot; are handled by the SWFViewParams system by means of a {{viewParamsRegistrarParent}} definition, at application scope, like the following:
+
+{{{
+  &lt;bean id=&quot;default-RSFSWF-view&quot; parent=&quot;viewParamsRegistrarParent&quot;&gt;
+    &lt;property name=&quot;viewID&quot;&gt;
+      &lt;util:constant
+        static-field=&quot;uk.org.ponder.rsf.swf.viewparams.SWFViewParams.SWF_VIEW&quot; /&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;viewParamsClass&quot; value=&quot;uk.org.ponder.rsf.swf.viewparams.SWFViewParams&quot;/&gt;
+  &lt;/bean&gt;
+}}}
+This is actually the standard RSF-SWF framework definition that registers the {{_webflow}} &quot;view&quot; as requiring the SWFViewParams ViewParameters type, and hence, participating in the SWF system.
+
+</pre>
+

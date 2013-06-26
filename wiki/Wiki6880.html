@@ -1,0 +1,46 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+[UIComponent|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/components/UIComponent.java] is the base of the RSF &quot;component&quot; hierarchy, for which the entire code appears here (minus comments):
+
+{{{
+public class UIComponent { 
+  public String ID;
+  private String fullID;
+
+  public String getFullID() {
+    if (fullID == null) {
+      fullID = RSFUtil.computeFullID(this);
+    }
+    return fullID;
+  }
+  public UIContainer parent;
+  public DecoratorList decorators;
+}
+}}}
+
+The %%(color:red; font-weight: bold;)extreme%% slimness of RSF's component hierarchy is one of its core design principles, and where it diverges most strongly from every other web framework that is in any way component-based (i.e. including such component frameworks as [JSF], [Echo], [Wicket] and [Tapestry], and excluding those pure markup-based frameworks/languages as [Struts], [PHP], [Ruby] and plain [JSP]s).
+
+RSF's components fulfil the ''minimum function possible'', that of encoding the relationship between named regions of the viewable markup, and named locations in the [request model|RequestWriteableBeans].  At its base, an RSF component is simply a pairing of ([component ID|IDs], [request EL|EL]), together with an associated type. Rather than encoding any ''behaviour'' at all, an RSF component simply encodes a mapping - all behaviour is expected to be well out of framework code, held in the request model. Being fully and trivially serializable as an XML document, an RSF [component tree|ComponentTree] really represents an &quot;Intermediate View Language&quot; or IVL, being ideally suited to aggregation (portal) or &quot;late rendering&quot; scenarios.
+
+As a comparison, here is the quantity of framework-coupled code which ''every'' component from the following frameworks is obliged to take on as a result of code present in framework base classes (for example in JSF, this is the sum of LOC from both UIComponent.java and UIComponentBase.java):
+
+| |RSF|[Tapestry]|[JSF]|[Wicket]
+|Component base LOC|66|1375|2906|3813
+
+RSF gets out of the way of user code absolutely as quickly as possible. Note that in the development line stretching from Tapestry towards Wicket this situation is actually becoming *worse* and not better - rather than seeing more streamlining and elegance, we are seeing progressively greater framework intrusion and coupling.
+
+Note that RSF's streamlining is *not* at the expense of application interactivity or dynamism, as can be seen from the extreme ease of integrating AJAX and other event-based technologies. Contrary to the claims of component-framework authors, heavy server components are not a requirement for interactive applications - in RSF interactivity is a choice made by the *developer*, not the framework, who gets the benefit of modelling interactivity where it belongs, in their own business model, and not forced into a model pushed on him by the framework. This means that RSF can easily accommodate every application model between the extremes of a virtually static site with perhaps no dynamic application state at all ([Darwin Online|http://www.darwin-online.org.uk]) and highly dynamic and stateful applications e.g. [NumberGuessing]/[FlowTalk|http://www2.caret.cam.ac.uk/flowtalkwiki].
+
+More discussion on RSF components is at [Component] and [ComponentTree]. More framework size comparisons are on [FrameworkSize], including some warnings on the validity of sheer LOC measures.
+
+</pre>
+

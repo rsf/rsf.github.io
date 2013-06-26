@@ -1,0 +1,39 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The [GWT|http://code.google.com/webtoolkit/], and Java-to-Javascript compilation in general, is big - really big. As a quick summary of the benefits - 
+
+* Develop autonomous, portable webapps with rich user interfaces and a dynamic idiom
+* Cut client-server traffic to the bare minimum
+* Slash client application startup costs (relative to the same apps as plugins)
+* %%( color: #ff0000; font-weight: bold;) Debug your client-side apps in a full-featured, industrial strength development environment (Eclipse) %%
+
+In a very amusing turn of fate, after 10 years in the wilderness enforced by Microsoft, Java is set to make a return to the client. 
+
+GWT is not the only framework being developed along these lines, currently we know of two more:
+
+* [Java2Script|http://j2s.sourceforge.net/] Excitingly, is based on a tried and tested Java GUI component framework, SWT, the toolkit used to build Eclipse. Since this is considered by many (and me) to be the best and widely adopted component set, this promises great things, as well as opening access to a very large chain of GUI build tools, such as JDT within Eclipse. The downside of this is that SWT may be a little too rich/thick for the HTML model, since the J2S developer, Josson, is reporting a larger code JS code size than GWT - however, this may simply equalize with further development.
+* [XML11|http://www.xml11.org/] Targets the even more widely adopted X windows standard (via an XML reformulation) to cast the browser as a generic windowing client. As well as serving primitive windowing operations, will also allow code mobility from server to client via an &quot;XML Virtual Machine&quot; specification. 
+
+While there are many heavy-component frameworks which promise &quot;easy AJAX&quot; development, such as Echo2, jMaki, &amp;c, the key dividing line has to be code mobility of server-side artefacts - via compilation. Any framework which cannot accommodate/adapt to this idiom, in my opinion, will go to the wall, since the affordances of this model for app coherence, ease of development and verifiability are just too great to be ignored in the long term. Especially, &quot;server-only&quot; heavy component frameworks such as JSF, WebWorks, RIFE, Wicket &amp;c have no survival prospects since they add nothing to this space - only a dependence on a component set which lives at the wrong end of the pipe. Despite GWT not being an existing client-side standard, the development muscle of Google could make it succeed. Other &quot;J2S&quot; frameworks will have potential based on the already standardised nature of their components - everything else will die.
+
+So where does this leave RSF?
+
+RSF has two main development thrusts - 
+* The primacy of markup as the development target. RSF is designed to return *full* control of markup to developers who are skilled in it. This is currently mainly manifested through HTML - there is a wide body of developers/designers who *expect* to work with HTML and have it as their main vehicle.
+* The preservation of the web idiom, through promoting the idiomatic development of &quot;as far as possible&quot; stateless services (enabled through RSAC and request-scope IoC)
+
+To some extent HTML and HTTP are viewed as &quot;disagreable necessities&quot; by application developers (especially by Java developers who work with frameworks that make them hard to manipulate) but in fact both of these arose for very good reasons which are to a large extent still valid today.
+
+The question is, to what extent are GWT-alikes about to change the entire idiom of the web away from these two basics, and what role will RSF play in the resulting world?
+
+</pre>
+

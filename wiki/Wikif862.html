@@ -1,0 +1,262 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+%%(font-size:3em; font-face:arial) Roadmap and Changelist %%
+
+!!! The present - 0.7.4
+
+RSF version 0.7.4 is a final rollup of critical fixes for the 0.7.x branch, containing fixes for a small collection of issues arising since the 0.7.3 release. Most of these related to integration with the Sakai framework. A list of resolved issues can be seen at [http://www.caret.cam.ac.uk/jira/browse/RSF/fixforversion/10206]. Upgrading from 0.7.3 should raise no issues for developers.
+
+!!! The past - 0.7.3
+
+The 0.7.3 release consolidated all basic RSF features in advance of the final revisions for 0.8, intended to be the final substantial RSF release before 1.0. 0.7.3 has focused on bug fixes and overall framework consistency, with fixes to [Resulting View Bindings], the [EntityBeanLocator] and the [IDDefunnellingReshaper]. For a complete list of resolved JIRAs please visit [http://www.caret.cam.ac.uk/jira/browse/RSF/fixforversion/10160]. 
+
+ %%(color:red; font-weight:bold)Breaking changes:%%
+*The DynamicNavigationCaseReporter interface has been removed from the framework. This was unofficially present at the 0.7 timeframe to aid in some cases where POST navigation information could not be statically determined. From 0.7.3 onwards please use [ActionResultInterceptor] (ARI2) instead.
+
+[[Significant changelist to follow here]]
+
+
+!!! The past - 0.7.2
+Apart from the work on [Spring Web Flow], RSF version 0.7.2 is mainly a &quot;consolidation&quot; release - it regularises various aspects of the component tree structure and rendering rules which had historically been problematic edge cases. Some new template syntaxes and rules are introduced to streamline common usages.
+A summary of 0.7.2 changes:
+
+For RSF 0.7.2 final:
+* Utility method added to UICommand to allow &quot;constantReturn&quot; to be configured easily.
+
+For RSF 0.7.2RC3:
+* Corrected [Spring Web Flow] integration for binding targets within flow scopes - the [Ziggurat Of Integration].
+* RSF and RSAC updated for compatibility with Spring up to 2.1M3 and Spring Web Flow 2.0M1.
+* New &quot;tag elision syntax&quot; of {{rsf:id=&quot;~my-rsf-id&quot;}} allows &quot;elision&quot; of tag containment level in output markup.
+* New &quot;template message syntax&quot; of {{rsf:id=&quot;msg=my-message-key&quot;}} allows the most simple and common forms of internationalised message to be rendered directly without a [UIMessage] component.
+* Further fix for client timezone issues in date widget.
+* New support for &quot;View Groups&quot; (resolving [RSF-21|http://www.caret.cam.ac.uk/jira/browse/RSF-21]) which allows outer templates to contribute only to a class of views.
+* Refined global branch resolution rules - only top-level components in non-view-dependent templates will be contributed to branch resolution. Once within a template, all local branches will still be candidates.
+* New &quot;ValidatorCompostor&quot; syntax and engine allows Spring Validators to be composed and delivered using a very tiny &quot;validation language&quot;, suitable for being sent down to the client as well as running on the server.
+* New &quot;ResultingViewBinding&quot; system can dispense for the need for [ARI2|ActionResultInterceptor] in most cases - see code for RSF version of the SWF [phonebook sample|PhonebookSWFSample] for example.
+
+For RSF 0.7.2RC2:
+* Fix for client timezone issue in date widget ([RSF-35|http://www.caret.cam.ac.uk/jira/browse/RSF-35])
+* Fix for case where method binding path passes through a BeanLocator, which also exposes a concrete method
+* Addition of &quot;constantReturn&quot; bean for easy navigation resolution (see [Forum posting|http://ponder.org.uk/rsf/posts/list/145.page])
+
+For RSF 0.7.2RC1:
+* Full-scale integration with Spring's [Spring Web Flow] - see the [integration page|RSFSpringWebFlow] for full details and sample apps.
+* Entire framework and all samples have been converted to a Maven 2 build - this is now standard from this release on and Maven 1 builds will no longer be maintained.
+* Regularised the structure of RSF's component hierarchy. UICommand is no longer a container, and UIForm *is* now a runtime container as delivered to the renderer. The hierarchy node UISimpleContainer has been destroyed ([RSF-20|http://www.caret.cam.ac.uk/jira/browse/RSF-20]). This led to:
+** The forced numbering check for repeating UIBranchContainer nodes has been reverted. Successive UIBranchContainers with the same parent will now be auto-numbered by RSF in a sequence - the 3rd argument {{localId}} is now no longer required. ([RSF-19|http://www.caret.cam.ac.uk/jira/browse/RSF-19).
+* Regularised rendering rules with respect to leaves and branches. UIForms may now have branch tags, and even form [RepetitiveLeaves] if they contain further components. Any branch tag in the template may now be rendered by a leaf tag in the tree, and any leaf tag in the template may now contain further branches ([RSF-34|http://www.caret.cam.ac.uk/jira/browse/RSF-34])
+* Many improvements in {{rsf.js}} enable automatic AJAX updates using [UVB|UniversalViewBus] - see the AJAX Autocomplete sample - as well as automated AHAH for an AJAXified application-scope portal.
+* New DataConverter architecture for model-directed conversion specifications (complementing component-directed specifications previous available with the DARReshaper).
+* More slimline [IDs] allocated to rendered elements - branch suffix is now suppressed - {{noID}} property allows segment to be suppressed anywhere.
+* Fine-grained access control now supported for [request addressible beans|RequestWriteableBeans] using paths with wildcard expressions
+* Component-directed TargettedMessages are now possible using the expanded {{message-for:component}} syntax - pending since RSF 0.5
+* TargettedMessageList timings and semantics adjusted in general - now an &quot;unreasonable&quot; but request-static bean - the same instance is received and appended to by all request users.
+* New ViewParamsRegistrar interface to complement XML-driven reporting of ViewParameter types for producer-less views
+* EntityBeanLocator allows automated [OTP] pattern for any DAO interface
+
+Minor fixes:
+* Rendering failure when payload-component was combined with cluster component
+* Extra level of URL-encoding for ViewParameters state rendered into forms
+* Timing and semantics of ARI1 error condition with respect to ARI2
+* EntityNameInferrer is now part of TLAB architecture
+
+ %%(color:red; font-weight:bold)Breaking changes:
+* Two path composition methods in PUC PathUtil have been renamed (composePath -&gt; buildPath)
+* Some Sakai beans have been renamed for consistency - sakai-sitePage -&gt; sakai-SitePage etc.
+* Client-side ID allocation ([fullID|IDs]) has been altered - only 2 path components are now allocated per branch level (prefix:localID) rather than the 3 segments before 0.7.2 (prefix:suffix:localID)
+%%
+
+For RSF 0.7.2M4:
+* Full compatibility with recent Spring following 2.0.4, both build-time and runtime.
+
+For RSF 0.7.2M3:
+
+* [UIVerbatim|PrimitiveComponents] now supports a UIBoundString (and hence a UIMessage) as its &quot;markup&quot; element
+* [UIMessage] now supports multiple message codes with default fall back, consistent with Spring's MessageSourceResolvable strategy
+* Serious error fixed causing progressive leaks and errors (ClassCastException) when using an [ARI2|ActionResultInterceptor] on a request-scope ViewProducer (fixed in 0.7.2M2)
+* A new &quot;debug rendering mode&quot; can be enabled on every rendered page by adding the attribute &quot;debugrender=1&quot;. If this is perceived as a security risk, it can be disabled for a production app by defining an application scope bean enableDebugRendering with Boolean value false.
+* ViewExceptionStrategies are now subject to the [TLAB|TargetListAggregatingBean] system - they may now be chained as for ActionErrorStrategy by deriving a marker TLAB from viewExceptionStrategyParent
+* Change to the signature of FatalErrorHandler to support hosting environments which can handle exceptions. DefaultFatalErrorHandler now allows exception types to be defined as passed through rather than being rendered.
+* New VES PropagatingViewExceptionStrategy will allow certain exception classes to be defined as being passed through.
+* New interface + TLAB ViewParamsInterceptor for folding in extra contextual information into parsed ViewParameters.
+* UIForm for a GET form now clones its argument, consistent with UIInternalLink
+* Default for ByClassTLAB deliverbeans changed from false, to true
+
+Updates for the Sakai environment
+
+* RSF now features a 4th Sakai integration mode, hosted through the new [EntityBroker|http://bugs.sakaiproject.org/confluence/display/BOOT/Entity+Broker] service. The new bean EntityViewParamsInferrer within SakaiRSF can be implemented to register this webapp as an endpoint for EntityBroker direct URL access.
+* The Sakai FCKEditor rich text component will no longer fail when run in this new siteless mode.
+
+!!! The past - 0.7.1
+RSF version 0.7.1 is a minor features release, with a number of bug fixes from 0.7. The primary new features are as follows:
+* New interface [ActionResultInterceptor] (ARI2) with associated parent definitions and infrastructure, used for fine-scale adjustment of the outgoing ViewParameters (URL) state from action cycles.
+* Thorough overhaul of RSF's [I18N] infrastructure, reorganising all the [primitive components] and [Decorators] so they are capable of accepting a [UIMessage] where a text string would be required. This ensures that in all normal cases it should be possible to write a fully internationalised [ViewProducer|ComponentProducer] without injecting the [MessageLocator].
+* New binding system for [GET forms|GETForms] allows complete decoupling of template naming and URL state for this case, cementing the role of the ViewParameters object as a &quot;mini-bean-container&quot;.
+* New widget [StandardDynamicListInputEvolver], together with additions to rsf.js with exciting new generalised functionality {{duplicateBranch()}} to replicate the result of more of the IKAT algorithm by duplicating a DOM node whilst rewriting all {{id}} attributes as if they had been rendered in place.
+Significant enhancements/usability improvements
+* &quot;Safety net&quot; for repeated [UIBranchContainer]s %%(text-decoration: line-through;) which will assign a localId if one has been left out by accident%% withdrawn - until 0.8 this feature will instead throw an exception on detecting a missing localID.
+* Significant change to the default ID assignment algorithm in IKAT. This now only assigns the {{id}} attribute to template nodes which ''already'' had one applied. This results in considerably more compact output markup, and cements the consistency of RSF's &quot;previewable behaviour&quot; template idiom.
+* Regularisation of rendering logic to treat &quot;composite tags&quot; consistently across all components.
+* SimpleViewParameters inference system introduced in 0.7 generalised to apply the inference to arbitrary class hierarchies descended from SVP.
+* Collected head matter (e.g. using {{scr=head-collect}}) will be de-duplicated, to deal with the case where the same JS file for example is referenced by multiple distinct widget instances.
+* All DOM-modifying RSF widgets now participate in a &quot;DOM Height notification scheme&quot; which enables their use in   IFrames-based portals (such as the one in Sakai).
+* All core artefacts now have official and working Maven 2 builds (this is the 3 core JARs, RSFComponents, SakaiRSF and SakaiRSFComponents). These use the official RSF groupID (as recommended on ibiblio) of uk.org.ponder.* rather than the previous unqualified Maven 1 groups.
+* RSAC adjusted for compatibility up to the very latest Spring 2.0.5. Spring optimisation work in Spring 2.0.4 had caused a slight drift with respect to RSAC 1.2.
+Significant bug fixes:
+* Accessibility and functionality fixes to the internationalised date widget, to solve event bounce issues and rendering in IE.
+* Duplicate XML ids will no longer be issued in the case there are multiple template nodes peering with the same component.
+* Special {{payload-component}} ID will now function correctly again for leaf components.
+* Fix for incorrect URLs issued for included template head matter where the server is addressible via multiple names.
+
+!!! The past - 0.7
+RSF version 0.7 is a major features release, also with a couple of breaking configuration changes. Features are listed first:
+* The major purposes of the 0.7 release was the long-awaited feature of multi-file templates (MFT). This allows reusable &quot;components&quot;, or simply page segments to be created, referenced and reused transparently from anywhere in an application. &quot;Suddenly every branch tag is a candidate for reuse&quot;. Examples of the growing selection of RSF widgets may be seen in the [RSFComponents] sample, or alternatively a simple &quot;page border&quot; usage in the updated [HibernateCookBook].
+* The component-side counterpart of MFT is the new [Evolver|Evolvers] hierarchy. These [OLI]s, which are in effect mini-[producers|ComponentProducer], allow dynamically interchangeable components to be injected into the production hierarchy, typically using an existing concrete RSF component as a [seed|SeedComponent] in order to reuse its binding functionality.
+* The powerful new [UVB|UniversalViewBus]View provides a generalised AJAX strategy - NO FURTHER RSF CODE need be written (than this 50-line class) to support any AJAXified client-side widget from any kind of technology. This may be seen as a kind of automatic [DWR|http://getahead.ltd.uk/dwr/] for RSF.
+* RSF's message rendering broken out from the old &quot;UIMultiline&quot; stovepipe to use the new MFT system. User messages are now reskinnable as their own &quot;widget&quot;.
+* New [StaticComponentRenderer]s {{scr=head-collect}}, {{scr=contribute-script}} and {{scr=contribute-style}} to deal with aggregation of references encountered during template resolution into the rendered page's HTML &lt;head&gt;
+* Introduction of &quot;informational&quot; messages that will not disrupt the RSF request lifecycle if registered. These form their own miniature flow-type scope.
+* Introduction of &quot;composite&quot; rendered components, which fills in a gap in RSF's rendering capabilities without adding any new component types or {{rsf:id}} conventions. Now both UILink and UIOutput may become rendered as &quot;composite&quot; components if they are supplied with an empty {{value}}. In this case, further components may become rendered inside the tag body, allowing such cases as fully parameterised image links or other composite HTML realities.
+* The IKAT resolution algorithm has been relaxed to allow components to be sought at render-time in any parent container of the current branch, rather than having to be in a corresponding scope in the template to the current branch container. Along with &quot;composite components&quot; this considerably loosens the association between template structure and component tree structure, and allows enormously greater variety in the kinds of templates that may be rendered from a given component tree.
+* Many more RSF elements have become [TLAB|TargetListAggregatingBean]ised - for example [HandlerHook]s, [AlterationWrapper]s and [ActionErrorStrategy]s.
+* ViewParameters' {{getParseSpec}} method will now be automatically inferred by the framework in the case where a class has been directly derived from SimpleViewParameters and there has been no overriding implementation. The inferred default is to encode all newly declared public properties (pea or bean) as attributes.
+* Various improvements in RSF error handling. Various &quot;exception masking&quot; cases were removed, and it is now possible to use dependence-free POJO validators by using the &quot;sleaze&quot; convention of throwing an exception with message key as text.
+* Several more RSF beans have been returned to application scope, by addition of some more proxies (notably ViewParametersProxy) - such as ViewStateHandler, ViewGenerator and HandlerHook.
+* Replacement of the core &quot;RunnableWrapper&quot; interface and its usage by the more concise and straightforward [RunnableInvoker]. AlterationWrapper and similar interceptors are now all RunnableInvokers.
+* Along with [UVB|UniversalViewBus] the set of possible bindings has been widened to support the possibility of client-side logic. Virtual bindings and [virtual fossils|VirtualFossil] signal the potential of &quot;extra EL pathways&quot; to components on the client, without disrupting normal submission behaviour.
+* The [LazarusRedirector] allows POST-to-GET cycles to be run back-to-back in the case where this is permitted by the client type (e.g. AJAX). This is part of a generalized strategy (the [RSACLazarusList]) for scheduling further RSAC computations after the conclusion of the current RSAC.
+* Fix to allow BeanGuards to trigger even in the case of unchanged values where there is no alteration to the model state.
+* RSAC re-vetted to support latest Spring 2.0.1 (further drift had occurred in Spring 2.0M5 with the new &quot;lazy Class loading strategy&quot;).
+* Special support within RSAC for delivered properties of type {{ObjectFactory}} (either Spring's or PUC's) which are backed by non-singleton beans. These are a more explanatory alternative to lookup-method and the like.
+* New {{AnyViewParameters}} interface allows the redirected view from an action cycle to lie outside the RSF URL scheme.
+* New {{DynamicNavigationCaseReporter}} tag for views allows more flexibility in computing the final view from action cycles.
+* Proper escaping for EL path expressions (using the familiar UNIX/regex backslash system) allows arbitrary strings to appear as path components (in particular as keys into Maps/BeanLocators).
+* Support for indexed properties accessed via EL (Lists, arrays).
+* Rendering fixes: various violations of X(HT)ML cleaned up from the resulting markup (stray rsf: namespacing, incomplete tags in rare situations, some incorrect escaping)
+* A component is now allowed to appear as the root document element (fix for tiny AJAX views)
+* The extension reported as part of [ContentTypeInfo] is now correctly transferred to the template resolver.
+* CSSDecoratorRenderer for full manual control of CSS styles
+* LabelTargetDecorator for accessible label support.
+* Support for multiple CSS style classes reference through StyleDecoratorRenderer
+* Experimental Maven 2 POM files
+
+For the Sakai environment:
+* Support for automatic detection of the user's TimeZone from TimeService
+* New {{scr=portal-matter}} allows the portal's correct (locally institutionally skinned) head matter to be inserted
+* The {{ResourceBaseURL}} web.xml parameter is now optional - will be inferred from the hosting environment if not specified.
+* Support for rendering within the Mercury portal
+* Support for rendering as a Sakai helper
+
+
+The breaking changes, which are functionally fairly minor, as as follows:
+* Many elements of {{uk.org.ponder.errorutil}} have now been moved to package {{messageutil}} as part of the general loosening of tolerances required for informational message support (see above). This includes [MessageLocator] as well as the core [TargettedMessageList]
+* The {{UISelect.make(UIContainer tofill, String ID, String[] values, String[] labels, String value)}} pseudo-constructor, which was typically used for rendering selections in GET forms or other &quot;non-submitting&quot; forms has been extended with a final parameter &quot;boolean willinput&quot; to disambiguate the cases of a completely non-submitting control (probably animated with Javascript) from one which, whilst having no valuebinding, still submits (probably in a GET form).
+* The NavigationCase field representing a navigation result has been renamed from toViewId (agreeing with the JSF value) to resultingView, reflecting its ability to encode an arbitrary navigation state, not simply a view ID as in JSF. In particular this causes an alteration in the XML-serialised form appearing in sitemap.xml files from e.g.  
+  {{&lt;navigation-case resulting-view=&quot;/categories&quot;/&gt;}} to {{&lt;navigation-case to-view-id=&quot;/categories&quot;/&gt;}}
+* The naming of various bean definitions have been normalised to the new RSF standard of using the &quot;Parent&quot; suffix for parent bean definitions (intended for derivation). {{XMLActionErrorStrategyDef}} -&gt; {{XMLActionErrorStrategyParent}}, {{XMLViewResolverDef}} -&gt; {{XMLViewResolverParent}}, {{flowLite-flowDefinition}} -&gt; {{flowLite-flowDefinitionParent}}
+* Standard (technology-neutral) names for the beans holding Locale and TimeZone information. {{requestLocale}} and {{requestLocaleProxy}} represent request and request-scope versions of this information (of type Locale and LocaleGetter respectively). The base Sakai bean {{sakai-Locale}} has been retained as an alias, but {{sakai-LocaleProxy}} has been removed.
+
+!!! The past - 0.6.4
+Major new features in this release:
+
+* All-new validation framework based on BeanGuards(TM) - guaranteed execution of code packaged either as POJOs or Spring Validators, targetted at particular EL paths.
+* BeanScopes allow &quot;long bean lifetimes&quot; (e.g. within session scope) that, unlike flows are not tied to particular request sequences.
+* TargetListAggregatingBean framework enables multiple independent sources to target the same bean, enabling apps to built up out of truly modular components, each contributing their own core RSF definitions (e.g. request addressible beans, fetch bracketers &amp;c)
+* Integration with SpringMVC allows RSF's renderer (IKAT) to appear as a SpringMVC view technology alongside JSPs, Velocity &amp;c.
+* Reform of URL architecture makes templates responsible for their own base URLs - note that this introduces a %%(color:red; font-weight:bold) user configuration change for [SimpleTemplateResolverStrategy|SpringAPI] - these are respecified to be __relative__ URLs to the context base rather than the /-based URLs from RSF 0.6.3 and before.%%
+* Automatic inference of StaticComponentRenderers via TemplateParseInterceptor now means that the scr=rewrite-url and scr=sakai-body tags are optional in template files - in particular any &quot;suitable&quot; relative URLs (e.g. to images or other linked resources) will be automatically rewritten.
+* &quot;Composite&quot; link support enables UILinks of all types to enclose arbitrary further RSF components (with the exception of branch containers) - this allows computed image links as well as any other required crazy content (limited only by the capabilities of HTML)
+* RSF Error framework in general brought into line with Spring Errors, allowing lossless transit of a Spring DefaultMessageResolvable into through RSF and back.
+* Support for dynamic Locales via LocaleGetter allows arbitrary request-scope injection of I18N information.
+* Configurable ID assignment strategy (also on per-tag basis) allows more compact AJAX requests, as well as potential for crazy results such as RSF-rendered RSF templates, or Maven files. 
+
+Important bugfixes include:
+
+* Component fixup error preventing UISelects with parent list backed by EL expressions resolving in time.
+* Much better resilience to failed message resolutions.
+* Multiple BeanFetchBracketers targetted at the same bean will now resolve correctly.
+* Erroneous submitted values now returned correctly to forms via RSVC.
+* Various fixes to Informal Flow handling.
+
+This will be the final 0.6.x release of RSF - work now begins
+on the major release of RSF, 0.7.0, featuring the long-awaited
+multi-file template system.
+
+!!! The past - 0.6.3
+
+As of 0.6.3 RSF is now complete with support for all basic HTML controls, including single and multiple selects, radio and check boxes, file uploads as well as full idiomatic support for HTTP GET form submissions. It's worth noting that HTTP GET forms are achitecturally impossible within the [JSF] framework, although a natural part of HTML. The 0.6.3 release also features some ViewParameters reform, a feature originally not scheduled till 0.8 - it now possible, via the getParseSpec() method, to perform arbitrary mapping of URL state onto EL paths descended from the ViewParameters object. This allows URL state to be stored, if desired, in an arbitrary framework-free POJO. 
+
+Another significant feature is the introduction of [Decorators] - these allow rendering hints to be passed portably from view producers to the renderer, without upsetting the orthogonality of the component hierarchy. 
+
+A significant new integration in RSF 0.6.3 is [JSR-168] support, supplied by the [RSFPortlet] library.
+
+The RSF navigation system has been provided with a crucial upgrade to support [informal flows|InformalFlows]. With a minor addition to the NavigationCase system inherited from JSF, it is now possible for views to ''collaboratively'' define flows piece-by-piece, with local transition decisions becoming fused to create a global flow map. This is in addition to the exterior &quot;flowLite&quot; system modelled on (and compatible with) [Spring Web Flow|SWF].
+
+Minor updates:
+* Output is now buffered to allow content-length header to enable HTTP 1.1 keepalives.
+* DataAlterationRequests may now be intercepted by a DARReceiver at ''arbitrary'' positions in the bean container, allowing much more fine-grained request security procedures.
+* Correct handling when a mixture of EL parameters is applied to both command links and to a form
+* Better diagnostics during binding failures, and all-round robustness improvements.
+* Support for non-HTML content types, to the extent of supplying correct XML declarations and HTTP headers, and seeking corret template file extensions. IKAT is sufficiently flexible to provide some useful rendering for these even in the absence of specific component renderers.
+* Refactorisation of the TemplateResolver architecture makes it much easier to develop custom template location strategies - simply return a list of potential filenames in order of priority valid for the current request from a SimpleTemplateResolverStrategy.
+* General loosening up of RSF tolerances to allow AJAX and other non-RSF-submitting requests to be handled without provoking errors.
+* Alteration in URL rewriting rules to permit global server-relative URLs to pass through unchanged.
+* Strings may now be proxied (reasonably) idiomatically in request-scope, via StringGetter. This removes the last barriers to returning of all unnecessary request-scope beans to application scope, if efficiency requires it.
+
+!! The past - 0.6.1 Updates
+
+The main innovations in 0.6.1 are greatly improved build structures for the samples. In order to retarget at different environments, it's very useful to factorise the applications into &quot;invariant&quot; parts summarising the core behaviour, and the &quot;variable&quot; part containing the packaging for the environment (web.xml, libraries &amp;c). RSF being what it is, the variable part contains no code. Other minor improvements are
+
+* Pea proxying using the &quot;get()&quot; idiom
+* Improved error handling 
+* Greater flexibility in view template resolution
+* New components UIAnchor and UIVerbatim
+* Numerous bug fixes, especially in rendering and all-round performance improvements
+
+!! The past - 0.6 Features
+
+As of version 0.6, the basic component structure of RSF is considered stable - only minor changes are envisaged, in the face of unexpected flexibility requirements. It will be a strong goal to avoid breaking any of the code currently in the samples (Java ViewProducers and serialized XML trees) if at all possible. Features new in this release:
+
+* Fully XML-driven ViewProducer architecture, using an open-architecture default-serialization of component trees!
+* Hibernate integration library
+* Widespread bean infrastructure to support entity models in general - {{resolver}} and {{darreshaper}}
+* Regularisation of RSF components, in particular &quot;cluster&quot; components such as UISelect.
+* Self-contained views with ViewParameters and NavigationCases now decentralised.
+* Numerous RSAC upgrades, including parent beans, &quot;very lazy&quot; beans and the [RSACBridgeProxy]!
+
+During March/April 2006, RSF was set up with a &quot;proper&quot; OS project infrastructure including JIRA tracking and mailing lists &amp;c. In the meantime please [contact us|People] with any questions. Most wiki pages are also provided with blogging controls.
+
+
+!! The future - 0.8
+
+The next major release of RSF, 0.8, will feature the &quot;RSF Modules System&quot;, aimed to cut down on the clutter which appears in web.xml in configuring the various layers of Spring contexts, and to make the process of assembling modular applications (from JARs with self-contained Spring configuration) error-free and automatic. Also in this release will be
+
+* &quot;Renderer reform II&quot; - creation of the long-delayed &quot;ComponentRenderer&quot; interface, and unbundling of all the code in [BasicHTMLRenderSystem] to create an actually open component architecture.
+* Completion of work on Error infrastructure - hierarchical fallback for error targets
+
+Moving towards the 1.0 level, work will focus on documentation and testing, as well as performance and stability, including detailed RSAC benchmarking and elimination of any request beans that can be deemed unnecessary. Work will begin on the first RSF book early in the New Year 2009.
+
+!!The far future
+
+AutoAJAX - a persistent component infrastructure (in fact, ''superstructure'') for RSF, to attack the space of server-heavy, GUI-style apps aimed at by the likes of JSF, Echo and Wicket. This is &quot;fairly straightforward&quot; given the idea that the triple {{(flowID, viewID, component-fullID)}} forms a GUID for an RSF component.
+
+With the release of the [Google Web Toolkit|http://code.google.com/webtoolkit/] (GWT), it is time for all Java frameworks to reassess their position, since the technique of Java-to-Javascript compilation, in my view, promises to obsolete (over the next 5 years or so) a vast tranch of existing approaches and technologies. I discuss this situation in [RSF - the next 10 years|RSFTheNext10Years].
+
+!! The far past - 0.5 features:
+
+* Flow-&quot;lite&quot; multi-request scheme based on Spring Web Flow (SWF)
+* Sakai integration library
+* Stabilised conception of component tree based on [UIType] scheme
+
+
+</pre>
+

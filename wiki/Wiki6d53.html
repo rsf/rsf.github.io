@@ -1,0 +1,50 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+An EL or expression language, is a pattern of reasonably simply encoded Strings which refer to data, typically using a dot-separated path of property names.
+
+RSF's EL is very much simpler than other similar systems (such as that of JSF or the JSTL) since it allows no logic to appear in the expression. It is syntactically similar to a subset of the JSF EL. The JSF EL itself was inherited from a [similar EL|http://www.oracle.com/technology/pub/articles/cioroianu_jspapi.html] supported by [JSPs], after a little cleanup and replacing the $ escaping character with a #. 
+
+The purpose of EL in RSF is to refer to data &quot;in the future&quot;. EL expressions are typically issued as [bindings] by [producers|ComponentProducers] in order to talk about data in the bean model that will be present in future request cycles.
+
+The most common type of EL, a [value binding|Bindings] takes the form
+{{{
+#{requestwriteablebean.property1.subproperty2}
+}}}
+
+Note that unlike JSP/JSF EL where the expression may resolve to one of a number of root containers, including a page context, request attributes, session scope, or application scope, an RSF EL resolves only to the request addressible portion of the [RSAC] or Spring application context.
+
+The characters {{#{}} and {{} }} bracketing the EL expression are optional - you may choose to use them if you feel they make Strings representing EL references more readable when they appear in your code.
+
+!Escaping in EL
+Since an EL path segment may map onto a java.util.Map key, or a [BeanLocator] argument, escaping is necessary for some characters. In RSF EL this is done by escaping both \ and . characters with a \, for example {{bean.path\.with&amp;#92;&amp;#92;slash}} contains only two path segments, the second interpreted as &quot;path.with\slash&quot;. The RSF utility {{PathUtil.composePath}} can be used to compose segments with potentially dangerous characters with escaping.
+
+!Making beans addressible by EL
+A bean path is marked as addressible by listing it using the standard RSF framework parent definition {{requestAddresibleParent}} at application scope. More details on the page on [RequestWriteableBeans]
+
+Note that all [OTP] beans exported by [RSFHibernate] are marked request addressible automatically (in fact they do not form genuine beans in the request context at all, but as an optimisation are processed directly as [FallbackLocators|http://saffron.caret.cam.ac.uk/projects/PonderUtilCore/apidocs/uk/org/ponder/beanutil/FallbackBeanLocator.html]).
+
+!No logic in RSF ELs
+Also in contrast to JSTL, RSF ELs are very much simpler. Rather than the great variety of logical constructs allowable as part of the JSP's expression language, the [JSTL|http://www.phptr.com/articles/article.asp?p=30946&amp;seqNum=4&amp;rl=1], %%(color:red; font-weight: bold)no logic%% is allowed as part of an RSF EL, it would more properly be called a &quot;VL&quot; or &quot;Value Language&quot;. All you can do with an RSF EL is to read or write a particular bean path, or execute a no-arg method.
+
+!Scopes
+Note that there is no special naming for the containers of beans in different scopes e.g. as in JSP the use of {{${requestScope.bean-name} }}. Firstly, there *are* only two &quot;scopes&quot; in RSF, request scope and application scope. Secondly, this ensures that your beans may transparently be moved from scope to scope without disrupting the EL references to them. Note that request-scope beans may be imbued with *longer* lifetimes by means of [flows].
+
+!Fate of EL expressions
+RSF EL expressions are serialized into the client's storage when a view is rendered, and are resubmitted when an [action cycle|Action] is initiated. These EL expressions are then interpreted and applied directly to the request model. RSF EL expressions take two different forms, which are visually identical - either value bindings or method bindings, which are discussed in more detail in [Bindings].
+
+!Navigability of EL
+The philosophy behind RSF EL is to have ''no'' logic in the expression and to have ''all'' the logic in the bean model. To make it as easy as possible to create expressive bean models, the RSF interpreter (housed in [DARApplier.java|https://saffron.caret.cam.ac.uk/svn/projects/PonderUtilCore/trunk/src/uk/org/ponder/mapping/DARApplier.java]) has a fair amount of latitude in how it resolves path components. As well as the standard JavaBeans property model, an RSF EL component may also map onto a public field (forming a [Pea]), a key in a java.util.Map, or, most usefully, the argument to a [BeanLocator]. BeanLocator, the prime example of [OLI] programming, must surely be the #1 interface missing from virtually every other framework.
+
+[BeanFieldResolver|https://saffron.caret.cam.ac.uk/svn/projects/PonderUtilCore/trunk/src/uk/org/ponder/beanutil/support/BeanFieldResolver.java] (mapped into the standard RSF context under the name {{fieldGetter}}), shows the sort of exciting and extremely useful bean it is very easy to put into your EL context as a result of BeanResolver.
+
+</pre>
+

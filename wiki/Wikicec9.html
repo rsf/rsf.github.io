@@ -1,0 +1,31 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+One of the prime goals of RSF was that an RSF &quot;action&quot; (HTTP POST) request could be processed with ''zero'' server context, saving valuable server resources by throwing away its component tree (small to begin with) completely at the end of a render request. This is contrast to the [JSF] strategy, say, whereby the first framework action on any request is to reconstruct (generally by deserialising from some storage) the component tree for the previous request. Although JSF is configurable in where this tree is stored (it can even be put on the client), it would clearly be preferable to avoid storing it anywhere. Other &quot;heavy-component&quot; frameworks such as [Echo] or [Wicket] are similar - these are all aimed at enabling a GUI-like programming idiom whereby users interact with a highly stateful interface, and coders assume the persistence of components backing this interface from one request to the next.
+
+While this &quot;heavy&quot; style can be appropriate for many kinds of app, it is a key design point that it must not be ''forced'' on app developers - given the architecture of the web, there is a very large &quot;niche&quot; that holds high-performance, &quot;request-oriented&quot; apps where every byte of server memory is precious. The RSF success is that it enables development of the two styles of app using the ''same'' framework.
+!!Request decoding
+RSF manages this by two key schemes. Firstly, RSF makes no use of the component tree during its [Action] cycle - all information necessary to handle this phase has been [fossilized|FossilizedBinding] into a small set of key/value pairs during the previous [Render] cycle. On the other hand, RSF also ensures that the [ID]s assigned to components are suitable to form parts of GUIDs - for a start, the RSF [renderer|IKAT] assigns (HTML) ids to component peers in a deterministic way, and also one guided by IDs supplied from the data model by the user where any extra HTML has been fabricated through replication. 
+!!Recovery of &quot;heavyweight&quot; design
+In this way, component IDs have a stable, predictable and functional meaning which allows the &quot;same&quot; component to be identified where it reappears across different view renderings, or even to be simply ''preserved in memory'' &quot;behind the back&quot; of the RSF system between renderings, where this kind of &quot;heavy&quot; architecture is suitable. In particular, the triple of values (''view id'', ''flow id'', ''component id'') is a globally unique identifier for a &quot;component instance&quot; that can be used as a key to locate a more heavyweight &quot;UI-type&quot; component maintaned by some other framework. This sort of decoupling I see as key to any kind of civilized webapp design, and the JSF/Echo, (and even Swing for that matter) principle of mandating a particular implementation of heavyweight components (and even interfaces to &quot;model classes&quot;) has to be considered destructive. As much of possible of &quot;MVC&quot; should be independent of the framework - RSF solves this by placing &quot;V&quot; in HTML, exerting no control over &quot;M&quot; and slimming down &quot;C&quot; to the thinnest possible layer.
+!!Server state and GET idempotency
+Having said this, there are a number of practical points that complicate this simple message. Firstly there is the HTTP architectural issue of GET idempotency. Even stronger than its rabid commitment to the elimination of server state is RSF's rabid commitment to the maintenance of HTTP semantics, which are critical for all sorts of infrastructural reasons (HTTP proxies, portlet containers). So currently ''in practice'' RSF does operate strict POST-&gt;GET redirects which do actually consume server resources in the small &quot;bandgap&quot; while waiting for the client to honor the redirect. There are two principal routes to mitigating the cost of this state. Firstly, this state is held by a separate [preservation strategy|StatePreservationStrategy] where it can be expired on a configurably rapid schedule, therefore not consuming server resources ''in aggregate'' (i.e. in all reasonable scenarios it could be expired after 1 minute). Secondly, the entire issue of POST-&gt;GET redirects and browser histories should really be tackled ''at source'', in the browser - in the modern AJAX world lots of [excellent history libraries|http://www.onjava.com/pub/a/onjava/2005/10/26/ajax-handling-bookmarks-and-back-button.html] are rapidly reducing this problem to practice. The key point is that RSF enables correct and efficient behaviour on the server - it is up to the client to solve the corresponding part of this problem at their end.
+
+!!Server state and &quot;flows&quot;
+Sometimes there is a genuine __need__ for server state in an application, and RSF does not get in your way if you want to implement this. However, through the [TokenStateHolder] interface, it is possible to let your state-holding strategy be fine-tuned in a Spring-configured way to your requirements, whether this state should be stored in memory [InMemoryTSH], in an HTTP Session [InSessionTSH], as part of a cluster or other fruity solution, or even serialised into the client. Since RSF takes care that all the kinds of server state that ''it'' maintains on your behalf are trivially serialisable (as well as being as small as possible), the maximum flexibility is available in terms of strategies for storing it.
+
+----
+%%(color: #666666; font-family: sans-serif; font-size:80%)You can post comments and questions on this page using the following blog. Please set your name using [UserPreferences] before posting.%%
+[{INSERT WeblogPlugin}]
+[{INSERT WeblogEntryPlugin}]
+
+</pre>
+

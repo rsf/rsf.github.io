@@ -1,0 +1,61 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+Since version 0.6, RSF has allowed [ViewProducers|ComponentProducer] to be declared either at application scope, or at request scope. Since RSF is based on Spring/[RSAC], the form of these declarations is exactly the same in each case, and &quot;moving&quot; a producer simply involves pasting a definition from one Spring-formatted XML file into another (typically {{applicationContext.xml}} and {{requestContext.xml}}).
+
+The question is, when should you declare producers at one scope rather than another? The simple answer, for those who don't want to think about the issues, is to always declare producers at request scope. The fuller answer is, to declare producers at application scope whenever you ''can'' - and you can do this, wherever your producer has no request-scope dependencies. This follows from the point that you can't declare a bean which depends on another bean which is at a shorter scope. There is a graphical illustration of the different RSF bean scopes on the Sakai [training site|http://issues.sakaiproject.org/confluence/display/BOOT/RSF+and+Spring+Contexts].
+
+!!Request-scope or application-scope producers?
+Whether you use application-scope ViewProducers or not is firstly a matter of efficiency, and secondly one of documentation. Firstly, whilst [RSAC] beans are very fast to create (on the order of microseconds), they are not completely free - therefore it is better to economise on unnecessary request-scope beans. RSF itself has been gradually returning as many of its own core beans into application scope as possible, especially since the introduction of [RSACBridgeProxy]. Secondly, if bean really has no request-scope dependencies, it is valuable to document this practically, by writing it at application-scope - this emphasises that its function really is that of a &quot;service&quot; in the original Spring style.
+
+!!RSF programming styles - statelessness and EL
+Initially RSF producers were only intended to be declared at application scope - this certainly enforces a &quot;cleanly&quot; and stateless design, although even at request scope the producers would still be sufficiently stateless so long as they made no use of session or flow scope beans.
+
+The question is, what are the implications of a design where the thing has been done which moves a producer into request-scope, that is, giving it some request-scope dependencies? Typically these dependencies will be beans from the application's own ''request model''[#1], and the reason they will be injected is that the view logic in the producer has some need of them.
+
+However, the RSF EL system was set up so that the typical uses of the values in the request model (which is for data backing controls) would not actually require the values to be explicitly fetched in the view logic. This is what enables RSF views to have a more declarative structure, and in more extreme designs, to even be specified in XML. For example, the following control:
+
+{{{
+      UIInput.make(form, &quot;login-user&quot;, &quot;#{logon.name}&quot;);
+}}}
+refers to the request model via EL, and therefore wouldn't required the bean named {{logon}} to be loaded in as a dependency of this producer. This is the &quot;natural&quot; pattern of using RSF, and it is designed to maximise the symmetry and transparency of your application logic. 
+
+However, there are some cases where the view logic is sufficiently complex that it would be awkward to impossible to work only with &quot;deferred values&quot; - for example where the structure of the view changes significantly depending on contextual values. In these cases, it may still be possible to salvage an application-scope producer, by simply injecting the application-scope precursor of the state (for example, a DAO or other business logic API implementation) and performing a manual fetch of the state. However, there are some cases where simply injecting parts of the request model directly is the clearest and most direct approach, and RSF is set up, with the possibility for request-scope view producers, to make this as natural and idiomatic as possible.
+
+This is the approach used in many of the RSF sample applications, for example the [LogonTest] application has definitions like this in its LogonProducer:
+
+{{{
+  public void setLogonBean(LogonBean logonbean) {
+    this.logonbean = logonbean;
+  }
+...
+  public void fillComponents(UIContainer tofill, ViewParameters viewparamso,
+      ComponentChecker arg2) {
+    if (logonbean.name == null) {
+      UIBranchContainer.make(tofill, &quot;content-not-logged-in-pane:&quot;);
+...
+      }
+    else {
+      UIBranchContainer pane = UIBranchContainer.make(tofill,
+          &quot;content-logged-in-pane:&quot;);
+      }
+
+}}}
+
+The requirement of showing different view contents to the user depending on whether they were logged on or not could be met in a number of different ways with an application-scope producer, but in this case it was simplest to directly inject the LogonBean itself, and test its state in the view logic. 
+
+Of course, while it is quite reasonable to inject parts of the request model into a producer, it is ''definitely impermissible'' to attempt to modify parts of it, and especially not in a non-idempotent way! To guard against this possibility, RSF by default forbids any parts of the request model which are participating in a longer scope (flow or session) to be preserved at the end of a render request, which at least prevents any errors of this kind from corrupting future views. However, the surest way to avoid these errors is not to inject the request model at all!
+----
+[1] Although they may also be some environmental dependencies as well, such as the Locale for the current request. However, RSF has by 0.7 provided standard proxies for the standard environmental dependencies, for example {{requestLocaleProxy}} for the request-bean {{requestLocale}}, so the requirement for request-scope environmental dependencies should no longer be the thing which triggers a producer move to request scope. 
+
+
+</pre>
+

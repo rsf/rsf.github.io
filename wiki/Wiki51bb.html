@@ -1,0 +1,64 @@
+
+
+
+
+
+
+
+
+
+
+<pre>
+The RSF NavigationCase system is used to map out the navigation state changes that result from [action] cycles. In plain HTTP terms, every RSF POST submission results in a redirect to a GET view issues to the client, and the NavigationCase that matches the submission is used to determine the URL state in the resulting GET view.
+
+The RSF NavigationCase system was originally inspired by the similarly-named scheme from [JSF], but has become somewhat generalised.
+
+In RSF, the most convenient way of reporting NavigationCases to the system is to report them from the [producer|ComponentProducer] responsible for rendering the view which contains the [UICommand] control generating the action cycle. This is done by implementing the extra interface [NavigationCaseReporter|https://saffron.caret.cam.ac.uk/svn/projects/RSFUtil/trunk/src/uk/org/ponder/rsf/flow/jsfnav/NavigationCaseReporter.java] in the producer, which reports a list of navigation cases.
+!!Example 
+{{{
+public class AddItemProducer implements ViewComponentProducer,
+    NavigationCaseReporter, ViewParamsReporter {
+  public static final String VIEW_ID = &quot;AddItem&quot;;
+
+  public String getViewID() {
+    return VIEW_ID;
+  }
+  public void fillComponents(UIContainer tofill, ViewParameters viewparams,
+      ComponentChecker checker) {
+...
+
+    UICommand.make(addupdateitem, &quot;add-update-item&quot;,
+        &quot;#{itemsBean.processActionAdd}&quot;);
+...
+  }
+
+  public List reportNavigationCases() {
+    List l = new ArrayList();
+    l.add(new NavigationCase(&quot;added&quot;, new SimpleViewParameters(
+        ItemsProducer.VIEW_ID)));
+    return l;
+  }
+}}}
+
+In this example, we return a list consisting of a single NavigationCase, which will match when the return value from the method binding {{#{itemsBean.processActionAdd}} } on the single UICommand in this view equals {{&quot;added&quot;}}. 
+
+{{{
+public class ItemsBean {
+... dependencies
+  public String processActionAdd() {
+  ... process addition
+  return &quot;added&quot;;
+  }
+}
+}}}
+
+In this case since there is just a single control, and a method binding which only ever returns the same result, we could have simplified the NavigationCase above to read only {{{
+l.add(new NavigationCase(new SimpleViewParameters(ItemsProducer.VIEW_ID)));
+}}}
+!!Advanced uses
+Unless one is using some kind of [flow|Flows] system, one will stick to one of the arg-constructors for NavigationCase. The dedicated page on [InformalFlows] shows how to set the extra {{flowCondition}} field to take advantage of RSF's idiomatic yet powerful scheme for building up stateful flows incrementally.
+
+The navigation state determined by the NavigationCase system can be further fine-tuned by the use of an [ActionResultInterceptor].
+
+</pre>
+
